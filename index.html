@@ -66,6 +66,56 @@
       transition: opacity 0.2s;
     }
     nav a:hover { opacity: 0.8; }
+/* === SECCIÓN “3 PASOS” === */
+#steps {
+  background: var(--white);
+  padding: 3rem 1rem;
+}
+#steps h3 {
+  text-align: center;
+  color: var(--purple);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+.steps-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+.step-card {
+  background: var(--light-gray);
+  border-radius: 8px;
+  padding: 1.5rem;
+  flex: 1 1 280px;
+  display: flex;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.step-number {
+  background: var(--purple);
+  color: var(--white);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.step-content h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+.step-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #555;
+}
+/* === FIN “3 PASOS” === */
 
     /* HERO */
     #hero {
@@ -324,6 +374,34 @@
       </nav>
     </div>
   </header>
+<!-- === 3 PASOS PARA LIBERARTE === -->
+<section id="steps">
+  <h3>3 pasos para liberarte del acoso</h3>
+  <div class="steps-container">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h4>Elige y paga tu plan</h4>
+        <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h4>Recibe tu confirmación</h4>
+        <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h4>Olvídate del acoso</h4>
+        <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- === FIN 3 PASOS === -->
 
   <!-- HERO -->
   <section id="hero">
