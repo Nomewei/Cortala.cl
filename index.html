@@ -6,8 +6,8 @@
   <title>Nomewei – Chao Acoso Telefónico</title>
   <style>
     :root {
-      --marino:     #003366; /* Color Principal */
-      --naranja:    #FFA500; /* Color de Acento */
+      --marino:     #003366;
+      --naranja:    #FFA500;
       --blanco:     #FFFFFF;
       --gris-claro: #F7F7F7;
       --gris:       #E1E1E1;
@@ -43,6 +43,7 @@
     .branding svg {
       width: 48px;
       height: 48px;
+      fill: var(--blanco);
     }
     .branding h1 {
       color: var(--blanco);
@@ -92,7 +93,7 @@
 
     /* SECCIÓN “3 PASOS” */
     #steps {
-      background: var(--gris-claro);
+      background: var(--blanco);
       padding: 3rem 1rem;
     }
     #steps h3 {
@@ -110,7 +111,7 @@
       margin: 0 auto;
     }
     .step-card {
-      background: var(--blanco);
+      background: var(--gris-claro);
       border-radius: 8px;
       padding: 1.5rem;
       flex: 1 1 280px;
@@ -159,11 +160,13 @@
       gap: 2rem;
       flex-wrap: wrap;
       justify-content: center;
+      border: 1px solid var(--gris);
+      border-radius: 10px;
+      padding: 2rem;
     }
     .plan-card {
       flex: 1 1 280px;
       background: var(--gris-claro);
-      border: 1px solid var(--gris);
       border-radius: 8px;
       padding: 1.5rem;
       display: flex;
@@ -171,240 +174,3 @@
       transition: transform 0.3s ease;
     }
     .plan-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    .plan-card.recommended {
-      background: #FFF5E5;
-      border: 2px solid var(--naranja);
-    }
-    .plan-card.recommended h4::after {
-      content: " – MÁS RECOMENDADO";
-      color: var(--naranja);
-      font-size: 0.85rem;
-      font-weight: normal;
-    }
-    .plan-card h4 {
-      color: var(--marino);
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .plan-card .price {
-      color: var(--texto-oscuro);
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin: 0.5rem 0 1rem;
-    }
-    .plan-card ul {
-      list-style: none;
-      flex-grow: 1;
-      margin-bottom: 1.5rem;
-      text-align: left;
-    }
-    .plan-card ul li {
-      position: relative;
-      padding-left: 1.5rem;
-      margin: 0.5rem 0;
-    }
-    .plan-card ul li::before {
-      content: "✔";
-      position: absolute;
-      left: 0;
-      color: var(--marino);
-    }
-    .plan-card button {
-      background: var(--marino);
-      color: var(--blanco);
-      border: none;
-      padding: 0.75rem;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s ease;
-      margin-top: auto;
-    }
-    .plan-card button:hover {
-      background: #001f4d;
-    }
-    .plan-card.recommended button {
-        background: var(--naranja);
-    }
-    .plan-card.recommended button:hover {
-        background: #E69500;
-    }
-
-
-    /* TESTIMONIOS */
-    #testimonios {
-      background: var(--gris-claro);
-      padding: 3rem 1rem;
-      text-align: center;
-    }
-    #testimonios h3 {
-      color: var(--marino);
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-    .testimonials {
-      max-width: 1024px;
-      margin: auto;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .testimonial-card {
-      background: var(--blanco);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      padding: 1.5rem;
-      width: 280px;
-      text-align: left;
-    }
-    .testimonial-card .stars {
-      color: var(--naranja);
-      margin-bottom: 0.5rem;
-    }
-    .testimonial-card p {
-      font-style: italic;
-      font-size: 1rem;
-      margin-bottom: 0.75rem;
-    }
-    .testimonial-card footer {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #555;
-      text-align: left;
-      margin-top: 0.5rem;
-    }
-
-    /* FAQ */
-    #faq {
-      background: var(--blanco);
-      padding: 3rem 1rem;
-    }
-    #faq h3 {
-      text-align: center;
-      color: var(--marino);
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-    #faq details {
-      max-width: 800px;
-      margin: 0.5rem auto;
-      background: var(--gris-claro);
-      padding: 1rem;
-      border-radius: 5px;
-      border: 1px solid var(--gris);
-    }
-    #faq summary {
-      cursor: pointer;
-      font-weight: bold;
-    }
-    #faq summary:hover {
-      color: var(--marino);
-    }
-    #faq details p {
-      margin-top: 0.75rem;
-      line-height: 1.6;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--marino);
-      color: var(--gris-claro);
-      padding: 3rem 1rem;
-    }
-    .footer-grid {
-      max-width: 1024px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-      gap: 2rem;
-    }
-    .footer-grid h4 {
-      color: var(--blanco);
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-    }
-    .footer-grid ul {
-      list-style: none;
-    }
-    .footer-grid li {
-      margin: 0.5rem 0;
-    }
-    .footer-grid a {
-      color: var(--gris);
-      text-decoration: none;
-    }
-      .footer-grid a:hover {
-      color: var(--blanco);
-      text-decoration: underline;
-    }
-
-    /* WHATSAPP FLOATER */
-    .whatsapp {
-      position: fixed !important;
-      bottom: 1.5rem !important;
-      right: 1.5rem !important;
-      background: #25D366 !important;
-      width: 56px !important;
-      height: 56px !important;
-      border-radius: 50% !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
-      cursor: pointer !important;
-      z-index: 10000 !important;
-      transition: transform 0.2s ease;
-    }
-    .whatsapp:hover {
-        transform: scale(1.1);
-    }
-    .whatsapp svg {
-      width: 28px !important;
-      height: 28px !important;
-      fill: white !important;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="container">
-      <div class="branding">
-        <svg viewBox="0 0 24 24">
-          <path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-          <circle cx="12" cy="12" r="4" fill="var(--blanco)"/>
-          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/>
-        </svg>
-        <h1>Nomewei</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#hero">Inicio</a></li>
-          <li><a href="#steps">Pasos</a></li>
-          <li><a href="#planes">Planes</a></li>
-          <li><a href="#testimonios">Testimonios</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#footer">Contacto</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <section id="hero">
-    <h2>Recupera el control de tu teléfono</h2>
-    <p>Soluciones legales contra el acoso telefónico. Fácil, rápido y 100% online.</p>
-    <button class="btn" onclick="scrollToPlanes()">Ver planes</button>
-  </section>
-
-  <section id="steps">
-    <h3>3 pasos para liberarte del acoso</h3>
-    <div class="steps-container">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <h4>Elige y paga tu plan</h4>
-          <p>Selecciona el
