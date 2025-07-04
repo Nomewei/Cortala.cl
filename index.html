@@ -14,14 +14,14 @@
       --dark-gray:  #333333;
       --font:       'Segoe UI', sans-serif;
     }
-    * { box-sizing:border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
       font-family: var(--font);
       background: var(--light-gray);
       color: var(--dark-gray);
       line-height: 1.5;
     }
-    a { color:inherit; text-decoration:none; }
+    a { color: inherit; text-decoration: none; }
 
     /* HEADER: logo+texto juntos a la izquierda, menú a la derecha */
     header {
@@ -66,6 +66,57 @@
       transition: opacity 0.2s;
     }
     nav a:hover { opacity: 0.8; }
+
+    /* === SECCIÓN “3 PASOS” === */
+    #steps {
+      background: var(--white);
+      padding: 3rem 1rem;
+    }
+    #steps h3 {
+      text-align: center;
+      color: var(--purple);
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .steps-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+    .step-card {
+      background: var(--light-gray);
+      border-radius: 8px;
+      padding: 1.5rem;
+      flex: 1 1 280px;
+      display: flex;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .step-number {
+      background: var(--purple);
+      color: var(--white);
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .step-content h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+    .step-content p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #555;
+    }
+    /* === FIN “3 PASOS” === */
 
     /* HERO */
     #hero {
@@ -179,56 +230,7 @@
     .plan-card button:hover {
       background: #4a38a8;
     }
-/* === SECCIÓN “3 PASOS” === */
-#steps {
-  background: var(--white);
-  padding: 3rem 1rem;
-}
-#steps h3 {
-  text-align: center;
-  color: var(--purple);
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-.steps-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  max-width: 1024px;
-  margin: 0 auto;
-}
-.step-card {
-  background: var(--light-gray);
-  border-radius: 8px;
-  padding: 1.5rem;
-  flex: 1 1 280px;
-  display: flex;
-  gap: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.step-number {
-  background: var(--purple);
-  color: var(--white);
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-.step-content h4 {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-}
-.step-content p {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: #555;
-}
-/* === FIN “3 PASOS” === */
+
     /* TESTIMONIOS */
     #testimonios {
       padding: 3rem 1rem;
@@ -373,34 +375,34 @@
       </nav>
     </div>
   </header>
-<!-- === 3 PASOS PARA LIBERARTE === -->
-<section id="steps">
-  <h3>3 pasos para liberarte del acoso</h3>
-  <div class="steps-container">
-    <div class="step-card">
-      <div class="step-number">1</div>
-      <div class="step-content">
-        <h4>Elige y paga tu plan</h4>
-        <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
+
+  <!-- SECCIÓN “3 PASOS” (JUSTO BAJO EL HEADER) -->
+  <section id="steps">
+    <h3>3 pasos para liberarte del acoso</h3>
+    <div class="steps-container">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Elige y paga tu plan</h4>
+          <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Recibe tu confirmación</h4>
+          <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Olvídate del acoso</h4>
+          <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
+        </div>
       </div>
     </div>
-    <div class="step-card">
-      <div class="step-number">2</div>
-      <div class="step-content">
-        <h4>Recibe tu confirmación</h4>
-        <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
-      </div>
-    </div>
-    <div class="step-card">
-      <div class="step-number">3</div>
-      <div class="step-content">
-        <h4>Olvídate del acoso</h4>
-        <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- === FIN 3 PASOS === -->
+  </section>
 
   <!-- HERO -->
   <section id="hero">
@@ -430,7 +432,7 @@
         <h4>Pack Total</h4>
         <p class="price">$15.990 CLP</p>
         <ul>
-          <li>Hasta 10 empresas (telco+comercios)</li>
+          <li>Hasta 10 empresas (telco + comercios)</li>
           <li>Gestión de 2 números</li>
           <li>Seguimiento 24/7</li>
           <li>Respaldo legal y documentación</li>
@@ -541,8 +543,8 @@
   <!-- WhatsApp flotante -->
   <div class="whatsapp" onclick="window.open('https://wa.me/5691122334455','_blank')">
     <svg viewBox="0 0 24 24">
-      <path d="M20.52,3.48a11.78,11.78,0,0...
-      "/><!-- recorta el path -->
+      <!-- Icono recortado -->
+      <path d="M20.52,3.48a11.78,11.78,0,0..." />
     </svg>
   </div>
 
