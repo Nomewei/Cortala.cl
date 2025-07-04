@@ -14,16 +14,16 @@
       --dark-gray:  #333333;
       --font:       'Segoe UI', sans-serif;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
     body {
       font-family: var(--font);
       background: var(--light-gray);
       color: var(--dark-gray);
       line-height: 1.5;
     }
-    a { color: inherit; text-decoration: none; }
+    a { color:inherit; text-decoration:none; }
 
-    /* HEADER */
+    /* HEADER: logo+texto juntos a la izquierda, menú a la derecha */
     header {
       background: linear-gradient(270deg, var(--purple), #7E6AF4, var(--purple));
       background-size: 600% 600%;
@@ -37,7 +37,7 @@
     }
     header .container {
       max-width: 1024px;
-      margin: 0 auto;
+      margin: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -47,23 +47,13 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-    }
-    .logo-icon path.shield {
+    .branding svg {
+      width: 48px; height: 48px;
       fill: var(--white);
-      stroke: none;
     }
-    .logo-icon path.stop {
-      fill: none;
-      stroke: var(--purple);
-      stroke-width: 2;
-    }
-    .logo-text {
+    .branding h1 {
       color: var(--white);
       font-size: 1.75rem;
-      font-weight: bold;
     }
     nav ul {
       display: flex;
@@ -76,78 +66,11 @@
       transition: opacity 0.2s;
     }
     nav a:hover { opacity: 0.8; }
-    .btn {
-      background: var(--coral);
-      color: var(--white);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background: #e36b65;
-    }
-
-    /* 3 PASOS */
-    #steps {
-      background: var(--white);
-      padding: 3rem 1rem;
-    }
-    #steps h3 {
-      text-align: center;
-      color: var(--purple);
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-    .steps-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      max-width: 1024px;
-      margin: 0 auto;
-    }
-    .step-card {
-      background: var(--light-gray);
-      border-radius: 8px;
-      padding: 1.5rem;
-      flex: 1 1 280px;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .step-number {
-      background: var(--purple);
-      color: var(--white);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-    .step-content h4 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-      color: var(--dark-gray);
-    }
-    .step-content p {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: #555;
-    }
 
     /* HERO */
     #hero {
       text-align: center;
       padding: 4rem 1rem;
-      background: var(--white);
     }
     #hero h2 {
       color: var(--purple);
@@ -157,6 +80,19 @@
     #hero p {
       font-size: 1.2rem;
       margin-bottom: 2rem;
+    }
+    #hero .btn {
+      background: var(--coral);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #hero .btn:hover {
+      background: #e36b65;
     }
 
     /* PLANES */
@@ -172,7 +108,7 @@
     }
     .plans-wrapper {
       max-width: 1024px;
-      margin: 0 auto;
+      margin: auto;
       display: flex;
       gap: 2rem;
       flex-wrap: wrap;
@@ -256,7 +192,7 @@
     }
     .testimonials {
       max-width: 1024px;
-      margin: 0 auto;
+      margin: auto;
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
@@ -285,7 +221,7 @@
       margin-top: 0.5rem;
     }
 
-    /* FAQ */
+    /* FAQ con detalle legal */
     #faq {
       background: var(--white);
       padding: 3rem 1rem;
@@ -315,7 +251,7 @@
       line-height: 1.4;
     }
 
-    /* FOOTER */
+    /* FOOTER con servicios Nomewei y asociados inventados */
     footer {
       background: var(--light-gray);
       color: var(--dark-gray);
@@ -323,7 +259,7 @@
     }
     .footer-grid {
       max-width: 1024px;
-      margin: 0 auto;
+      margin: auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
       gap: 2rem;
@@ -340,33 +276,28 @@
       margin: 0.5rem 0;
     }
     .footer-grid a {
+      text-decoration: none;
       color: var(--dark-gray);
-      transition: opacity 0.2s;
     }
     .footer-grid a:hover {
-      opacity: 0.8;
+      text-decoration: underline;
     }
 
-    /* WHATSAPP FLOATER */
+    /* WhatsApp flotante */
     .whatsapp {
       position: fixed;
       bottom: 1.5rem;
       right: 1.5rem;
       background: #25D366;
-      width: 56px;
-      height: 56px;
+      width: 56px; height: 56px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       cursor: pointer;
       z-index: 1000;
     }
     .whatsapp svg {
-      width: 28px;
-      height: 28px;
-      fill: white;
+      width: 28px; height: 28px; fill: white;
     }
   </style>
 </head>
@@ -376,11 +307,11 @@
   <header>
     <div class="container">
       <div class="branding">
-        <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path class="shield" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-          <path class="stop" d="M16 8 L8 16"/>
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+          <path fill="none" stroke="white" stroke-width="2" d="M9,12l2,2l4-4"/>
         </svg>
-        <span class="logo-text">Nomewei</span>
+        <h1>Nomewei</h1>
       </div>
       <nav>
         <ul>
@@ -391,37 +322,8 @@
           <li><a href="#footer">Contacto</a></li>
         </ul>
       </nav>
-      <button class="btn" onclick="scrollToPlanes()">Ver planes</button>
     </div>
   </header>
-
-  <!-- 3 PASOS -->
-  <section id="steps">
-    <h3>3 pasos para liberarte del acoso</h3>
-    <div class="steps-container">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <h4>Elige y paga tu plan</h4>
-          <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <h4>Recibe tu confirmación</h4>
-          <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h4>Olvídate del acoso</h4>
-          <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- HERO -->
   <section id="hero">
@@ -434,6 +336,7 @@
   <section id="planes">
     <h3>Elige tu plan</h3>
     <div class="plans-wrapper">
+      <!-- Pack Esencial -->
       <div class="plan-card">
         <h4>Pack Esencial</h4>
         <p class="price">$9.990 CLP</p>
@@ -445,6 +348,7 @@
         </ul>
         <button onclick="location.href='esencial.html'">Elegir Esencial</button>
       </div>
+      <!-- Pack Total -->
       <div class="plan-card recommended">
         <h4>Pack Total</h4>
         <p class="price">$15.990 CLP</p>
@@ -456,6 +360,7 @@
         </ul>
         <button onclick="location.href='total.html'">Elegir Total</button>
       </div>
+      <!-- Pack Familiar -->
       <div class="plan-card">
         <h4>Pack Familiar</h4>
         <p class="price">$24.990 CLP</p>
@@ -492,16 +397,16 @@
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- FAQ con detalle legal -->
   <section id="faq">
     <h3>Preguntas frecuentes</h3>
     <details>
-      <summary>¿Qué es Nomewei y bajo qué ley operamos?</summary>
+      <summary>¿Qué es Nomewei y bajo qué ley opero?</summary>
       <p>Somos un servicio legaltech que, amparado en la Ley N°19.628 de Protección de Datos Personales, art. 21 bis, automatiza y envía tus solicitudes formales para que las empresas dejen de llamarte con fines comerciales.</p>
     </details>
     <details>
       <summary>¿Cuánto tiempo tienen las empresas para responder?</summary>
-      <p>Según la Ley 19.628, las compañías tienen un plazo máximo de <strong>10 días hábiles</strong> para confirmar la baja. Si no responden, actuamos en tu defensa.</p>
+      <p>Según la misma Ley 19.628, las compañías tienen un plazo máximo de <strong>10 días hábiles</strong> para confirmar la baja. Si no responden, actuamos en tu defensa.</p>
     </details>
     <details>
       <summary>¿Cómo se usa mi información?</summary>
@@ -517,7 +422,7 @@
     </details>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER con servicios y asociados Nomewei -->
   <footer id="footer">
     <div class="footer-grid">
       <div>
@@ -544,5 +449,30 @@
           <li>ProtecData Ltda.</li>
         </ul>
       </div>
----
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 
+  <!-- WhatsApp flotante -->
+  <div class="whatsapp" onclick="window.open('https://wa.me/5691122334455','_blank')">
+    <svg viewBox="0 0 24 24">
+      <path d="M20.52,3.48a11.78,11.78,0,0...
+      "/><!-- recorta el path -->
+    </svg>
+  </div>
+
+  <script>
+    function scrollToPlanes(){
+      document.getElementById('planes').scrollIntoView({ behavior:'smooth' });
+    }
+  </script>
+</body>
+</html>
