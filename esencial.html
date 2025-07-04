@@ -23,7 +23,7 @@
     }
     a { color: inherit; text-decoration: none; }
 
-    /* === HEADER: solo esta parte cambió === */
+    /* === HEADER === */
     header {
       background: linear-gradient(270deg, var(--purple), #7E6AF4, var(--purple));
       background-size: 600% 600%;
@@ -32,7 +32,7 @@
     }
     @keyframes bgAnim {
       0%   { background-position: 0% 50%; }
-      50%  { background-position:100% 50%; }
+      50%  { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
     header .container {
@@ -48,11 +48,12 @@
       gap: 0.5rem;
     }
     .branding svg {
-      width: 48px; height: 48px; fill: var(--white);
+      width: 48px; height: 48px;
+      fill: var(--white);
     }
-    /* Esta regla asegura que el H1 sea siempre blanco */
+    /* <- SOLO ESTA LÍNEA CAMBIÓ -> */
     header .branding h1 {
-      color: var(--white);
+      color: var(--white) !important;
     }
     nav ul {
       display: flex;
@@ -66,20 +67,85 @@
     }
     nav a:hover { opacity: 0.8; }
 
-    /* === RESTO DEL CSS IGUAL A TU VERSIÓN ACTUAL === */
-    /* ... inputs, botones, formularios, footer, whatsapp, etc. ... */
+    /* === HERO (Pack Esencial) === */
+    #hero {
+      background: var(--white);
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    #hero h2 {
+      color: var(--purple);
+      font-size: 2.75rem;
+      margin-bottom: 1rem;
+    }
+    #hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    #hero .btn {
+      background: var(--coral);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #hero .btn:hover {
+      background: #e36b65;
+    }
+
+    /* === FORM === */
+    #form {
+      max-width: 500px;
+      margin: 2rem auto;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    #form label {
+      display: block;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    #form input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.25rem;
+      border: 1px solid var(--gray);
+      border-radius: 4px;
+    }
+    #form button {
+      margin-top: 1rem;
+      width: 100%;
+      background: var(--purple);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #form button:hover {
+      background: #4a38a8;
+    }
+
+    /* === FOOTER y demás igual a tu versión actual === */
   </style>
 </head>
 <body>
 
-  <!-- HEADER (idéntico en los 3 formularios) -->
   <header>
     <div class="container">
       <div class="branding">
         <svg viewBox="0 0 24 24">
           <path fill="var(--white)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
           <circle cx="12" cy="12" r="4" fill="var(--white)"/>
-          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--purple)" stroke-width="2"/>
+          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"
+                stroke="var(--purple)" stroke-width="2"/>
         </svg>
         <h1>Nomewei</h1>
       </div>
@@ -94,24 +160,31 @@
     </div>
   </header>
 
-  <!-- TITULAR PACK ESENCIAL -->
   <section id="hero">
     <h2>Pack Esencial</h2>
-    <p>$9.990 CLP · Gestión hasta 5 empresas telefónicas · 1 número · Seguimiento 24/7</p>
+    <p>$9.990 CLP · Gestión hasta 5 empresas telefónicas · Seguimiento 24/7</p>
   </section>
 
-  <!-- FORMULARIO -->
   <section id="form">
     <form action="https://formspree.io/f/xkgbeypo" method="POST">
       <input type="hidden" name="plan" value="Pack Esencial"/>
-      <label>Nombre completo:<input type="text" name="Nombre" required/></label>
-      <label>RUT:<input type="text" name="RUT" required/></label>
-      <label>Email:<input type="email" name="Email" required/></label>
-      <label>Teléfono:<input type="tel" name="Telefono" required/></label>
+      <label>Nombre completo
+        <input type="text" name="Nombre" required/>
+      </label>
+      <label>RUT
+        <input type="text" name="RUT" required/>
+      </label>
+      <label>Email
+        <input type="email" name="Email" required/>
+      </label>
+      <label>Teléfono
+        <input type="tel" name="Telefono" required/>
+      </label>
       <button type="submit">Enviar solicitud</button>
     </form>
   </section>
 
-  <!-- Footer, WhatsApp, scripts... idénticos -->
+  <!-- Footer, WhatsApp, etc. idénticos -->
+
 </body>
 </html>
