@@ -3,238 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nomewei - Chao, Acoso Telefónico</title>
+  <title>Nomewei - Chao Acoso Telefónico</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
       margin: 0;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      background: white;
       color: #333;
     }
-
     header {
-      background: #2c3e50;
+      background: linear-gradient(120deg, #6C5CE7, #a29bfe);
       color: white;
-      padding: 80px 20px;
+      padding: 2rem 1rem;
       text-align: center;
     }
-
     header h1 {
-      font-size: 3em;
-      margin: 0;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
     }
-
     header p {
-      font-size: 1.3em;
-      margin-top: 10px;
+      font-size: 1.2rem;
     }
 
-    .btn-primary {
-      display: inline-block;
-      margin-top: 30px;
-      background: #e74c3c;
-      color: white;
-      padding: 14px 28px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-
-    .section {
-      padding: 60px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .section h2 {
-      font-size: 2em;
-      margin-bottom: 20px;
+    section#planes {
+      padding: 2rem 1rem;
       text-align: center;
+      background: #f9f9f9;
     }
-
-    .planes {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-    }
-
     .plan {
+      display: inline-block;
       background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      width: 40%;
-      min-width: 250px;
-      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 1rem;
+      padding: 2rem;
+      max-width: 300px;
+      transition: transform 0.3s ease;
     }
-
-    .plan h3 {
-      color: #e74c3c;
-      margin-top: 0;
+    .plan:hover {
+      transform: scale(1.03);
     }
-
-    .plan p {
-      font-size: 1.1em;
+    .plan h2 {
+      color: #6C5CE7;
     }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    label {
+    .plan .price {
+      font-size: 1.5rem;
       font-weight: bold;
+      color: #FF7675;
+      margin: 1rem 0;
     }
-
-    input, select, textarea {
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      background: #27ae60;
+    .plan button {
+      background: #6C5CE7;
       color: white;
       border: none;
-      padding: 14px;
-      font-size: 1em;
-      border-radius: 6px;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
       cursor: pointer;
     }
-
-    button:hover {
-      background-color: #219150;
-    }
-
-    .agradecimiento {
-      display: none;
-      margin-top: 30px;
-      background: #ecf9f1;
-      padding: 25px;
-      border-radius: 8px;
-      text-align: center;
-      border: 1px solid #c8e6d1;
-      color: #2e7d32;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-    }
-
-    .modal-content {
+    form {
+      max-width: 600px;
+      margin: 3rem auto;
       background: white;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 400px;
-      margin: 15% auto;
-      text-align: center;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
     }
-
-    .modal-content h3 {
-      color: #e74c3c;
+    form h3 {
+      margin-top: 0;
+      color: #6C5CE7;
     }
-
-    footer {
+    label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button[type="submit"] {
+      background: #FF7675;
+      color: white;
+      margin-top: 1rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .thanks {
+      background: #dfe6e9;
+      padding: 1rem;
       text-align: center;
-      padding: 30px;
-      font-size: 0.9em;
-      color: #777;
+      display: none;
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>Chao, Acoso Telefónico</h1>
-    <p>Con Nomewei puedes salir de las listas de marketing de empresas que no respetan tu paz.</p>
-    <a href="#formulario" class="btn-primary">Quiero dejar de recibir llamadas</a>
-  </header>
+<header>
+  <h1>Chao, Acoso Telefónico</h1>
+  <p>Recupera tu tranquilidad. En Nomewei nos encargamos de eliminarte de las listas de spam con respaldo legal.</p>
+</header>
 
-  <section class="section">
-    <h2>Elige tu plan</h2>
-    <div class="planes">
-      <div class="plan">
-        <h3>Pack Esencial</h3>
-        <p>$4.990 CLP</p>
-        <p>Incluye salida de hasta 5 empresas telefónicas grandes.</p>
-      </div>
-      <div class="plan">
-        <h3>Pack Total</h3>
-        <p>$9.990 CLP</p>
-        <p>Incluye hasta 20 empresas: telcos, retail, bancos, seguros, apps.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="formulario">
-    <h2>Completa tu solicitud</h2>
-
-    <form action="https://formspree.io/f/xkgbeypo" method="POST" onsubmit="simularPago()">
-      <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" name="nombre" required>
-
-      <label for="email">Correo electrónico:</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="telefono">Número a eliminar:</label>
-      <input type="text" id="telefono" name="telefono" required>
-
-      <label for="paquete">Selecciona tu plan:</label>
-      <select id="paquete" name="paquete" required>
-        <option value="">-- Selecciona --</option>
-        <option value="Pack Esencial - $4.990">Pack Esencial - $4.990</option>
-        <option value="Pack Total - $9.990">Pack Total - $9.990</option>
-      </select>
-
-      <label for="mensaje">Comentarios (opcional):</label>
-      <textarea id="mensaje" name="mensaje" rows="4"></textarea>
-
-      <button type="submit">Pagar y Enviar Solicitud</button>
-    </form>
-
-    <div class="agradecimiento" id="gracias">
-      <h3>🎉 ¡Gracias!</h3>
-      <p>Tu solicitud fue enviada correctamente.<br>Te contactaremos si es necesario. ¡Gracias por confiar en Nomewei!</p>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 Nomewei. Todos los derechos reservados.
-  </footer>
-
-  <!-- Modal de pago simulado -->
-  <div class="modal" id="modalPago">
-    <div class="modal-content">
-      <h3>❌ Pago rechazado</h3>
-      <p>Este sistema está en modo prueba. Tu solicitud fue enviada, pero el pago no se procesó.</p>
-      <button onclick="cerrarModal()">Aceptar</button>
-    </div>
+<section id="planes">
+  <h2>Elige tu plan</h2>
+  <div class="plan">
+    <h2>Pack Esencial</h2>
+    <p class="price">$9.990 CLP</p>
+    <p>Hasta 5 empresas</p>
+    <button onclick="selectPlan('Esencial')">Seleccionar</button>
   </div>
+  <div class="plan">
+    <h2>Pack Total</h2>
+    <p class="price">$15.990 CLP</p>
+    <p>Empresas ilimitadas</p>
+    <button onclick="selectPlan('Total')">Seleccionar</button>
+  </div>
+</section>
 
-  <script>
-    function simularPago() {
-      document.getElementById("modalPago").style.display = "block";
-      setTimeout(() => {
-        document.querySelector("form").style.display = "none";
-        document.getElementById("gracias").style.display = "block";
-      }, 1500);
-    }
+<form action="https://formspree.io/f/xkgbeypo" method="POST" onsubmit="return fakePayment(event)">
+  <h3>Completa tus datos</h3>
+  <input type="hidden" name="plan" id="planSelected" value="">
+  <label for="name">Nombre completo:</label>
+  <input type="text" id="name" name="name" required>
 
-    function cerrarModal() {
-      document.getElementById("modalPago").style.display = "none";
-    }
-  </script>
+  <label for="email">Correo electrónico:</label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="empresas">Nombres de empresas que te han llamado (separadas por coma):</label>
+  <textarea name="empresas" id="empresas" rows="4" required></textarea>
+
+  <label for="payment">Método de pago:</label>
+  <select name="payment" id="payment" required>
+    <option value="">Selecciona una opción</option>
+    <option value="mercadopago">MercadoPago</option>
+  </select>
+
+  <button type="submit">Pagar y enviar solicitud</button>
+</form>
+
+<div class="thanks" id="thanks">
+  <h3>¡Gracias por tu confianza!</h3>
+  <p>Tu solicitud ha sido enviada con éxito. Nuestros expertos están revisando tu caso y te contactarán en menos de 24 horas.</p>
+</div>
+
+<script>
+  function selectPlan(planName) {
+    document.getElementById("planSelected").value = planName;
+    window.scrollTo({ top: document.querySelector("form").offsetTop, behavior: 'smooth' });
+  }
+
+  function fakePayment(event) {
+    event.preventDefault();
+    alert("Error al procesar el pago con MercadoPago. Modo prueba activado.");
+    event.target.submit();
+    document.getElementById("thanks").style.display = "block";
+    event.target.style.display = "none";
+    return false;
+  }
+</script>
 
 </body>
 </html>
