@@ -6,34 +6,27 @@
   <title>Nomewei – Chao Acoso Telefónico</title>
   <style>
     :root {
-      --purple:     #5940C4;
-      --coral:      #FF8A7A;
-      --white:      #FFFFFF;
-      --light-gray: #F7F7F7;
-      --gray:       #E1E1E1;
-      --dark-gray:  #333333;
+      --marino:     #003366; /* Color Principal */
+      --naranja:    #FFA500; /* Color de Acento */
+      --blanco:     #FFFFFF;
+      --gris-claro: #F7F7F7;
+      --gris:       #E1E1E1;
+      --texto-oscuro:  #333333;
       --font:       'Segoe UI', sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--font);
-      background: var(--light-gray);
-      color: var(--dark-gray);
+      background: var(--gris-claro);
+      color: var(--texto-oscuro);
       line-height: 1.5;
     }
     a { color: inherit; text-decoration: none; }
 
     /* HEADER */
     header {
-      background: linear-gradient(270deg, var(--purple), #7E6AF4, var(--purple));
-      background-size: 600% 600%;
-      animation: bgAnim 20s ease infinite;
+      background: var(--marino);
       padding: 1rem 2rem;
-    }
-    @keyframes bgAnim {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
     header .container {
       max-width: 1024px;
@@ -50,10 +43,9 @@
     .branding svg {
       width: 48px;
       height: 48px;
-      fill: var(--white);
     }
     .branding h1 {
-      color: var(--white);
+      color: var(--blanco);
       font-size: 1.75rem;
     }
     nav ul {
@@ -62,7 +54,7 @@
       list-style: none;
     }
     nav a {
-      color: var(--white);
+      color: var(--blanco);
       font-weight: 600;
       transition: opacity 0.2s;
     }
@@ -70,12 +62,12 @@
 
     /* HERO */
     #hero {
-      background: var(--white);
+      background: var(--blanco);
       text-align: center;
       padding: 4rem 1rem;
     }
     #hero h2 {
-      color: var(--purple);
+      color: var(--marino);
       font-size: 2.75rem;
       margin-bottom: 1rem;
     }
@@ -84,27 +76,28 @@
       margin-bottom: 2rem;
     }
     #hero .btn {
-      background: var(--coral);
-      color: var(--white);
+      background: var(--naranja);
+      color: var(--blanco);
       border: none;
       padding: 0.75rem 1.5rem;
       border-radius: 5px;
       font-size: 1.1rem;
+      font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
     }
     #hero .btn:hover {
-      background: #e36b65;
+      background: #E69500;
     }
 
     /* SECCIÓN “3 PASOS” */
     #steps {
-      background: var(--white);
+      background: var(--gris-claro);
       padding: 3rem 1rem;
     }
     #steps h3 {
       text-align: center;
-      color: var(--purple);
+      color: var(--marino);
       font-size: 2rem;
       margin-bottom: 2rem;
     }
@@ -117,7 +110,7 @@
       margin: 0 auto;
     }
     .step-card {
-      background: var(--light-gray);
+      background: var(--blanco);
       border-radius: 8px;
       padding: 1.5rem;
       flex: 1 1 280px;
@@ -126,8 +119,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .step-number {
-      background: var(--purple);
-      color: var(--white);
+      background: var(--marino);
+      color: var(--blanco);
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -150,12 +143,12 @@
 
     /* PLANES */
     #planes {
-      background: var(--white);
+      background: var(--blanco);
       padding: 3rem 1rem;
     }
     #planes h3 {
       text-align: center;
-      color: var(--purple);
+      color: var(--marino);
       font-size: 2rem;
       margin-bottom: 2rem;
     }
@@ -166,13 +159,11 @@
       gap: 2rem;
       flex-wrap: wrap;
       justify-content: center;
-      border: 1px solid var(--gray);
-      border-radius: 10px;
-      padding: 2rem;
     }
     .plan-card {
       flex: 1 1 280px;
-      background: var(--light-gray);
+      background: var(--gris-claro);
+      border: 1px solid var(--gris);
       border-radius: 8px;
       padding: 1.5rem;
       display: flex;
@@ -181,24 +172,25 @@
     }
     .plan-card:hover {
       transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     .plan-card.recommended {
-      background: #FFF0F0;
-      border: 2px solid var(--coral);
+      background: #FFF5E5;
+      border: 2px solid var(--naranja);
     }
     .plan-card.recommended h4::after {
       content: " – MÁS RECOMENDADO";
-      color: var(--coral);
+      color: var(--naranja);
       font-size: 0.85rem;
       font-weight: normal;
     }
     .plan-card h4 {
-      color: var(--purple);
+      color: var(--marino);
       font-size: 1.3rem;
       margin-bottom: 0.5rem;
     }
     .plan-card .price {
-      color: var(--coral);
+      color: var(--texto-oscuro);
       font-size: 1.8rem;
       font-weight: bold;
       margin: 0.5rem 0 1rem;
@@ -218,29 +210,38 @@
       content: "✔";
       position: absolute;
       left: 0;
-      color: var(--purple);
+      color: var(--marino);
     }
     .plan-card button {
-      background: var(--purple);
-      color: var(--white);
+      background: var(--marino);
+      color: var(--blanco);
       border: none;
       padding: 0.75rem;
       border-radius: 5px;
       cursor: pointer;
+      font-weight: bold;
       transition: background 0.3s ease;
+      margin-top: auto;
     }
     .plan-card button:hover {
-      background: #4a38a8;
+      background: #001f4d;
     }
+    .plan-card.recommended button {
+        background: var(--naranja);
+    }
+    .plan-card.recommended button:hover {
+        background: #E69500;
+    }
+
 
     /* TESTIMONIOS */
     #testimonios {
-      background: var(--white);
+      background: var(--gris-claro);
       padding: 3rem 1rem;
       text-align: center;
     }
     #testimonios h3 {
-      color: var(--purple);
+      color: var(--marino);
       font-size: 2rem;
       margin-bottom: 1.5rem;
     }
@@ -253,23 +254,25 @@
       justify-content: center;
     }
     .testimonial-card {
-      background: var(--white);
+      background: var(--blanco);
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       padding: 1.5rem;
-      width: 260px;
+      width: 280px;
       text-align: left;
     }
     .testimonial-card .stars {
-      color: #FFD700;
+      color: var(--naranja);
       margin-bottom: 0.5rem;
     }
     .testimonial-card p {
-      font-size: 1.05rem;
+      font-style: italic;
+      font-size: 1rem;
       margin-bottom: 0.75rem;
     }
     .testimonial-card footer {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      font-weight: 600;
       color: #555;
       text-align: left;
       margin-top: 0.5rem;
@@ -277,39 +280,40 @@
 
     /* FAQ */
     #faq {
-      background: var(--white);
+      background: var(--blanco);
       padding: 3rem 1rem;
     }
     #faq h3 {
       text-align: center;
-      color: var(--purple);
+      color: var(--marino);
       font-size: 2rem;
       margin-bottom: 1.5rem;
     }
     #faq details {
       max-width: 800px;
       margin: 0.5rem auto;
-      background: var(--light-gray);
+      background: var(--gris-claro);
       padding: 1rem;
       border-radius: 5px;
+      border: 1px solid var(--gris);
     }
     #faq summary {
       cursor: pointer;
       font-weight: bold;
     }
     #faq summary:hover {
-      color: var(--purple);
+      color: var(--marino);
     }
     #faq details p {
-      margin-top: 0.5rem;
-      line-height: 1.4;
+      margin-top: 0.75rem;
+      line-height: 1.6;
     }
 
     /* FOOTER */
     footer {
-      background: var(--light-gray);
-      color: var(--dark-gray);
-      padding: 2rem 1rem;
+      background: var(--marino);
+      color: var(--gris-claro);
+      padding: 3rem 1rem;
     }
     .footer-grid {
       max-width: 1024px;
@@ -319,8 +323,8 @@
       gap: 2rem;
     }
     .footer-grid h4 {
-      color: var(--purple);
-      margin-bottom: 0.5rem;
+      color: var(--blanco);
+      margin-bottom: 1rem;
       font-size: 1.1rem;
     }
     .footer-grid ul {
@@ -330,9 +334,11 @@
       margin: 0.5rem 0;
     }
     .footer-grid a {
+      color: var(--gris);
       text-decoration: none;
     }
       .footer-grid a:hover {
+      color: var(--blanco);
       text-decoration: underline;
     }
 
@@ -351,11 +357,14 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
       cursor: pointer !important;
       z-index: 10000 !important;
+      transition: transform 0.2s ease;
+    }
+    .whatsapp:hover {
+        transform: scale(1.1);
     }
     .whatsapp svg {
       width: 28px !important;
-      height: 28px !importan
-      t;
+      height: 28px !important;
       fill: white !important;
     }
   </style>
@@ -366,9 +375,9 @@
     <div class="container">
       <div class="branding">
         <svg viewBox="0 0 24 24">
-          <path fill="var(--white)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-          <circle cx="12" cy="12" r="4" fill="var(--white)"/>
-          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--purple)" stroke-width="2"/>
+          <path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+          <circle cx="12" cy="12" r="4" fill="var(--blanco)"/>
+          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/>
         </svg>
         <h1>Nomewei</h1>
       </div>
@@ -398,160 +407,4 @@
         <div class="step-number">1</div>
         <div class="step-content">
           <h4>Elige y paga tu plan</h4>
-          <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <h4>Recibe tu confirmación</h4>
-          <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h4>Olvídate del acoso</h4>
-          <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="planes">
-    <h3>Elige tu plan</h3>
-    <div class="plans-wrapper">
-      <div class="plan-card">
-        <h4>Pack Esencial</h4>
-        <p class="price">$9.990 CLP</p>
-        <ul>
-          <li>Hasta 5 empresas telefónicas</li>
-          <li>Gestión de 1 número</li>
-          <li>Seguimiento 24/7</li>
-          <li>Respaldo legal y documentación</li>
-        </ul>
-        <button onclick="location.href='checkout.html?plan=esencial'">Elegir Esencial</button>
-      </div>
-      <div class="plan-card recommended">
-        <h4>Pack Total</h4>
-        <p class="price">$15.990 CLP</p>
-        <ul>
-          <li>Hasta 10 empresas (telco + comercios)</li>
-          <li>Gestión de 2 números</li>
-          <li>Seguimiento 24/7</li>
-          <li>Respaldo legal y documentación</li>
-        </ul>
-        <button onclick="location.href='checkout.html?plan=total'">Elegir Total</button>
-      </div>
-      <div class="plan-card">
-        <h4>Pack Familiar</h4>
-        <p class="price">$24.990 CLP</p>
-        <ul>
-          <li>Empresas ilimitadas</li>
-          <li>Gestión de hasta 5 números</li>
-          <li>Seguimiento 24/7</li>
-          <li>Respaldo legal y documentación</li>
-        </ul>
-        <button onclick="location.href='checkout.html?plan=familiar'">Elegir Familiar</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="testimonios">
-    <h3>Qué dicen nuestros clientes</h3>
-    <div class="testimonials">
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p>"Dejó de sonar mi celular en 2 días. Súper recomendado."</p>
-        <footer>- Camila (Providencia)</footer>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p>"Servicio impecable. Me siento libre de spam."</p>
-        <footer>- José (Ñuñoa)</footer>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p>"Rápido, simple y efectivo. Excelente respaldo."</p>
-        <footer>- Fernanda (Santiago Centro)</footer>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq">
-    <h3>Preguntas frecuentes</h3>
-    <details>
-      <summary>¿Qué es Nomewei y bajo qué ley opero?</summary>
-      <p>Somos un servicio legaltech que, amparado en la Ley N°19.628 de Protección de Datos Personal...</p>
-    </details>
-    <details>
-      <summary>¿Cuánto tiempo tienen las empresas para responder?</summary>
-      <p>Según la Ley N°19.628, las compañías tienen un plazo máximo de <strong>10 días hábiles</strong> para confirmar la baja...</p>
-    </details>
-    <details>
-      <summary>¿Cómo se usa mi información?</summary>
-      <p>Solo utilizamos tus datos para gestionar bajas y documentar la solicitud. Tras el cierre del caso los borramos...</p>
-    </details>
-    <details>
-      <summary>¿Qué hago si incumplen mi solicitud?</summary>
-      <p>Si no acatan tu baja, Nomewei se compromete a elevar tu caso ante SERNAC y, de persistir, iniciar acciones judiciales...</p>
-    </details>
-    <details>
-      <summary>¿Puedo cambiar de plan o pedir reembolso?</summary>
-      <p>Sí. Tienes hasta <strong>5 días</strong> para solicitar cambio de plan o devolución completa (menos coste de gestión)...</p>
-    </details>
-  </section>
-
-  <footer id="footer">
-    <div class="footer-grid">
-      <div>
-        <h4>Contáctanos</h4>
-        <ul>
-          <li>Teléfono: <a href="tel:+5691122334455">+56 9 1122 3344 55</a></li>
-          <li>Email: <a href="mailto:info@nomewei.cl">info@nomewei.cl</a></li>
-          <li>Web: <a href="https://www.nomewei.cl" target="_blank">www.nomewei.cl</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Servicios</h4>
-        <ul>
-          <li>Asesoría Legal Telefónica</li>
-          <li>Reclamos ante SERNAC</li>
-          <li>Documentación Legal Personalizada</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Asociados</h4>
-        <ul>
-          <li>Lex &amp; Phone Abogados</li>
-          <li>DataSafe S.A.</li>
-          <li>ProtecData Ltda.</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Links</h4>
-        <ul>
-          <li><a href="#hero">Inicio</a></li>
-          <li><a href="#steps">Pasos</a></li>
-          <li><a href="#planes">Planes</a></li>
-          <li><a href="#testimonios">Testimonios</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#footer">Contacto</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-
-  <div class="whatsapp" onclick="window.open('https://wa.me/5691122334455','_blank')">
-  <svg viewBox="0 0 24 24">
-    <path d="M20.52,3.48a11.78,11.78,0,0,0-16.68,0A11.65,11.65,0,0,0,2.1,17.37L.5,23.5l6.18-1.6A11.62,11.62,0,0,0,20.52,3.48ZM12,21.22a9.21,9.21,0,0,1-4.7-1.27l-.34-.2-3.67.95.98-3.56-.21-.37A9.27,9.27,0,1,1,12,21.22Zm5.08-6.52c-.3-.15-1.74-.86-2-.96s-.45-.15-.66.15-.76.96-.93,1.16-.34.23-.64.08a7.69,7.69,0,0,1-2.27-1.4,8.53,8.53,0,0,1-1.57-1.93c-.16-.27,0-.42.12-.57s.27-.34.4-.51a1.5,1.5,0,0,0,.23-.39.87.87,0,0,0-.08-.57c-.15-.3-.66-1.57-.91-2.15s-.46-.5-.64-.51H8.45a.68.68,0,0,0-.5.23,2,2,0,0,0-.64.51A2.39,2.39,0,0,0,7.28,9a5,5,0,0,0,1.16,1.6,7.27,7.27,0,0,0,1.23,1.28c.3.23.52.38.76.61s.45.28.68.42a1.18,1.18,0,0,1,.43.39c.15.3.12.51-.06.7s-.76.92-.84,1.17-.15.45,0,.6,1.16,1.77,2.82,2.93C15,16.17,17.51,15,17.08,14.7Z"/>
-  </svg>
-</div>
-  
-  <script>
-    function scrollToPlanes(){
-      document.getElementById('planes').scrollIntoView({ behavior:'smooth' });
-    }
-  </script>
-</body>
-</html>
+          <p>Selecciona el
