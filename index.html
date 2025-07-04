@@ -6,315 +6,304 @@
   <title>Nomewei – Chao Acoso Telefónico</title>
   <style>
     :root {
-      --purple: #5940C4;
-      --coral:  #FF8A7A;
-      --white:  #FFFFFF;
-      --light:  #F7F7F7;
-      --dark:   #333333;
-      --font:   'Segoe UI', sans-serif;
+      --purple: #5940C4;       /* púrpura suave */
+      --coral: #FF8A7A;        /* coral atenuado */
+      --white: #FFFFFF;
+      --light-gray: #F7F7F7;
+      --gray: #E1E1E1;
+      --dark-gray: #333333;
+      --font: 'Segoe UI', sans-serif;
     }
-    * { box-sizing:border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--font);
-      color: var(--dark);
-      background: var(--light);
-      line-height:1.5;
+      background: var(--light-gray);
+      color: var(--dark-gray);
+      line-height: 1.5;
     }
 
     /* HEADER */
     header {
-      position: relative;
-      height: 300px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      overflow: hidden;
+      justify-content: center;
+      background: linear-gradient(270deg, var(--purple), #7E6AF4, var(--purple));
+      background-size: 600% 600%;
+      animation: bgAnim 20s ease infinite;
+      padding: 1rem;
     }
-    /* video de fondo */
-    header video {
-      position: absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      z-index: -1;
-      opacity: 0.6;
+    @keyframes bgAnim {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    header .logo { display:flex; align-items:center; gap:0.5rem; }
-    header .logo svg { width:48px; height:48px; fill: var(--white); }
-    header h1 {
-      color: var(--white);
-      font-size:1.75rem;
-    }
-    /* menú */
-    nav ul {
+    header .container {
       display: flex;
-      gap:1.5rem;
-      list-style:none;
+      align-items: center;
+      gap: 0.75rem;
     }
-    nav a {
+    .logo {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-size: 1.75rem;
       color: var(--white);
-      text-decoration:none;
-      font-weight:600;
     }
-    nav a:hover { text-decoration:underline; }
 
-    /* HERO TEXTO */
+    /* HERO */
     #hero {
-      position: absolute;
-      top:50%; left:50%;
-      transform:translate(-50%,-50%);
-      text-align:center;
-      color:var(--white);
+      text-align: center;
+      padding: 4rem 1rem;
     }
     #hero h2 {
-      font-size:2.75rem;
-      margin-bottom:0.5rem;
+      color: var(--purple);
+      font-size: 2.75rem;
+      margin-bottom: 1rem;
     }
     #hero p {
-      font-size:1.1rem;
-      margin-bottom:1.5rem;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
     }
     #hero .btn {
       background: var(--coral);
-      border:none;
       color: var(--white);
-      padding:0.75rem 1.5rem;
-      border-radius:5px;
-      cursor:pointer;
-      font-size:1rem;
-      transition:background 0.3s;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    #hero .btn:hover { background:#e36b65; }
+    #hero .btn:hover {
+      background: #e36b65;
+    }
 
     /* PLANES */
     #planes {
       background: var(--white);
-      padding:4rem 2rem;
-      text-align:center;
+      padding: 3rem 1rem;
     }
     #planes h3 {
+      text-align: center;
       color: var(--purple);
-      font-size:2.25rem;
-      margin-bottom:2rem;
+      font-size: 2rem;
+      margin-bottom: 2rem;
     }
     .plans-wrapper {
+      max-width: 1024px;
+      margin: 0 auto;
       display: flex;
-      gap:2rem;
-      flex-wrap:wrap;
-      justify-content:center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      border: 1px solid var(--gray);
+      border-radius: 10px;
+      padding: 2rem;
     }
     .plan-card {
-      background: var(--light);
-      border-radius:8px;
-      border:1px solid var(--gray);
-      width: 280px;
-      padding:2rem 1.5rem;
-      display:flex;
-      flex-direction:column;
-      transition:transform 0.3s;
+      flex: 1 1 280px;
+      background: var(--light-gray);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
     }
     .plan-card:hover {
-      transform:scale(1.03);
+      transform: scale(1.03);
     }
     .plan-card.recommended {
-      border-color: var(--coral);
-      background: #FFF4F2;
+      background: #FFF0F0;
+      border: 2px solid var(--coral);
+    }
+    .plan-card.recommended h4::after {
+      content: " – MÁS RECOMENDADO";
+      color: var(--coral);
+      font-size: 0.85rem;
+      font-weight: normal;
     }
     .plan-card h4 {
       color: var(--purple);
-      margin-bottom:0.5rem;
-      font-size:1.3rem;
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
     }
     .plan-card .price {
       color: var(--coral);
-      font-size:1.6rem;
-      font-weight:bold;
-      margin-bottom:1rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 0.5rem 0 1rem;
     }
     .plan-card ul {
-      list-style:none;
-      text-align:left;
-      margin-bottom:1.5rem;
-      flex-grow:1;
+      list-style: none;
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+      text-align: left;
     }
     .plan-card ul li {
-      position:relative;
-      padding-left:1.5rem;
-      margin:0.5rem 0;
+      position: relative;
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
     }
     .plan-card ul li::before {
-      content:'✔';
-      position:absolute;
-      left:0;
+      content: "✔";
+      position: absolute;
+      left: 0;
       color: var(--purple);
     }
     .plan-card button {
       background: var(--purple);
       color: var(--white);
-      border:none;
-      padding:0.75rem;
-      border-radius:5px;
-      cursor:pointer;
-      font-size:1rem;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
     .plan-card button:hover {
-      background:#4a38a8;
+      background: #4a38a8;
     }
 
     /* TESTIMONIOS */
     #testimonios {
-      padding:3rem 2rem;
-      background: var(--white);
-      text-align:center;
+      padding: 3rem 1rem;
+      text-align: center;
     }
     #testimonios h3 {
       color: var(--purple);
-      font-size:2rem;
-      margin-bottom:1.5rem;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
     }
     .testimonials {
-      display:flex;
-      gap:1rem;
-      flex-wrap:wrap;
-      justify-content:center;
+      max-width: 1024px;
+      margin: 0 auto;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     .testimonial-card {
-      background: var(--light);
-      border-radius:8px;
-      width:260px;
-      padding:1.5rem;
-      text-align:left;
-      box-shadow:0 2px 8px rgba(0,0,0,0.05);
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      width: 260px;
+      text-align: left;
     }
     .testimonial-card .stars {
-      color:#FFD700;
-      margin-bottom:0.5rem;
+      color: #FFD700;
+      margin-bottom: 0.5rem;
     }
     .testimonial-card p {
-      margin-bottom:0.75rem;
+      margin-bottom: 0.75rem;
     }
     .testimonial-card footer {
-      font-weight:bold;
-      text-align:right;
+      font-weight: bold;
+      text-align: right;
+      color: var(--dark-gray);
     }
 
     /* FAQ */
     #faq {
       background: var(--white);
-      padding:3rem 2rem;
+      padding: 3rem 1rem;
     }
     #faq h3 {
+      text-align: center;
       color: var(--purple);
-      font-size:2rem;
-      text-align:center;
-      margin-bottom:1.5rem;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
     }
     #faq details {
-      max-width:800px;
-      margin:0.5rem auto;
-      background: var(--light);
-      padding:1rem;
-      border-radius:5px;
+      max-width: 800px;
+      margin: 0.5rem auto;
+      background: var(--light-gray);
+      padding: 1rem;
+      border-radius: 5px;
     }
     #faq summary {
-      cursor:pointer;
-      font-weight:bold;
+      cursor: pointer;
+      font-weight: bold;
     }
-    #faq details[open] summary {
+    #faq summary:hover {
       color: var(--purple);
     }
-    #faq p {
-      margin-top:0.5rem;
-      line-height:1.4;
+    #faq details p {
+      margin-top: 0.5rem;
+      line-height: 1.4;
     }
 
     /* FOOTER */
     footer {
-      background: var(--light);
-      color: var(--dark);
-      padding:2rem;
+      background: var(--light-gray);
+      color: var(--dark-gray);
+      padding: 2rem 1rem;
     }
     .footer-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-      gap:2rem;
-      max-width:1024px;
-      margin:auto;
+      max-width: 1024px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
     }
     .footer-grid h4 {
       color: var(--purple);
-      margin-bottom:0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
     }
     .footer-grid ul {
-      list-style:none;
+      list-style: none;
     }
     .footer-grid li {
-      margin:0.5rem 0;
+      margin: 0.5rem 0;
     }
     .footer-grid a {
-      color: var(--dark);
-      text-decoration:none;
+      text-decoration: none;
+      color: var(--dark-gray);
     }
     .footer-grid a:hover {
-      text-decoration:underline;
+      text-decoration: underline;
     }
 
-    /* WhatsApp floater */
+    /* WHATSAPP FLOATER */
     .whatsapp {
-      position:fixed;
-      bottom:1.5rem;
-      right:1.5rem;
-      background:#25D366;
-      width:56px;
-      height:56px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 2px 8px rgba(0,0,0,0.2);
-      cursor:pointer;
-      z-index:1000;
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #25D366;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 1000;
     }
     .whatsapp svg {
-      width:28px; height:28px; fill:white;
+      width: 28px;
+      height: 28px;
+      fill: white;
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER con video -->
+  <!-- HEADER -->
   <header>
-    <video autoplay muted loop>
-      <source src="header-video.mp4" type="video/mp4"/>
-      <!-- fallback a imagen -->
-      <img src="header-fallback.jpg" alt="Background"/>
-    </video>
-
     <div class="container">
-      <!-- Logo -->
-      <div class="logo">
-        <svg viewBox="0 0 24 24">
-          <path fill="var(--white)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-          <path fill="none" stroke="var(--purple)" stroke-width="2" d="M9,12l2,2l4-4"/>
-        </svg>
-      </div>
-      <!-- Título -->
+      <!-- Logo SVG -->
+      <svg class="logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fill="var(--white)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+        <path fill="none" stroke="var(--purple)" stroke-width="2" d="M9,12l2,2l4-4"/>
+      </svg>
       <h1>Nomewei</h1>
-      <!-- Menú -->
-      <nav>
-        <ul>
-          <li><a href="#hero">Inicio</a></li>
-          <li><a href="#planes">Planes</a></li>
-          <li><a href="#testimonios">Testimonios</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#footer">Contacto</a></li>
-        </ul>
-      </nav>
     </div>
   </header>
 
-  <!-- HERO TEXTO -->
+  <!-- HERO -->
   <section id="hero">
     <h2>Recupera el control de tu teléfono</h2>
     <p>Soluciones legales contra el acoso telefónico. Fácil, rápido y 100% online.</p>
@@ -330,9 +319,6 @@
         <p class="price">$9.990 CLP</p>
         <ul>
           <li>Hasta 5 empresas telefónicas</li>
-          <li>1 número de teléfono</li>
-          <li>Seguimiento 24/7</li>
-          <li>Respaldo legal y documentación</li>
         </ul>
         <button onclick="location.href='esencial.html'">Elegir Esencial</button>
       </div>
@@ -342,9 +328,6 @@
         <ul>
           <li>Hasta 5 empresas telefónicas</li>
           <li>Hasta 5 comercios</li>
-          <li>1 número de teléfono</li>
-          <li>Seguimiento 24/7</li>
-          <li>Respaldo legal y documentación</li>
         </ul>
         <button onclick="location.href='total.html'">Elegir Total</button>
       </div>
@@ -352,10 +335,9 @@
         <h4>Pack Familiar</h4>
         <p class="price">$19.990 CLP</p>
         <ul>
-          <li>Hasta 5 números de teléfono</li>
+          <li>Hasta 5 números</li>
           <li>Hasta 5 comercios</li>
-          <li>Seguimiento 24/7</li>
-          <li>Respaldo legal y documentación</li>
+          <li>Soporte familiar 24/7</li>
         </ul>
         <button onclick="location.href='familiar.html'">Elegir Familiar</button>
       </div>
@@ -393,11 +375,11 @@
     </details>
     <details>
       <summary>¿Cuánto tarda el proceso?</summary>
-      <p>La confirmación de la primera baja llega en 48 horas; el proceso completo puede tardar hasta 2 semanas.</p>
+      <p>La confirmación de la primera baja suele llegar en 48 horas; el proceso completo puede extenderse hasta 2 semanas.</p>
     </details>
     <details>
       <summary>¿Es seguro compartir mis datos?</summary>
-      <p>Operamos bajo la Ley 19.628 de Protección de Datos Personales; tus datos solo se usan para gestionar bajas y luego se eliminan.</p>
+      <p>Operamos bajo la Ley 19.628 de Protección de Datos Personales; tus datos se usan solo para gestionar bajas y luego se eliminan.</p>
     </details>
     <details>
       <summary>¿Qué pasa si una empresa no cumple?</summary>
@@ -410,7 +392,7 @@
   </section>
 
   <!-- FOOTER -->
-  <footer id="footer">
+  <footer>
     <div class="footer-grid">
       <div>
         <h4>Contáctanos</h4>
@@ -430,11 +412,12 @@
         </ul>
       </div>
       <div>
-        <h4>Servicios</h4>
+        <h4>Nuestros servicios</h4>
         <ul>
           <li>Defensa de Deudores</li>
           <li>Sal de DICOM</li>
           <li>Defensa Bancaria</li>
+          <li>Tercerías de Posesión</li>
           <li>Insolvencia</li>
         </ul>
       </div>
@@ -447,7 +430,7 @@
     </div>
   </footer>
 
-  <!-- WhatsApp floater -->
+  <!-- WhatsApp flotante -->
   <div class="whatsapp" onclick="window.open('https://wa.me/56982291257','_blank')">
     <svg viewBox="0 0 24 24">
       <path d="M20.52,3.48a11.78,11.78,0,0,0-16.68,0A11.65,11.65,0,0,0,2.1,17.37L.5,23.5l6.18-1.6A11.62,11.62,0,0,0,20.52,3.48ZM12,21.22a9.21,9.21,0,0,1-4.7-1.27l-.34-.2-3.67.95.98-3.56-.21-.37A9.27,9.27,0,1,1,12,21.22ZM17.08,14.7c-.3-.15-1.74-.86-2-.96s-.45-.15-.66.15-.76.96-.93,1.16-.34.23-.64.08a7.69,7.69,0,0,1-2.27-1.4,8.53,8.53,0,0,1-1.57-1.93c-.16-.27,0-.42.12-.57s.27-.34.4-.51a1.5,1.5,0,0,0,.23-.39.87.87,0,0,0-.08-.57c-.15-.3-.66-1.57-.91-2.15s-.46-.5-.64-.51H8.45a.68.68,0,0,0-.5.23,2,2,0,0,0-.64.51A2.39,2.39,0,0,0,7.28,9a5,5,0,0,0,1.16,1.6,7.27,7.27,0,0,0,1.23,1.28c.3.23.52.38.76.61s.45.28.68.42a1.18,1.18,0,0,1,.43.39c.15.3.12.51-.06.7s-.76.92-.84,1.17-.15.45,0,.6,1.16,1.77,2.82,2.93C15,16.17,17.51,15,17.08,14.7Z"/>
@@ -456,7 +439,7 @@
 
   <script>
     function scrollToPlanes() {
-      document.getElementById('planes').scrollIntoView({ behavior:'smooth' });
+      document.getElementById('planes').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 </body>
