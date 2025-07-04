@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Pack Familiar – Nomewei</title>
   <style>
-    /* Mismo CSS base */
+    /* … mismo CSS base que en esencial.html … */
     :root {
       --purple:     #5940C4;
       --coral:      #FF8A7A;
@@ -21,10 +21,11 @@
     header{background:linear-gradient(270deg,var(--purple),#7E6AF4,var(--purple));background-size:600% 600%;animation:bgAnim 20s ease infinite;padding:1rem 2rem;}
     @keyframes bgAnim{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     .container{max-width:1024px;margin:auto;display:flex;align-items:center;justify-content:space-between;}
-    .logo svg{width:40px;height:40px;fill:var(--white);}
-    header h1{color:var(--white);font-size:1.75rem;flex:1;text-align:center;}
-    nav ul{display:flex;gap:1.5rem;}nav a{color:var(--white);font-weight:600;}
-    #plan-hero{background:var(--white);padding:2rem 1rem;text-align:center;border-bottom:1px solid var(--gray);}
+    .branding{display:flex;align-items:center;gap:0.5rem;}
+    .branding svg{width:40px;height:40px;stroke:white;fill:none;stroke-width:2;}
+    .logo-text{color:var(--white);font-size:1.75rem;}
+    nav ul{display:flex;gap:1.5rem;list-style:none;}nav a{color:var(--white);font-weight:600;}
+    #plan-hero{background:var(--white);padding:2rem 1rem;text-align:center;border-bottom:1px solid var(--gray)}
     #plan-hero h2{color:var(--purple);font-size:2rem;margin-bottom:0.5rem;}#plan-hero p{font-size:1.1rem;}
     .content{max-width:600px;margin:2rem auto;background:var(--white);padding:2rem;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.1);}
     .content h3{color:var(--purple);margin-bottom:1rem;}
@@ -36,7 +37,6 @@
     input,textarea,select{width:100%;padding:0.8rem;border:1px solid #ccc;border-radius:5px;font-size:1rem;}
     button{background:var(--coral);color:var(--white);padding:1rem;border:none;border-radius:5px;font-size:1rem;cursor:pointer;transition:background 0.3s;}
     button:hover{background:#e36b65;}
-    .thanks{display:none;margin-top:1rem;padding:1rem;background:#e0e0e0;border-radius:5px;text-align:center;}
     footer{text-align:center;padding:1.5rem;font-size:0.9rem;color:#666;}
   </style>
 </head>
@@ -44,10 +44,13 @@
 
   <header>
     <div class="container">
-      <div class="logo">
-        <svg viewBox="0 0 24 24"><path d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/><path fill="none" stroke="white" stroke-width="2" d="M9,12l2,2l4-4"/></svg>
+      <div class="branding">
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+          <path d="M9,12l2,2l4-4"/>
+        </svg>
+        <span class="logo-text">Nomewei</span>
       </div>
-      <h1>Nomewei</h1>
       <nav>
         <ul>
           <li><a href="index.html">Inicio</a></li>
@@ -61,19 +64,23 @@
 
   <section id="plan-hero">
     <h2>Pack Familiar</h2>
-    <p>$19.990 CLP • Empresas ilimitadas y hasta 5 números</p>
+    <p>$24.990 CLP • Empresas ilimitadas y hasta 5 números</p>
   </section>
 
   <div class="content">
     <h3>Incluye:</h3>
     <ul>
       <li>Empresas ilimitadas</li>
-      <li>Gestión de hasta 5 números de teléfono</li>
+      <li>Gestión de hasta 5 números</li>
       <li>Seguimiento 24/7</li>
       <li>Respaldo legal y documentación</li>
     </ul>
 
-    <form action="https://formspree.io/f/xkgbeypo" method="POST" onsubmit="return handleSubmit(event)">
+    <form
+      action="https://formspree.io/f/xkgbeypo"
+      method="POST"
+      data-redirect="gracias.html"
+      onsubmit="return handleSubmit(event)">
       <input type="hidden" name="plan" value="Pack Familiar">
       <input type="hidden" name="empresas_max" value="unlimited">
 
@@ -81,7 +88,7 @@
       <input type="tel" id="telefono" name="telefono" placeholder="+569xxxxxxxx" required>
 
       <label for="numeros">Números adicionales (coma separados):</label>
-      <input type="text" id="numeros" name="numeros" placeholder="+569xxxx,+569yyyy">
+      <input type="text" id="numeros" name="numeros">
 
       <label for="nombre">Nombre completo:</label>
       <input type="text" id="nombre" name="nombre" required>
@@ -91,10 +98,6 @@
 
       <button type="submit">Pagar y Enviar</button>
     </form>
-
-    <div class="thanks" id="thanks-familiar">
-      <p>🎉 ¡Gracias! Tu solicitud de Pack Familiar fue recibida. Te contactamos pronto.</p>
-    </div>
   </div>
 
   <footer>
@@ -102,16 +105,12 @@
   </footer>
 
   <script>
-    function handleSubmit(e) {
+    function handleSubmit(e){
       e.preventDefault();
-      alert("Pago rechazado (modo prueba). La solicitud se envía igual.");
+      alert("Pago rechazado (modo prueba). Tu solicitud se envía igual.");
       e.target.submit();
-      // selecciona el div de gracias correspondiente
-      const thanks = document.querySelector('.thanks');
-      thanks.style.display = 'block';
       return false;
     }
   </script>
-
 </body>
 </html>
