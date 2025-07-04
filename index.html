@@ -1,109 +1,125 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Nomewei - Chao, Acoso Telefónico</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f6f6f6;
-        margin: 0;
-        padding: 0;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nomewei - Chao, Acoso Telefónico</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+      color: #333;
+    }
 
-      header {
-        background-color: #222;
-        color: white;
-        padding: 1em;
-        text-align: center;
-      }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
 
-      main {
-        max-width: 600px;
-        margin: 2em auto;
-        padding: 2em;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
 
-      h1 {
-        margin-top: 0;
-        color: #333;
-      }
+    header p {
+      font-size: 1.2em;
+    }
 
-      form {
-        display: flex;
-        flex-direction: column;
-      }
+    .btn-primary {
+      display: inline-block;
+      margin-top: 20px;
+      background: #e74c3c;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-      label {
-        margin-top: 1em;
-        font-weight: bold;
-      }
+    section#formulario {
+      background: white;
+      padding: 50px 20px;
+      max-width: 600px;
+      margin: auto;
+    }
 
-      input, textarea {
-        padding: 0.8em;
-        margin-top: 0.5em;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
 
-      button {
-        margin-top: 1.5em;
-        padding: 1em;
-        background-color: #0077cc;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1em;
-      }
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+    }
 
-      button:hover {
-        background-color: #005fa3;
-      }
+    input, textarea {
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1em;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
 
-      .footer {
-        text-align: center;
-        font-size: 0.9em;
-        color: #777;
-        margin-top: 2em;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Nomewei</h1>
-      <p>Chao, Acoso Telefónico 🚫📞</p>
-    </header>
+    button {
+      margin-top: 20px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-    <main>
-      <h2>Recupera tu tranquilidad en 3 simples pasos</h2>
-      <p>Completa este formulario y nosotros nos encargamos de redactar y enviar la solicitud legal para que las compañías dejen de llamarte.</p>
+    button:hover {
+      background-color: #219150;
+    }
 
-      <form name="contact" method="POST" data-netlify="true">
-        <input type="hidden" name="form-name" value="contact" />
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
 
-        <label for="nombre">Nombre completo</label>
-        <input type="text" id="nombre" name="nombre" required />
+<body>
 
-        <label for="telefono">Teléfono afectado</label>
-        <input type="text" id="telefono" name="telefono" required />
+  <header>
+    <h1>Dile Chao al Acoso Telefónico</h1>
+    <p>Recupera tu tranquilidad. Te ayudamos a salir de bases de datos que no respetan tu decisión.</p>
+    <a href="#formulario" class="btn-primary">Completar formulario</a>
+  </header>
 
-        <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" required />
+  <section id="formulario">
+    <h2>Solicita tu baja</h2>
+    <p>Completa este formulario y nosotros nos encargamos del resto. Recibirás un correo de confirmación.</p>
 
-        <label for="mensaje">¿Qué compañía te contacta?</label>
-        <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+    <form action="https://formspree.io/f/xkgbeypo" method="POST">
+      <label for="nombre">Tu nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
 
-        <button type="submit">Enviar solicitud</button>
-      </form>
+      <label for="email">Tu correo electrónico:</label>
+      <input type="email" id="email" name="email" required>
 
-      <div class="footer">
-        <p>Protegemos tu derecho a la privacidad bajo la ley del consumidor chilena.</p>
-      </div>
-    </main>
-  </body>
+      <label for="telefono">Teléfono que quieres eliminar:</label>
+      <input type="text" id="telefono" name="telefono" required>
+
+      <label for="mensaje">Comentarios (opcional):</label>
+      <textarea id="mensaje" name="mensaje" rows="4"></textarea>
+
+      <button type="submit">Enviar solicitud</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Nomewei. Todos los derechos reservados.
+  </footer>
+
+</body>
 </html>
