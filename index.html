@@ -1,169 +1,251 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nomewei - Chao Acoso Telefónico</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Nomewei – Chao Acoso Telefónico</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: white;
-      color: #333;
+    :root {
+      --purple: #6C5CE7;
+      --coral: #FF7675;
+      --white: #FFFFFF;
+      --light-gray: #f9f9f9;
+      --dark-gray: #333333;
+      --font: 'Segoe UI', sans-serif;
     }
-    header {
-      background: linear-gradient(120deg, #6C5CE7, #a29bfe);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{ font-family:var(--font); background:var(--light-gray); color:var(--dark-gray); }
+
+    /* ---- HEADER ---- */
+    header{
+      background:var(--purple);
+      color:var(--white);
+      padding:1rem;
     }
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+    header .container{
+      max-width:1024px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:0.75rem;
     }
-    header p {
-      font-size: 1.2rem;
+    header .logo{ width:40px; height:40px; }
+    header h1{ font-size:1.75rem; }
+
+    /* ---- HERO ---- */
+    #hero{
+      background:linear-gradient(120deg, #6C5CE7, #a29bfe);
+      color:var(--white);
+      text-align:center;
+      padding:4rem 1rem;
+    }
+    #hero h2{ font-size:2.5rem; margin-bottom:1rem; }
+    #hero p{ font-size:1.2rem; margin-bottom:2rem; }
+    #hero .btn{
+      background:var(--coral);
+      color:var(--white);
+      padding:0.75rem 1.5rem;
+      border:none;
+      border-radius:5px;
+      font-size:1.1rem;
+      cursor:pointer;
+      transition:background 0.3s;
+    }
+    #hero .btn:hover{ background:#e25566; }
+
+    /* ---- PLANES ---- */
+    #planes{
+      padding:3rem 1rem;
+    }
+    #planes h3{
+      text-align:center;
+      font-size:2rem;
+      margin-bottom:2rem;
+      color:var(--purple);
+    }
+    .plans-wrapper{
+      max-width:1024px;
+      margin:0 auto;
+      background:var(--white);
+      border-radius:10px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+      display:flex;
+      gap:2rem;
+      flex-wrap:wrap;
+      justify-content:center;
+      padding:2rem;
+    }
+    .plan-card{
+      flex:1 1 280px;
+      background:var(--white);
+      border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.05);
+      padding:1.5rem;
+      display:flex;
+      flex-direction:column;
+      text-align:center;
+      transition:transform 0.3s;
+    }
+    .plan-card:hover{ transform:scale(1.03); }
+    .plan-card h4{ color:var(--purple); margin-bottom:0.5rem; }
+    .plan-card .price{
+      font-size:1.8rem;
+      font-weight:bold;
+      color:var(--coral);
+      margin:0.5rem 0 1rem;
+    }
+    .plan-card ul{
+      list-style:none;
+      margin-bottom:1.5rem;
+      text-align:left;
+    }
+    .plan-card ul li{
+      margin:0.5rem 0;
+      position:relative;
+      padding-left:1.5rem;
+    }
+    .plan-card ul li::before{
+      content:'✔';
+      position:absolute;
+      left:0;
+      color:var(--purple);
+    }
+    .plan-card button{
+      margin-top:auto;
+      background:var(--purple);
+      color:var(--white);
+      border:none;
+      padding:0.75rem 1.25rem;
+      border-radius:5px;
+      cursor:pointer;
+      font-size:1rem;
+      transition:background 0.3s;
+    }
+    .plan-card button:hover{ background:#5940c4; }
+
+    /* ---- TESTIMONIOS ---- */
+    #testimonios{
+      padding:3rem 1rem;
+      text-align:center;
+    }
+    #testimonios h3{
+      font-size:2rem;
+      margin-bottom:1.5rem;
+      color:var(--purple);
+    }
+    .testimonials{
+      max-width:1024px;
+      margin:0 auto;
+      display:flex;
+      gap:1rem;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .testimonial-card{
+      background:var(--white);
+      border-radius:8px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.05);
+      padding:1.5rem;
+      width:260px;
+      text-align:left;
+    }
+    .testimonial-card .stars{
+      color:#FFD700;
+      margin-bottom:0.5rem;
+    }
+    .testimonial-card p{ margin-bottom:0.75rem; }
+    .testimonial-card footer{
+      font-weight:bold;
+      color:var(--dark-gray);
+      text-align:right;
     }
 
-    section#planes {
-      padding: 2rem 1rem;
-      text-align: center;
-      background: #f9f9f9;
-    }
-    .plan {
-      display: inline-block;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin: 1rem;
-      padding: 2rem;
-      max-width: 300px;
-      transition: transform 0.3s ease;
-    }
-    .plan:hover {
-      transform: scale(1.03);
-    }
-    .plan h2 {
-      color: #6C5CE7;
-    }
-    .plan .price {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #FF7675;
-      margin: 1rem 0;
-    }
-    .plan button {
-      background: #6C5CE7;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    form {
-      max-width: 600px;
-      margin: 3rem auto;
-      background: white;
-      padding: 2rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
-    }
-    form h3 {
-      margin-top: 0;
-      color: #6C5CE7;
-    }
-    label {
-      display: block;
-      margin: 1rem 0 0.5rem;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button[type="submit"] {
-      background: #FF7675;
-      color: white;
-      margin-top: 1rem;
-      padding: 1rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    .thanks {
-      background: #dfe6e9;
-      padding: 1rem;
-      text-align: center;
-      display: none;
+    /* ---- FOOTER ---- */
+    footer{
+      background:var(--light-gray);
+      color:var(--dark-gray);
+      text-align:center;
+      padding:2rem 1rem;
+      font-size:0.9rem;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Chao, Acoso Telefónico</h1>
-  <p>Recupera tu tranquilidad. En Nomewei nos encargamos de eliminarte de las listas de spam con respaldo legal.</p>
-</header>
+  <header>
+    <div class="container">
+      <!-- Logo SVG -->
+      <svg class="logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#6C5CE7" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+        <path fill="none" stroke="#FFFFFF" stroke-width="2" d="M9,12l2,2l4-4"/>
+      </svg>
+      <h1>Nomewei</h1>
+    </div>
+  </header>
 
-<section id="planes">
-  <h2>Elige tu plan</h2>
-  <div class="plan">
-    <h2>Pack Esencial</h2>
-    <p class="price">$9.990 CLP</p>
-    <p>Hasta 5 empresas</p>
-    <button onclick="selectPlan('Esencial')">Seleccionar</button>
-  </div>
-  <div class="plan">
-    <h2>Pack Total</h2>
-    <p class="price">$15.990 CLP</p>
-    <p>Empresas ilimitadas</p>
-    <button onclick="selectPlan('Total')">Seleccionar</button>
-  </div>
-</section>
+  <section id="hero">
+    <h2>Recupera el control de tu teléfono</h2>
+    <p>Soluciones legales contra el acoso telefónico. Fácil, rápido y 100% online.</p>
+    <button class="btn" onclick="scrollToPlanes()">Ver planes</button>
+  </section>
 
-<form action="https://formspree.io/f/xkgbeypo" method="POST" onsubmit="return fakePayment(event)">
-  <h3>Completa tus datos</h3>
-  <input type="hidden" name="plan" id="planSelected" value="">
-  <label for="name">Nombre completo:</label>
-  <input type="text" id="name" name="name" required>
+  <section id="planes">
+    <h3>Elige tu plan</h3>
+    <div class="plans-wrapper">
+      <div class="plan-card">
+        <h4>Pack Esencial</h4>
+        <p class="price">$9.990 CLP</p>
+        <ul>
+          <li>Hasta 5 empresas</li>
+          <li>Informe cada 48h</li>
+          <li>Soporte por email</li>
+        </ul>
+        <button onclick="location.href='esencial.html'">Elegir Pack Esencial</button>
+      </div>
+      <div class="plan-card">
+        <h4>Pack Total</h4>
+        <p class="price">$15.990 CLP</p>
+        <ul>
+          <li>Empresas ilimitadas</li>
+          <li>Soporte 24/7</li>
+          <li>Asistencia personalizada</li>
+        </ul>
+        <button onclick="location.href='total.html'">Elegir Pack Total</button>
+      </div>
+    </div>
+  </section>
 
-  <label for="email">Correo electrónico:</label>
-  <input type="email" id="email" name="email" required>
+  <section id="testimonios">
+    <h3>Qué dicen nuestros clientes</h3>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Dejó de sonar mi celular en 2 días. Súper recomendado."</p>
+        <footer>- Camila, Providencia</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Servicio impecable. Me siento libre de spam."</p>
+        <footer>- José, Ñuñoa</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Rápido, simple y efectivo."</p>
+        <footer>- Fernanda, Santiago Centro</footer>
+      </div>
+    </div>
+  </section>
 
-  <label for="empresas">Nombres de empresas que te han llamado (separadas por coma):</label>
-  <textarea name="empresas" id="empresas" rows="4" required></textarea>
+  <footer>
+    &copy; 2025 Nomewei. Todos los derechos reservados.
+  </footer>
 
-  <label for="payment">Método de pago:</label>
-  <select name="payment" id="payment" required>
-    <option value="">Selecciona una opción</option>
-    <option value="mercadopago">MercadoPago</option>
-  </select>
-
-  <button type="submit">Pagar y enviar solicitud</button>
-</form>
-
-<div class="thanks" id="thanks">
-  <h3>¡Gracias por tu confianza!</h3>
-  <p>Tu solicitud ha sido enviada con éxito. Nuestros expertos están revisando tu caso y te contactarán en menos de 24 horas.</p>
-</div>
-
-<script>
-  function selectPlan(planName) {
-    document.getElementById("planSelected").value = planName;
-    window.scrollTo({ top: document.querySelector("form").offsetTop, behavior: 'smooth' });
-  }
-
-  function fakePayment(event) {
-    event.preventDefault();
-    alert("Error al procesar el pago con MercadoPago. Modo prueba activado.");
-    event.target.submit();
-    document.getElementById("thanks").style.display = "block";
-    event.target.style.display = "none";
-    return false;
-  }
-</script>
+  <script>
+    function scrollToPlanes(){
+      document.getElementById('planes').scrollIntoView({ behavior:'smooth' });
+    }
+  </script>
 
 </body>
 </html>
