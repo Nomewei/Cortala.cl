@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Carrito de Pago – Nomewei</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Carrito & Pago – Nomewei</title>
   <style>
     :root {
       --purple:     #5940C4;
@@ -14,57 +14,85 @@
       --dark-gray:  #333333;
       --font:       'Segoe UI', sans-serif;
     }
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
     body {
       font-family: var(--font);
       background: var(--light-gray);
       color: var(--dark-gray);
       line-height:1.5;
     }
-    a { text-decoration:none; color:inherit; }
     .container {
-      max-width: 600px;
-      margin: 2rem auto;
-      background: var(--white);
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width:600px;
+      margin:2rem auto;
+      background:var(--white);
+      padding:1.5rem;
+      border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
     }
-    h1 { text-align: center; color: var(--purple); margin-bottom: 1rem; }
+    h1 { text-align:center; color:var(--purple); margin-bottom:1rem; }
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1.5rem;
+      width:100%;
+      border-collapse:collapse;
+      margin-bottom:1.5rem;
     }
     th, td {
-      padding: 0.75rem;
-      border-bottom: 1px solid var(--gray);
-      text-align: left;
+      padding:0.75rem;
+      border-bottom:1px solid var(--gray);
+      text-align:left;
     }
-    th { background: var(--light-gray); }
+    th { background:var(--light-gray); }
     .total-row td {
-      font-weight: bold;
-      font-size: 1.1rem;
+      font-weight:bold;
+      font-size:1.1rem;
     }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 0.75rem;
-      background: var(--coral);
-      color: var(--white);
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.3s ease;
+    /* === PAYMENT SECTION === */
+    .payment {
+      margin-top:2rem;
+      padding:1.5rem;
+      background:#fafafa;
+      border:1px solid var(--gray);
+      border-radius:8px;
     }
-    .btn:hover { background: #e36b65; }
+    .payment legend {
+      font-weight:bold;
+      color:var(--purple);
+      margin-bottom:1rem;
+    }
+    .payment input {
+      width:100%;
+      padding:0.75rem;
+      margin-bottom:1rem;
+      border:1px solid #ccc;
+      border-radius:5px;
+      font-size:1rem;
+    }
+    .payment .two-cols {
+      display:flex;
+      gap:1rem;
+    }
+    .payment .two-cols>div {
+      flex:1;
+    }
+    #pay-button {
+      width:100%;
+      background:var(--coral);
+      color:var(--white);
+      padding:0.75rem;
+      border:none;
+      border-radius:5px;
+      font-size:1.1rem;
+      cursor:pointer;
+      transition:background 0.3s ease;
+    }
+    #pay-button:hover { background:#e36b65; }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>Tu Carrito</h1>
+
+    <!-- 1) Tabla de carrito -->
     <table>
       <thead>
         <tr>
@@ -88,24 +116,47 @@
         </tr>
       </tfoot>
     </table>
-    <button class="btn" id="checkout-btn">Continuar al pago</button>
+
+    <!-- 2) SECCIÓN DE PAGO: campos mostrados al entrar -->
+    <fieldset class="payment">
+      <legend>Información de Pago</legend>
+      <label for="card-name">Nombre en la tarjeta:</label>
+      <input type="text" id="card-name" placeholder="NOMBRE APELLIDO" required>
+
+      <label for="card-number">Número de tarjeta:</label>
+      <input type="text" id="card-number" placeholder="•••• •••• •••• ••••" maxlength="19" required>
+
+      <div class="two-cols">
+        <div>
+          <label for="card-expiry">Vencimiento (MM/AA):</label>
+          <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
+        </div>
+        <div>
+          <label for="card-cvv">CVV:</label>
+          <input type="text" id="card-cvv" placeholder="•••" maxlength="4" required>
+        </div>
+      </div>
+
+      <button id="pay-button" type="button">
+        Pagar y Enviar
+      </button>
+    </fieldset>
+
   </div>
 
   <script>
-    // 1) Leer parámetros
+    // 1) Cargo plan y precio desde la URL
     const params = new URLSearchParams(location.search);
-    const plan  = params.get('plan')  || 'Pack Esencial';
-    const price = params.get('price') || '9990';
+    const plan  = params.get('plan')  || 'Pack Total';
+    const price = params.get('price') || '15990';
 
-    // 2) Rellenar la tabla
-    document.getElementById('item-name').textContent = plan;
+    document.getElementById('item-name').textContent  = plan;
     document.getElementById('item-price').textContent = `$${price} CLP`;
     document.getElementById('total-price').textContent = `$${price} CLP`;
 
-    // 3) Botón de checkout (por ahora placeholder)
-    document.getElementById('checkout-btn').addEventListener('click', () => {
-      // luego aquí redirigiremos a MercadoPago
-      alert('Aquí iría a la pasarela de pago segura.');
+    // 2) Botón de pago simulado
+    document.getElementById('pay-button').addEventListener('click', function(){
+      alert(`Aquí se abriría el modal de pago para ${plan} a $${price} CLP.`);
     });
   </script>
 </body>
