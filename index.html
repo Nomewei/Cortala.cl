@@ -32,7 +32,7 @@
     }
     @keyframes bgAnim {
       0%   { background-position: 0% 50%; }
-      50%  { background-position:100% 50%; }
+      50%  { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
     header .container {
@@ -331,7 +331,6 @@
     }
     .footer-grid a {
       text-decoration: none;
-      color: var(--dark-gray);
     }
     .footer-grid a:hover {
       text-decoration: underline;
@@ -422,33 +421,139 @@
   <section id="planes">
     <h3>Elige tu plan</h3>
     <div class="plans-wrapper">
-      <!-- ... -->
+      <div class="plan-card">
+        <h4>Pack Esencial</h4>
+        <p class="price">$9.990 CLP</p>
+        <ul>
+          <li>Hasta 5 empresas telefónicas</li>
+          <li>Gestión de 1 número</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='esencial.html'">Elegir Esencial</button>
+      </div>
+      <div class="plan-card recommended">
+        <h4>Pack Total</h4>
+        <p class="price">$15.990 CLP</p>
+        <ul>
+          <li>Hasta 10 empresas (telco + comercios)</li>
+          <li>Gestión de 2 números</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='total.html'">Elegir Total</button>
+      </div>
+      <div class="plan-card">
+        <h4>Pack Familiar</h4>
+        <p class="price">$24.990 CLP</p>
+        <ul>
+          <li>Empresas ilimitadas</li>
+          <li>Gestión de hasta 5 números</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='familiar.html'">Elegir Familiar</button>
+      </div>
     </div>
   </section>
 
   <!-- TESTIMONIOS -->
   <section id="testimonios">
-    <!-- ... -->
+    <h3>Qué dicen nuestros clientes</h3>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Dejó de sonar mi celular en 2 días. Súper recomendado."</p>
+        <footer>- Camila (Providencia)</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Servicio impecable. Me siento libre de spam."</p>
+        <footer>- José (Ñuñoa)</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Rápido, simple y efectivo. Excelente respaldo."</p>
+        <footer>- Fernanda (Santiago Centro)</footer>
+      </div>
+    </div>
   </section>
 
   <!-- FAQ -->
   <section id="faq">
-    <!-- ... -->
+    <h3>Preguntas frecuentes</h3>
+    <details>
+      <summary>¿Qué es Nomewei y bajo qué ley opero?</summary>
+      <p>Somos un servicio legaltech que, amparado en la Ley N°19.628 de Protección de Datos Personal...</p>
+    </details>
+    <details>
+      <summary>¿Cuánto tiempo tienen las empresas para responder?</summary>
+      <p>Según la Ley N°19.628, las compañías tienen un plazo máximo de <strong>10 días hábiles</strong> para confirmar la baja...</p>
+    </details>
+    <details>
+      <summary>¿Cómo se usa mi información?</summary>
+      <p>Solo utilizamos tus datos para gestionar bajas y documentar la solicitud. Tras el cierre del caso los borramos...</p>
+    </details>
+    <details>
+      <summary>¿Qué hago si incumplen mi solicitud?</summary>
+      <p>Si no acatan tu baja, Nomewei se compromete a elevar tu caso ante SERNAC y, de persistir, iniciar acciones judiciales...</p>
+    </details>
+    <details>
+      <summary>¿Puedo cambiar de plan o pedir reembolso?</summary>
+      <p>Sí. Tienes hasta <strong>5 días</strong> para solicitar cambio de plan o devolución completa (menos coste de gestión)...</p>
+    </details>
   </section>
 
   <!-- FOOTER -->
   <footer id="footer">
-    <!-- ... -->
+    <div class="footer-grid">
+      <div>
+        <h4>Contáctanos</h4>
+        <ul>
+          <li>Teléfono: <a href="tel:+5691122334455">+56 9 1122 3344 55</a></li>
+          <li>Email: <a href="mailto:info@nomewei.cl">info@nomewei.cl</a></li>
+          <li>Web: <a href="https://www.nomewei.cl" target="_blank">www.nomewei.cl</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li>Asesoría Legal Telefónica</li>
+          <li>Reclamos ante SERNAC</li>
+          <li>Documentación Legal Personalizada</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Asociados</h4>
+        <ul>
+          <li>Lex &amp; Phone Abogados</li>
+          <li>DataSafe S.A.</li>
+          <li>ProtecData Ltda.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#steps">Pasos</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#footer">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
   </footer>
 
-  <!-- WHATSAPP -->
+  <!-- WHATSAPP FLOATER -->
   <div class="whatsapp" onclick="window.open('https://wa.me/5691122334455','_blank')">
-    <!-- ... -->
+    <svg viewBox="0 0 24 24">
+      <path d="M20.52,3.48a11.78,11.78,0,0,0-16.68,0A11.65,11.65,0,0,0,2.1,17.37L.5,23.5l6.18-1.6A11.62,11.62,0,0,0,20.52,3.48ZM12,21.22a9.21,9.21,0,0,1-4.7-1.27l-.34-.2-3.67.95.98-3.56-.21-.37A9.27,9.27,0,1,1,12,21.22ZM17.08,14.7c-.3..."/></svg>
   </div>
 
   <script>
     function scrollToPlanes(){
-      document.getElementById('planes').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('planes').scrollIntoView({ behavior:'smooth' });
     }
   </script>
 </body>
