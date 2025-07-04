@@ -43,7 +43,6 @@
     .branding svg {
       width: 48px;
       height: 48px;
-      fill: var(--blanco);
     }
     .branding h1 {
       color: var(--blanco);
@@ -93,7 +92,7 @@
 
     /* SECCIÓN “3 PASOS” */
     #steps {
-      background: var(--blanco);
+      background: var(--gris-claro);
       padding: 3rem 1rem;
     }
     #steps h3 {
@@ -111,7 +110,7 @@
       margin: 0 auto;
     }
     .step-card {
-      background: var(--gris-claro);
+      background: var(--blanco);
       border-radius: 8px;
       padding: 1.5rem;
       flex: 1 1 280px;
@@ -160,13 +159,11 @@
       gap: 2rem;
       flex-wrap: wrap;
       justify-content: center;
-      border: 1px solid var(--gris);
-      border-radius: 10px;
-      padding: 2rem;
     }
     .plan-card {
       flex: 1 1 280px;
       background: var(--gris-claro);
+      border: 1px solid var(--gris);
       border-radius: 8px;
       padding: 1.5rem;
       display: flex;
@@ -174,3 +171,393 @@
       transition: transform 0.3s ease;
     }
     .plan-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .plan-card.recommended {
+      background: #FFF5E5;
+      border: 2px solid var(--naranja);
+    }
+    .plan-card.recommended h4::after {
+      content: " – MÁS RECOMENDADO";
+      color: var(--naranja);
+      font-size: 0.85rem;
+      font-weight: normal;
+    }
+    .plan-card h4 {
+      color: var(--marino);
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .plan-card .price {
+      color: var(--texto-oscuro);
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 0.5rem 0 1rem;
+    }
+    .plan-card ul {
+      list-style: none;
+      flex-grow: 1;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .plan-card ul li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
+    }
+    .plan-card ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: var(--marino);
+    }
+    .plan-card button {
+      background: var(--marino);
+      color: var(--blanco);
+      border: none;
+      padding: 0.75rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      margin-top: auto;
+    }
+    .plan-card button:hover {
+      background: #001f4d;
+    }
+    .plan-card.recommended button {
+        background: var(--naranja);
+    }
+    .plan-card.recommended button:hover {
+        background: #E69500;
+    }
+
+
+    /* TESTIMONIOS */
+    #testimonios {
+      background: var(--gris-claro);
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    #testimonios h3 {
+      color: var(--marino);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .testimonials {
+      max-width: 1024px;
+      margin: auto;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .testimonial-card {
+      background: var(--blanco);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      width: 280px;
+      text-align: left;
+    }
+    .testimonial-card .stars {
+      color: var(--naranja);
+      margin-bottom: 0.5rem;
+    }
+    .testimonial-card p {
+      font-style: italic;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .testimonial-card footer {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #555;
+      text-align: left;
+      margin-top: 0.5rem;
+    }
+
+    /* FAQ */
+    #faq {
+      background: var(--blanco);
+      padding: 3rem 1rem;
+    }
+    #faq h3 {
+      text-align: center;
+      color: var(--marino);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    #faq details {
+      max-width: 800px;
+      margin: 0.5rem auto;
+      background: var(--gris-claro);
+      padding: 1rem;
+      border-radius: 5px;
+      border: 1px solid var(--gris);
+    }
+    #faq summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #faq summary:hover {
+      color: var(--marino);
+    }
+    #faq details p {
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--marino);
+      color: var(--gris-claro);
+      padding: 3rem 1rem;
+    }
+    .footer-grid {
+      max-width: 1024px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 2rem;
+    }
+    .footer-grid h4 {
+      color: var(--blanco);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .footer-grid ul {
+      list-style: none;
+    }
+    .footer-grid li {
+      margin: 0.5rem 0;
+    }
+    .footer-grid a {
+      color: var(--gris);
+      text-decoration: none;
+    }
+      .footer-grid a:hover {
+      color: var(--blanco);
+      text-decoration: underline;
+    }
+
+    /* WHATSAPP FLOATER */
+    .whatsapp {
+      position: fixed !important;
+      bottom: 1.5rem !important;
+      right: 1.5rem !important;
+      background: #25D366 !important;
+      width: 56px !important;
+      height: 56px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+      cursor: pointer !important;
+      z-index: 10000 !important;
+      transition: transform 0.2s ease;
+    }
+    .whatsapp:hover {
+        transform: scale(1.1);
+    }
+    .whatsapp svg {
+      width: 28px !important;
+      height: 28px !important;
+      fill: white !important;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="branding">
+        <svg viewBox="0 0 24 24">
+          <path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+          <circle cx="12" cy="12" r="4" fill="var(--blanco)"/>
+          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/>
+        </svg>
+        <h1>Nomewei</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#steps">Pasos</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#footer">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero">
+    <h2>Recupera el control de tu teléfono</h2>
+    <p>Soluciones legales contra el acoso telefónico. Fácil, rápido y 100% online.</p>
+    <button class="btn" onclick="scrollToPlanes()">Ver planes</button>
+  </section>
+
+  <section id="steps">
+    <h3>3 pasos para liberarte del acoso</h3>
+    <div class="steps-container">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Elige y paga tu plan</h4>
+          <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Recibe tu confirmación</h4>
+          <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Olvídate del acoso</h4>
+          <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="planes">
+    <h3>Elige tu plan</h3>
+    <div class="plans-wrapper">
+      <div class="plan-card">
+        <h4>Pack Esencial</h4>
+        <p class="price">$9.990 CLP</p>
+        <ul>
+          <li>Hasta 5 empresas telefónicas</li>
+          <li>Gestión de 1 número</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='checkout.html?plan=esencial'">Elegir Esencial</button>
+      </div>
+      <div class="plan-card recommended">
+        <h4>Pack Total</h4>
+        <p class="price">$15.990 CLP</p>
+        <ul>
+          <li>Hasta 10 empresas (telco + comercios)</li>
+          <li>Gestión de 2 números</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='checkout.html?plan=total'">Elegir Total</button>
+      </div>
+      <div class="plan-card">
+        <h4>Pack Familiar</h4>
+        <p class="price">$24.990 CLP</p>
+        <ul>
+          <li>Empresas ilimitadas</li>
+          <li>Gestión de hasta 5 números</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='checkout.html?plan=familiar'">Elegir Familiar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonios">
+    <h3>Qué dicen nuestros clientes</h3>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Dejó de sonar mi celular en 2 días. Súper recomendado."</p>
+        <footer>- Camila (Providencia)</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Servicio impecable. Me siento libre de spam."</p>
+        <footer>- José (Ñuñoa)</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Rápido, simple y efectivo. Excelente respaldo."</p>
+        <footer>- Fernanda (Santiago Centro)</footer>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h3>Preguntas frecuentes</h3>
+    <details>
+      <summary>¿Qué es Nomewei y bajo qué ley opero?</summary>
+      <p>Somos un servicio legaltech que, amparado en la Ley N°19.628 de Protección de Datos Personales, te ayuda a ejercer tu derecho de oposición al tratamiento de datos con fines de marketing.</p>
+    </details>
+    <details>
+      <summary>¿Cuánto tiempo tienen las empresas para responder?</summary>
+      <p>Según la Ley N°19.628, las compañías tienen un plazo máximo de <strong>10 días hábiles</strong> para confirmar la baja de sus registros de marketing.</p>
+    </details>
+    <details>
+      <summary>¿Cómo se usa mi información?</summary>
+      <p>Solo utilizamos tus datos para generar y enviar las solicitudes legales a las empresas que nos indiques. No vendemos ni compartimos tu información con nadie más.</p>
+    </details>
+    <details>
+      <summary>¿Qué hago si incumplen mi solicitud?</summary>
+      <p>Si una empresa no acata tu baja en el plazo legal, nuestro servicio incluye la preparación de la evidencia para que puedas presentar un reclamo formal ante el SERNAC de manera simple y rápida.</p>
+    </details>
+    <details>
+      <summary>¿Es esto legal?</summary>
+      <p>Sí, 100% legal. Estás ejerciendo un derecho explícito garantizado por la legislación chilena (Ley 19.628).</p>
+    </details>
+  </section>
+
+  <footer id="footer">
+    <div class="footer-grid">
+      <div>
+        <h4>Contáctanos</h4>
+        <ul>
+          <li>Teléfono: <a href="tel:+5691122334455">+56 9 1122 3344</a></li>
+          <li>Email: <a href="mailto:info@nomewei.cl">info@nomewei.cl</a></li>
+          <li>Web: <a href="https://www.nomewei.cl" target="_blank">www.nomewei.cl</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li>Gestión de Baja de Datos</li>
+          <li>Reclamos ante SERNAC</li>
+          <li>Asesoría Legal Telefónica</li>
+        </ul>
+      </div>
+       <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Términos y Condiciones</a></li>
+          <li><a href="#">Política de Privacidad</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#steps">Pasos</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="whatsapp" onclick="window.open('https://wa.me/5691122334455','_blank')">
+  <svg viewBox="0 0 24 24">
+    <path fill="white" d="M16.75,13.96C17.08,14.1,17.2,14.5,17.14,14.88C17.08,15.26,16.79,15.5,16.4,15.5C16.3,15.5,16.2,15.5,16.11,15.47C15.17,15.24,13.8,14.71,12.71,13.62C11.55,12.45,10.82,11.03,10.59,10.09C10.56,9.9,10.56,9.8,10.56,9.7C10.56,9.31,10.82,9,11.2,8.94C11.58,8.88,11.96,9,12.1,9.33L12.9,11.11C13.04,11.44,12.95,11.83,12.67,12.05L12.08,12.64C12,12.66,11.97,12.69,11.97,12.73C12,12.76,12.04,12.83,12.12,12.91C12.49,13.28,13.08,13.87,13.88,14.24C13.96,14.28,14.03,14.31,14.06,14.31C14.1,14.31,14.13,14.3,14.15,14.27L14.74,13.68C14.96,13.4,15.35,13.32,15.68,13.46L17.46,14.24M12,2A10,10,0,0,1,22,12A10,10,0,0,1,12,22C10.83,22,9.7,21.75,8.67,21.29L3.41,22.59L4.72,17.33C4.25,16.3,4,15.17,4,14A10,10,0,0,1,14,4A9.9,9.9,0,0,1,12,2M12,4A8,8,0,0,0,4,12C4,13.07,4.21,14.1,4.6,15L3.11,19.89L7.95,18.41C8.87,18.79,9.9,19,11,19A8,8,0,0,0,19,11A8,8,0,0,0,12,4Z" />
+   </svg>
+</div>
+  
+  <script>
+    function scrollToPlanes(){
+      document.getElementById('planes').scrollIntoView({ behavior:'smooth' });
+    }
+  </script>
+</body>
+</html>
