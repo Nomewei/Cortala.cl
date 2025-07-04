@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrito de Pago – Nomewei</title>
+  <style>
+    :root {
+      --purple:     #5940C4;
+      --coral:      #FF8A7A;
+      --white:      #FFFFFF;
+      --light-gray: #F7F7F7;
+      --gray:       #E1E1E1;
+      --dark-gray:  #333333;
+      --font:       'Segoe UI', sans-serif;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: var(--font);
+      background: var(--light-gray);
+      color: var(--dark-gray);
+      line-height:1.5;
+    }
+    a { text-decoration:none; color:inherit; }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; color: var(--purple); margin-bottom: 1rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray);
+      text-align: left;
+    }
+    th { background: var(--light-gray); }
+    .total-row td {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--coral);
+      color: var(--white);
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: #e36b65; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tu Carrito</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="item-name">–</td>
+          <td>1</td>
+          <td id="item-price">–</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td>Total</td>
+          <td></td>
+          <td id="total-price">–</td>
+        </tr>
+      </tfoot>
+    </table>
+    <button class="btn" id="checkout-btn">Continuar al pago</button>
+  </div>
+
+  <script>
+    // 1) Leer parámetros
+    const params = new URLSearchParams(location.search);
+    const plan  = params.get('plan')  || 'Pack Esencial';
+    const price = params.get('price') || '9990';
+
+    // 2) Rellenar la tabla
+    document.getElementById('item-name').textContent = plan;
+    document.getElementById('item-price').textContent = `$${price} CLP`;
+    document.getElementById('total-price').textContent = `$${price} CLP`;
+
+    // 3) Botón de checkout (por ahora placeholder)
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      // luego aquí redirigiremos a MercadoPago
+      alert('Aquí iría a la pasarela de pago segura.');
+    });
+  </script>
+</body>
+</html>
