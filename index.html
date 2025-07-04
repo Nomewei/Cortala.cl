@@ -8,70 +8,97 @@
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
-      background: #f5f5f5;
+      background: #f9f9f9;
       color: #333;
     }
 
     header {
       background: #2c3e50;
       color: white;
-      padding: 60px 20px;
+      padding: 80px 20px;
       text-align: center;
     }
 
     header h1 {
+      font-size: 3em;
       margin: 0;
-      font-size: 2.5em;
     }
 
     header p {
-      font-size: 1.2em;
+      font-size: 1.3em;
+      margin-top: 10px;
     }
 
     .btn-primary {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 30px;
       background: #e74c3c;
       color: white;
-      padding: 12px 25px;
+      padding: 14px 28px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
+      font-size: 1.1em;
     }
 
-    section#formulario {
-      background: white;
-      padding: 50px 20px;
-      max-width: 600px;
+    .section {
+      padding: 60px 20px;
+      max-width: 900px;
       margin: auto;
+    }
+
+    .section h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .beneficios {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: space-between;
+    }
+
+    .beneficio {
+      flex: 1 1 250px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .beneficio h3 {
+      color: #e74c3c;
+      margin-top: 0;
     }
 
     form {
       display: flex;
       flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
     }
 
     label {
-      margin-top: 15px;
       font-weight: bold;
     }
 
     input, textarea {
       padding: 10px;
-      margin-top: 5px;
       font-size: 1em;
-      border-radius: 4px;
+      border-radius: 5px;
       border: 1px solid #ccc;
     }
 
     button {
-      margin-top: 20px;
+      margin-top: 10px;
       background: #27ae60;
       color: white;
       border: none;
-      padding: 12px;
+      padding: 14px;
       font-size: 1em;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
@@ -81,7 +108,7 @@
 
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 30px;
       font-size: 0.9em;
       color: #777;
     }
@@ -91,14 +118,32 @@
 <body>
 
   <header>
-    <h1>Dile Chao al Acoso Telefónico</h1>
-    <p>Recupera tu tranquilidad. Te ayudamos a salir de bases de datos que no respetan tu decisión.</p>
-    <a href="#formulario" class="btn-primary">Completar formulario</a>
+    <h1>Chao, Acoso Telefónico</h1>
+    <p>Te ayudamos a salir de las bases de datos que no respetan tu decisión. Fácil, rápido y legal.</p>
+    <a href="#formulario" class="btn-primary">Quiero dejar de recibir llamadas</a>
   </header>
 
-  <section id="formulario">
-    <h2>Solicita tu baja</h2>
-    <p>Completa este formulario y nosotros nos encargamos del resto. Recibirás un correo de confirmación.</p>
+  <section class="section">
+    <h2>¿Por qué usar Nomewei?</h2>
+    <div class="beneficios">
+      <div class="beneficio">
+        <h3>✅ Legal y automático</h3>
+        <p>Redactamos y enviamos por ti solicitudes formales amparadas por la Ley 19.628.</p>
+      </div>
+      <div class="beneficio">
+        <h3>📵 Menos spam</h3>
+        <p>Recupera el control de tu número y dile adiós a las llamadas molestas de compañías que no respetan tus datos.</p>
+      </div>
+      <div class="beneficio">
+        <h3>⏱ En menos de 1 minuto</h3>
+        <p>Solo completa un formulario y nosotros nos encargamos del resto.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="formulario">
+    <h2>Solicita tu baja ahora</h2>
+    <p style="text-align:center;">Completa el formulario y te llegará un correo confirmando que estamos gestionando tu salida de las listas.</p>
 
     <form action="https://formspree.io/f/xkgbeypo" method="POST">
       <label for="nombre">Tu nombre:</label>
