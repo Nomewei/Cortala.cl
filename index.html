@@ -1,249 +1,219 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nomewei - Chao, Acoso Telefónico</title>
-    <style>
-        /* === CONFIGURACIÓN GENERAL Y FUENTES === */
-        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap');
-
-        :root {
-            --color-primario: #007bff; /* Un azul moderno y confiable */
-            --color-fondo: #f8f9fa;
-            --color-texto: #212529;
-            --color-blanco: #ffffff;
-            --radio-borde: 8px;
-        }
-
-        body {
-            font-family: 'Lexend', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--color-fondo);
-            color: var(--color-texto);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* === ESTILOS DE TEXTO === */
-        h1, h2, h3 {
-            font-weight: 700;
-            margin-top: 0;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            color: var(--color-texto);
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            color: var(--color-texto);
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        h3 {
-             font-size: 1.5rem;
-        }
-
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        
-        /* === SECCIÓN 1: EL GANCHO === */
-        .hero {
-            background-color: var(--color-blanco);
-            text-align: center;
-            padding: 100px 20px;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            max-width: 650px;
-            margin: 20px auto 0 auto;
-            color: #495057;
-        }
-
-        /* === SECCIÓN 2: CÓMO FUNCIONA === */
-        .como-funciona {
-            background-color: var(--color-fondo);
-        }
-        .pasos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
-        .paso {
-            background: var(--color-blanco);
-            padding: 30px;
-            border-radius: var(--radio-borde);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .paso-numero {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--color-primario);
-            margin-bottom: 10px;
-        }
-
-        /* === SECCIÓN 3: LA ACCIÓN (FORMULARIO) === */
-        .accion {
-             background-color: var(--color-blanco);
-        }
-        .accion-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-        
-        /* --- Testimonios --- */
-        .testimonios-columna blockquote {
-            margin: 0 0 30px 0;
-            padding: 20px;
-            background: #f1f3f5;
-            border-left: 5px solid var(--color-primario);
-            border-radius: var(--radio-borde);
-            font-style: italic;
-        }
-        .testimonios-columna footer {
-            font-weight: 600;
-            font-style: normal;
-            text-align: right;
-            color: #495057;
-        }
-
-        /* --- Formulario --- */
-        .formulario-columna form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .formulario-columna label {
-            font-weight: 600;
-            margin-bottom: -10px;
-        }
-        .formulario-columna input,
-        .formulario-columna select {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ced4da;
-            border-radius: var(--radio-borde);
-            font-size: 1rem;
-            font-family: 'Lexend', sans-serif;
-        }
-        .formulario-columna button {
-            background-color: var(--color-primario);
-            color: var(--color-blanco);
-            border: none;
-            padding: 18px;
-            border-radius: var(--radio-borde);
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .formulario-columna button:hover {
-            background-color: #0056b3;
-        }
-        
-        /* Adaptación para móviles */
-        @media (max-width: 900px) {
-            .accion-grid {
-                grid-template-columns: 1fr;
-            }
-            h1 { font-size: 2.8rem; }
-            h2 { font-size: 2rem; }
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nomewei - Chao, Acoso Telefónico</title>
+  <style>
+    /* === CONFIGURACIÓN GENERAL Y FUENTES === */
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap');
+    :root {
+      --color-primario: #007bff;
+      --color-fondo: #f8f9fa;
+      --color-texto: #212529;
+      --color-blanco: #ffffff;
+      --radio-borde: 8px;
+    }
+    body {
+      font-family: 'Lexend', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--color-fondo);
+      color: var(--color-texto);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h1, h2, h3 {
+      font-weight: 700;
+      margin-top: 0;
+    }
+    h1 {
+      font-size: 3.5rem;
+      line-height: 1.1;
+    }
+    h2 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h3 { font-size: 1.5rem; }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+    .hero {
+      background-color: var(--color-blanco);
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 650px;
+      margin: 20px auto 0 auto;
+      color: #495057;
+    }
+    .como-funciona {
+      background-color: var(--color-fondo);
+    }
+    .pasos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      text-align: center;
+    }
+    .paso {
+      background: var(--color-blanco);
+      padding: 30px;
+      border-radius: var(--radio-borde);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .paso-numero {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-primario);
+      margin-bottom: 10px;
+    }
+    .accion {
+      background-color: var(--color-blanco);
+    }
+    .accion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .testimonios-columna blockquote {
+      margin: 0 0 30px;
+      padding: 20px;
+      background: #f1f3f5;
+      border-left: 5px solid var(--color-primario);
+      border-radius: var(--radio-borde);
+      font-style: italic;
+    }
+    .testimonios-columna footer {
+      font-weight: 600;
+      text-align: right;
+      color: #495057;
+    }
+    .formulario-columna form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .formulario-columna label {
+      font-weight: 600;
+      margin-bottom: -10px;
+    }
+    .formulario-columna input,
+    .formulario-columna select {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ced4da;
+      border-radius: var(--radio-borde);
+      font-size: 1rem;
+      font-family: 'Lexend', sans-serif;
+    }
+    .formulario-columna button {
+      background-color: var(--color-primario);
+      color: var(--color-blanco);
+      border: none;
+      padding: 18px;
+      border-radius: var(--radio-borde);
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .formulario-columna button:hover {
+      background-color: #0056b3;
+    }
+    @media (max-width: 900px) {
+      .accion-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 2rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <header class="hero">
-        <div class="container">
-            <h1>Chao, Acoso Telefónico.</h1>
-            <p>Piensa en Nomewei como tu abogado digital. Redactamos y enviamos las solicitudes legales para que las empresas que abusan te saquen de sus listas.</p>
+  <header class="hero">
+    <div class="container">
+      <h1>Chao, Acoso Telefónico.</h1>
+      <p>Piensa en Nomewei como tu abogado digital. Redactamos y enviamos las solicitudes legales para que las empresas que abusan te saquen de sus listas.</p>
+    </div>
+  </header>
+
+  <section class="como-funciona">
+    <div class="container">
+      <h2>Recupera tu tranquilidad en 3 simples pasos</h2>
+      <div class="pasos-grid">
+        <div class="paso">
+          <div class="paso-numero">1</div>
+          <h3>Completa el Formulario</h3>
+          <p>Dinos quién eres y qué plan prefieres. No te toma más de 60 segundos.</p>
         </div>
-    </header>
-
-    <section class="como-funciona">
-        <div class="container">
-            <h2>Recupera tu tranquilidad en 3 simples pasos</h2>
-            <div class="pasos-grid">
-                <div class="paso">
-                    <div class="paso-numero">1</div>
-                    <h3>Completa el Formulario</h3>
-                    <p>Dinos quién eres y qué plan prefieres. No te toma más de 60 segundos.</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-numero">2</div>
-                    <h3>Nosotros Hacemos el Trabajo</h3>
-                    <p>Enviamos las solicitudes legales a todas las empresas de tu plan.</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-numero">3</div>
-                    <h3>Disfruta el Silencio</h3>
-                    <p>Si alguna empresa no cumple, te ayudamos a escalar el caso al SERNAC con toda la evidencia lista.</p>
-                </div>
-            </div>
+        <div class="paso">
+          <div class="paso-numero">2</div>
+          <h3>Nosotros Hacemos el Trabajo</h3>
+          <p>Enviamos las solicitudes legales a todas las empresas de tu plan.</p>
         </div>
-    </section>
-
-    <section class="accion">
-        <div class="container">
-            <h2>¿Listo para volver a ser dueño de tu teléfono?</h2>
-            <div class="accion-grid">
-                
-                <div class="testimonios-columna">
-                    <blockquote>
-                        <p>"Pasé de recibir 5 llamadas diarias de telcos a cero en dos semanas. La mejor inversión para mi paz mental. ¡100% recomendado!"</p>
-                        <footer>- Carolina S., Ñuñoa</footer>
-                    </blockquote>
-                    <blockquote>
-                        <p>"Simple, rápido y funciona. Se acabaron las ofertas de planes y tarjetas que nunca pedí. Al fin."</p>
-                        <footer>- Sofía M., Providencia</footer>
-                    </blockquote>
-                </div>
-
-                <div class="formulario-columna">
-                    <form name="contacto" method="POST" data-netlify="true">
-                      <input type="hidden" name="form-name" value="contacto">
-
-                        <label for="nombre-completo">Nombre Completo</label>
-                        <input type="text" id="nombre-completo" name="Nombre-Completo" required>
-
-                        <label for="rut">RUT (con guion y dígito verificador)</label>
-                        <input type="text" id="rut" name="RUT" required>
-
-                        <label for="email">Tu Email de Contacto</label>
-                        <input type="email" id="email" name="Email" required>
-
-                        <label for="paquete">Elige tu Plan</label>
-                        <select id="paquete" name="Paquete" required>
-                            <option value="">Selecciona un plan...</option>
-                            <option value="Pack Esencial">Pack Esencial</option>
-                            <option value="Pack Total">Pack Total</option>
-                        </select>
-                        
-                        <button type="submit">Iniciar Proceso de Eliminación</button>
-                    </form>
-                </div>
-
-            </div>
+        <div class="paso">
+          <div class="paso-numero">3</div>
+          <h3>Disfruta el Silencio</h3>
+          <p>Si alguna empresa no cumple, te ayudamos a escalar el caso al SERNAC con toda la evidencia lista.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="accion">
+    <div class="container">
+      <h2>¿Listo para volver a ser dueño de tu teléfono?</h2>
+      <div class="accion-grid">
+        <div class="testimonios-columna">
+          <blockquote>
+            <p>"Pasé de recibir 5 llamadas diarias de telcos a cero en dos semanas. La mejor inversión para mi paz mental. ¡100% recomendado!"</p>
+            <footer>- Carolina S., Ñuñoa</footer>
+          </blockquote>
+          <blockquote>
+            <p>"Simple, rápido y funciona. Se acabaron las ofertas de planes y tarjetas que nunca pedí. Al fin."</p>
+            <footer>- Sofía M., Providencia</footer>
+          </blockquote>
+        </div>
+
+        <div class="formulario-columna">
+          <form name="contacto" method="POST" netlify>
+            <input type="hidden" name="form-name" value="contacto">
+
+            <label for="nombre-completo">Nombre Completo</label>
+            <input type="text" id="nombre-completo" name="Nombre-Completo" required>
+
+            <label for="rut">RUT (con guion y dígito verificador)</label>
+            <input type="text" id="rut" name="RUT" required>
+
+            <label for="email">Tu Email de Contacto</label>
+            <input type="email" id="email" name="Email" required>
+
+            <label for="paquete">Elige tu Plan</label>
+            <select id="paquete" name="Paquete" required>
+              <option value="">Selecciona un plan...</option>
+              <option value="Pack Esencial">Pack Esencial</option>
+              <option value="Pack Total">Pack Total</option>
+            </select>
+
+            <button type="submit">Iniciar Proceso de Eliminación</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </body>
 </html>
