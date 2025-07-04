@@ -53,38 +53,44 @@
       text-align: center;
     }
 
-    .beneficios {
+    .planes {
       display: flex;
+      justify-content: space-around;
       flex-wrap: wrap;
-      gap: 30px;
-      justify-content: space-between;
+      margin-bottom: 40px;
     }
 
-    .beneficio {
-      flex: 1 1 250px;
+    .plan {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 30px;
+      border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      width: 40%;
+      min-width: 250px;
+      text-align: center;
     }
 
-    .beneficio h3 {
+    .plan h3 {
       color: #e74c3c;
       margin-top: 0;
+    }
+
+    .plan p {
+      font-size: 1.1em;
     }
 
     form {
       display: flex;
       flex-direction: column;
       gap: 15px;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     label {
       font-weight: bold;
     }
 
-    input, textarea {
+    input, select, textarea {
       padding: 10px;
       font-size: 1em;
       border-radius: 5px;
@@ -92,7 +98,6 @@
     }
 
     button {
-      margin-top: 10px;
       background: #27ae60;
       color: white;
       border: none;
@@ -104,6 +109,39 @@
 
     button:hover {
       background-color: #219150;
+    }
+
+    .agradecimiento {
+      display: none;
+      margin-top: 30px;
+      background: #ecf9f1;
+      padding: 25px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid #c8e6d1;
+      color: #2e7d32;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: 15% auto;
+      text-align: center;
+    }
+
+    .modal-content h3 {
+      color: #e74c3c;
     }
 
     footer {
@@ -119,52 +157,84 @@
 
   <header>
     <h1>Chao, Acoso Telefónico</h1>
-    <p>Te ayudamos a salir de las bases de datos que no respetan tu decisión. Fácil, rápido y legal.</p>
+    <p>Con Nomewei puedes salir de las listas de marketing de empresas que no respetan tu paz.</p>
     <a href="#formulario" class="btn-primary">Quiero dejar de recibir llamadas</a>
   </header>
 
   <section class="section">
-    <h2>¿Por qué usar Nomewei?</h2>
-    <div class="beneficios">
-      <div class="beneficio">
-        <h3>✅ Legal y automático</h3>
-        <p>Redactamos y enviamos por ti solicitudes formales amparadas por la Ley 19.628.</p>
+    <h2>Elige tu plan</h2>
+    <div class="planes">
+      <div class="plan">
+        <h3>Pack Esencial</h3>
+        <p>$4.990 CLP</p>
+        <p>Incluye salida de hasta 5 empresas telefónicas grandes.</p>
       </div>
-      <div class="beneficio">
-        <h3>📵 Menos spam</h3>
-        <p>Recupera el control de tu número y dile adiós a las llamadas molestas de compañías que no respetan tus datos.</p>
-      </div>
-      <div class="beneficio">
-        <h3>⏱ En menos de 1 minuto</h3>
-        <p>Solo completa un formulario y nosotros nos encargamos del resto.</p>
+      <div class="plan">
+        <h3>Pack Total</h3>
+        <p>$9.990 CLP</p>
+        <p>Incluye hasta 20 empresas: telcos, retail, bancos, seguros, apps.</p>
       </div>
     </div>
   </section>
 
   <section class="section" id="formulario">
-    <h2>Solicita tu baja ahora</h2>
-    <p style="text-align:center;">Completa el formulario y te llegará un correo confirmando que estamos gestionando tu salida de las listas.</p>
+    <h2>Completa tu solicitud</h2>
 
-    <form action="https://formspree.io/f/xkgbeypo" method="POST">
-      <label for="nombre">Tu nombre:</label>
+    <form action="https://formspree.io/f/xkgbeypo" method="POST" onsubmit="simularPago()">
+      <label for="nombre">Nombre completo:</label>
       <input type="text" id="nombre" name="nombre" required>
 
-      <label for="email">Tu correo electrónico:</label>
+      <label for="email">Correo electrónico:</label>
       <input type="email" id="email" name="email" required>
 
-      <label for="telefono">Teléfono que quieres eliminar:</label>
+      <label for="telefono">Número a eliminar:</label>
       <input type="text" id="telefono" name="telefono" required>
+
+      <label for="paquete">Selecciona tu plan:</label>
+      <select id="paquete" name="paquete" required>
+        <option value="">-- Selecciona --</option>
+        <option value="Pack Esencial - $4.990">Pack Esencial - $4.990</option>
+        <option value="Pack Total - $9.990">Pack Total - $9.990</option>
+      </select>
 
       <label for="mensaje">Comentarios (opcional):</label>
       <textarea id="mensaje" name="mensaje" rows="4"></textarea>
 
-      <button type="submit">Enviar solicitud</button>
+      <button type="submit">Pagar y Enviar Solicitud</button>
     </form>
+
+    <div class="agradecimiento" id="gracias">
+      <h3>🎉 ¡Gracias!</h3>
+      <p>Tu solicitud fue enviada correctamente.<br>Te contactaremos si es necesario. ¡Gracias por confiar en Nomewei!</p>
+    </div>
   </section>
 
   <footer>
     &copy; 2025 Nomewei. Todos los derechos reservados.
   </footer>
+
+  <!-- Modal de pago simulado -->
+  <div class="modal" id="modalPago">
+    <div class="modal-content">
+      <h3>❌ Pago rechazado</h3>
+      <p>Este sistema está en modo prueba. Tu solicitud fue enviada, pero el pago no se procesó.</p>
+      <button onclick="cerrarModal()">Aceptar</button>
+    </div>
+  </div>
+
+  <script>
+    function simularPago() {
+      document.getElementById("modalPago").style.display = "block";
+      setTimeout(() => {
+        document.querySelector("form").style.display = "none";
+        document.getElementById("gracias").style.display = "block";
+      }, 1500);
+    }
+
+    function cerrarModal() {
+      document.getElementById("modalPago").style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
