@@ -14,16 +14,16 @@
       --dark-gray:  #333333;
       --font:       'Segoe UI', sans-serif;
     }
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
     body {
       font-family: var(--font);
       background: var(--light-gray);
       color: var(--dark-gray);
       line-height: 1.5;
     }
-    a { color: inherit; text-decoration: none; }
+    a { color:inherit; text-decoration:none; }
 
-    /* HEADER: logo + texto a la izquierda, menú + botón a la derecha */
+    /* HEADER: logo+texto juntos a la izquierda, menú a la derecha */
     header {
       background: linear-gradient(270deg, var(--purple), #7E6AF4, var(--purple));
       background-size: 600% 600%;
@@ -37,7 +37,7 @@
     }
     header .container {
       max-width: 1024px;
-      margin: 0 auto;
+      margin: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -48,19 +48,8 @@
       gap: 0.5rem;
     }
     .branding svg {
-      width: 48px;
-      height: 48px;
-    }
-    /* escudo lleno blanco */
-    .branding svg path.shield {
+      width: 48px; height: 48px;
       fill: var(--white);
-      stroke: none;
-    }
-    /* línea diagonal estilo “stop” */
-    .branding svg path.stop {
-      fill: none;
-      stroke: var(--purple);
-      stroke-width: 2;
     }
     .branding h1 {
       color: var(--white);
@@ -77,71 +66,8 @@
       transition: opacity 0.2s;
     }
     nav a:hover { opacity: 0.8; }
-    .btn {
-      background: var(--coral);
-      color: var(--white);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background: #e36b65;
-    }
 
-    /* 3 PASOS justo tras el header */
-    #steps {
-      background: var(--white);
-      padding: 3rem 1rem;
-    }
-    #steps h3 {
-      text-align: center;
-      color: var(--purple);
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-    .steps-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      max-width: 1024px;
-      margin: 0 auto;
-    }
-    .step-card {
-      background: var(--light-gray);
-      border-radius: 8px;
-      padding: 1.5rem;
-      flex: 1 1 280px;
-      display: flex;
-      gap: 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    .step-number {
-      background: var(--purple);
-      color: var(--white);
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
-    .step-content h4 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-    }
-    .step-content p {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: #555;
-    }
-
-    /* HERO moved below pasos */
+    /* HERO */
     #hero {
       text-align: center;
       padding: 4rem 1rem;
@@ -156,8 +82,17 @@
       margin-bottom: 2rem;
     }
     #hero .btn {
+      background: var(--coral);
+      color: var(--white);
+      border: none;
       padding: 0.75rem 1.5rem;
+      border-radius: 5px;
       font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #hero .btn:hover {
+      background: #e36b65;
     }
 
     /* PLANES */
@@ -228,14 +163,15 @@
     }
     .plan-card ul li::before {
       content: "✔";
-      position: absolute; left: 0;
+      position: absolute;
+      left: 0;
       color: var(--purple);
     }
     .plan-card button {
       background: var(--purple);
       color: var(--white);
-      padding: 0.75rem;
       border: none;
+      padding: 0.75rem;
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s ease;
@@ -244,7 +180,125 @@
       background: #4a38a8;
     }
 
-    /* TESTIMONIOS, FAQ, FOOTER, WHATSAPP: se quedan igual */
+    /* TESTIMONIOS */
+    #testimonios {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    #testimonios h3 {
+      color: var(--purple);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .testimonials {
+      max-width: 1024px;
+      margin: auto;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      width: 260px;
+      text-align: left;
+    }
+    .testimonial-card .stars {
+      color: #FFD700;
+      margin-bottom: 0.5rem;
+    }
+    .testimonial-card p {
+      font-size: 1.05rem;
+      margin-bottom: 0.75rem;
+    }
+    .testimonial-card footer {
+      font-size: 0.85rem;
+      color: #555;
+      text-align: left;
+      margin-top: 0.5rem;
+    }
+
+    /* FAQ con detalle legal */
+    #faq {
+      background: var(--white);
+      padding: 3rem 1rem;
+    }
+    #faq h3 {
+      text-align: center;
+      color: var(--purple);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    #faq details {
+      max-width: 800px;
+      margin: 0.5rem auto;
+      background: var(--light-gray);
+      padding: 1rem;
+      border-radius: 5px;
+    }
+    #faq summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #faq summary:hover {
+      color: var(--purple);
+    }
+    #faq details p {
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+
+    /* FOOTER con servicios Nomewei y asociados inventados */
+    footer {
+      background: var(--light-gray);
+      color: var(--dark-gray);
+      padding: 2rem 1rem;
+    }
+    .footer-grid {
+      max-width: 1024px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 2rem;
+    }
+    .footer-grid h4 {
+      color: var(--purple);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .footer-grid ul {
+      list-style: none;
+    }
+    .footer-grid li {
+      margin: 0.5rem 0;
+    }
+    .footer-grid a {
+      text-decoration: none;
+      color: var(--dark-gray);
+    }
+    .footer-grid a:hover {
+      text-decoration: underline;
+    }
+
+    /* WhatsApp flotante */
+    .whatsapp {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #25D366;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .whatsapp svg {
+      width: 28px; height: 28px; fill: white;
+    }
   </style>
 </head>
 <body>
@@ -254,8 +308,8 @@
     <div class="container">
       <div class="branding">
         <svg viewBox="0 0 24 24">
-          <path class="shield" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-          <path class="stop" d="M16 8 L8 16"/>
+          <path d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+          <path fill="none" stroke="white" stroke-width="2" d="M9,12l2,2l4-4"/>
         </svg>
         <h1>Nomewei</h1>
       </div>
@@ -268,37 +322,8 @@
           <li><a href="#footer">Contacto</a></li>
         </ul>
       </nav>
-      <button class="btn" onclick="scrollToPlanes()">Ver planes</button>
     </div>
   </header>
-
-  <!-- 3 PASOS -->
-  <section id="steps">
-    <h3>3 pasos para liberarte del acoso</h3>
-    <div class="steps-container">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <div class="step-content">
-          <h4>Elige y paga tu plan</h4>
-          <p>Selecciona el Pack que cubra tus necesidades y confirma tu pago: así de rápido te liberas del problema.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <div class="step-content">
-          <h4>Recibe tu confirmación</h4>
-          <p>En menos de 24 h recibirás un correo con todos los detalles y el resumen de las empresas que gestionaremos.</p>
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <div class="step-content">
-          <h4>Olvídate del acoso</h4>
-          <p>Nosotros enviamos las solicitudes legales, hacemos seguimiento 24/7 y te mantenemos informado hasta que estés en paz.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- HERO -->
   <section id="hero">
@@ -307,8 +332,142 @@
     <button class="btn" onclick="scrollToPlanes()">Ver planes</button>
   </section>
 
-  <!-- El resto (Planes, Testimonios, FAQ, Footer, WhatsApp) permanece exactamente igual -->
-  <!-- ... -->
+  <!-- PLANES -->
+  <section id="planes">
+    <h3>Elige tu plan</h3>
+    <div class="plans-wrapper">
+      <!-- Pack Esencial -->
+      <div class="plan-card">
+        <h4>Pack Esencial</h4>
+        <p class="price">$9.990 CLP</p>
+        <ul>
+          <li>Hasta 5 empresas telefónicas</li>
+          <li>Gestión de 1 número</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='esencial.html'">Elegir Esencial</button>
+      </div>
+      <!-- Pack Total -->
+      <div class="plan-card recommended">
+        <h4>Pack Total</h4>
+        <p class="price">$15.990 CLP</p>
+        <ul>
+          <li>Hasta 10 empresas (telco+comercios)</li>
+          <li>Gestión de 2 números</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='total.html'">Elegir Total</button>
+      </div>
+      <!-- Pack Familiar -->
+      <div class="plan-card">
+        <h4>Pack Familiar</h4>
+        <p class="price">$24.990 CLP</p>
+        <ul>
+          <li>Empresas ilimitadas</li>
+          <li>Gestión de hasta 5 números</li>
+          <li>Seguimiento 24/7</li>
+          <li>Respaldo legal y documentación</li>
+        </ul>
+        <button onclick="location.href='familiar.html'">Elegir Familiar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <h3>Qué dicen nuestros clientes</h3>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Dejó de sonar mi celular en 2 días. Súper recomendado."</p>
+        <footer>- Camila (Providencia)</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Servicio impecable. Me siento libre de spam."</p>
+        <footer>- José (Ñuñoa)</footer>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Rápido, simple y efectivo. Excelente respaldo."</p>
+        <footer>- Fernanda (Santiago Centro)</footer>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ con detalle legal -->
+  <section id="faq">
+    <h3>Preguntas frecuentes</h3>
+    <details>
+      <summary>¿Qué es Nomewei y bajo qué ley opero?</summary>
+      <p>Somos un servicio legaltech que, amparado en la Ley N°19.628 de Protección de Datos Personales, art. 21 bis, automatiza y envía tus solicitudes formales para que las empresas dejen de llamarte con fines comerciales.</p>
+    </details>
+    <details>
+      <summary>¿Cuánto tiempo tienen las empresas para responder?</summary>
+      <p>Según la misma Ley 19.628, las compañías tienen un plazo máximo de <strong>10 días hábiles</strong> para confirmar la baja. Si no responden, actuamos en tu defensa.</p>
+    </details>
+    <details>
+      <summary>¿Cómo se usa mi información?</summary>
+      <p>Solo utilizamos tus datos para gestionar bajas y documentar la solicitud. Tras el cierre del caso los borramos, cumpliendo la Ley N°19.628 y sus reglamentos.</p>
+    </details>
+    <details>
+      <summary>¿Qué hago si incumplen mi solicitud?</summary>
+      <p>Si no acatan tu baja, Nomewei se compromete a elevar tu caso ante SERNAC y, de persistir el incumplimiento, iniciar acciones judiciales en un plazo máximo de <strong>30 días</strong>.</p>
+    </details>
+    <details>
+      <summary>¿Puedo cambiar de plan o pedir reembolso?</summary>
+      <p>Sí. Tienes hasta <strong>5 días</strong> para solicitar cambio de plan o devolución completa (menos coste de gestión). Escríbenos a info@nomewei.cl.</p>
+    </details>
+  </section>
+
+  <!-- FOOTER con servicios y asociados Nomewei -->
+  <footer id="footer">
+    <div class="footer-grid">
+      <div>
+        <h4>Contáctanos</h4>
+        <ul>
+          <li>Teléfono: <a href="tel:+5691122334455">+56 9 1122 3344 55</a></li>
+          <li>Email: <a href="mailto:info@nomewei.cl">info@nomewei.cl</a></li>
+          <li>Web: <a href="https://www.nomewei.cl" target="_blank">www.nomewei.cl</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Servicios</h4>
+        <ul>
+          <li>Asesoría Legal Telefónica</li>
+          <li>Reclamos ante SERNAC</li>
+          <li>Documentación Legal Personalizada</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Asociados</h4>
+        <ul>
+          <li>Lex &amp; Phone Abogados</li>
+          <li>DataSafe S.A.</li>
+          <li>ProtecData Ltda.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#hero">Inicio</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flotante -->
+  <div class="whatsapp" onclick="window.open('https://wa.me/5691122334455','_blank')">
+    <svg viewBox="0 0 24 24">
+      <path d="M20.52,3.48a11.78,11.78,0,0...
+      "/><!-- recorta el path -->
+    </svg>
+  </div>
 
   <script>
     function scrollToPlanes(){
