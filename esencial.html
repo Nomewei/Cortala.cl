@@ -6,9 +6,9 @@
   <title>Pack Esencial – Nomewei</title>
   <style>
     :root {
-      /* PALETA MARINO + BLANCO + NARANJA */
-      --purple:     #003366;   /* marino */
-      --coral:      #FFA500;   /* naranja */
+      /* Paleta Marino + Blanco + Naranja */
+      --purple:     #003366;
+      --coral:      #FFA500;
       --white:      #FFFFFF;
       --light-gray: #F7F7F7;
       --gray:       #E1E1E1;
@@ -50,7 +50,7 @@
     }
     .branding svg{
       width:40px; height:40px;
-      stroke: var(--white); fill:none; stroke-width:2;
+      stroke:white; fill:none; stroke-width:2;
     }
     .logo-text{
       color:var(--white);
@@ -241,4 +241,59 @@
       <input type="hidden" name="price" value="9990">
 
       <label for="telefono">Teléfono principal:</label>
-      <input type="tel" id="telefono" name="telefono" placeholde
+      <input type="tel" id="telefono" name="telefono" placeholder="+569xxxxxxxx" required>
+
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" required>
+
+      <!-- 2) SECCIÓN DE PAGO (checkout embebido) -->
+      <fieldset class="payment">
+        <legend>Información de Pago</legend>
+
+        <label for="card-name">Nombre en la tarjeta:</label>
+        <input type="text" id="card-name" name="cardName" placeholder="NOMBRE APELLIDO" required>
+
+        <label for="card-number">Número de tarjeta:</label>
+        <input type="text" id="card-number" name="cardNumber" placeholder="•••• •••• •••• ••••" maxlength="19" required>
+
+        <div class="two-cols">
+          <div>
+            <label for="card-expiry">Vencimiento (MM/AA):</label>
+            <input type="text" id="card-expiry" name="cardExpiry" placeholder="MM/AA" maxlength="5" required>
+          </div>
+          <div>
+            <label for="card-cvv">CVV:</label>
+            <input type="text" id="card-cvv" name="cardCvv" placeholder="•••" maxlength="4" required>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          id="pay-button">
+          Pagar $9.990 CLP y Enviar
+        </button>
+      </fieldset>
+    </form>
+
+    <div class="thanks" id="thanks-esencial">
+      <p>🎉 ¡Gracias! Tu solicitud de Pack Esencial fue recibida. Te contactamos pronto.</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Nomewei. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    function handleSubmit(e){
+      e.preventDefault();
+      alert("Pago rechazado (modo prueba). Tu solicitud se envía igual.");
+      e.target.submit();
+      return false;
+    }
+  </script>
+</body>
+</html>
