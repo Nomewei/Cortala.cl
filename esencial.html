@@ -6,8 +6,9 @@
   <title>Pack Esencial – Nomewei</title>
   <style>
     :root {
-      --purple:     #5940C4;
-      --coral:      #FF8A7A;
+      /* PALETA MARINO + BLANCO + NARANJA */
+      --purple:     #003366;   /* marino */
+      --coral:      #FFA500;   /* naranja */
       --white:      #FFFFFF;
       --light-gray: #F7F7F7;
       --gray:       #E1E1E1;
@@ -25,7 +26,7 @@
 
     /* HEADER */
     header {
-      background: linear-gradient(270deg, var(--purple), #7E6AF4, var(--purple));
+      background: linear-gradient(270deg, var(--purple), var(--purple), var(--purple));
       background-size: 600% 600%;
       animation: bgAnim 20s ease infinite;
       padding:1rem 2rem;
@@ -49,7 +50,7 @@
     }
     .branding svg{
       width:40px; height:40px;
-      stroke:white; fill:none; stroke-width:2;
+      stroke: var(--white); fill:none; stroke-width:2;
     }
     .logo-text{
       color:var(--white);
@@ -130,7 +131,7 @@
       cursor:pointer;
       transition:background 0.3s;
     }
-    button:hover{background:#e36b65;}
+    button:hover{background:#cc8400;}
 
     /* Gracias interno (nunca mostrado si redirect) */
     .thanks{
@@ -150,150 +151,94 @@
       color:#666;
     }
     /* === ESTILO PARA SECCIÓN DE PAGO EMBEBIDA === */
-.payment {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: #fafafa;
-  border: 1px solid var(--gray);
-  border-radius: 8px;
-}
-.payment legend {
-  font-weight: bold;
-  color: var(--purple);
-  margin-bottom: 1rem;
-}
-.payment input {
-  width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-.payment .two-cols {
-  display: flex;
-  gap: 1rem;
-}
-.payment .two-cols > div {
-  flex: 1;
-}
-#pay-button {
-  background: var(--coral);
-  color: var(--white);
-  padding: 0.75rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-#pay-button:hover {
-  background: #e36b65;
-}
-
+    .payment {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #fafafa;
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+    }
+    .payment legend {
+      font-weight: bold;
+      color: var(--purple);
+      margin-bottom: 1rem;
+    }
+    .payment input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .payment .two-cols {
+      display: flex;
+      gap: 1rem;
+    }
+    .payment .two-cols > div {
+      flex: 1;
+    }
+    #pay-button {
+      background: var(--coral);
+      color: var(--white);
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #pay-button:hover {
+      background: #cc8400;
+    }
   </style>
 </head>
 <body>
 
   <header>
-  <div class="container">
-    <div class="branding">
-      <svg viewBox="0 0 24 24">
-        <!-- Escudo exterior -->
-        <path fill="var(--white)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12
-             c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-        <!-- Círculo interior blanco -->
-        <circle cx="12" cy="12" r="4" fill="var(--white)"/>
-        <!-- Línea diagonal de “prohibido” -->
-        <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"
-              stroke="var(--purple)" stroke-width="2"/>
-      </svg>
-      <h1>Nomewei</h1>
+    <div class="container">
+      <div class="branding">
+        <svg viewBox="0 0 24 24">
+          <!-- Escudo exterior -->
+          <path fill="var(--white)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12
+               c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+          <!-- Círculo interior blanco -->
+          <circle cx="12" cy="12" r="4" fill="var(--white)"/>
+          <!-- Línea diagonal de “prohibido” -->
+          <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"
+                stroke="var(--purple)" stroke-width="2"/>
+        </svg>
+        <h1>Nomewei</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="esencial.html">Esencial</a></li>
+          <li><a href="total.html">Total</a></li>
+          <li><a href="familiar.html">Familiar</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="esencial.html">Esencial</a></li>
-        <li><a href="total.html">Total</a></li>
-        <li><a href="familiar.html">Familiar</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+  </header>
 
   <section id="plan-hero">
     <h2>Pack Esencial</h2>
     <p>$9.990 CLP • Gestión hasta 5 empresas telefónicas</p>
   </section>
 
- <div class="content">
-  <h3>Incluye:</h3>
-  <ul>
-    <li>Gestión hasta 5 empresas telefónicas</li>
-    <li>1 número de teléfono</li>
-    <li>Seguimiento 24/7</li>
-    <li>Respaldo legal y documentación</li>
-  </ul>
+  <div class="content">
+    <h3>Incluye:</h3>
+    <ul>
+      <li>Gestión hasta 5 empresas telefónicas</li>
+      <li>1 número de teléfono</li>
+      <li>Seguimiento 24/7</li>
+      <li>Respaldo legal y documentación</li>
+    </ul>
 
-  <!-- 1) FORMULARIO DE DATOS -->
-  <form id="checkout-form">
-    <input type="hidden" name="plan" value="Pack Esencial">
-    <input type="hidden" name="price" value="9990">
+    <!-- 1) FORMULARIO DE DATOS -->
+    <form id="checkout-form">
+      <input type="hidden" name="plan" value="Pack Esencial">
+      <input type="hidden" name="price" value="9990">
 
-    <label for="telefono">Teléfono principal:</label>
-    <input type="tel" id="telefono" name="telefono" placeholder="+569xxxxxxxx" required>
-
-    <label for="nombre">Nombre completo:</label>
-    <input type="text" id="nombre" name="nombre" required>
-
-    <label for="email">Correo electrónico:</label>
-    <input type="email" id="email" name="email" required>
-
-    <!-- 2) SECCIÓN DE PAGO (checkout embebido) -->
-    <fieldset class="payment">
-      <legend>Información de Pago</legend>
-
-      <label for="card-name">Nombre en la tarjeta:</label>
-      <input type="text" id="card-name" name="cardName" placeholder="NOMBRE APELLIDO" required>
-
-      <label for="card-number">Número de tarjeta:</label>
-      <input type="text" id="card-number" name="cardNumber" placeholder="•••• •••• •••• ••••" maxlength="19" required>
-
-      <div class="two-cols">
-        <div>
-          <label for="card-expiry">Vencimiento (MM/AA):</label>
-          <input type="text" id="card-expiry" name="cardExpiry" placeholder="MM/AA" maxlength="5" required>
-        </div>
-        <div>
-          <label for="card-cvv">CVV:</label>
-          <input type="text" id="card-cvv" name="cardCvv" placeholder="•••" maxlength="4" required>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        id="pay-button">
-        Pagar $9.990 CLP y Enviar
-      </button>
-    </fieldset>
-  </form>
-
-  <div class="thanks" id="thanks-esencial">
-    <p>🎉 ¡Gracias! Tu solicitud de Pack Esencial fue recibida. Te contactamos pronto.</p>
-  </div>
-</div>
-
-  <footer>
-    &copy; 2025 Nomewei. Todos los derechos reservados.
-  </footer>
-
-  <script>
-    function handleSubmit(e){
-      e.preventDefault();
-      alert("Pago rechazado (modo prueba). Tu solicitud se envía igual.");
-      e.target.submit();
-      return false;
-    }
-  </script>
-</body>
-</html>
+      <label for="telefono">Teléfono principal:</label>
+      <input type="tel" id="telefono" name="telefono" placeholde
