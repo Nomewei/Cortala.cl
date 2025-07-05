@@ -235,49 +235,53 @@
 
 
     /* TESTIMONIOS */
+    /* TESTIMONIOS */
     #testimonios {
-      background: var(--gris-claro);
+      background: var(--gris-claro); /* Fondo gris claro para separar secciones */
       padding: 3rem 1rem;
       text-align: center;
     }
     #testimonios h3 {
       color: var(--marino);
       font-size: 2rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
-    .testimonials {
+    .testimonials-container {
       max-width: 1024px;
       margin: auto;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
     }
     .testimonial-card {
-      background: var(--blanco);
+      background: var(--blanco); /* Fondo blanco para las tarjetas */
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      padding: 1.5rem;
-      width: 280px;
+      border: 1px solid var(--gris); /* Borde sutil */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      padding: 2rem;
       text-align: left;
+      display: flex;
+      flex-direction: column;
     }
     .testimonial-card .stars {
-      color: var(--naranja);
-      margin-bottom: 0.5rem;
+      color: var(--naranja); /* Estrellas en color naranja */
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
     }
     .testimonial-card p {
       font-style: italic;
       font-size: 1rem;
-      margin-bottom: 0.75rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      flex-grow: 1; /* Empuja el footer hacia abajo */
     }
     .testimonial-card footer {
       font-size: 0.9rem;
       font-weight: 600;
-      color: #555;
+      color: var(--marino); /* Nombre en color marino */
       text-align: left;
-      margin-top: 0.5rem;
     }
-
+    
     /* FAQ */
     #faq {
       background: var(--blanco);
