@@ -27,7 +27,7 @@
     .plan-info ul { list-style: none; margin-bottom: 2rem; border-left: 2px solid var(--naranja); padding-left: 1rem; }
     .plan-info ul li { margin: 0.75rem 0; opacity: 0.9; }
     .columna-resumen footer { margin-top: auto; text-align: center; opacity: 0.7; font-size: 0.9rem; }
-    .columna-resumen footer a { text-decoration: underline; }
+    .columna-resumen footer a { text-decoration: underline; color: var(--blanco); }
     .columna-formulario { padding: 2.5rem; }
     .columna-formulario h3 { font-size: 1.8rem; color: var(--marino); margin-bottom: 2rem; }
     form { display:flex; flex-direction:column; gap:1.25rem; }
@@ -103,7 +103,7 @@
         'familiar': {
           titulo: 'Pack Familiar',
           precio: '$24.990 CLP',
-          beneficios: ['Gestión en +10 empresas', 'Para hasta 5 números', 'Soporte prioritario']
+          beneficios: ['Gestión en +20 empresas', 'Para hasta 5 números', 'Soporte prioritario']
         }
       };
       const info = planesInfo[planId] || { titulo: 'Plan no seleccionado', precio: '$0 CLP', beneficios: ['Por favor, selecciona un plan.'] };
@@ -127,10 +127,12 @@
             labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
             textareaAdicional.rows = "1";
             textareaAdicional.placeholder = "+56 9 33333333";
+            textareaAdicional.required = true;
         } else { // familiar
             labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más, uno por línea)';
             textareaAdicional.rows = "4";
             textareaAdicional.placeholder = "+56 9 11111111\n+56 9 22222222";
+            textareaAdicional.required = false; // No es obligatorio llenar todos
         }
       }
     });
