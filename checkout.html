@@ -56,7 +56,8 @@
     </div>
     <div class="columna-formulario">
       <h3>Completa tus datos para la gestión</h3>
-      <form id="checkout-form" name="checkout" method="POST" action="/pago.html" data-netlify="true">
+      <form id="checkout-form" name="checkout" method="POST" action="/pago">
+        <input type="hidden" name="form-name" value="checkout" />
         <input type="hidden" id="plan-input" name="plan" value="">
         <input type="hidden" id="price-input" name="price" value="">
         <div><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required></div>
@@ -68,7 +69,7 @@
         </div>
         <div class="terminos-mandato">
             <input type="checkbox" id="terms" name="terms" required>
-            <label for="terms">He leído y acepto los <a href="terminos.html" target="_blank">Términos y Condiciones</a> y la <a href="privacidad.html" target="_blank">Política de Privacidad</a>. Otorgo a Nomewei un poder simple para actuar en mi nombre y representación, con el único fin de gestionar la eliminación de mis datos ante las empresas correspondientes, según la Ley 19.628.</label>
+            <label for="terms">He leído y acepto los <a href="terminos.html">Términos y Condiciones</a> y la <a href="privacidad.html">Política de Privacidad</a>. Otorgo a Nomewei un poder simple para actuar en mi nombre y representación, con el único fin de gestionar la eliminación de mis datos ante las empresas correspondientes, según la Ley 19.628.</label>
         </div>
         <button type="submit" class="boton-continuar">Continuar al Pago Seguro</button>
       </form>
@@ -79,12 +80,14 @@
     const formFields = form.elements;
     form.addEventListener('input', () => {
         const formData = {
+            plan: formFields.plan.value,
+            price: formFields.price.value,
             nombre: formFields.nombre.value,
             email: formFields.email.value,
             telefono: formFields.telefono.value,
             telefonosAdicionales: formFields['telefonos-adicionales'].value
         };
-        localStorage.setItem('nomewei-form-data', JSON.stringify(formData));
+        localStorage.setItem('nomewei-checkout-data', JSON.stringify(formData));
     });
     document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
@@ -101,11 +104,7 @@
       document.getElementById('price-input').value = info.precio;
       const beneficiosLista = document.getElementById('plan-beneficios');
       beneficiosLista.innerHTML = '';
-      info.beneficios.forEach(b => {
-        const li = document.createElement('li');
-        li.textContent = b;
-        beneficiosLista.appendChild(li);
-      });
+      info.beneficios.forEach(b => { const li = document.createElement('li'); li.textContent = b; beneficiosLista.appendChild(li); });
       if (planId === 'familiar' || planId === 'total') {
         const campoAdicional = document.getElementById('campos-adicionales');
         campoAdicional.style.display = 'block';
@@ -115,32 +114,23 @@
             labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
             textareaAdicional.rows = "1";
             textareaAdicional.placeholder = "+56 9 33333333";
-            textareaAdicional.required = true;
         } else {
             labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más, uno por línea)';
             textareaAdicional.rows = "4";
             textareaAdicional.placeholder = "+56 9 11111111\n+56 9 22222222";
-            textareaAdicional.required = false;
         }
       }
-      const savedData = localStorage.getItem('nomewei-form-data');
+      const savedData = localStorage.getItem('nomewei-checkout-data');
       if (savedData) {
         const formData = JSON.parse(savedData);
-        formFields.nombre.value = formData.nombre || '';
-        formFields.email.value = formData.email || '';
-        formFields.telefono.value = formData.telefono || '';
-        formFields['telefonos-adicionales'].value = formData.telefonosAdicionales || '';
+        // Solo rellenamos si el plan guardado coincide con el plan actual, para evitar confusiones
+        if(formData.plan === info.titulo) {
+            formFields.nombre.value = formData.nombre || '';
+            formFields.email.value = formData.email || '';
+            formFields.telefono.value = formData.telefono || '';
+            formFields['telefonos-adicionales'].value = formData.telefonosAdicionales || '';
+        }
       }
-    });
-    form.addEventListener('submit', () => {
-        // Guardamos los datos una última vez antes de redirigir
-        const formData = {
-            nombre: formFields.nombre.value,
-            email: formFields.email.value,
-            telefono: formFields.telefono.value,
-            telefonosAdicionales: formFields['telefonos-adicionales'].value
-        };
-        localStorage.setItem('nomewei-form-data', JSON.stringify(formData));
     });
   </script>
 </body>
