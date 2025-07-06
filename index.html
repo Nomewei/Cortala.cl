@@ -15,13 +15,7 @@
       --font:       'Segoe UI', sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font);
-      background: var(--gris-claro);
-      color: var(--texto-oscuro);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: var(--font); background: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.6; -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; }
     .container { max-width: 1024px; margin: auto; padding: 0 1rem; }
     section { padding: 4rem 0; }
@@ -33,9 +27,10 @@
     .branding h1 { color: var(--blanco); font-size: 1.75rem; }
     nav ul { display: flex; gap: 1.5rem; list-style: none; }
     nav a { color: var(--blanco); font-weight: 600; }
-    #hero { background: var(--blanco); text-align: center; padding-top: 5rem; padding-bottom: 5rem; }
+    #hero { background: var(--blanco); text-align: center; padding: 5rem 1rem; }
     #hero h2 { color: var(--marino); font-size: 3rem; margin-bottom: 1rem; line-height: 1.2; }
-    #hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;}
+    #hero p { font-size: 1.2rem; margin-bottom: 0.5rem; max-width: 600px; margin-left: auto; margin-right: auto;}
+    #hero .sub-pago { font-size: 1rem; font-weight: 600; color: var(--naranja); margin-bottom: 2rem; }
     #hero .btn { background: var(--naranja); color: var(--blanco); border: none; padding: 0.85rem 1.75rem; border-radius: 5px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; }
     #hero .btn:hover { background: #E69500; transform: translateY(-3px); }
     #steps { background: var(--gris-claro); }
@@ -101,8 +96,9 @@
     <section id="hero">
       <div class="container">
         <h2>Recupera el control de tu teléfono</h2>
-        <p>Soluciones legales contra el acoso telefónico. Fácil, rápido y 100% online.</p>
-        <a href="#planes" class="btn">Ver Planes</a>
+        <p>Gestionamos tu derecho a la privacidad para que las empresas dejen de molestarte.</p>
+        <p class="sub-pago"><strong>Es un único pago. Sin suscripciones ni letras chicas.</strong></p>
+        <a href="#planes" class="btn">Ver Planes y Precios</a>
       </div>
     </section>
     <section id="steps">
@@ -188,10 +184,10 @@
     </section>
     <section id="faq">
         <div class="container">
-          <h3>Preguntas al hueso</h3>
+          <h3>Preguntas Frecuentes</h3>
           <details>
-            <summary>¿Esto es legal o es una "avivada"?</summary>
-            <p>100% legal. No es ninguna "avivada". Estás ejerciendo tu derecho explícito garantizado por la Ley 19.628 de Protección de la Vida Privada. Nosotros solo somos la herramienta que te facilita el proceso.</p>
+            <summary>¿Este servicio es realmente legal?</summary>
+            <p>100% legal. No es un truco ni una "avivada". Estás ejerciendo tu derecho explícito garantizado por la Ley 19.628 de Protección de la Vida Privada. Nosotros solo somos la herramienta que te facilita el proceso.</p>
           </details>
           <details>
             <summary>¿Y si las empresas me ignoran y me siguen llamando?</summary>
