@@ -25,6 +25,8 @@
     .submit-button:hover { background: #E69500; }
     .secure-footer { text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.9rem; color: #666; }
     .secure-footer img { height: 20px; opacity: 0.7; }
+    .legal-links { text-align: center; font-size: 0.8rem; margin-top: 2rem; }
+    .legal-links a { color: var(--texto-oscuro); text-decoration: underline; margin: 0 0.5rem; }
     #card-errors { color: #dc3545; font-size: 0.9rem; margin-top: 0.5rem; text-align: center; }
   </style>
 </head>
@@ -37,11 +39,11 @@
       <div class="price" id="plan-price"></div>
     </div>
     <form id="payment-form">
-      <div><label for="card-name">Nombre en la Tarjeta</label><input type="text" id="card-name" placeholder="Juan Pérez" required></div>
-      <div><label for="card-number">Número de Tarjeta</label><input type="text" id="card-number" placeholder="4242 4242 4242 4242" required></div>
+      <div><label for="card-name">Nombre en la Tarjeta</label><input type="text" id="card-name" name="card-name" required></div>
+      <div><label for="card-number">Número de Tarjeta</label><input type="text" id="card-number" name="card-number" placeholder="4242 4242 4242 4242" required></div>
       <div class="card-details">
-        <div><label for="card-expiry">Vencimiento</label><input type="text" id="card-expiry" placeholder="MM/AA" required></div>
-        <div><label for="card-cvc">CVC</label><input type="text" id="card-cvc" placeholder="123" required></div>
+        <div><label for="card-expiry">Vencimiento</label><input type="text" id="card-expiry" name="card-expiry" placeholder="MM/AA" required></div>
+        <div><label for="card-cvc">CVC</label><input type="text" id="card-cvc" name="card-cvc" placeholder="123" required></div>
       </div>
       <div id="card-errors" role="alert"></div>
       <button type="submit" class="submit-button" id="submit">Pagar Ahora</button>
@@ -50,14 +52,33 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/SSL_CERT.png" alt="Certificado SSL" style="height:25px"/>
         <span>Transacción encriptada y segura</span>
     </div>
+    <div class="legal-links">
+        <a href="terminos.html" target="_blank">Términos y Condiciones</a> • <a href="privacidad.html" target="_blank">Política de Privacidad</a>
+    </div>
   </div>
   <script>
+    const paymentForm = document.getElementById('payment-form');
+    const paymentFormFields = paymentForm.elements;
+    
+    // Guarda los datos del formulario de pago en localStorage
+    paymentForm.addEventListener('input', () => {
+        const paymentData = {
+            cardName: paymentFormFields['card-name'].value,
+            cardNumber: paymentFormFields['card-number'].value,
+            cardExpiry: paymentFormFields['card-expiry'].value,
+            cardCvc: paymentFormFields['card-cvc'].value,
+        };
+        localStorage.setItem('nomewei-payment-data', JSON.stringify(paymentData));
+    });
+
+    // Al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
-        const savedData = localStorage.getItem('nomewei-form-data');
-        if (savedData) {
-            const formData = JSON.parse(savedData);
-            const planName = formData.plan; 
-            const price = formData.price;
+        // Recuperar y mostrar info del plan y precio desde los datos guardados en checkout
+        const savedCheckoutData = localStorage.getItem('nomewei-form-data');
+        if (savedCheckoutData) {
+            const checkoutData = JSON.parse(savedCheckoutData);
+            const planName = checkoutData.plan;
+            const price = checkoutData.price;
             if (planName && price) {
                 document.getElementById('plan-name').textContent = planName;
                 const formattedPrice = `$${parseInt(price).toLocaleString('es-CL')} CLP`;
@@ -65,14 +86,26 @@
                 document.getElementById('submit').textContent = `Pagar ${formattedPrice}`;
             }
         }
-        const form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
+        
+        // Recuperar y rellenar los datos del formulario de pago si existen
+        const savedPaymentData = localStorage.getItem('nomewei-payment-data');
+        if(savedPaymentData) {
+            const paymentData = JSON.parse(savedPaymentData);
+            paymentFormFields['card-name'].value = paymentData.cardName || '';
+            paymentFormFields['card-number'].value = paymentData.cardNumber || '';
+            paymentFormFields['card-expiry'].value = paymentData.cardExpiry || '';
+            paymentFormFields['card-cvc'].value = paymentData.cardCvc || '';
+        }
+
+        // Lógica de envío del formulario
+        paymentForm.addEventListener('submit', function(event) {
             event.preventDefault();
             document.getElementById('submit').disabled = true;
             document.getElementById('submit').textContent = 'Procesando...';
             setTimeout(() => {
-                // Limpiamos los datos del formulario después de intentar el pago
+                // Limpiamos AMBOS almacenamientos después del pago
                 localStorage.removeItem('nomewei-form-data');
+                localStorage.removeItem('nomewei-payment-data');
                 window.location.href = 'gracias.html';
             }, 2000);
         });
