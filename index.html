@@ -53,12 +53,16 @@
     .plan-card button:hover { background: #001f4d; }
     .plan-card.recommended button { background: var(--naranja); }
     .plan-card.recommended button:hover { background: #E69500; }
+    
+    /* TESTIMONIOS (CSS Corregido y Verificado) */
     #testimonios { background: var(--gris-claro); }
     .reseñas-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
     .reseña-card { background: var(--blanco); border-radius: 8px; border: 1px solid var(--gris); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 2rem; text-align: left; display: flex; flex-direction: column; }
     .reseña-card .stars { color: var(--naranja); margin-bottom: 1rem; font-size: 1.2rem; }
     .reseña-card .reseña-texto { font-style: italic; font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
     .reseña-card .reseña-autor { font-size: 0.9rem; font-weight: 600; color: var(--marino); }
+    
+    /* FAQ */
     #faq { background: var(--blanco); }
     #faq .container { max-width: 800px; }
     #faq details { margin: 0.75rem 0; background: var(--gris-claro); padding: 1rem; border-radius: 5px; border: 1px solid var(--gris); }
@@ -66,6 +70,8 @@
     #faq summary::-webkit-details-marker { display: none; }
     #faq summary:hover { color: var(--marino); }
     #faq details p { margin-top: 1rem; line-height: 1.6; }
+    
+    /* Footer */
     footer { background: var(--marino); color: var(--gris-claro); padding: 3rem 1rem; }
     .footer-grid { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 2rem; }
     .footer-grid h4 { color: var(--blanco); margin-bottom: 1rem; }
@@ -105,24 +111,15 @@
       <div class="container">
         <h3>3 pasos para liberarte del acoso</h3>
         <div class="steps-container">
-          <div class="step-card">
-            <div class="step-number">1</div>
-            <div class="step-content"><h4>Elige tu Plan</h4><p>Selecciona el Pack que mejor se adapte a tus necesidades.</p></div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">2</div>
-            <div class="step-content"><h4>Ingresa tus Datos</h4><p>Completa un formulario seguro con la información para la gestión.</p></div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">3</div>
-            <div class="step-content"><h4>Nosotros nos Encargamos</h4><p>Enviamos las solicitudes y hacemos seguimiento hasta que estés en paz.</p></div>
-          </div>
+          <div class="step-card"><div class="step-number">1</div><div class="step-content"><h4>Elige tu Plan</h4><p>Selecciona el Pack que mejor se adapte a tus necesidades.</p></div></div>
+          <div class="step-card"><div class="step-number">2</div><div class="step-content"><h4>Ingresa tus Datos</h4><p>Completa un formulario seguro con la información para la gestión.</p></div></div>
+          <div class="step-card"><div class="step-number">3</div><div class="step-content"><h4>Nosotros nos Encargamos</h4><p>Enviamos las solicitudes y hacemos seguimiento hasta que estés en paz.</p></div></div>
         </div>
       </div>
     </section>
     <section id="planes">
       <div class="container">
-        <h3>Elige tu plan</h3>
+        <h3>Encuentra el Plan Perfecto para Ti</h3>
         <div class="plans-wrapper">
           <div class="plan-card">
             <h4>Pack Esencial</h4>
@@ -150,8 +147,8 @@
             <h4>Pack Familiar</h4>
             <p class="price">$24.990 CLP</p>
             <ul>
-              <li>Empresas ilimitadas</li>
-              <li>Gestión de hasta 5 números</li>
+              <li>Gestión en +10 empresas</li>
+              <li>Para hasta 5 números</li>
               <li>Seguimiento 24/7</li>
               <li>Respaldo legal y documentación</li>
             </ul>
@@ -187,7 +184,7 @@
           <h3>Preguntas Frecuentes</h3>
           <details>
             <summary>¿Este servicio es realmente legal?</summary>
-            <p>100% legal. No es un truco ni una "avivada". Estás ejerciendo tu derecho explícito garantizado por la Ley 19.628 de Protección de la Vida Privada. Nosotros solo somos la herramienta que te facilita el proceso.</p>
+            <p>100% legal. Estás ejerciendo tu derecho explícito garantizado por la Ley 19.628 de Protección de la Vida Privada. Nosotros solo somos la herramienta que te facilita el proceso, a través de un <strong>pago único</strong> por gestión.</p>
           </details>
           <details>
             <summary>¿Y si las empresas me ignoran y me siguen llamando?</summary>
@@ -206,25 +203,9 @@
   </main>
   <footer>
     <div class="container footer-grid">
-       <div>
-        <h4>Nomewei</h4>
-        <p style="font-size: 0.9rem; color: var(--gris);">Tu abogado digital contra el acoso telefónico. Recupera tu tranquilidad con respaldo legal.</p>
-      </div>
-       <div>
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="#">Términos y Condiciones</a></li>
-          <li><a href="#">Política de Privacidad</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Links</h4>
-        <ul>
-          <li><a href="#steps">Cómo Funciona</a></li>
-          <li><a href="#planes">Planes</a></li>
-           <li><a href="#">Contacto</a></li>
-        </ul>
-      </div>
+       <div><h4>Nomewei</h4><p style="font-size: 0.9rem; color: var(--gris);">Tu abogado digital contra el acoso telefónico.</p></div>
+       <div><h4>Legal</h4><ul><li><a href="#">Términos y Condiciones</a></li><li><a href="#">Política de Privacidad</a></li></ul></div>
+      <div><h4>Links</h4><ul><li><a href="#steps">Cómo Funciona</a></li><li><a href="#planes">Planes</a></li><li><a href="#">Contacto</a></li></ul></div>
     </div>
   </footer>
 </body>
