@@ -49,34 +49,22 @@
         .reseña-card .stars { color: var(--naranja); margin-bottom: 1rem; font-size: 1.2rem; }
         .reseña-card .reseña-texto { font-style: italic; font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
         .reseña-card .reseña-autor { font-size: 0.9rem; font-weight: 600; color: var(--marino); }
-        footer { background: var(--marino); color: var(--gris-claro); padding: 3rem 1rem; }
-        .footer-grid { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 2rem; }
-        .footer-grid h4 { color: var(--blanco); margin-bottom: 1rem; }
-        .footer-grid ul { list-style: none; }
-        .footer-grid li { margin: 0.5rem 0; }
-        .footer-grid a { color: var(--gris); }
-        /* CHECKOUT MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 1rem; }
-        .modal-content { background: var(--blanco); padding: 2rem; border-radius: 8px; max-width: 500px; width: 100%; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.2); }
-        .modal-close { position: absolute; top: 0.5rem; right: 1rem; font-size: 2rem; cursor: pointer; border: none; background: none; color: var(--gris); }
-        .modal-content h3 { text-align: center; color: var(--marino); }
-        .modal-content form { display:flex; flex-direction:column; gap:1rem; margin-top: 1.5rem; }
-        .modal-content label { font-weight:600; font-size: 0.9rem; }
-        .modal-content input, .modal-content textarea { width:100%; padding:0.8rem; border:1px solid var(--gris); border-radius:5px; font-size:1rem; }
-        .modal-content .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
-        .modal-content .terminos-mandato input { width: auto; margin-top: 5px; }
-        .modal-content .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
-        .modal-content .terminos-mandato a { text-decoration: underline; color: var(--marino); }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <div class="branding">
-                <a href="#"><svg viewBox="0 0 24 24"><path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/><circle cx="12" cy="12" r="4" fill="var(--blanco)"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/></svg></a>
-                <h1><a href="#">Nomewei</a></h1>
+                <a href="index.html"><svg viewBox="0 0 24 24"><path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/><circle cx="12" cy="12" r="4" fill="var(--blanco)"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/></svg></a>
+                <h1><a href="index.html">Nomewei</a></h1>
             </div>
-            <nav><ul><li><a href="#planes">Planes</a></li><li><a href="#faq">Preguntas</a></li></ul></nav>
+            <nav>
+                <ul>
+                    <li><a href="#steps">Cómo Funciona</a></li>
+                    <li><a href="#planes">Planes</a></li>
+                    <li><a href="#testimonios">Testimonios</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
     <main>
@@ -102,9 +90,9 @@
             <div class="container">
                 <h3>Encuentra el Plan Perfecto para Ti</h3>
                 <div class="plans-wrapper">
-                    <div class="plan-card"><h4>Pack Esencial</h4><p class="price">$9.990 CLP</p><ul><li>Gestión en +5 Telcos principales</li><li>Para 1 número telefónico</li><li>Creación de evidencia legal</li></ul><button onclick="openModal('esencial')">Contratar Esencial</button></div>
-                    <div class="plan-card recommended"><h4>Pack Total</h4><p class="price">$15.990 CLP</p><ul><li>Gestión en +10 Telcos y Retail</li><li>Para hasta 2 números</li><li>Creación de evidencia legal</li></ul><button onclick="openModal('total')">Contratar Total</button></div>
-                    <div class="plan-card"><h4>Pack Familiar</h4><p class="price">$24.990 CLP</p><ul><li>Gestión en +20 empresas</li><li>Para hasta 5 números</li><li>Soporte prioritario</li></ul><button onclick="openModal('familiar')">Contratar Familiar</button></div>
+                    <div class="plan-card"><h4>Pack Esencial</h4><p class="price">$9.990 CLP</p><ul><li>Gestión en +5 Telcos principales</li><li>Para 1 número telefónico</li><li>Creación de evidencia legal</li></ul><button onclick="location.href='checkout.html?plan=esencial'">Elegir Esencial</button></div>
+                    <div class="plan-card recommended"><h4>Pack Total</h4><p class="price">$15.990 CLP</p><ul><li>Gestión en +10 Telcos y Retail</li><li>Para hasta 2 números</li><li>Creación de evidencia legal</li></ul><button onclick="location.href='checkout.html?plan=total'">Elegir Total</button></div>
+                    <div class="plan-card"><h4>Pack Familiar</h4><p class="price">$24.990 CLP</p><ul><li>Gestión en +20 empresas</li><li>Para hasta 5 números</li><li>Soporte prioritario</li></ul><button onclick="location.href='checkout.html?plan=familiar'">Elegir Familiar</button></div>
                 </div>
             </div>
         </section>
@@ -119,84 +107,12 @@
             </div>
         </section>
     </main>
-
-    <div id="checkout-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">×</button>
-            <h3 id="modal-title">Contratar Plan</h3>
-            <form name="checkout" method="POST" action="/gracias.html" data-netlify="true" netlify-honeypot="bot-field">
-                <input type="hidden" name="form-name" value="checkout" />
-                <input type="hidden" id="plan-input" name="plan" value="">
-                
-                <p class="hidden"><label>No llenes esto: <input name="bot-field"></label></p>
-                <label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required>
-                <label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required>
-                <label for="telefono">Teléfono Principal</label><input type="tel" id="telefono" name="telefono" required>
-                <div id="campos-adicionales" style="display: none;">
-                    <label for="telefonos-adicionales">Otros teléfonos (uno por línea)</label>
-                    <textarea id="telefonos-adicionales" name="telefonos-adicionales" rows="4"></textarea>
-                </div>
-                <fieldset style="border:none; padding:0; margin-top: 1rem;">
-                    <legend style="font-size: 1rem; font-weight: bold; margin-bottom: 0.5rem;">Información de Pago</legend>
-                    <div style="display:flex; flex-direction:column; gap:1rem;">
-                        <input type="text" id="card-name" placeholder="Nombre en la Tarjeta" required>
-                        <input type="text" id="card-number" placeholder="Número de Tarjeta" required>
-                        <div style="display: flex; gap: 1rem;">
-                            <input type="text" id="card-expiry" placeholder="MM/AA" required>
-                            <input type="text" id="card-cvc" placeholder="CVC" required>
-                        </div>
-                    </div>
-                </fieldset>
-                <div class="terminos-mandato">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">Acepto los <a href="terminos.html" target="_blank">Términos</a> y otorgo un poder simple a Nomewei para gestionar la eliminación de mis datos.</label>
-                </div>
-                <button type="submit" class="plan-card recommended button" id="pay-button">Pagar y Finalizar</button>
-            </form>
+    <footer>
+        <div class="container footer-grid">
+           <div><h4>Nomewei</h4><p style="font-size: 0.9rem; color: var(--gris);">Tu abogado digital contra el acoso telefónico.</p></div>
+           <div><h4>Legal</h4><ul><li><a href="terminos.html" target="_blank">Términos y Condiciones</a></li><li><a href="privacidad.html" target="_blank">Política de Privacidad</a></li></ul></div>
+          <div><h4>Links</h4><ul><li><a href="#steps">Cómo Funciona</a></li><li><a href="#planes">Planes</a></li><li><a href="#">Contacto</a></li></ul></div>
         </div>
-    </div>
-
-    <script>
-        const modal = document.getElementById('checkout-modal');
-        const form = document.forms.checkout;
-        const planesInfo = {
-            'esencial': { titulo: 'Pack Esencial', precio: '9.990' },
-            'total': { titulo: 'Pack Total', precio: '15.990' },
-            'familiar': { titulo: 'Pack Familiar', precio: '24.990' }
-        };
-
-        function openModal(planId) {
-            const info = planesInfo[planId];
-            form.plan.value = info.titulo;
-            document.getElementById('modal-title').textContent = `Finalizar Compra: ${info.titulo}`;
-            document.getElementById('pay-button').textContent = `Pagar $${info.precio} y Finalizar`;
-            
-            const camposAdicionales = document.getElementById('campos-adicionales');
-            camposAdicionales.style.display = (planId === 'total' || planId === 'familiar') ? 'block' : 'none';
-
-            const savedData = localStorage.getItem('nomewei-form-data');
-            if(savedData) {
-                const formData = JSON.parse(savedData);
-                form.nombre.value = formData.nombre || '';
-                form.email.value = formData.email || '';
-                form.telefono.value = formData.telefono || '';
-            }
-            modal.style.display = 'flex';
-        }
-
-        function closeModal() {
-            const formData = {
-                nombre: form.nombre.value,
-                email: form.email.value,
-                telefono: form.telefono.value
-            };
-            localStorage.setItem('nomewei-form-data', JSON.stringify(formData));
-            modal.style.display = 'none';
-        }
-
-        form.addEventListener('submit', () => {
-            localStorage.removeItem('nomewei-form-data');
-        });
-    </script>
+    </footer>
 </body>
 </html>
