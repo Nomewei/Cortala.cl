@@ -11,42 +11,13 @@
       --blanco: #FFFFFF;
       --gris-claro: #F7F7F7;
       --gris: #E1E1E1;
-      --verde-exito: #28a745;
       --texto-oscuro: #333333;
       --font: 'Segoe UI', sans-serif;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body {
-      font-family: var(--font);
-      background: var(--gris-claro);
-      color: var(--texto-oscuro);
-      line-height:1.5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 1rem;
-    }
-    .checkout-container {
-      display: grid;
-      grid-template-columns: 400px 1fr;
-      max-width: 950px;
-      width: 100%;
-      margin: 2rem;
-      background: var(--blanco);
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-
-    /* Columna Izquierda: Resumen */
-    .columna-resumen {
-      background: var(--marino);
-      color: var(--blanco);
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-    }
+    body { font-family: var(--font); background: var(--gris-claro); color: var(--texto-oscuro); line-height:1.5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 1rem; }
+    .checkout-container { display: grid; grid-template-columns: 400px 1fr; max-width: 950px; width: 100%; margin: 2rem; background: var(--blanco); border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); overflow: hidden; }
+    .columna-resumen { background: var(--marino); color: var(--blanco); padding: 2.5rem; display: flex; flex-direction: column; }
     .columna-resumen .branding { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem; }
     .columna-resumen .branding svg { width: 32px; height: 32px; }
     .columna-resumen .branding h1 { font-size: 1.5rem; }
@@ -57,50 +28,29 @@
     .plan-info ul li { margin: 0.75rem 0; opacity: 0.9; }
     .columna-resumen footer { margin-top: auto; text-align: center; opacity: 0.7; font-size: 0.9rem; }
     .columna-resumen footer a { text-decoration: underline; }
-
-    /* Columna Derecha: Formulario */
     .columna-formulario { padding: 2.5rem; }
     .columna-formulario h3 { font-size: 1.8rem; color: var(--marino); margin-bottom: 2rem; }
     form { display:flex; flex-direction:column; gap:1.25rem; }
     label { font-weight:600; font-size: 0.9rem; }
     input, textarea { width:100%; padding:0.8rem; border:1px solid var(--gris); border-radius:5px; font-size:1rem; resize: vertical; }
-    
-    .boton-pagar {
-      background: var(--naranja);
-      color: var(--blanco);
-      padding: 1rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-      width: 100%;
-      margin-top: 1rem;
-    }
+    .boton-pagar { background: var(--naranja); color: var(--blanco); padding: 1rem; border: none; border-radius: 5px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: background 0.3s; width: 100%; margin-top: 1rem; }
     .boton-pagar:hover { background: #E69500; }
     .sellos-confianza { text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.8rem; color: #666; }
     .sellos-confianza img { height: 20px; opacity: 0.7; }
-
-    #campos-adicionales { display: none; } /* Oculto por defecto */
-    
-    @media (max-width: 850px) {
-        .checkout-container { grid-template-columns: 1fr; }
-        .columna-resumen { border-radius: 12px 12px 0 0; }
-    }
+    #campos-adicionales { display: none; }
+    .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; margin-top: 1rem; }
+    .terminos-mandato input[type="checkbox"] { width: auto; margin-top: 5px; flex-shrink: 0; }
+    .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
+    .terminos-mandato a { text-decoration: underline; color: var(--marino); font-weight: bold;}
+     @media (max-width: 850px) { .checkout-container { grid-template-columns: 1fr; } .columna-resumen { border-radius: 12px 12px 0 0; } }
   </style>
 </head>
 <body>
-
   <div class="checkout-container">
     <div class="columna-resumen">
       <div class="branding">
          <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;">
-            <svg viewBox="0 0 24 24">
-              <path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
-              <circle cx="12" cy="12" r="4" fill="var(--blanco)"/>
-              <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/><circle cx="12" cy="12" r="4" fill="var(--blanco)"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/></svg>
             <h1>Nomewei</h1>
         </a>
       </div>
@@ -112,21 +62,21 @@
       </div>
       <footer><p><a href="index.html#planes">← Cambiar de plan</a></p></footer>
     </div>
-    
     <div class="columna-formulario">
-      <h3>Completa tus datos</h3>
+      <h3>Completa tus datos para la gestión</h3>
       <form id="checkout-form" name="checkout" method="POST" data-netlify="true">
         <input type="hidden" id="plan-input" name="plan" value="">
-        
         <div><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required></div>
         <div><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required></div>
         <div><label for="telefono">Teléfono Principal a Gestionar</label><input type="tel" id="telefono" name="telefono" placeholder="+56 9 XXXXXXXX" required></div>
-        
         <div id="campos-adicionales">
-          <label for="telefonos-adicionales">Otros teléfonos a gestionar (hasta 4 más, separados por comas)</label>
-          <textarea id="telefonos-adicionales" name="telefonos-adicionales" rows="3"></textarea>
+          <label for="telefonos-adicionales">Otros teléfonos a gestionar (uno por línea)</label>
+          <textarea id="telefonos-adicionales" name="telefonos-adicionales" rows="4" placeholder="+56 9 11111111&#10;+56 9 22222222"></textarea>
         </div>
-        
+        <div class="terminos-mandato">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">He leído y acepto los <a href="terminos.html" target="_blank">Términos y Condiciones</a> y la <a href="privacidad.html" target="_blank">Política de Privacidad</a>. Otorgo a Nomewei un poder simple para actuar en mi nombre y representación, con el único fin de gestionar la eliminación de mis datos ante las empresas correspondientes, según la Ley 19.628.</label>
+        </div>
         <button type="submit" class="boton-pagar" id="pay-button">Pagar y Enviar Solicitudes</button>
       </form>
       <div class="sellos-confianza">
@@ -135,37 +85,32 @@
       </div>
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
       const planId = params.get('plan');
-
       const planesInfo = {
         'esencial': {
           titulo: 'Pack Esencial',
           precio: '$9.990 CLP',
-          beneficios: ['Hasta 5 empresas', '1 número telefónico']
+          beneficios: ['Gestión en +5 Telcos', 'Para 1 número telefónico', 'Creación de evidencia legal']
         },
         'total': {
           titulo: 'Pack Total',
           precio: '$15.990 CLP',
-          beneficios: ['Hasta 10 empresas', '2 números telefónicos']
+          beneficios: ['Gestión en +10 Telcos y Retail', 'Para hasta 2 números', 'Creación de evidencia legal']
         },
         'familiar': {
           titulo: 'Pack Familiar',
           precio: '$24.990 CLP',
-          beneficios: ['Empresas ilimitadas', 'Hasta 5 números']
+          beneficios: ['Gestión en +20 empresas', 'Para hasta 5 números', 'Soporte prioritario']
         }
       };
-
       const info = planesInfo[planId] || { titulo: 'Plan no seleccionado', precio: '$0 CLP', beneficios: ['Por favor, selecciona un plan.'] };
-      
       document.getElementById('plan-titulo').textContent = info.titulo;
       document.getElementById('plan-precio').textContent = info.precio;
       document.getElementById('plan-input').value = info.titulo;
       document.getElementById('pay-button').textContent = `Pagar ${info.precio}`;
-
       const beneficiosLista = document.getElementById('plan-beneficios');
       beneficiosLista.innerHTML = '';
       info.beneficios.forEach(b => {
@@ -173,16 +118,19 @@
         li.textContent = b;
         beneficiosLista.appendChild(li);
       });
-
-      // Lógica para mostrar campos adicionales en el Pack Familiar
-      if (planId === 'familiar') {
-        document.getElementById('campos-adicionales').style.display = 'block';
-      }
-      if (planId === 'total') {
-        const telInput = document.getElementById('telefono');
-        telInput.placeholder = "Ingresa el primer teléfono";
-        // Para el pack total, también podrías querer un campo adicional.
-        // Por simplicidad del MVP, lo mantenemos así, pero se podría añadir otro campo aquí.
+      if (planId === 'familiar' || planId === 'total') {
+        const campoAdicional = document.getElementById('campos-adicionales');
+        campoAdicional.style.display = 'block';
+        const labelAdicional = campoAdicional.querySelector('label');
+        if(planId === 'total'){
+            labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
+            campoAdicional.querySelector('textarea').rows = "1";
+            campoAdicional.querySelector('textarea').placeholder = "+56 9 33333333";
+        } else {
+            labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más, uno por línea)';
+            campoAdicional.querySelector('textarea').rows = "4";
+            campoAdicional.querySelector('textarea').placeholder = "+56 9 11111111\n+56 9 22222222";
+        }
       }
     });
   </script>
