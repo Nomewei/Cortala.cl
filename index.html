@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nomewei – Chao Acoso Telefónico</title>
+  <style>
+    :root {
+      --marino:     #003366;
+      --naranja:    #FFA500;
+      --blanco:     #FFFFFF;
+      --gris-claro: #F7F7F7;
+      --gris:       #E1E1E1;
+      --texto-oscuro:  #333333;
+      --font:       'Segoe UI', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--gris-claro);
+      color: var(--texto-oscuro);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1024px; margin: auto; padding: 0 1rem; }
+
+    /* Header */
+    header { background: var(--marino); padding: 1rem 0; }
+    header .container { display: flex; align-items: center; justify-content: space-between; }
+    .branding { display: flex; align-items: center; gap: 0.5rem; }
+    .branding svg { width: 48px; height: 48px; }
+    .branding h1 { color: var(--blanco); font-size: 1.75rem; }
+    nav ul { display: flex; gap: 1.5rem; list-style: none; }
+    nav a { color: var(--blanco); font-weight: 600; transition: opacity 0.2s; }
+    nav a:hover { opacity: 0.8; }
+
+    /* Secciones Generales */
+    section { padding: 4rem 0; }
+    section h3 { text-align: center; color: var(--marino); font-size: 2rem; margin-bottom: 2.5rem; }
+
+    /* Hero */
+    #hero { background: var(--blanco); text-align: center; }
+    #hero h2 { color: var(--marino); font-size: 2.75rem; margin-bottom: 1rem; }
+    #hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+    #hero .btn { background: var(--naranja); color: var(--blanco); border: none; padding: 0.75rem 1.5rem; border-radius: 5px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.3s ease; }
+    #hero .btn:hover { background: #E69500; }
+
+    /* Pasos */
+    #steps { background: var(--gris-claro); }
+    .steps-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .step-card { background: var(--blanco); border-radius: 8px; padding: 1.5rem; display: flex; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .step-number { background: var(--marino); color: var(--blanco); min-width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .step-content h4 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+    .step-content p { margin: 0; font-size: 0.95rem; line-height: 1.4; color: #555; }
+
+    /* Planes */
+    #planes { background: var(--blanco); }
+    .plans-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .plan-card { background: var(--gris-claro); border: 1px solid var(--gris); border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; transition: transform 0.3s ease; }
+    .plan-card:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .plan-card.recommended { background: #FFF5E5; border: 2px solid var(--naranja); }
+    .plan-card h4 { color: var(--marino); font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .plan-card .price { color: var(--texto-oscuro); font-size: 1.8rem; font-weight: bold; margin: 0.5rem 0 1rem; }
+    .plan-card ul { list-style: none; flex-grow: 1; margin-bottom: 1.5rem; }
+    .plan-card ul li { position: relative; padding-left: 1.5rem; margin: 0.5rem 0; }
+    .plan-card ul li::before { content: "✔"; position: absolute; left: 0; color: var(--marino); }
+    .plan-card button { background: var(--marino); color: var(--blanco); border: none; padding: 0.75rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s ease; margin-top: auto; }
+    .plan-card button:hover { background: #001f4d; }
+    .plan-card.recommended button { background: var(--naranja); }
+    .plan-card.recommended button:hover { background: #E69500; }
+
+    /* Testimonios */
+    #testimonios { background: var(--gris-claro); }
+    .testimonials-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .testimonial-card { background: var(--blanco); border-radius: 8px; border: 1px solid var(--gris); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 2rem; text-align: left; display: flex; flex-direction: column; }
+    .testimonial-card .stars { color: var(--naranja); margin-bottom: 1rem; font-size: 1.2rem; }
+    .testimonial-card p { font-style: italic; font-size: 1rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; }
+    .testimonial-card footer { font-size: 0.9rem; font-weight: 600; color: var(--marino); }
+
+    /* Footer */
+    footer { background: var(--marino); color: var(--gris-claro); padding: 3rem 1rem; }
+    .footer-grid { max-width: 1024px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 2rem; }
+    .footer-grid h4 { color: var(--blanco); margin-bottom: 1rem; }
+    .footer-grid ul { list-style: none; }
+    .footer-grid li { margin: 0.5rem 0; }
+    .footer-grid a { color: var(--gris); }
+    .footer-grid a:hover { color: var(--blanco); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="branding">
+        <a href="index.html">
+          <svg viewBox="0 0 24 24">
+            <path fill="var(--blanco)" d="M12,2L2,7v5c0,5.2,3.8,9.9,10,12c6.2-2.1,10-6.8,10-12V7L12,2z"/>
+            <circle cx="12" cy="12" r="4" fill="var(--blanco)"/>
+            <line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/>
+          </svg>
+        </a>
+        <h1><a href="index.html">Nomewei</a></h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#steps">Cómo Funciona</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero">
+    <div class="container">
+      <h2>Recupera el control de tu teléfono</h2>
+      <p>Soluciones legales contra el acoso telefónico. Fácil, rápido y 100% online.</p>
+      <a href="#planes" class="btn">Ver Planes</a>
+    </div>
+  </section>
+
+  <section id="steps">
+    <div class="container">
+      <h3>3 pasos para liberarte del acoso</h3>
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Elige tu Plan</h4>
+            <p>Selecciona el Pack que mejor se adapte a tus necesidades.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Ingresa tus Datos</h4>
+            <p>Completa un formulario seguro con la información necesaria para la gestión.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Nosotros nos Encargamos</h4>
+            <p>Enviamos las solicitudes y hacemos el seguimiento hasta que estés en paz.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="planes">
+    <div class="container">
+      <h3>Elige tu plan</h3>
+      <div class="plans-wrapper">
+        <div class="plan-card">
+          <h4>Pack Esencial</h4>
+          <p class="price">$9.990 CLP</p>
+          <ul>
+            <li>Hasta 5 empresas telefónicas</li>
+            <li>Gestión de 1 número</li>
+            <li>Seguimiento 24/7</li>
+            <li>Respaldo legal y documentación</li>
+          </ul>
+          <button onclick="location.href='checkout.html?plan=esencial'">Elegir Esencial</button>
+        </div>
+        <div class="plan-card recommended">
+          <h4>Pack Total</h4>
+          <p class="price">$15.990 CLP</p>
+          <ul>
+            <li>Hasta 10 empresas (telco + comercios)</li>
+            <li>Gestión de 2 números</li>
+            <li>Seguimiento 24/7</li>
+            <li>Respaldo legal y documentación</li>
+          </ul>
+          <button onclick="location.href='checkout.html?plan=total'">Elegir Total</button>
+        </div>
+        <div class="plan-card">
+          <h4>Pack Familiar</h4>
+          <p class="price">$24.990 CLP</p>
+          <ul>
+            <li>Empresas ilimitadas</li>
+            <li>Gestión de hasta 5 números</li>
+            <li>Seguimiento 24/7</li>
+            <li>Respaldo legal y documentación</li>
+          </ul>
+          <button onclick="location.href='checkout.html?plan=familiar'">Elegir Familiar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonios">
+    <div class="container">
+      <h3>Qué dicen nuestros clientes</h3>
+      <div class="testimonials-container">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Dejó de sonar mi celular en 2 días. El proceso fue súper claro y el equipo me dio un respaldo increíble. ¡Recomendado!"</p>
+          <footer>- Camila R. (Providencia)</footer>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Servicio impecable y muy profesional. Me siento completamente libre del spam telefónico. Vale cada peso."</p>
+          <footer>- José L. (Ñuñoa)</footer>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Rápido, simple y lo más importante: efectivo. Presentaron todos los documentos legales y las empresas cumplieron."</p>
+          <footer>- Fernanda G. (Santiago Centro)</footer>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer>
+    <div class="container footer-grid">
+       <div>
+        <h4>Nomewei</h4>
+        <p style="font-size: 0.9rem; color: var(--gris);">Tu abogado digital contra el acoso telefónico. Recupera tu tranquilidad con respaldo legal.</p>
+      </div>
+       <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Términos y Condiciones</a></li>
+          <li><a href="#">Política de Privacidad</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#steps">Cómo Funciona</a></li>
+          <li><a href="#planes">Planes</a></li>
+           <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
