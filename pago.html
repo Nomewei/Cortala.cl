@@ -53,14 +53,14 @@
         <span>Transacción encriptada y segura</span>
     </div>
     <div class="legal-links">
-        <a href="terminos.html" target="_blank">Términos y Condiciones</a> • <a href="privacidad.html" target="_blank">Política de Privacidad</a>
+        <a href="terminos.html">Términos y Condiciones</a> • <a href="privacidad.html">Política de Privacidad</a>
     </div>
   </div>
   <script>
     const paymentForm = document.getElementById('payment-form');
     const paymentFormFields = paymentForm.elements;
     
-    // Guarda los datos del formulario de pago en localStorage
+    // Guarda los datos del formulario de pago en localStorage cada vez que el usuario escribe
     paymentForm.addEventListener('input', () => {
         const paymentData = {
             cardName: paymentFormFields['card-name'].value,
@@ -74,10 +74,10 @@
     // Al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
         // Recuperar y mostrar info del plan y precio desde los datos guardados en checkout
-        const savedCheckoutData = localStorage.getItem('nomewei-form-data');
+        const savedCheckoutData = localStorage.getItem('nomewei-checkout-data');
         if (savedCheckoutData) {
             const checkoutData = JSON.parse(savedCheckoutData);
-            const planName = checkoutData.plan;
+            const planName = checkoutData.plan; 
             const price = checkoutData.price;
             if (planName && price) {
                 document.getElementById('plan-name').textContent = planName;
@@ -104,9 +104,12 @@
             document.getElementById('submit').textContent = 'Procesando...';
             setTimeout(() => {
                 // Limpiamos AMBOS almacenamientos después del pago
-                localStorage.removeItem('nomewei-form-data');
+                localStorage.removeItem('nomewei-checkout-data');
                 localStorage.removeItem('nomewei-payment-data');
-                window.location.href = 'gracias.html';
+                // En un caso real, aquí iría la redirección a una página de éxito
+                alert("¡Gracias por tu compra! (Modo de prueba)");
+                document.getElementById('submit').disabled = false;
+                document.getElementById('submit').textContent = 'Pagar de nuevo';
             }, 2000);
         });
     });
