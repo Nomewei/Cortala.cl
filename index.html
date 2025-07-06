@@ -70,13 +70,51 @@
     .plan-card.recommended button { background: var(--naranja); }
     .plan-card.recommended button:hover { background: #E69500; }
 
-    /* Testimonios */
-    #testimonios { background: var(--gris-claro); }
-    .testimonials-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-    .testimonial-card { background: var(--blanco); border-radius: 8px; border: 1px solid var(--gris); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 2rem; text-align: left; display: flex; flex-direction: column; }
-    .testimonial-card .stars { color: var(--naranja); margin-bottom: 1rem; font-size: 1.2rem; }
-    .testimonial-card p { font-style: italic; font-size: 1rem; line-height: 1.5; margin-bottom: 1rem; flex-grow: 1; }
-    .testimonial-card footer { font-size: 0.9rem; font-weight: 600; color: var(--marino); }
+    /* TESTIMONIOS (Versión Corregida) */
+#testimonios {
+  background: var(--gris-claro);
+  padding: 4rem 1rem;
+}
+#testimonios h3 {
+  text-align: center;
+  color: var(--marino);
+  font-size: 2.2rem;
+  margin-bottom: 2.5rem;
+}
+.reseñas-container {
+  max-width: 1024px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+.reseña-card {
+  background: var(--blanco);
+  border-radius: 8px;
+  border: 1px solid var(--gris);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 2rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+.reseña-card .stars {
+  color: var(--naranja);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.reseña-card .reseña-texto {
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1; 
+}
+.reseña-card .reseña-autor {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--marino);
+}
     
     /* FAQ */
     #faq { background: var(--blanco); }
@@ -202,27 +240,29 @@
     </section>
 
     <section id="testimonios">
-      <div class="container">
-        <h3>Qué dicen nuestros clientes</h3>
-        <div class="testimonials-container">
-          <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p>"Dejó de sonar mi celular en 2 días. El proceso fue súper claro y el equipo me dio un respaldo increíble. ¡Recomendado!"</p>
-            <footer>- Camila R. (Providencia)</footer>
-          </div>
-          <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p>"Servicio impecable y muy profesional. Me siento completamente libre del spam telefónico. Vale cada peso."</p>
-            <footer>- José L. (Ñuñoa)</footer>
-          </div>
-          <div class="testimonial-card">
-            <div class="stars">★★★★★</div>
-            <p>"Rápido, simple y lo más importante: efectivo. Presentaron todos los documentos legales y las empresas cumplieron."</p>
-            <footer>- Fernanda G. (Santiago Centro)</footer>
-          </div>
+  <div class="container">
+    <h3>Qué dicen nuestros clientes</h3>
+    <div class="reseñas-container">
+      <div class="reseña-card">
+        <div class="stars">★★★★★</div>
+        <p class="reseña-texto">"Dejó de sonar mi celular en 2 días. El proceso fue súper claro y el equipo me dio un respaldo increíble. ¡Recomendado!"</p>
+        <footer class="reseña-autor">- Camila R. (Providencia)</footer>
+      </div>
+      <div class="reseña-card">
+        <div class="stars">★★★★★</div>
+        <p class="reseña-texto">"Servicio impecable y muy profesional. Me siento completamente libre del spam telefónico. Vale cada peso."</p>
+        <footer class="reseña-autor">- José L. (Ñuñoa)</footer>
+      </div>
+      <div class="reseña-card">
+        <div class="reseña-card">
+          <div class="stars">★★★★★</div>
+          <p class="reseña-texto">"Rápido, simple y lo más importante: efectivo. Presentaron todos los documentos legales y las empresas cumplieron."</p>
+          <footer class="reseña-autor">- Fernanda G. (Santiago Centro)</footer>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <section id="faq">
         <div class="container">
