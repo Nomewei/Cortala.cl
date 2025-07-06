@@ -34,6 +34,7 @@
     .terminos-mandato input[type="checkbox"] { width: auto; margin-top: 5px; flex-shrink: 0; }
     .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
     .terminos-mandato a { text-decoration: underline; color: var(--marino); font-weight: bold;}
+    .hidden { position: absolute; left: -5000px; } /* Oculta el campo trampa */
      @media (max-width: 850px) { .checkout-container { grid-template-columns: 1fr; } .columna-resumen { border-radius: 12px 12px 0 0; } }
   </style>
 </head>
@@ -56,8 +57,9 @@
     </div>
     <div class="columna-formulario">
       <h3>Completa tus datos para la gestión</h3>
-      <form id="checkout-form" name="checkout" method="POST" action="/pago">
+      <form id="checkout-form" name="checkout" method="POST" action="/pago.html" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="checkout" />
+        <p class="hidden"><label>No llenes esto si eres humano: <input name="bot-field" /></label></p>
         <input type="hidden" id="plan-input" name="plan" value="">
         <input type="hidden" id="price-input" name="price" value="">
         <div><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required></div>
@@ -123,7 +125,6 @@
       const savedData = localStorage.getItem('nomewei-checkout-data');
       if (savedData) {
         const formData = JSON.parse(savedData);
-        // Solo rellenamos si el plan guardado coincide con el plan actual, para evitar confusiones
         if(formData.plan === info.titulo) {
             formFields.nombre.value = formData.nombre || '';
             formFields.email.value = formData.email || '';
