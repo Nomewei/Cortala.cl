@@ -93,7 +93,7 @@
         'esencial': {
           titulo: 'Pack Esencial',
           precio: '$9.990 CLP',
-          beneficios: ['Gestión en +5 Telcos', 'Para 1 número telefónico', 'Creación de evidencia legal']
+          beneficios: ['Gestión en +5 Telcos principales', 'Para 1 número telefónico', 'Creación de evidencia legal']
         },
         'total': {
           titulo: 'Pack Total',
@@ -103,7 +103,7 @@
         'familiar': {
           titulo: 'Pack Familiar',
           precio: '$24.990 CLP',
-          beneficios: ['Gestión en +20 empresas', 'Para hasta 5 números', 'Soporte prioritario']
+          beneficios: ['Gestión en +10 empresas', 'Para hasta 5 números', 'Soporte prioritario']
         }
       };
       const info = planesInfo[planId] || { titulo: 'Plan no seleccionado', precio: '$0 CLP', beneficios: ['Por favor, selecciona un plan.'] };
@@ -122,14 +122,15 @@
         const campoAdicional = document.getElementById('campos-adicionales');
         campoAdicional.style.display = 'block';
         const labelAdicional = campoAdicional.querySelector('label');
+        const textareaAdicional = campoAdicional.querySelector('textarea');
         if(planId === 'total'){
             labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
-            campoAdicional.querySelector('textarea').rows = "1";
-            campoAdicional.querySelector('textarea').placeholder = "+56 9 33333333";
-        } else {
+            textareaAdicional.rows = "1";
+            textareaAdicional.placeholder = "+56 9 33333333";
+        } else { // familiar
             labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más, uno por línea)';
-            campoAdicional.querySelector('textarea').rows = "4";
-            campoAdicional.querySelector('textarea').placeholder = "+56 9 11111111\n+56 9 22222222";
+            textareaAdicional.rows = "4";
+            textareaAdicional.placeholder = "+56 9 11111111\n+56 9 22222222";
         }
       }
     });
