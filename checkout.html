@@ -111,7 +111,7 @@
         document.getElementById('plan-titulo').textContent = info.titulo;
         document.getElementById('plan-precio').textContent = `$${parseInt(info.precio).toLocaleString('es-CL')} CLP`;
         document.getElementById('plan-input').value = info.titulo;
-        document.getElementById('pay-button').textContent = `Pagar ${info.precio} y Finalizar`;
+        document.getElementById('pay-button').textContent = `Pagar y Finalizar`;
         
         const beneficiosLista = document.getElementById('plan-beneficios');
         beneficiosLista.innerHTML = '';
