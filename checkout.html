@@ -101,9 +101,9 @@
         const params = new URLSearchParams(window.location.search);
         const planId = params.get('plan');
         const planesInfo = {
-            'esencial': { titulo: 'Pack Esencial', precio: '9990', beneficios: ['Gestión en 5 5 Telefónicas principales', 'Para 1 número telefónico', 'Creación de evidencia legal'] },
+            'esencial': { titulo: 'Pack Esencial', precio: '9990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para 1 número telefónico', 'Creación de evidencia legal'] },
             'total': { titulo: 'Dual Pack', precio: '15990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 2 números', 'Creación de evidencia legal'] },
-            'familiar': { titulo: 'Pack Total', precio: '24990', beneficios: ['Gestión en +15 empresas', 'Para hasta 5 números telefónicos', 'Evidencia legal + Soporte prioritario'] }
+            'familiar': { titulo: 'Pack Total', precio: '24990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 5 números telefónicos', 'Evidencia legal + Soporte prioritario'] }
         };
 
         const info = planesInfo[planId] || { titulo: 'Plan no seleccionado', precio: '0', beneficios: ['Por favor, selecciona un plan.'] };
