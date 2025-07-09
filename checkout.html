@@ -85,4 +85,126 @@
         <fieldset>
           <legend>2. Información de Pago</legend>
           <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
-              <div><label for="card-name">Nombre en la Tarjeta
+              <div><label for="card-name">Nombre en la Tarjeta</label><input type="text" id="card-name" name="card-name" required></div>
+              <div><label for="card-number">Número de Tarjeta</label><input type="text" id="card-number" name="card-number" placeholder="4242 4242 4242 4242" required></div>
+              <div class="card-details">
+                <div><label for="card-expiry">Vencimiento (MM/AA)</label><input type="text" id="card-expiry" name="card-expiry" placeholder="MM/AA" required></div>
+                <div><label for="card-cvc">CVC</label><input type="text" id="card-cvc" name="card-cvc" placeholder="123" required></div>
+              </div>
+          </div>
+        </fieldset>
+
+        <div class="terminos-mandato">
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">He leído y acepto los <a href="terminos.html" target="_blank">Términos y Condiciones</a>. Otorgo a Nomewei un poder simple para actuar en mi nombre y representación, con el único fin de gestionar la eliminación de mis datos.</label>
+        </div>
+        <div data-netlify-recaptcha="true"></div>
+        <button type="submit" class="boton-pagar" id="pay-button">Pagar y Finalizar Gestión</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('checkout-form');
+        const formFields = form.elements;
+        
+        // --- CÓDIGO DE VALIDACIÓN DE RUT ---
+        const rutInput = document.getElementById('rut');
+        const rutError = document.getElementById('rut-error');
+
+        const validarRut = (rutCompleto) => {
+            rutCompleto = rutCompleto.replace(/\./g, '').replace('-', '');
+            if (!/^[0-9]+[0-9kK]{1}$/.test(rutCompleto)) return false;
+            const tmp = rutCompleto.split('');
+            let dv = tmp.pop();
+            const rut = tmp.join('');
+            if (dv == 'K') dv = 'k';
+            let M=0,S=1;
+            for(;rut;rut=Math.floor(rut/10))
+                S=(S+rut%10*(9-M++%6))%11;
+            return S?S-1:'k' == dv;
+        };
+
+        const formatearRut = (rut) => {
+            let rutLimpio = rut.replace(/[^0-9kK]/g, '');
+            if (rutLimpio.length < 2) return rutLimpio;
+            let cuerpo = rutLimpio.slice(0, -1);
+            let dv = rutLimpio.slice(-1).toUpperCase();
+            cuerpo = new Intl.NumberFormat('de-DE').format(cuerpo);
+            return `${cuerpo}-${dv}`;
+        };
+
+        rutInput.addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
+        
+        // --- INICIO NUEVO CÓDIGO: FORMATO DE TARJETA ---
+        const cardNumberInput = document.getElementById('card-number');
+        const cardExpiryInput = document.getElementById('card-expiry');
+
+        cardNumberInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '';
+            e.target.value = formattedValue.slice(0, 19);
+        });
+
+        cardExpiryInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\//g, '').replace(/[^0-9]/g, '');
+            if (value.length > 2) {
+                value = `${value.slice(0,2)}/${value.slice(2)}`;
+            }
+            e.target.value = value.slice(0, 5);
+        });
+        // --- FIN NUEVO CÓDIGO ---
+
+        const params = new URLSearchParams(window.location.search);
+        const planId = params.get('plan');
+        const planesInfo = {
+            'esencial': { titulo: 'Pack Esencial', precio: '9990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para 1 número telefónico', 'Creación de evidencia legal'] },
+            'total': { titulo: 'Dual Pack', precio: '15990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 2 números', 'Creación de evidencia legal'] },
+            'familiar': { titulo: 'Pack Total', precio: '24990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 5 números telefónicos', 'Evidencia legal + Soporte prioritario'] }
+        };
+
+        const info = planesInfo[planId] || { titulo: 'Plan no seleccionado', precio: '0', beneficios: ['Por favor, selecciona un plan.'] };
+        
+        document.getElementById('plan-titulo').textContent = info.titulo;
+        document.getElementById('plan-precio').textContent = `$${parseInt(info.precio).toLocaleString('es-CL')} CLP`;
+        document.getElementById('plan-input').value = info.titulo;
+        document.getElementById('pay-button').textContent = `Pagar y Finalizar`;
+        
+        const beneficiosLista = document.getElementById('plan-beneficios');
+        beneficiosLista.innerHTML = '';
+        info.beneficios.forEach(b => {
+            const li = document.createElement('li');
+            li.textContent = b;
+            beneficiosLista.appendChild(li);
+        });
+
+        if (planId === 'familiar' || planId === 'total') {
+            const campoAdicional = document.getElementById('campos-adicionales');
+            campoAdicional.style.display = 'block';
+            const labelAdicional = campoAdicional.querySelector('label');
+            const textareaAdicional = campoAdicional.querySelector('textarea');
+            if (planId === 'total') {
+                labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
+                textareaAdicional.rows = "1";
+                textareaAdicional.placeholder = "+56 9 33333333";
+            } else {
+                labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más)';
+                textareaAdicional.rows = "4";
+                textareaAdicional.placeholder = "+56 9 11111111\n+56 9 22222222";
+            }
+        }
+
+        form.addEventListener('submit', (event) => {
+            if (!validarRut(rutInput.value)) {
+                event.preventDefault(); 
+                rutError.textContent = 'Por favor, ingresa un RUT válido.';
+                rutInput.style.borderColor = '#dc3545';
+            } else {
+                rutError.textContent = '';
+                rutInput.style.borderColor = 'var(--gris)';
+            }
+        });
+    });
+  </script>
+</body>
+</html>
