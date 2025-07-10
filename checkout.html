@@ -162,3 +162,38 @@
         // --- FIN CAMBIO PRECIO ---
         
         const beneficiosLista = document.getElementById('plan-beneficios');
+        beneficiosLista.innerHTML = '';
+        info.beneficios.forEach(b => {
+            const li = document.createElement('li'); li.textContent = b; beneficiosLista.appendChild(li);
+        });
+
+        const campoAdicional = document.getElementById('campos-adicionales');
+        if (planId === 'dual' || planId === 'familiar') { // Ajustado a los nuevos nombres
+            campoAdicional.style.display = 'block';
+            const labelAdicional = campoAdicional.querySelector('label');
+            const textareaAdicional = campoAdicional.querySelector('textarea');
+            if (planId === 'dual') {
+                labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
+                textareaAdicional.rows = "1";
+                textareaAdicional.placeholder = "+56 9 33333333";
+            } else { // 'familiar'
+                labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más)';
+                textareaAdicional.rows = "4";
+                textareaAdicional.placeholder = "+56 9 11111111\n+56 9 22222222";
+            }
+        }
+
+        form.addEventListener('submit', (event) => {
+            if (!validarRut(rutInput.value)) {
+                event.preventDefault(); 
+                rutError.textContent = 'Por favor, ingresa un RUT válido.';
+                rutInput.style.borderColor = '#dc3545';
+            } else {
+                rutError.textContent = '';
+                rutInput.style.borderColor = 'var(--gris)';
+            }
+        });
+    });
+  </script>
+</body>
+</html>
