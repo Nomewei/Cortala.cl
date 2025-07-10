@@ -63,6 +63,7 @@
       <form id="checkout-form" name="checkout" method="POST" action="/gracias.html" data-netlify="true" data-netlify-recaptcha="true">
         <input type="hidden" name="form-name" value="checkout" />
         <input type="hidden" id="plan-input" name="plan" value="">
+        <input type="hidden" id="price-input" name="price" value="">
         
         <fieldset>
           <legend>1. Tus Datos</legend>
@@ -168,6 +169,7 @@
         document.getElementById('plan-titulo').textContent = info.titulo;
         document.getElementById('plan-precio').textContent = `$${parseInt(info.precio).toLocaleString('es-CL')} CLP`;
         document.getElementById('plan-input').value = info.titulo;
+        document.getElementById('price-input').value = info.precio;
         document.getElementById('pay-button').textContent = `Pagar y Finalizar`;
         
         const beneficiosLista = document.getElementById('plan-beneficios');
