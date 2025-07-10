@@ -64,7 +64,6 @@
         <input type="hidden" name="form-name" value="checkout" />
         <input type="hidden" id="plan-input" name="plan" value="">
         <input type="hidden" id="price-input" name="price" value="">
-        
         <fieldset>
           <legend>1. Tus Datos</legend>
           <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
@@ -109,58 +108,45 @@
         const form = document.getElementById('checkout-form');
         const formFields = form.elements;
         
-        // --- CÓDIGO DE VALIDACIÓN DE RUT ---
         const rutInput = document.getElementById('rut');
         const rutError = document.getElementById('rut-error');
-
         const validarRut = (rutCompleto) => {
             rutCompleto = rutCompleto.replace(/\./g, '').replace('-', '');
             if (!/^[0-9]+[0-9kK]{1}$/.test(rutCompleto)) return false;
             const tmp = rutCompleto.split('');
-            let dv = tmp.pop();
-            const rut = tmp.join('');
+            let dv = tmp.pop(); const rut = tmp.join('');
             if (dv == 'K') dv = 'k';
             let M=0,S=1;
-            for(;rut;rut=Math.floor(rut/10))
-                S=(S+rut%10*(9-M++%6))%11;
+            for(;rut;rut=Math.floor(rut/10)) S=(S+rut%10*(9-M++%6))%11;
             return S?S-1:'k' == dv;
         };
-
         const formatearRut = (rut) => {
             let rutLimpio = rut.replace(/[^0-9kK]/g, '');
             if (rutLimpio.length < 2) return rutLimpio;
-            let cuerpo = rutLimpio.slice(0, -1);
-            let dv = rutLimpio.slice(-1).toUpperCase();
+            let cuerpo = rutLimpio.slice(0, -1); let dv = rutLimpio.slice(-1).toUpperCase();
             cuerpo = new Intl.NumberFormat('de-DE').format(cuerpo);
             return `${cuerpo}-${dv}`;
         };
-
         rutInput.addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
         
-        // --- INICIO NUEVO CÓDIGO: FORMATO DE TARJETA ---
         const cardNumberInput = document.getElementById('card-number');
         const cardExpiryInput = document.getElementById('card-expiry');
-
         cardNumberInput.addEventListener('input', (e) => {
             let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
             let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '';
             e.target.value = formattedValue.slice(0, 19);
         });
-
         cardExpiryInput.addEventListener('input', (e) => {
             let value = e.target.value.replace(/\//g, '').replace(/[^0-9]/g, '');
-            if (value.length > 2) {
-                value = `${value.slice(0,2)}/${value.slice(2)}`;
-            }
+            if (value.length > 2) { value = `${value.slice(0,2)}/${value.slice(2)}`; }
             e.target.value = value.slice(0, 5);
         });
-        // --- FIN NUEVO CÓDIGO ---
 
         const params = new URLSearchParams(window.location.search);
         const planId = params.get('plan');
         const planesInfo = {
             'esencial': { titulo: 'Pack Esencial', precio: '9990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para 1 número telefónico', 'Creación de evidencia legal'] },
-            'total': { titulo: 'Dual Pack', precio: '15990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 2 números', 'Creación de evidencia legal'] },
+            'dual': { titulo: 'Dual Pack', precio: '15990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 2 números', 'Creación de evidencia legal'] },
             'familiar': { titulo: 'Pack Total', precio: '24990', beneficios: ['Gestión en 5 Telefónicas + 5 Retail principales', 'Para hasta 5 números telefónicos', 'Evidencia legal + Soporte prioritario'] }
         };
 
@@ -169,44 +155,10 @@
         document.getElementById('plan-titulo').textContent = info.titulo;
         document.getElementById('plan-precio').textContent = `$${parseInt(info.precio).toLocaleString('es-CL')} CLP`;
         document.getElementById('plan-input').value = info.titulo;
-        document.getElementById('price-input').value = info.precio;
         document.getElementById('pay-button').textContent = `Pagar y Finalizar`;
+
+        // --- INICIO CAMBIO PRECIO ---
+        document.getElementById('price-input').value = info.precio;
+        // --- FIN CAMBIO PRECIO ---
         
         const beneficiosLista = document.getElementById('plan-beneficios');
-        beneficiosLista.innerHTML = '';
-        info.beneficios.forEach(b => {
-            const li = document.createElement('li');
-            li.textContent = b;
-            beneficiosLista.appendChild(li);
-        });
-
-        if (planId === 'familiar' || planId === 'total') {
-            const campoAdicional = document.getElementById('campos-adicionales');
-            campoAdicional.style.display = 'block';
-            const labelAdicional = campoAdicional.querySelector('label');
-            const textareaAdicional = campoAdicional.querySelector('textarea');
-            if (planId === 'total') {
-                labelAdicional.textContent = 'Ingresa el segundo teléfono a gestionar';
-                textareaAdicional.rows = "1";
-                textareaAdicional.placeholder = "+56 9 33333333";
-            } else {
-                labelAdicional.textContent = 'Otros teléfonos a gestionar (hasta 4 más)';
-                textareaAdicional.rows = "4";
-                textareaAdicional.placeholder = "+56 9 11111111\n+56 9 22222222";
-            }
-        }
-
-        form.addEventListener('submit', (event) => {
-            if (!validarRut(rutInput.value)) {
-                event.preventDefault(); 
-                rutError.textContent = 'Por favor, ingresa un RUT válido.';
-                rutInput.style.borderColor = '#dc3545';
-            } else {
-                rutError.textContent = '';
-                rutInput.style.borderColor = 'var(--gris)';
-            }
-        });
-    });
-  </script>
-</body>
-</html>
