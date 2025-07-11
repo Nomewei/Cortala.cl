@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Nomewei – Termina con el Acoso Telefónico</title>
+    <style>
+        :root {
+            --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --font: 'Segoe UI', sans-serif;
+        }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: var(--font); background: var(--blanco); color: var(--texto-oscuro); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 700px; margin: auto; padding: 0 1rem; }
+        .step-section { padding: 3rem 0; border-bottom: 1px solid var(--gris); }
+        .step-section h2 { color: var(--marino); font-size: 2rem; text-align: center; margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem;}
+        .step-number-circle { background-color: var(--marino); color: var(--blanco); border-radius: 50%; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; }
+        .plans-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .plan-card { border: 2px solid var(--gris); border-radius: 8px; padding: 1.5rem; cursor: pointer; transition: all 0.2s ease-in-out; }
+        .plan-card:hover { border-color: var(--naranja); }
+        .plan-card.selected { border-color: var(--naranja); box-shadow: 0 0 15px rgba(255, 165, 0, 0.5); transform: scale(1.02); }
+        .plan-card h4 { color: var(--marino); font-size: 1.3rem; }
+        .plan-card .price { font-size: 1.8rem; font-weight: bold; }
+        .plan-card ul { list-style: none; padding: 0; margin: 1rem 0; }
+        .plan-card ul li { position: relative; padding-left: 1.5rem; margin: 0.5rem 0; }
+        .plan-card ul li::before { content: "✔"; position: absolute; left: 0; color: var(--marino); }
+        #datos-section, #pago-section { display: none; }
+        form { display:flex; flex-direction:column; gap:1.25rem; margin-top: 2rem; }
+        label { font-weight:600; font-size: 0.9rem; }
+        input, textarea { width:100%; padding:0.8rem; border:1px solid var(--gris); border-radius:5px; font-size:1rem; }
+        .card-details { display: flex; gap: 1rem; }
+        .error-mensaje { color: #dc3545; font-size: 0.8rem; font-weight: bold; }
+        .boton-continuar { background: var(--naranja); color: var(--blanco); padding: 1rem; border: none; border-radius: 5px; font-size: 1.2rem; font-weight: bold; cursor: pointer; width: 100%; }
+        .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
+        .terminos-mandato input { width: auto; margin-top: 5px; }
+        .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
+        .terminos-mandato a { color: var(--marino); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section id="plan-section" class="step-section">
+            <h2><span class="step-number-circle">1</span> Elige tu Plan de Acción</h2>
+            <div class="plans-wrapper">
+                <div class="plan-card" onclick="selectPlan('esencial', this)"><h4>Pack Esencial</h4><p class="price">$9.990 CLP</p><ul><li>Para 1 número telefónico</li><li>Gestión en +5 Telcos</li></ul></div>
+                <div class="plan-card" onclick="selectPlan('dual', this)"><h4>Dual Pack</h4><p class="price">$15.990 CLP</p><ul><li>Para hasta 2 números</li><li>Gestión en +10 Telcos y Retail</li></ul></div>
+                <div class="plan-card" onclick="selectPlan('total', this)"><h4>Pack Total</h4><p class="price">$24.990 CLP</p><ul><li>Para hasta 5 números</li><li>Gestión en +20 empresas</li></ul></div>
+            </div>
+        </section>
+
+        <section id="datos-section" class="step-section">
+            <h2><span class="step-number-circle">2</span> Ingresa tus Datos</h2>
+            <form id="data-form">
+                <div><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required></div>
+                <div><label for="rut">RUT</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required><span id="rut-error" class="error-mensaje"></span></div>
+                <div><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required></div>
+                <div id="campos-telefonos"></div>
+                <button type="button" class="boton-continuar" onclick="goToPayment()">Continuar al Pago</button>
+            </form>
+        </section>
+
+        <section id="pago-section" class="step-section">
+            <h2><span class="step-number-circle">3</span> Realiza el Pago Seguro</h2>
+            <form id="payment-form" name="checkout" method="POST" action="/gracias.html" data-netlify="true" data-netlify-recaptcha="true">
+                <input type="hidden" name="form-name" value="checkout" />
+                <input type="hidden" id="plan-input" name="plan">
+                <input type="hidden" id="nombre-input" name="nombre">
+                <input type="hidden" id="rut-input" name="rut">
+                <input type="hidden" id="email-input" name="email">
+                <input type="hidden" id="telefonos-input" name="telefonos">
+                
+                <div><label for="card-name">Nombre en la Tarjeta</label><input type="text" id="card-name" name="card-name" required></div>
+                <div><label for="card-number">Número de Tarjeta</label><input type="text" id="card-number" name="card-number" placeholder="XXXX XXXX XXXX XXXX" required></div>
+                <div class="card-details">
+                    <div><label for="card-expiry">Vencimiento (MM/AA)</label><input type="text" id="card-expiry" name="card-expiry" placeholder="MM/AA" required></div>
+                    <div><label for="card-cvc">CVC</label><input type="text" id="card-cvc" name="card-cvc" placeholder="XXX" required></div>
+                </div>
+                <div class="terminos-mandato">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">Acepto los <a href="/terminos.html" target="_blank">Términos</a> y otorgo un poder simple a Nomewei para actuar en mi nombre.</label>
+                </div>
+                <div data-netlify-recaptcha="true"></div>
+                <button type="submit" class="boton-continuar" id="pay-button">Pagar y Finalizar</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        const planesInfo = {
+            'esencial': { titulo: 'Pack Esencial', precio: '9.990', num_telefonos: 1 },
+            'dual': { titulo: 'Dual Pack', precio: '15.990', num_telefonos: 2 },
+            'total': { titulo: 'Pack Total', precio: '24.990', num_telefonos: 5 }
+        };
+        const rutInput = document.getElementById('rut');
+
+        function selectPlan(planId, element) {
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+
+            const info = planesInfo[planId];
+            const telefonosContainer = document.getElementById('campos-telefonos');
+            
+            telefonosContainer.innerHTML = '';
+            for (let i = 1; i <= info.num_telefonos; i++) {
+                const labelText = info.num_telefonos === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
+                telefonosContainer.innerHTML += `<div><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
+            }
+
+            document.getElementById('plan-input').value = info.titulo;
+            document.getElementById('pay-button').textContent = `Pagar $${info.precio} CLP y Finalizar`;
+            
+            document.getElementById('datos-section').style.display = 'block';
+            document.getElementById('datos-section').scrollIntoView();
+        }
+
+        function goToPayment() {
+            const form = document.getElementById('data-form');
+            if (form.checkValidity() && validarRut(rutInput.value)) {
+                document.getElementById('nombre-input').value = form.nombre.value;
+                document.getElementById('rut-input').value = form.rut.value;
+                document.getElementById('email-input').value = form.email.value;
+                
+                const telefonos = Array.from(form.querySelectorAll('input[type="tel"]')).map(input => input.value);
+                document.getElementById('telefonos-input').value = telefonos.join(', ');
+
+                document.getElementById('pago-section').style.display = 'block';
+                document.getElementById('pago-section').scrollIntoView();
+            } else {
+                form.reportValidity();
+                 if(!validarRut(rutInput.value)){
+                    document.getElementById('rut-error').textContent = 'RUT inválido.';
+                } else {
+                    document.getElementById('rut-error').textContent = '';
+                }
+            }
+        }
+        
+        // Lógica de validación y formato
+        const validarRut = (rutCompleto) => {
+            if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(rutCompleto)) return false;
+            rutCompleto = rutCompleto.replace(/\./g, '').replace('-', '');
+            const tmp = rutCompleto.split(''); let dv = tmp.pop(); const rut = tmp.join('');
+            if (dv.toLowerCase() === 'k') return (2 - (Array.from(rut).reduce((S, N) => S + N * (9 - (M++%6)), 2) % 11)) % 11 === 10;
+            return (2 - (Array.from(rut).reduce((S, N) => S + N * (9 - (M++%6)), 2) % 11)) % 11 == dv;
+        };
+        const formatearRut = (rut) => {
+            let rutLimpio = rut.replace(/[^0-9kK]/g, '');
+            if (rutLimpio.length < 2) return rutLimpio;
+            let cuerpo = rutLimpio.slice(0, -1); let dv = rutLimpio.slice(-1).toUpperCase();
+            cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return `${cuerpo}-${dv}`;
+        };
+        rutInput.addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
+        document.getElementById('card-number').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+            e.target.value = (value.match(/.{1,4}/g) || []).join(' ').slice(0, 19);
+        });
+        document.getElementById('card-expiry').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\//g, '').replace(/[^0-9]/g, '');
+            if (value.length > 2) { value = `${value.slice(0,2)}/${value.slice(2)}`; }
+            e.target.value = value.slice(0, 5);
+        });
+    </script>
+</body>
+</html>
