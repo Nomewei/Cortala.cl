@@ -81,7 +81,7 @@
                 <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /></div>
                 <div id="campos-telefonos"></div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-back" onclick="goToStep(1)">← Volver</button>
+                    <button type="button" class="btn btn-back" data-step="1">← Volver</button>
                     <button type="button" class="btn btn-primary" id="nextBtn2">Continuar al Pago →</button>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                 </div>
                 <div data-netlify-recaptcha="true"></div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-back" onclick="goToStep(2)">← Volver</button>
+                    <button type="button" class="btn btn-back" data-step="2">← Volver</button>
                     <button type="submit" class="btn btn-primary" id="submitBtn">Pagar y Finalizar</button>
                 </div>
             </div>
@@ -111,80 +111,116 @@
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
     <script>
-        let selectedPlanData = {};
-        const steps = Array.from(document.querySelectorAll('.step'));
-        const progressBar = document.getElementById('progressBar');
-        const stepIndicator = document.getElementById('stepIndicator');
-        const mainForm = document.querySelector('form[name="checkout"]');
+    let selectedPlanData = {};
+    const steps = Array.from(document.querySelectorAll('.step'));
+    const progressBar = document.getElementById('progressBar');
+    const stepIndicator = document.getElementById('stepIndicator');
+    const mainForm = document.querySelector('form[name="checkout"]');
 
-        function selectPlan(name, price, numPhones, element) {
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPlanData = { name, price, numPhones };
-            document.getElementById('nextBtn1').disabled = false;
+    // --- INICIO DE CAMBIOS ---
+
+    // 1. MEJORA: Pre-seleccionar el plan más popular al cargar la página
+    window.addEventListener('load', () => {
+        const popularPlanCard = document.querySelector('.plan-card .popular').closest('.plan-card');
+        if (popularPlanCard) {
+            popularPlanCard.click();
         }
+    });
 
-        function goToStep(stepNumber) {
-            if (stepNumber === 3 && !validateStep2()) {
-                alert('Por favor, completa todos tus datos y verifica que el RUT sea válido.');
+    // 2. MEJORA: Lógica de selección de plan
+    function selectPlan(name, price, numPhones, element) {
+        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedPlanData = { name, price, numPhones };
+        document.getElementById('nextBtn1').disabled = false;
+    }
+
+    // 3. MEJORA: Lógica de navegación y validación entre pasos
+    function goToStep(stepNumber) {
+        if (stepNumber === 3) {
+            if (!validateStep2()) {
+                // Alerta sutil en lugar de un alert() que bloquea
+                const btn2 = document.getElementById('nextBtn2');
+                btn2.style.backgroundColor = '#dc3545'; // Rojo de error
+                btn2.textContent = 'Faltan datos o el RUT es inválido';
+                setTimeout(() => {
+                    btn2.style.backgroundColor = 'var(--naranja)';
+                    btn2.textContent = 'Continuar al Pago →';
+                }, 2000);
                 return;
             }
-
-            steps.forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-            
-            progressBar.style.width = `${stepNumber * 33.33}%`;
-            stepIndicator.textContent = `Paso ${stepNumber} de 3`;
-            
-            if (stepNumber === 2) {
-                document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
-                const telefonosContainer = document.getElementById('campos-telefonos');
-                telefonosContainer.innerHTML = '';
-                for (let i = 1; i <= selectedPlanData.numPhones; i++) {
-                    const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
-                    telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
-                }
-            } else if (stepNumber === 3) {
-                document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
-                document.getElementById('plan-input').value = selectedPlanData.name;
-                document.getElementById('price-input').value = selectedPlanData.price;
-                document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
-            }
         }
         
-        function validateStep2() {
-            let isValid = true;
-            document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) isValid = false; });
-            const rutInput = document.getElementById('rut');
-            if (!validarRut(rutInput.value)) {
-                document.getElementById('rut-error').style.display = 'block';
-                document.getElementById('rut-error').textContent = 'RUT inválido.';
+        steps.forEach(s => s.classList.remove('active'));
+        document.getElementById(`step${stepNumber}`).classList.add('active');
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        progressBar.style.width = `${stepNumber * 33.33}%`;
+        const stepTexts = ["Elige tu Plan", "Tus Datos", "Pago Final"];
+        stepIndicator.textContent = `Paso ${stepNumber} de 3: ${stepTexts[stepNumber-1]}`;
+        
+        if (stepNumber === 2) {
+            document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
+            const telefonosContainer = document.getElementById('campos-telefonos');
+            telefonosContainer.innerHTML = '';
+            for (let i = 1; i <= selectedPlanData.numPhones; i++) {
+                const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
+                telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
+            }
+        } else if (stepNumber === 3) {
+            document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
+            document.getElementById('plan-input').value = selectedPlanData.name;
+            document.getElementById('price-input').value = selectedPlanData.price;
+            document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
+        }
+    }
+    
+    function validateStep2() {
+        let isValid = true;
+        document.querySelectorAll('#step2 input[required]').forEach(input => {
+            if (!input.reportValidity()) {
                 isValid = false;
-            } else {
-                document.getElementById('rut-error').style.display = 'none';
-            }
-            return isValid;
-        }
-
-        const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
-        const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?s-1:"k")==d; };
-        
-        document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
-        document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
-        document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
-        
-        document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
-
-        mainForm.addEventListener('submit', function(e) {
-            // Recopilar todos los teléfonos antes de enviar
-            const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
-            document.getElementById('telefonos-input').value = telefonos.join(', ');
-            
-            if (!document.getElementById('terms').checked) {
-                e.preventDefault();
-                alert('Debes aceptar los términos y condiciones para continuar.');
             }
         });
-    </script>
+        const rutInput = document.getElementById('rut');
+        if (!validarRut(rutInput.value)) {
+            document.getElementById('rut-error').textContent = 'RUT inválido.';
+            document.getElementById('rut-error').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('rut-error').style.display = 'none';
+        }
+        return isValid;
+    }
+
+    // 4. MEJORA: Lógica de formato y validación de RUT
+    const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
+    const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?S.toString():'k')==d; };
+    
+    document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
+    document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+    document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+    
+    // 5. MEJORA: Eventos de navegación unificados
+    document.getElementById('nextBtn1').addEventListener('click', () => goToStep(2));
+    document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
+    document.querySelectorAll('.btn-back').forEach(btn => {
+        const stepToGo = btn.getAttribute('data-step');
+        btn.addEventListener('click', () => goToStep(parseInt(stepToGo)));
+    });
+
+    mainForm.addEventListener('submit', function(e) {
+        const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
+        document.getElementById('telefonos-input').value = telefonos.join(', ');
+        
+        if (!document.getElementById('terms').checked) {
+            e.preventDefault();
+            alert('Debes aceptar los términos y condiciones para continuar.');
+        }
+    });
+
+    // --- FIN DE CAMBIOS ---
+</script>
 </body>
 </html>
