@@ -1,505 +1,523 @@
-import React, { useState } from "react";
-
-export default function App() {
-  const [step, setStep] = useState(1);
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    rut: "",
-    email: "",
-    phone: "",
-    additionalPhones: "",
-    cardName: "",
-    cardNumber: "",
-    cardExpiry: "",
-    cardCVC: "",
-    terms: false,
-  });
-  const [rutError, setRutError] = useState("");
-  const [cardType, setCardType] = useState("");
-
-  // Definición de planes
-  const plans = [
-    {
-      id: "esencial",
-      name: "Esencial",
-      description: "Gestión en 5 empresas",
-      price: 15000,
-      maxPhones: 1,
-      features: ["Desafiliación de 5 empresas", "Soporte básico"],
-    },
-    {
-      id: "total",
-      name: "Total",
-      description: "Gestión en 10 empresas",
-      price: 35000,
-      maxPhones: 2,
-      features: ["Desafiliación de 10 empresas", "Seguimiento automatizado"],
-      popular: true,
-    },
-    {
-      id: "familiar",
-      name: "Familiar",
-      description: "Ilimitadas, hasta 5 números",
-      price: 60000,
-      maxPhones: 5,
-      features: ["Desafiliación ilimitada", "Monitoreo continuado", "Soporte premium"],
-    },
-  ];
-
-  // Validador de RUT chileno
-  const validateChileanRUT = (rut) => {
-    rut = rut.replace(/\./g, "").replace("-", "");
-    if (!/^[0-9]+[0-9kK]{1}$/.test(rut)) return false;
-    const dv = rut.slice(-1).toUpperCase();
-    const number = rut.slice(0, -1);
-    let M = 0,
-      S = 1;
-    for (let i = number.length - 1; i >= 0; i--) {
-      S = (S + parseInt(number[i]) * (9 - (M++ % 6))) % 11;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Nomewei.cl</title>
+  <style>
+    :root {
+      --marino: #003366;
+      --naranja: #FFA500;
+      --blanco: #FFFFFF;
+      --gris-claro: #F7F7F7;
+      --gris: #E1E1E1;
+      --texto-oscuro: #333333;
+      --font-main: 'Segoe UI', sans-serif;
     }
-    const expectedDV = S ? S - 1 : "K";
-    return expectedDV === dv || (expectedDV === 0 && dv === "0");
-  };
 
-  // Formateadores
-  const formatRUT = (value) => {
-    value = value.replace(/[^0-9kK]/g, "");
-    if (value.length < 2) return value;
-    const body = value.slice(0, -1);
-    const digit = value.slice(-1).toUpperCase();
-    return `${new Intl.NumberFormat("de-DE").format(body)}-${digit}`;
-  };
-
-  const formatPhone = (value) => {
-    value = value.replace(/[^0-9]/g, "");
-    if (value.startsWith("56")) value = "+" + value;
-    else if (!value.startsWith("+56")) value = "+56" + value;
-    return value;
-  };
-
-  const formatCardNumber = (value) => {
-    value = value.replace(/\s+/g, "").replace(/[^0-9]/g, "");
-    return value.match(/.{1,4}/g)?.join(" ") || "";
-  };
-
-  const getCardType = (value) => {
-    const firstDigit = value.replace(/\s+/g, "").charAt(0);
-    switch (firstDigit) {
-      case "4":
-        return "Visa";
-      case "5":
-        return "Mastercard";
-      default:
-        return "Desconocido";
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-  };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    body {
+      font-family: var(--font-main);
+      background-color: var(--gris-claro);
+      color: var(--texto-oscuro);
+      line-height: 1.5;
+    }
 
-    if (name === "rut") {
-      const formatted = formatRUT(value);
-      setFormData((prev) => ({ ...prev, rut: formatted }));
-      setRutError(validateChileanRUT(formatted) ? "" : "RUT inválido");
-    } else if (name === "phone") {
-      const formatted = formatPhone(value);
-      setFormData((prev) => ({ ...prev, phone: formatted }));
-    } else if (name === "cardNumber") {
-      const formatted = formatCardNumber(value);
-      setFormData((prev) => ({ ...prev, cardNumber: formatted }));
-      setCardType(getCardType(formatted));
-    } else if (name === "cardExpiry") {
-      let formatted = value.replace(/\//g, "").replace(/[^0-9]/g, "");
-      if (formatted.length > 2) {
-        formatted = `${formatted.slice(0, 2)}/${formatted.slice(2, 4)}`;
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      background-color: var(--blanco);
+      padding: 1rem 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--gris);
+    }
+
+    header .logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--marino);
+    }
+
+    header .step-indicator {
+      font-size: 0.9rem;
+      color: var(--texto-oscuro);
+    }
+
+    .progress-container {
+      background-color: var(--gris);
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 1rem 1.5rem;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: var(--naranja);
+      transition: width 0.3s ease-in-out;
+    }
+
+    main {
+      background-color: var(--blanco);
+      padding: 1.5rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: var(--marino);
+      margin-bottom: 1.5rem;
+    }
+
+    .plan-card {
+      border: 1px solid var(--gris);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .plan-card:hover {
+      border-color: var(--naranja);
+      transform: translateY(-2px);
+    }
+
+    .plan-card.selected {
+      border-color: var(--naranja);
+      background-color: var(--gris-claro);
+      box-shadow: 0 0 8px rgba(255, 165, 0, 0.2);
+    }
+
+    .plan-card .popular {
+      background-color: var(--naranja);
+      color: var(--blanco);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      float: right;
+    }
+
+    .plan-card h3 {
+      color: var(--marino);
+      font-size: 1.25rem;
+    }
+
+    .plan-card p {
+      font-size: 0.9rem;
+      color: var(--texto-oscuro);
+      margin-top: 0.25rem;
+    }
+
+    .plan-card .price {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--texto-oscuro);
+      margin-top: 0.5rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--gris);
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--naranja);
+      box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--naranja);
+      color: var(--blanco);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background-color: #e69500;
+    }
+
+    .btn-back {
+      background-color: var(--gris);
+      color: var(--texto-oscuro);
+      width: auto;
+      margin-right: 1rem;
+    }
+
+    .btn-back:hover {
+      background-color: #dcdcdc;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+    }
+
+    .summary {
+      background-color: var(--gris-claro);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary strong {
+      color: var(--marino);
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-method {
+      border: 1px solid var(--gris);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .payment-method:hover,
+    .payment-method.active {
+      border-color: var(--naranja);
+      background-color: var(--gris-claro);
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--texto-oscuro);
+      text-align: center;
+    }
+
+    .footer a {
+      color: var(--marino);
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85rem;
+      margin-top: -0.75rem;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Nomewei.cl</div>
+    <div class="step-indicator" id="stepIndicator">Paso 1 de 3: Elige tu Plan</div>
+  </header>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <main class="container" id="checkoutSteps">
+    <!-- Paso 1: Seleccionar plan -->
+    <div id="step1">
+      <h2>Elige el plan que mejor se ajuste a ti</h2>
+      <div class="plan-card" onclick="selectPlan(this, 'Esencial', 15000)">
+        <h3>Esencial</h3>
+        <p>Gestión en 5 empresas</p>
+        <p class="price">$15.000 CLP</p>
+        <ul style="list-style: none; padding-left: 0;">
+          <li>• Desafiliación de 5 empresas</li>
+          <li>• Soporte básico</li>
+        </ul>
+      </div>
+      <div class="plan-card" onclick="selectPlan(this, 'Total', 35000)">
+        <span class="popular">Más Popular</span>
+        <h3>Total</h3>
+        <p>Gestión en 10 empresas</p>
+        <p class="price">$35.000 CLP</p>
+        <ul style="list-style: none; padding-left: 0;">
+          <li>• Desafiliación de 10 empresas</li>
+          <li>• Seguimiento automatizado</li>
+        </ul>
+      </div>
+      <div class="plan-card" onclick="selectPlan(this, 'Familiar', 60000)">
+        <h3>Familiar</h3>
+        <p>Ilimitadas, hasta 5 números</p>
+        <p class="price">$60.000 CLP</p>
+        <ul style="list-style: none; padding-left: 0;">
+          <li>• Desafiliación ilimitada</li>
+          <li>• Monitoreo continuado</li>
+          <li>• Soporte premium</li>
+        </ul>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-back" disabled>← Volver</button>
+        <button class="btn btn-primary" id="nextStepBtn" disabled>Continuar al Pago →</button>
+      </div>
+    </div>
+
+    <!-- Paso 2: Datos Personales -->
+    <div id="step2" style="display: none;">
+      <h2>Datos Personales</h2>
+      <div class="summary" id="selectedPlanSummary">
+        <strong>Plan Seleccionado:</strong> <span id="selectedPlanName">Ninguno</span><br/>
+        <strong>Precio:</strong> <span id="selectedPlanPrice">0</span> CLP
+      </div>
+      <div class="form-group">
+        <label for="name">Nombre Completo</label>
+        <input type="text" id="name" placeholder="Ej. Juan Pérez" required />
+      </div>
+      <div class="form-group">
+        <label for="rut">RUT</label>
+        <input type="text" id="rut" placeholder="Ej. 12.345.678-9" oninput="formatRut()" required />
+        <div class="error" id="rutError">Por favor, ingresa un RUT válido.</div>
+      </div>
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" placeholder="Ej. juan@email.com" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Teléfono Principal</label>
+        <input type="tel" id="phone" placeholder="+56 9 1234 5678" oninput="formatPhone()" required />
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="terms" onchange="checkFormValid()">
+          Acepto los términos y condiciones y política de privacidad.
+        </label>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-back" onclick="goToStep(1)">← Volver</button>
+        <button class="btn btn-primary" id="nextStepBtn2" disabled onclick="goToStep(3)">Continuar al Pago →</button>
+      </div>
+    </div>
+
+    <!-- Paso 3: Método de Pago -->
+    <div id="step3" style="display: none;">
+      <h2>Finalizar Compra</h2>
+      <div class="summary" id="finalPlanSummary">
+        <strong>Resumen de tu Plan:</strong><br/>
+        <span id="finalPlanName">Ninguno</span><br/>
+        <span id="finalPlanPrice">0</span> CLP
+      </div>
+      <div class="form-group">
+        <label for="cardName">Nombre en la Tarjeta</label>
+        <input type="text" id="cardName" placeholder="Como aparece en la tarjeta" required />
+      </div>
+      <div class="form-group">
+        <label for="cardNumber">Número de Tarjeta</label>
+        <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" oninput="formatCardNumber()" required />
+      </div>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="form-group">
+          <label for="cardExpiry">Fecha de Vencimiento</label>
+          <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry()" required />
+        </div>
+        <div class="form-group">
+          <label for="cardCVC">CVV</label>
+          <input type="text" id="cardCVC" placeholder="123" maxlength="3" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="terms2" onchange="checkFormValid()">
+          Confirmo que he leído y acepto los términos y condiciones.
+        </label>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-back" onclick="goToStep(2)">← Volver</button>
+        <button class="btn btn-primary" id="submitBtn" disabled onclick="showSuccess()">Finalizar Compra</button>
+      </div>
+    </div>
+
+    <!-- Pantalla de éxito opcional -->
+    <div id="successMessage" style="display: none; text-align: center; padding: 2rem;">
+      <h2>¡Compra realizada con éxito!</h2>
+      <p>Gracias por usar Nomewei.cl. Te contactaremos pronto.</p>
+      <a href="/" class="btn btn-primary">Ir al Inicio</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2023 Nomewei.cl - Protege tu privacidad</p>
+    <p><a href="#">Política de Privacidad</a> • <a href="#">Términos y Condiciones</a></p>
+  </footer>
+
+  <script>
+    let selectedPlan = null;
+
+    function selectPlan(element, name, price) {
+      document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedPlan = { name, price };
+      document.getElementById("selectedPlanName").textContent = name;
+      document.getElementById("selectedPlanPrice").textContent = `$${price.toLocaleString()}`;
+      document.getElementById("finalPlanName").textContent = name;
+      document.getElementById("finalPlanPrice").textContent = `$${price.toLocaleString()}`;
+      document.getElementById("nextStepBtn").disabled = false;
+    }
+
+    function goToStep(step) {
+      const steps = [document.getElementById("step1"), document.getElementById("step2"), document.getElementById("step3")];
+      steps.forEach(s => s.style.display = "none");
+      document.getElementById(`step${step}`).style.display = "block";
+
+      // Actualiza indicador de paso
+      const stepText = [
+        "Paso 1 de 3: Elige tu Plan",
+        "Paso 2 de 3: Datos Personales",
+        "Paso 3 de 3: Método de Pago"
+      ][step - 1];
+      document.getElementById("stepIndicator").textContent = stepText;
+
+      // Anima barra de progreso
+      document.getElementById("progressBar").style.width = `${step * 33}%`;
+
+      if (step === 2 && !selectedPlan) {
+        alert("Por favor, selecciona un plan antes de continuar.");
+        return goToStep(1);
       }
-      setFormData((prev) => ({ ...prev, cardExpiry: formatted }));
-    } else if (name === "cardCVC") {
-      setFormData((prev) => ({
-        ...prev,
-        cardCVC: value.replace(/\D/g, "").slice(0, 3),
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: type === "checkbox" ? checked : value,
-      }));
     }
-  };
 
-  const handleSelectPlan = (plan) => {
-    setSelectedPlan(plan);
-    setStep(2);
-  };
+    function checkFormValid() {
+      const name = document.getElementById("name").value.trim();
+      const rut = document.getElementById("rut").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const terms = document.getElementById("terms").checked;
+      const validRut = validarRut(rut.replace(/\./g, "").replace("-", ""));
+      if (validRut && name && email && phone && terms) {
+        document.getElementById("nextStepBtn2").disabled = false;
+      } else {
+        document.getElementById("nextStepBtn2").disabled = true;
+      }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateChileanRUT(formData.rut)) {
-      setRutError("Por favor, ingresa un RUT válido.");
-      return;
+      const cardName = document.getElementById("cardName").value.trim();
+      const cardNumber = document.getElementById("cardNumber").value.replace(/\s+/g, "").length >= 16;
+      const cardExpiry = document.getElementById("cardExpiry").value.length === 5;
+      const cardCVC = document.getElementById("cardCVC").value.length === 3;
+      const terms2 = document.getElementById("terms2").checked;
+      if (cardName && cardNumber && cardExpiry && cardCVC && terms2) {
+        document.getElementById("submitBtn").disabled = false;
+      } else {
+        document.getElementById("submitBtn").disabled = true;
+      }
     }
-    alert("¡Compra realizada con éxito!");
-  };
 
-  const renderStep1 = () => (
-    <div className="px-4 py-8">
-      <h2 className="text-xl font-bold text-center mb-6">Elige el plan que mejor se ajuste a ti</h2>
-      <div className="grid grid-cols-1 gap-4 max-w-md mx-auto">
-        {plans.map((plan) => (
-          <div
-            key={plan.id}
-            onClick={() => handleSelectPlan(plan)}
-            className={`p-4 border rounded-lg cursor-pointer transition-all ${
-              selectedPlan?.id === plan.id
-                ? "border-blue-500 shadow-md"
-                : "border-gray-200 hover:border-blue-300"
-            } ${plan.popular ? "bg-blue-50 ring-2 ring-blue-400" : ""}`}
-          >
-            {plan.popular && (
-              <span className="block text-center text-sm text-blue-600 font-semibold mb-2">Más Popular</span>
-            )}
-            <h3 className="font-bold text-gray-800">{plan.name}</h3>
-            <p className="text-sm text-gray-600 mt-1">{plan.description}</p>
-            <p className="mt-2 text-lg font-bold text-gray-900">${plan.price.toLocaleString()} CLP</p>
-            <ul className="mt-3 space-y-1">
-              {plan.features.map((feature, idx) => (
-                <li key={idx} className="flex items-center text-sm text-gray-700">
-                  <svg className="w-3 h-3 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    function formatRut() {
+      const input = document.getElementById("rut");
+      let value = input.value.replace(/[^0-9kK]/g, "");
+      if (value.length > 1) {
+        const dv = value.slice(-1).toUpperCase();
+        const body = value.slice(0, -1);
+        input.value = `${new Intl.NumberFormat("de-DE").format(body)}-${dv}`;
+      }
+      checkFormValid();
+    }
 
-  const renderStep2 = () => (
-    <div className="px-4 py-8">
-      <h2 className="text-xl font-bold text-center mb-6">Datos Personales</h2>
+    function formatPhone() {
+      const input = document.getElementById("phone");
+      let value = input.value.replace(/[^0-9]/g, "");
+      if (!value.startsWith("+56")) {
+        value = "+56" + value.replace(/^56/, "");
+      }
+      input.value = value;
+      checkFormValid();
+    }
 
-      {/* Resumen del plan */}
-      <div className="mb-6 bg-blue-50 p-4 rounded-lg max-w-md mx-auto">
-        <h3 className="font-semibold text-blue-800">Plan Seleccionado:</h3>
-        <p className="text-gray-800">
-          {selectedPlan?.name} - ${selectedPlan?.price.toLocaleString()} CLP
-        </p>
-      </div>
+    function formatCardNumber() {
+      const input = document.getElementById("cardNumber");
+      let value = input.value.replace(/\s+/g, "").replace(/[^0-9]/g, "");
+      input.value = value.match(/.{1,4}/g)?.join(" ") || "";
+      checkFormValid();
+    }
 
-      <form onSubmit={(e) => {}} className="max-w-md mx-auto">
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-              Nombre Completo
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Ej. Juan Pérez"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="rut" className="block text-sm font-medium text-gray-700 mb-1">
-              RUT
-            </label>
-            <input
-              type="text"
-              id="rut"
-              name="rut"
-              value={formData.rut}
-              onChange={handleChange}
-              placeholder="Ej. 12.345.678-9"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            {rutError && <p className="text-red-500 text-xs mt-1">{rutError}</p>}
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Correo Electrónico
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Ej. juan@email.com"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-              Teléfono Principal
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Ej. +56 9 1234 5678"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
+    function formatExpiry() {
+      const input = document.getElementById("cardExpiry");
+      let value = input.value.replace(/\D/g, "");
+      if (value.length > 2) {
+        value = value.slice(0, 2) + "/" + value.slice(2, 4);
+      }
+      input.value = value;
+    }
 
-          {/* Campos adicionales por plan */}
-          {selectedPlan?.maxPhones > 1 && (
-            <div>
-              <label htmlFor="additionalPhones" className="block text-sm font-medium text-gray-700 mb-1">
-                {`Otros teléfonos a gestionar (hasta ${selectedPlan.maxPhones - 1} más)`}
-              </label>
-              <textarea
-                id="additionalPhones"
-                name="additionalPhones"
-                value={formData.additionalPhones}
-                onChange={handleChange}
-                rows={selectedPlan.maxPhones === 2 ? 1 : 4}
-                placeholder="+56 9 11111111\n+56 9 22222222"
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          )}
+    function validarRut(rut) {
+      rut = rut.replace(/\./g, "").replace("-", "").toUpperCase();
+      if (!/^[0-9]+[0-9K]{1}$/.test(rut)) return false;
+      const dv = rut.slice(-1);
+      const number = rut.slice(0, -1);
+      let M = 0, S = 1;
+      for (let i = number.length - 1; i >= 0; i--) {
+        S = (S + parseInt(number[i]) * (9 - (M++ % 6))) % 11;
+      }
+      const expectedDV = S ? S - 1 : "K";
+      return expectedDV === dv || (expectedDV === 0 && dv === "0");
+    }
 
-          <div className="flex items-start mt-4">
-            <input
-              type="checkbox"
-              id="terms"
-              name="terms"
-              checked={formData.terms}
-              onChange={handleChange}
-              className="mt-1 mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="terms" className="text-sm text-gray-700">
-              Acepto los términos y condiciones y política de privacidad.
-            </label>
-          </div>
-        </div>
-        <div className="mt-8 flex justify-between">
-          <button
-            type="button"
-            onClick={() => setStep(1)}
-            className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
-          >
-            ← Volver
-          </button>
-          <button
-            type="button"
-            onClick={() => setStep(3)}
-            disabled={!formData.name || !formData.rut || !formData.email || !formData.phone || !formData.terms}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            Continuar al Pago →
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    function showSuccess() {
+      document.querySelector("main").style.display = "none";
+      document.getElementById("successMessage").style.display = "block";
+    }
 
-  const renderStep3 = () => (
-    <div className="px-4 py-8">
-      <h2 className="text-xl font-bold text-center mb-6">Finalizar Compra</h2>
+    // Funciones de navegación entre pasos
+    document.getElementById("nextStepBtn").addEventListener("click", () => {
+      if (selectedPlan) goToStep(2);
+    });
 
-      {/* Resumen del plan */}
-      <div className="mb-6 bg-blue-50 p-4 rounded-lg max-w-md mx-auto">
-        <h3 className="font-semibold text-blue-800">Resumen de tu Plan:</h3>
-        <p className="text-gray-800">{selectedPlan?.name} - ${selectedPlan?.price.toLocaleString()} CLP</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="cardName" className="block text-sm font-medium text-gray-700 mb-1">
-              Nombre en la Tarjeta
-            </label>
-            <input
-              type="text"
-              id="cardName"
-              name="cardName"
-              value={formData.cardName}
-              onChange={handleChange}
-              placeholder="Como aparece en la tarjeta"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
-              Número de Tarjeta
-            </label>
-            <input
-              type="text"
-              id="cardNumber"
-              name="cardNumber"
-              value={formData.cardNumber}
-              onChange={handleChange}
-              placeholder="4242 4242 4242 4242"
-              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            {cardType !== "Desconocido" && (
-              <p className="text-sm text-gray-500 mt-1">Tipo de tarjeta: {cardType}</p>
-            )}
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="cardExpiry" className="block text-sm font-medium text-gray-700 mb-1">
-                Fecha de Vencimiento
-              </label>
-              <input
-                type="text"
-                id="cardExpiry"
-                name="cardExpiry"
-                value={formData.cardExpiry}
-                onChange={handleChange}
-                placeholder="MM/AA"
-                maxLength={5}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="cardCVC" className="block text-sm font-medium text-gray-700 mb-1">
-                CVV
-              </label>
-              <input
-                type="text"
-                id="cardCVC"
-                name="cardCVC"
-                value={formData.cardCVC}
-                onChange={handleChange}
-                placeholder="123"
-                maxLength={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-            </div>
-          </div>
-          <div className="flex items-start mt-4">
-            <input
-              type="checkbox"
-              id="terms"
-              name="terms"
-              checked={formData.terms}
-              onChange={handleChange}
-              className="mt-1 mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="terms" className="text-sm text-gray-700">
-              Confirmo que he leído y acepto los{" "}
-              <a href="#" className="text-blue-600 underline">
-                términos y condiciones
-              </a>
-              .
-            </label>
-          </div>
-        </div>
-        <div className="mt-8">
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition-colors duration-300"
-          >
-            Finalizar Compra - ${selectedPlan?.price.toLocaleString()} CLP
-          </button>
-        </div>
-      </form>
-      <div className="mt-8 text-center text-xs text-gray-500 max-w-md mx-auto">
-        <p>Este sitio está protegido por encriptación SSL de 256 bits.</p>
-        <div className="flex justify-center space-x-4 mt-2">
-          <img src="https://placehold.co/40x20?text=SSL" alt="SSL" />
-          <img src=" https://placehold.co/40x20?text=PCI" alt="PCI DSS" />
-          <img src=" https://placehold.co/40x20?text=Transbank" alt="Transbank" />
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="text-blue-600 font-bold text-lg">Nomewei.cl</div>
-          <div className="text-sm text-gray-600">
-            Paso {step} de 3:{" "}
-            {step === 1 ? "Elige tu Plan" : step === 2 ? "Datos Personales" : "Método de Pago"}
-          </div>
-        </div>
-      </header>
-
-      {/* Progress Bar */}
-      <div className="relative pt-1">
-        <div className="flex mb-2 items-center justify-between">
-          <div>
-            <span
-              className={`text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full ${
-                step >= 1 ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-400"
-              }`}
-            >
-              Plan
-            </span>
-          </div>
-          <div>
-            <span
-              className={`text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full ${
-                step >= 2 ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-400"
-              }`}
-            >
-              Datos
-            </span>
-          </div>
-          <div>
-            <span
-              className={`text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full ${
-                step >= 3 ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-400"
-              }`}
-            >
-              Pago
-            </span>
-          </div>
-        </div>
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-          <div
-            style={{ width: `${step * 33}%` }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-300"
-          ></div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <main>
-        {step === 1 && renderStep1()}
-        {step === 2 && renderStep2()}
-        {step === 3 && renderStep3()}
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t mt-12">
-        <div className="container mx-auto px-4 py-4 text-center text-sm text-gray-500">
-          <p className="mb-2">© 2023 Nomewei.cl - Protege tu privacidad</p>
-          <div className="flex justify-center space-x-6">
-            <a href="#" className="hover:text-blue-600">
-              Política de Privacidad
-            </a>
-            <a href="#" className="hover:text-blue-600">
-              Términos y Condiciones
-            </a>
-            <a href="#" className="hover:text-blue-600">
-              Pago Seguro
-            </a>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
+    document.getElementById("nextStepBtn2").addEventListener("click", () => {
+      if (selectedPlan) goToStep(3);
+    });
+  </script>
+</body>
+</html>
