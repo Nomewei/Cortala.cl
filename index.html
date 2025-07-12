@@ -18,28 +18,29 @@
         .progress-bar { height: 100%; width: 33.3%; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
         main { background-color: var(--blanco); padding: 1.5rem; margin-top: 1rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         h2 { text-align: center; font-size: 1.5rem; color: var(--marino); margin-bottom: 1.5rem; }
-        .step { display: none; } .step.active { display: block; }
+        .step { display: none; } .step.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .plan-card { border: 2px solid var(--gris); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; }
-        .plan-card:hover { border-color: var(--naranja); transform: translateY(-2px); }
-        .plan-card.selected { border-color: var(--naranja); background-color: #FFF5E5; box-shadow: 0 0 8px rgba(255, 165, 0, 0.3); }
+        .plan-card:hover { border-color: var(--naranja); }
+        .plan-card.selected { border-color: var(--naranja); background-color: #FFF5E5; box-shadow: 0 0 8px rgba(255, 165, 0, 0.3); transform: scale(1.02); }
         .plan-card .popular { background-color: var(--naranja); color: var(--blanco); font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; float: right; }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; }
         .plan-card .price { font-size: 1.25rem; font-weight: bold; }
-        label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.25rem; }
-        input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; margin-bottom: 1rem; }
+        label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
+        input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; }
         input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 2px rgba(255, 165, 0, 0.2); }
         .form-group { margin-bottom: 1.5rem; }
         .btn { display: inline-block; padding: 0.8rem 1.2rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; }
         .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
-        .btn-primary:disabled { background-color: var(--gris); cursor: not-allowed; }
+        .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
         .btn-back { background-color: transparent; color: var(--texto-oscuro); width: auto; margin-right: 1rem; border: 1px solid var(--gris); }
         .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
         .summary { background-color: var(--gris-claro); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; }
         .summary strong { color: var(--marino); }
         .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; }
         .footer a { color: var(--marino); }
-        .error-mensaje { color: red; font-size: 0.85rem; display: none; }
+        .error-mensaje { color: red; font-size: 0.85rem; display: none; margin-top: 4px; }
         .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
         .terminos-mandato input { width: auto; margin-top: 5px; }
         .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
@@ -60,6 +61,7 @@
             <input type="hidden" name="form-name" value="checkout" />
             <input type="hidden" id="plan-input" name="plan">
             <input type="hidden" id="price-input" name="price">
+            <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
 
             <div id="step1" class="step active">
                 <h2>Elige el plan que mejor se ajuste a ti</h2>
@@ -80,7 +82,7 @@
                 <div id="campos-telefonos"></div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-back" onclick="goToStep(1)">← Volver</button>
-                    <button type="button" class="btn btn-primary" onclick="goToStep(3)">Continuar al Pago →</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn2">Continuar al Pago →</button>
                 </div>
             </div>
 
@@ -109,121 +111,80 @@
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
     <script>
-    let selectedPlanData = {};
-    const steps = Array.from(document.querySelectorAll('.step'));
-    const progressBar = document.getElementById('progressBar');
-    const stepIndicator = document.getElementById('stepIndicator');
-    const mainForm = document.querySelector('form[name="checkout"]');
+        let selectedPlanData = {};
+        const steps = Array.from(document.querySelectorAll('.step'));
+        const progressBar = document.getElementById('progressBar');
+        const stepIndicator = document.getElementById('stepIndicator');
+        const mainForm = document.querySelector('form[name="checkout"]');
 
-    function selectPlan(name, price, numPhones, element) {
-        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-        element.classList.add('selected');
-        selectedPlanData = { name, price, numPhones };
-        document.getElementById('nextBtn1').disabled = false;
-    }
-
-    function goToStep(stepNumber) {
-        // Oculta todos los pasos
-        steps.forEach(s => s.classList.remove('active'));
-        // Muestra el paso deseado
-        document.getElementById(`step${stepNumber}`).classList.add('active');
-        
-        // Actualiza la barra de progreso y el indicador
-        progressBar.style.width = `${stepNumber * 33.33}%`;
-        stepIndicator.textContent = `Paso ${stepNumber} de 3`;
-        
-        // Si vamos al paso 2, llenamos el resumen y los campos de teléfono
-        if (stepNumber === 2) {
-            document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
-            const telefonosContainer = document.getElementById('campos-telefonos');
-            telefonosContainer.innerHTML = '';
-            for (let i = 1; i <= selectedPlanData.numPhones; i++) {
-                const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
-                telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
-            }
-        } 
-        // Si vamos al paso 3, llenamos el resumen final y los campos ocultos
-        else if (stepNumber === 3) {
-            document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
-            document.getElementById('plan-input').value = selectedPlanData.name;
-            document.getElementById('price-input').value = selectedPlanData.price;
-            document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
+        function selectPlan(name, price, numPhones, element) {
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPlanData = { name, price, numPhones };
+            document.getElementById('nextBtn1').disabled = false;
         }
-    }
 
-    function validateStep2() {
-        let isValid = true;
-        const requiredInputs = document.querySelectorAll('#step2 input[required]');
+        function goToStep(stepNumber) {
+            if (stepNumber === 3 && !validateStep2()) {
+                alert('Por favor, completa todos tus datos y verifica que el RUT sea válido.');
+                return;
+            }
+
+            steps.forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            progressBar.style.width = `${stepNumber * 33.33}%`;
+            stepIndicator.textContent = `Paso ${stepNumber} de 3`;
+            
+            if (stepNumber === 2) {
+                document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
+                const telefonosContainer = document.getElementById('campos-telefonos');
+                telefonosContainer.innerHTML = '';
+                for (let i = 1; i <= selectedPlanData.numPhones; i++) {
+                    const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
+                    telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
+                }
+            } else if (stepNumber === 3) {
+                document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
+                document.getElementById('plan-input').value = selectedPlanData.name;
+                document.getElementById('price-input').value = selectedPlanData.price;
+                document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
+            }
+        }
         
-        requiredInputs.forEach(input => {
-            if (!input.value.trim()) {
+        function validateStep2() {
+            let isValid = true;
+            document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) isValid = false; });
+            const rutInput = document.getElementById('rut');
+            if (!validarRut(rutInput.value)) {
+                document.getElementById('rut-error').style.display = 'block';
+                document.getElementById('rut-error').textContent = 'RUT inválido.';
                 isValid = false;
+            } else {
+                document.getElementById('rut-error').style.display = 'none';
+            }
+            return isValid;
+        }
+
+        const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
+        const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?s-1:"k")==d; };
+        
+        document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
+        document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+        document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+        
+        document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
+
+        mainForm.addEventListener('submit', function(e) {
+            // Recopilar todos los teléfonos antes de enviar
+            const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
+            document.getElementById('telefonos-input').value = telefonos.join(', ');
+            
+            if (!document.getElementById('terms').checked) {
+                e.preventDefault();
+                alert('Debes aceptar los términos y condiciones para continuar.');
             }
         });
-
-        const rutInput = document.getElementById('rut');
-        if (!validarRut(rutInput.value)) {
-            document.getElementById('rut-error').textContent = 'RUT inválido.';
-            document.getElementById('rut-error').style.display = 'block';
-            isValid = false;
-        } else {
-            document.getElementById('rut-error').style.display = 'none';
-        }
-
-        return isValid;
-    }
-
-    // Lógica de navegación
-    document.getElementById('nextBtn1').addEventListener('click', () => goToStep(2));
-    document.getElementById('nextBtn2').addEventListener('click', () => {
-        if (validateStep2()) {
-            goToStep(3);
-        } else {
-            alert('Por favor, completa todos los datos requeridos y verifica que el RUT sea válido.');
-        }
-    });
-    document.getElementById('backBtn2').addEventListener('click', () => goToStep(1));
-    document.getElementById('backBtn3').addEventListener('click', () => goToStep(2));
-
-    // Lógica de formato y validación de RUT
-    const formatearRut = (rut) => {
-        let rutLimpio = rut.replace(/[^0-9kK]/g, '');
-        if (rutLimpio.length < 2) return rutLimpio;
-        let cuerpo = rutLimpio.slice(0, -1); let dv = rutLimpio.slice(-1).toUpperCase();
-        cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        return `${cuerpo}-${dv}`;
-    };
-    const validarRut = (rutCompleto) => {
-        if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(rutCompleto)) return false;
-        rutCompleto = rutCompleto.replace(/\./g, '').replace('-', '');
-        const tmp = rutCompleto.split(''); let dv = tmp.pop(); const rut = tmp.join('');
-        if (dv.toLowerCase() === 'k') {
-            let M = 0, S = 1;
-            for (let i = rut.length - 1; i >= 0; i--) S = (S + rut[i] * (9 - M++ % 6)) % 11;
-            return S ? S - 1 === 10 : true;
-        }
-        let M = 0, S = 1;
-        for (let t = parseInt(rut); t; t = Math.floor(t / 10)) S = (S + t % 10 * (9 - M++ % 6)) % 11;
-        return S ? String(S - 1) === dv : dv === "0";
-    };
-    document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
-    
-    // Lógica para formato de tarjeta
-    document.getElementById('cardNumber').addEventListener('input', (e) => e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19));
-    document.getElementById('cardExpiry').addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g, "").slice(0, 4);
-        if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v;
-    });
-
-    // Lógica para el envío final del formulario
-    mainForm.addEventListener('submit', function(e) {
-        const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
-        const telefonosInputHidden = document.createElement('input');
-        telefonosInputHidden.type = 'hidden';
-        telefonosInputHidden.name = 'telefonos_gestionados';
-        telefonosInputHidden.value = telefonos.join(', ');
-        mainForm.appendChild(telefonosInputHidden);
-    });
-</script>
+    </script>
 </body>
 </html>
