@@ -190,6 +190,7 @@
             stepIndicator.textContent = `Paso ${stepNumber} de 3`;
             if (stepNumber === 2) {
                 document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
+                document.getElementById('selectedPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
                 const telefonosContainer = document.getElementById('campos-telefonos');
                 telefonosContainer.innerHTML = '';
                 for (let i = 1; i <= selectedPlanData.numPhones; i++) {
