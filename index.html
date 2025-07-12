@@ -53,16 +53,40 @@
         .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
         .btn-back { background-color: transparent; color: var(--texto-oscuro); width: auto; margin-right: 1rem; border: 1px solid var(--gris); }
         .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
-        .summary { background-color: var(--gris-claro); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.95rem; }
-        .summary strong { color: var(--marino); }
-        .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; }
-        .footer a { color: var(--marino); }
-        .error-mensaje { color: red; font-size: 0.85rem; display: none; margin-top: 4px; }
-        .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
-        .terminos-mandato input { width: auto; margin-top: 5px; }
-        .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
-        .terminos-mandato a { color: var(--marino); }
-        .card-details { display: flex; gap: 1rem; }
+        .summary {
+    background-color: var(--marino);
+    color: var(--blanco);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.summary-header span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.7;
+}
+.summary-header h4 {
+    font-size: 1.5rem;
+    margin: 0;
+    line-height: 1.2;
+}
+.summary-price {
+    text-align: right;
+}
+.summary-price span:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--naranja);
+}
+.summary-price span:last-child {
+    font-size: 1rem;
+    opacity: 0.8;
+    display: block;
+    line-height: 1;
+}
     </style>
 </head>
 <body>
@@ -92,7 +116,16 @@
 
             <div id="step2" class="step">
                 <h2>Ingresa tus datos</h2>
-                <div class="summary"><strong>Plan Seleccionado:</strong> <span id="selectedPlanName"></span></div>
+                <div class="summary" id="selectedPlanSummary">
+    <div class="summary-header">
+        <span>PLAN SELECCIONADO</span>
+        <h4 id="selectedPlanName"></h4>
+    </div>
+    <div class="summary-price">
+        <span id="selectedPlanPrice"></span>
+        <span>CLP</span>
+    </div>
+</div>
                 <div class="form-group"><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required /></div>
                 <div class="form-group"><label for="rut">RUT</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><span id="rut-error" class="error-mensaje"></span></div>
                 <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /></div>
