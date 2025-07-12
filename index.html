@@ -13,15 +13,15 @@
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--gris); }
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
-        header .step-indicator { font-size: 0.85rem; font-weight: 600; color: var(--marino); background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); }
-        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
+        header .step-indicator { font-size: 0.9rem; color: var(--texto-oscuro); }
+        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; }
         .progress-bar { height: 100%; width: 33.3%; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
         main { background-color: var(--blanco); padding: 1.5rem; margin-top: 1rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         h2 { text-align: center; font-size: 1.5rem; color: var(--marino); margin-bottom: 1.5rem; }
         .step { display: none; } .step.active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .plan-card { border: 2px solid var(--gris); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; }
-        .plan-card:hover { transform: scale(1.03); /* Efecto de zoom/lupa */ border-color: var(--naranja); }
+        .plan-card:hover { border-color: var(--naranja); }
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF5E5; box-shadow: 0 0 8px rgba(255, 165, 0, 0.3); transform: scale(1.02); }
         .plan-card .popular { background-color: var(--naranja); color: var(--blanco); font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; float: right; }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; }
@@ -112,14 +112,6 @@
 
     <script>
     let selectedPlanData = {};
-    // Simula un clic en el plan recomendado al cargar la página
-window.addEventListener('load', () => {
-    // Busca la tarjeta que contiene el texto "Dual" en su función onclick
-    const popularPlanCard = document.querySelector(".plan-card[onclick*='Dual']");
-    if (popularPlanCard) {
-        popularPlanCard.click();
-    }
-});
     const steps = Array.from(document.querySelectorAll('.step'));
     const progressBar = document.getElementById('progressBar');
     const stepIndicator = document.getElementById('stepIndicator');
@@ -160,27 +152,27 @@ window.addEventListener('load', () => {
         }
         
         steps.forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${stepNumber}`).classList.add('active');
+        document.getElementById(step${stepNumber}).classList.add('active');
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        progressBar.style.width = `${stepNumber * 33.33}%`;
+        progressBar.style.width = ${stepNumber * 33.33}%;
         const stepTexts = ["Elige tu Plan", "Tus Datos", "Pago Final"];
-        stepIndicator.textContent = `Paso ${stepNumber} de 3: ${stepTexts[stepNumber-1]}`;
+        stepIndicator.textContent = Paso ${stepNumber} de 3: ${stepTexts[stepNumber-1]};
         
         if (stepNumber === 2) {
             document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
             const telefonosContainer = document.getElementById('campos-telefonos');
             telefonosContainer.innerHTML = '';
             for (let i = 1; i <= selectedPlanData.numPhones; i++) {
-                const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
-                telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
+                const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : Teléfono Adicional #${i});
+                telefonosContainer.innerHTML += <div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>;
             }
         } else if (stepNumber === 3) {
-            document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
+            document.getElementById('finalPlanPrice').textContent = $${selectedPlanData.price.toLocaleString('es-CL')};
             document.getElementById('plan-input').value = selectedPlanData.name;
             document.getElementById('price-input').value = selectedPlanData.price;
-            document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
+            document.getElementById('submitBtn').textContent = Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar;
         }
     }
     
