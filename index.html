@@ -13,7 +13,6 @@
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--gris); }
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
-        /* --- INICIO CAMBIO 2: Indicador de Pasos Profesional --- */
         header .step-indicator {
             font-size: 0.85rem;
             font-weight: 600;
@@ -23,28 +22,23 @@
             border-radius: 20px;
             border: 1px solid var(--gris);
         }
-        /* --- FIN CAMBIO 2 --- */
-        /* --- INICIO CAMBIO 4: Espacio bajo la Barra de Progreso --- */
         .progress-container {
             background-color: var(--gris);
             height: 6px;
             border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 2rem; /* <-- Ajuste de margen */
+            margin-bottom: 2rem;
         }
-        /* --- FIN CAMBIO 4 --- */
         .progress-bar { height: 100%; width: 33.3%; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
         main { background-color: var(--blanco); padding: 1.5rem; margin-top: 1rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         h2 { text-align: center; font-size: 1.5rem; color: var(--marino); margin-bottom: 1.5rem; }
         .step { display: none; } .step.active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .plan-card { border: 2px solid var(--gris); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; }
-        /* --- INICIO CAMBIO 3: Efecto Lupa --- */
         .plan-card:hover {
-            transform: scale(1.03); /* Efecto de zoom/lupa */
+            transform: scale(1.03);
             border-color: var(--naranja);
         }
-        /* --- FIN CAMBIO 3 --- */
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF5E5; box-shadow: 0 0 8px rgba(255, 165, 0, 0.3); transform: scale(1.02); }
         .plan-card .popular { background-color: var(--naranja); color: var(--blanco); font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; float: right; }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; }
@@ -105,7 +99,7 @@
                 <div id="campos-telefonos"></div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-back" onclick="goToStep(1)">← Volver</button>
-                    <button type="button" class="btn btn-primary" id="nextBtn2">Continuar al Pago →</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button>
                 </div>
             </div>
 
@@ -148,10 +142,15 @@
         }
 
         function goToStep(stepNumber) {
-            if (stepNumber === 3 && !validateStep2()) {
-                alert('Por favor, completa todos tus datos y verifica que el RUT sea válido.');
-                return;
+            // --- INICIO DE CAMBIO IMPORTANTE: Lógica de Validación ---
+            if (stepNumber === 3) { // Si vamos al paso 3, primero validamos el paso 2
+                if (!validateStep2()) {
+                    alert('Por favor, completa todos tus datos y verifica que el RUT sea válido.');
+                    return; // Detenemos la función si no es válido
+                }
             }
+            // --- FIN DE CAMBIO IMPORTANTE ---
+
             steps.forEach(s => s.classList.remove('active'));
             document.getElementById(`step${stepNumber}`).classList.add('active');
             progressBar.style.width = `${stepNumber * 33.33}%`;
@@ -174,11 +173,10 @@
         
         function validateStep2() {
             let isValid = true;
-            document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) isValid = false; });
+            document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) { input.reportValidity(); isValid = false; }});
             const rutInput = document.getElementById('rut');
             if (!validarRut(rutInput.value)) {
                 document.getElementById('rut-error').style.display = 'block';
-                document.getElementById('rut-error').textContent = 'RUT inválido.';
                 isValid = false;
             } else {
                 document.getElementById('rut-error').style.display = 'none';
@@ -187,7 +185,21 @@
         }
 
         const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
-        const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?S.toString():'k')==d; };
+        
+        // --- INICIO DE CAMBIO IMPORTANTE: Función de validación de RUT Corregida ---
+        const validarRut = (rutCompleto) => {
+            if (!rutCompleto || !/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(rutCompleto)) return false;
+            let rutSinFormato = rutCompleto.replace(/\./g, "").replace("-", "");
+            let dv = rutSinFormato.slice(-1).toLowerCase();
+            let rut = parseInt(rutSinFormato.slice(0, -1), 10);
+            let M = 0, S = 1;
+            for (; rut; rut = Math.floor(rut / 10)) {
+                S = (S + rut % 10 * (9 - M++ % 6)) % 11;
+            }
+            let dvEsperado = S ? String(S - 1) : "k";
+            return dv === dvEsperado;
+        };
+        // --- FIN DE CAMBIO IMPORTANTE ---
         
         document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
         document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
@@ -205,14 +217,12 @@
             }
         });
         
-        // --- INICIO CAMBIO 1: Pre-seleccionar Plan ---
         window.addEventListener('load', () => {
             const popularPlanCard = document.querySelector(".plan-card .popular");
             if (popularPlanCard) {
                 popularPlanCard.closest('.plan-card').click();
             }
         });
-        // --- FIN CAMBIO 1 ---
     </script>
 </body>
 </html>
