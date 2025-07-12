@@ -161,102 +161,95 @@
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
     <script>
-        let selectedPlanData = {};
-        const steps = Array.from(document.querySelectorAll('.step'));
-        const progressBar = document.getElementById('progressBar');
-        const stepIndicator = document.getElementById('stepIndicator');
-        const mainForm = document.querySelector('form[name="checkout"]');
+    let selectedPlanData = {};
+    const steps = Array.from(document.querySelectorAll('.step'));
+    const progressBar = document.getElementById('progressBar');
+    const stepIndicator = document.getElementById('stepIndicator');
+    const mainForm = document.querySelector('form[name="checkout"]');
 
-        function selectPlan(name, price, numPhones, element) {
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPlanData = { name, price, numPhones };
-            document.getElementById('nextBtn1').disabled = false;
+    function selectPlan(name, price, numPhones, element) {
+        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        selectedPlanData = { name, price, numPhones };
+        document.getElementById('nextBtn1').disabled = false;
+        
+        // --- INICIO CAMBIO 1: Ir al Paso 2 al hacer clic en un plan ---
+        goToStep(2);
+        // --- FIN CAMBIO 1 ---
+    }
+
+    function goToStep(stepNumber) {
+        if (stepNumber === 3 && !validateStep2()) {
+            alert('Por favor, completa todos tus datos y verifica que el RUT sea válido.');
+            return;
         }
-
-        function goToStep(stepNumber) {
-            // --- INICIO DE CAMBIO IMPORTANTE: Lógica de Validación ---
-            if (stepNumber === 3) { // Si vamos al paso 3, primero validamos el paso 2
-                if (!validateStep2()) {
-                    alert('Por favor, completa todos tus datos y verifica que el RUT sea válido.');
-                    return; // Detenemos la función si no es válido
-                }
-            }
-            // --- FIN DE CAMBIO IMPORTANTE ---
-
-            steps.forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-            progressBar.style.width = `${stepNumber * 33.33}%`;
-            stepIndicator.textContent = `Paso ${stepNumber} de 3`;
-            if (stepNumber === 2) {
-                document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
-                document.getElementById('selectedPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
-                const telefonosContainer = document.getElementById('campos-telefonos');
-                telefonosContainer.innerHTML = '';
-                for (let i = 1; i <= selectedPlanData.numPhones; i++) {
-                    const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
-                    telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
-                }
-            } else if (stepNumber === 3) {
-                document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
-                document.getElementById('plan-input').value = selectedPlanData.name;
-                document.getElementById('price-input').value = selectedPlanData.price;
-                document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
-            }
-        }
-        
-        function validateStep2() {
-            let isValid = true;
-            document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) { input.reportValidity(); isValid = false; }});
-            const rutInput = document.getElementById('rut');
-            if (!validarRut(rutInput.value)) {
-                document.getElementById('rut-error').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('rut-error').style.display = 'none';
-            }
-            return isValid;
-        }
-
-        const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
-        
-        // --- INICIO DE CAMBIO IMPORTANTE: Función de validación de RUT Corregida ---
-        const validarRut = (rutCompleto) => {
-            if (!rutCompleto || !/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(rutCompleto)) return false;
-            let rutSinFormato = rutCompleto.replace(/\./g, "").replace("-", "");
-            let dv = rutSinFormato.slice(-1).toLowerCase();
-            let rut = parseInt(rutSinFormato.slice(0, -1), 10);
-            let M = 0, S = 1;
-            for (; rut; rut = Math.floor(rut / 10)) {
-                S = (S + rut % 10 * (9 - M++ % 6)) % 11;
-            }
-            let dvEsperado = S ? String(S - 1) : "k";
-            return dv === dvEsperado;
-        };
-        // --- FIN DE CAMBIO IMPORTANTE ---
-        
-        document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
-        document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
-        document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
-        
-        document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
-
-        mainForm.addEventListener('submit', function(e) {
-            const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
-            document.getElementById('telefonos-input').value = telefonos.join(', ');
-            
-            if (!document.getElementById('terms').checked) {
-                e.preventDefault();
-                alert('Debes aceptar los términos y condiciones para continuar.');
-            }
+        steps.forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none'; // Asegura que los otros pasos se oculten
         });
+        const targetStep = document.getElementById(`step${stepNumber}`);
+        targetStep.classList.add('active');
+        targetStep.style.display = 'block';
         
-        window.addEventListener('load', () => {
-            const popularPlanCard = document.querySelector(".plan-card .popular");
-            if (popularPlanCard) {
-                popularPlanCard.closest('.plan-card').click();
+        progressBar.style.width = `${stepNumber * 33.33}%`;
+        
+        // --- INICIO CAMBIO 2: Indicador de paso más simple ---
+        stepIndicator.textContent = `Paso ${stepNumber} de 3`;
+        // --- FIN CAMBIO 2 ---
+
+        if (stepNumber === 2) {
+            document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
+            const telefonosContainer = document.getElementById('campos-telefonos');
+            telefonosContainer.innerHTML = '';
+            for (let i = 1; i <= selectedPlanData.numPhones; i++) {
+                const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
+                telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required></div>`;
             }
-        });
-    </script>
+        } else if (stepNumber === 3) {
+            document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
+            document.getElementById('plan-input').value = selectedPlanData.name;
+            document.getElementById('price-input').value = selectedPlanData.price;
+            document.getElementById('submitBtn').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
+        }
+    }
+    
+    function validateStep2() {
+        let isValid = true;
+        document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) { isValid = false; }});
+        const rutInput = document.getElementById('rut');
+        if (!validarRut(rutInput.value)) {
+            document.getElementById('rut-error').style.display = 'block';
+            document.getElementById('rut-error').textContent = 'RUT inválido.';
+            isValid = false;
+        } else {
+            document.getElementById('rut-error').style.display = 'none';
+        }
+        return isValid;
+    }
+
+    const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
+    const validarRut = (r) => { if (!r || !/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?String.fromCharCode(s+47):'k')==d.toLowerCase(); };
+    
+    document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
+    document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+    document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+    
+    document.getElementById('nextBtn2').addEventListener('click', () => goToStep(3));
+
+    mainForm.addEventListener('submit', function(e) {
+        const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
+        document.getElementById('telefonos-input').value = telefonos.join(', ');
+        
+        if (!document.getElementById('terms').checked) {
+            e.preventDefault();
+            alert('Debes aceptar los términos y condiciones para continuar.');
+        }
+    });
+    
+    // El botón del paso 1 ya no es necesario, el avance es automático al hacer clic en el plan.
+    // Lo dejamos por si quieres reactivarlo, pero la nueva lógica lo hace redundante.
+    document.getElementById('nextBtn1').style.display = 'none';
+
+</script>
 </body>
 </html>
