@@ -29,17 +29,41 @@
         .gracias-box h1 { color: var(--marino); font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
         .gracias-box .mensaje-principal { color: #555; font-size: 1.1rem; margin-bottom: 2rem; }
 
-        .resumen-compra { background-color: var(--gris-claro); padding: 1.5rem; border-radius: 8px; font-size: 0.9rem; margin-top: 2rem; border: 1px solid var(--gris); text-align: left; }
-        .resumen-compra div { display: flex; justify-content: space-between; padding: 0.5rem 0; }
-        .resumen-compra div:not(:last-child) { border-bottom: 1px solid var(--gris); }
-        .resumen-compra span:first-child { font-weight: 600; color: var(--marino); }
-        .resumen-compra span:last-child { font-weight: bold; }
+        /* --- INICIO CAMBIO 3: Rediseño del Resumen de Compra --- */
+        .resumen-compra { 
+            background-color: var(--blanco);
+            padding: 1rem; 
+            border-radius: 8px; 
+            font-size: 0.9rem; 
+            margin-top: 2rem; 
+            border: 1px solid var(--gris); 
+            text-align: left;
+        }
+        .resumen-item {
+            padding: 0.75rem 0.5rem;
+        }
+        .resumen-item:not(:last-child) { border-bottom: 1px solid var(--gris); }
+        .resumen-label {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+        .resumen-value {
+            display: block;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--marino);
+        }
+        #precioPagado {
+            color: var(--naranja); /* Color destacado para el precio */
+        }
+        /* --- FIN CAMBIO 3 --- */
 
         .proximos-pasos { margin-top: 2.5rem; text-align: left; border-top: 1px solid var(--gris); padding-top: 2rem; }
         .proximos-pasos h3 { color: var(--marino); font-size: 1.2rem; margin-bottom: 1rem; text-align: center; }
         .proximos-pasos p { text-align: center; color: #555; }
         
-        /* --- INICIO ESTILOS CUPONES --- */
         .coupon-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
         .coupon-card {
             background-color: #fff;
@@ -51,14 +75,15 @@
             align-items: center;
             gap: 1rem;
         }
-        .coupon-code {
-            font-family: 'Courier New', Courier, monospace;
+        /* --- INICIO CAMBIO 2: Estilo de Etiqueta de Cupón --- */
+        .coupon-label {
             font-size: 1.1rem;
             font-weight: bold;
             color: var(--marino);
             flex-grow: 1;
             text-align: left;
         }
+        /* --- FIN CAMBIO 2 --- */
         .btn-copy {
             background-color: var(--marino);
             color: var(--blanco);
@@ -72,7 +97,6 @@
         }
         .btn-copy:hover { background-color: var(--marino-light); }
         .btn-copy.copied { background-color: var(--verde-exito); }
-        /* --- FIN ESTILOS CUPONES --- */
 
         .btn { display: inline-block; background-color: var(--naranja); color: var(--blanco); padding: 0.9rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background-color 0.2s ease; margin-top: 2.5rem; }
         .btn:hover { background-color: #e69500; }
@@ -91,14 +115,19 @@
             <p class="mensaje-principal">Hemos recibido tu solicitud correctamente. Tu tranquilidad comienza ahora.</p>
 
             <div class="resumen-compra">
-                <div><span>Plan Adquirido:</span> <span id="planAdquirido"></span></div>
-                <div><span>Valor Pagado:</span> <span id="precioPagado"></span></div>
+                <div class="resumen-item">
+                    <span class="resumen-label">Plan Adquirido:</span>
+                    <span id="planAdquirido" class="resumen-value"></span>
+                </div>
+                <div class="resumen-item">
+                     <span class="resumen-label">Valor Pagado:</span>
+                    <span id="precioPagado" class="resumen-value"></span>
+                </div>
             </div>
 
             <div id="infoCodigos" style="display: none;" class="proximos-pasos">
                 <h3><i class="fas fa-ticket-alt"></i> Tus Códigos de Activación</h3>
-                <p>Copia y comparte los siguientes códigos con tus familiares o amigos.</p>
-                <div id="couponList" class="coupon-list">
+                <p id="coupon-instruction"></p> <div id="couponList" class="coupon-list">
                     </div>
             </div>
 
@@ -146,20 +175,32 @@
             if (numPhones > 1) {
                 const numCodigos = numPhones - 1;
                 const couponList = document.getElementById('couponList');
+                const instructionP = document.getElementById('coupon-instruction');
+
+                // --- INICIO CAMBIO 1: Texto Dinámico ---
+                if (numCodigos === 1) {
+                    instructionP.textContent = 'Copia y comparte el siguiente código con algún familiar o amigo.';
+                } else {
+                    instructionP.textContent = 'Copia y comparte los siguientes códigos con tus familiares o amigos.';
+                }
+                // --- FIN CAMBIO 1 ---
 
                 for (let i = 0; i < numCodigos; i++) {
                     const code = generateCouponCode();
                     const couponCard = document.createElement('div');
                     couponCard.className = 'coupon-card';
+                    
+                    // --- INICIO CAMBIO 2: Ocultar código y mostrar etiqueta ---
                     couponCard.innerHTML = `
-                        <span class="coupon-code">${code}</span>
-                        <button class="btn-copy">Copiar</button>
+                        <span class="coupon-label">Cupón de Activación #${i + 1}</span>
+                        <button class="btn-copy" data-code="${code}">Copiar</button>
                     `;
                     couponList.appendChild(couponCard);
 
                     couponCard.querySelector('.btn-copy').addEventListener('click', function() {
-                        copyToClipboard(this, code);
+                        copyToClipboard(this, this.dataset.code); // Copia el código desde el atributo data
                     });
+                    // --- FIN CAMBIO 2 ---
                 }
                 
                 document.getElementById('infoCodigos').style.display = 'block';
