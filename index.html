@@ -30,7 +30,24 @@
         .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
         .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
-        .plan-card .popular { position: absolute; top: 12px; right: -30px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 2.5rem; transform: rotate(45deg); }
+        
+        /* --- INICIO: Corrección de Etiqueta "Más Popular" --- */
+        .plan-card .popular {
+            position: absolute;
+            width: 150px;
+            text-align: center;
+            top: 19px;
+            right: -40px;
+            background-color: var(--naranja);
+            color: var(--blanco);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        /* --- FIN: Corrección de Etiqueta "Más Popular" --- */
+        
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
         .plan-card h3 i { color: var(--naranja); }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
@@ -130,7 +147,7 @@
             <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
 
             <div id="step1" class="step">
-                <h2>Elige tu plan y libérate del SPAM telefónico Hoy</h2>
+                <h2>Elige tu plan y libérate del SPAM telefónico</h2>
                 <div class="plan-card" onclick="selectPlan('Pack Esencial', 9990, 1, this)">
                     <h3><i class="fa-solid fa-user"></i>Pack Esencial</h3><p>Para 1 número telefónico</p><p class="price">$9.990 CLP</p>
                 </div>
@@ -327,6 +344,13 @@
         document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
 
         goToStep(1);
+
+        // --- INICIO: Selección visual del plan popular al cargar ---
+        const popularPlanCard = document.querySelector(".plan-card .popular");
+        if (popularPlanCard) {
+            popularPlanCard.closest('.plan-card').classList.add('selected');
+        }
+        // --- FIN: Selección visual del plan popular al cargar ---
     });
     
     function validateField(input) {
