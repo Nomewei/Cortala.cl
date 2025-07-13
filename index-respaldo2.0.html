@@ -11,74 +11,93 @@
 
     <style>
         :root {
-            --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
-            /* CAMBIO: Se usa la nueva fuente Poppins */
+            --marino: #003366; --marino-light: #004a80; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
             --font-main: 'Poppins', sans-serif;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth;}
         body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
-        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--gris); }
+        
+        /* --- INICIO: Estilos de Header y Menú Desplegable --- */
+        header { 
+            background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            display: flex; justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--gris);
+        }
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
+        .header-right { display: flex; align-items: center; gap: 1rem; }
         header .step-indicator { font-size: 0.85rem; font-weight: 600; color: var(--marino); background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); }
+        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--marino); cursor: pointer; }
+        .dropdown-menu {
+            position: absolute; top: 65px; right: 20px;
+            background-color: var(--marino);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 30;
+            overflow: hidden;
+        }
+        .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+        .dropdown-menu li a {
+            display: block; padding: 0.75rem 1.5rem;
+            color: var(--blanco); text-decoration: none; font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
+        /* --- FIN: Estilos de Header y Menú Desplegable --- */
+
         .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
-        .progress-bar { height: 100%; width: 33.3%; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
+        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
         main { background-color: var(--blanco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
         .step { display: none; } .step.active { display: block; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* --- INICIO: Mejoras Visuales en Plan Cards --- */
         .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
         .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
-        .plan-card .popular {
-            position: absolute; top: 12px; right: -30px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 2.5rem; transform: rotate(45deg);
-        }
+        .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
-        .plan-card h3 i { color: var(--naranja); } /* Color de íconos */
+        .plan-card h3 i { color: var(--naranja); }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
         .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
-        /* --- FIN: Mejoras Visuales en Plan Cards --- */
         
         label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
         .form-group { margin-bottom: 1.25rem; position: relative; }
         input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
         input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
         
-        /* --- INICIO: Estilos de Validación de Formularios --- */
         .form-group .validation-icon { position: absolute; right: 12px; top: 38px; visibility: hidden; }
         .form-group.success input { border-color: var(--verde-exito); }
-        .form-group.success .validation-icon.fa-check { color: var(--verde-exito); visibility: visible; }
+        .form-group.success .validation-icon { color: var(--verde-exito); visibility: visible; }
         .form-group.error input { border-color: var(--rojo-error); }
-        .form-group.error .validation-icon.fa-times { color: var(--rojo-error); visibility: visible; }
         .error-mensaje { color: var(--rojo-error); font-size: 0.8rem; display: none; margin-top: 4px; }
-        /* --- FIN: Estilos de Validación de Formularios --- */
 
-        .btn { display: inline-block; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
         .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
         .btn-primary:hover { background-color: #e69500; }
         .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
-        .btn-back { background-color: transparent; color: var(--texto-oscuro); width: auto; margin-right: 1rem; border: 1px solid var(--gris); }
-        .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
         
-        /* --- INICIO: Estilos de Tooltip y Términos --- */
+        /* --- INICIO: Rediseño Botón Volver --- */
+        .btn-back {
+            background-color: transparent; color: var(--marino);
+            width: auto; margin-right: 1rem; font-weight: 600;
+            gap: 8px; padding: 0.9rem 0;
+        }
+        .btn-back:hover { opacity: 0.7; }
+        /* --- FIN: Rediseño Botón Volver --- */
+        
+        .btn-group { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
         .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
         .terminos-mandato input { width: auto; margin-top: 5px; flex-shrink: 0; }
         .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
-        .terminos-mandato a { color: var(--marino); text-decoration: underline; }
-        .info-tooltip { display: inline-block; position: relative; margin-left: 5px; }
-        .info-tooltip .tooltip-text { visibility: hidden; width: 250px; background-color: var(--marino); color: #fff; text-align: center; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -125px; opacity: 0; transition: opacity 0.3s; font-size: 0.8rem; }
-        .info-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
-        /* --- FIN: Estilos de Tooltip y Términos --- */
+        .terminos-mandato a { color: var(--marino); text-decoration: underline; cursor: pointer; }
         
-        /* --- INICIO: Estilos de Sellos de Confianza y Pago --- */
         .trust-seals { text-align: center; margin: 2rem 0 1rem; }
         .trust-seals .seal { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; margin: 0 10px; }
         .trust-seals .seal i { color: var(--verde-exito); }
-        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 1rem; filter: grayscale(1); opacity: 0.7; }
-        .payment-logos i { font-size: 2rem; }
-        /* --- FIN: Estilos de Sellos de Confianza y Pago --- */
+        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
+        .payment-logos i { font-size: 2.2rem; }
+        .card-details-group { display: flex; gap: 1rem; }
 
         .summary { background-color: var(--marino); color: var(--blanco); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
         .summary-header span { font-size: 0.8rem; font-weight: 600; opacity: 0.7; }
@@ -86,14 +105,37 @@
         .summary-price { text-align: right; }
         .summary-price span:first-child { font-size: 2rem; font-weight: bold; color: var(--naranja); }
         .summary-price span:last-child { font-size: 1rem; opacity: 0.8; display: block; line-height: 1; }
+        .summary-final { background: linear-gradient(45deg, var(--marino), var(--marino-light)); border-radius: 12px; padding: 1.5rem; text-align: center; color: var(--blanco); margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .summary-final span { font-size: 1rem; opacity: 0.8; display: block; }
+        .summary-final h4 { font-size: 2.5rem; font-weight: 700; color: var(--naranja); margin: 0.25rem 0; line-height: 1.2; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: var(--blanco); color: var(--texto-oscuro); padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+        .modal-content h2 { color: var(--marino); }
+        .modal-content p { margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6; }
         .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #777; }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">Nomewei.cl</div>
-        <div class="step-indicator" id="stepIndicator">Paso 1 de 3</div>
+        <div class="header-right">
+            <div class="step-indicator" id="stepIndicator">Paso 1 de 3</div>
+            <div class="menu-container">
+                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
     </header>
+    
+    <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
+        <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#" onclick="closeMenuAndGoToStep(1)">Planes</a></li>
+            <li><a href="#">FAQ's</a></li>
+            <li><a href="#" onclick="closeMenuAndOpenTerms(event)">Términos y Condiciones</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </nav>
+
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -105,23 +147,17 @@
             <input type="hidden" id="price-input" name="price">
             <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
 
-            <div id="step1" class="step active">
+            <div id="step1" class="step">
                 <h2>Elige tu plan y libérate del SPAM telefónico</h2>
                 <div class="plan-card" onclick="selectPlan('Pack Esencial', 9990, 1, this)">
-                    <h3><i class="fa-solid fa-user"></i>Pack Esencial</h3>
-                    <p>Para 1 número telefónico</p>
-                    <p class="price">$9.990 CLP</p>
+                    <h3><i class="fa-solid fa-user"></i>Pack Esencial</h3><p>Para 1 número telefónico</p><p class="price">$9.990 CLP</p>
                 </div>
                 <div class="plan-card" onclick="selectPlan('Dual Pack', 15990, 2, this)">
                     <span class="popular">Más Popular</span>
-                    <h3><i class="fa-solid fa-user-group"></i>Dual Pack</h3>
-                    <p>Para hasta 2 números</p>
-                    <p class="price">$15.990 CLP</p>
+                    <h3><i class="fa-solid fa-user-group"></i>Dual Pack</h3><p>Para hasta 2 números</p><p class="price">$15.990 CLP</p>
                 </div>
                 <div class="plan-card" onclick="selectPlan('Pack Total', 24990, 5, this)">
-                    <h3><i class="fa-solid fa-users"></i>Pack Total</h3>
-                    <p>Para hasta 5 números</p>
-                    <p class="price">$24.990 CLP</p>
+                    <h3><i class="fa-solid fa-users"></i>Pack Total</h3><p>Para hasta 5 números</p><p class="price">$24.990 CLP</p>
                 </div>
             </div>
 
@@ -133,67 +169,63 @@
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre y Apellidos</label>
-                    <input type="text" id="nombre" name="nombre" required />
-                    <i class="fas fa-check validation-icon"></i>
-                    <span class="error-mensaje">El nombre es requerido.</span>
+                    <input type="text" id="nombre" name="nombre" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">El nombre es requerido.</span>
                 </div>
                 <div class="form-group">
                     <label for="rut">RUT</label>
-                    <input type="text" id="rut" name="rut" placeholder="12.345.678-9" required />
-                    <i class="fas fa-check validation-icon"></i>
-                    <span class="error-mensaje" id="rut-error">RUT inválido.</span>
+                    <input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje" id="rut-error">RUT inválido.</span>
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required />
-                    <i class="fas fa-check validation-icon"></i>
-                    <span class="error-mensaje">Email inválido.</span>
+                    <input type="email" id="email" name="email" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Email inválido.</span>
                 </div>
                 <div id="campos-telefonos"></div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-back" onclick="goToStep(1)">← Volver</button>
+                    <button type="button" class="btn btn-back" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Volver</button>
                     <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button>
                 </div>
             </div>
 
             <div id="step3" class="step">
                 <h2>¡Estás a un paso de ser Libre!</h2>
-                <div class="summary" id="finalPlanSummary">
-                     <div class="summary-header"><span>Pago Único</span><h4 id="finalPlanPrice"></h4></div>
+                <div class="summary-final" id="finalPlanSummary">
+                    <span>PAGO ÚNICO Y SEGURO</span><h4 id="finalPlanPrice"></h4>
                 </div>
-
+                <label>Paga con tu tarjeta</label>
+                <div class="payment-logos">
+                    <i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i>
+                    <i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i>
+                    <i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i>
+                </div>
                 <div class="form-group">
-                    <label>Método de Pago</label>
-                    <div class="payment-logos">
-                        <i class="fa-brands fa-cc-visa"></i>
-                        <i class="fa-brands fa-cc-mastercard"></i>
-                        <i class="fa-brands fa-cc-amex"></i>
-                        <i class="fa-solid fa-credit-card"></i>
-                    </div>
-                </div>
-                 <div class="form-group">
                     <label for="cardName">Nombre en la Tarjeta</label>
                     <input type="text" id="cardName" name="cardName" required />
                 </div>
+                <div class="form-group">
+                    <label for="cardNumber">Número de Tarjeta</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" required />
+                </div>
+                <div class="card-details-group">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="cardExpiry">Vencimiento</label>
+                        <input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/AA" required />
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="cardCVC">CVV</label>
+                        <input type="text" id="cardCVC" name="cardCVC" placeholder="123" required />
+                    </div>
+                </div>
                 <div class="form-group terminos-mandato">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">
-                        Entiendo y acepto los <a href="/terminos.html" target="_blank">Términos y condiciones</a> y que, para gestionar la eliminación de mis datos, otorgo a Nomewei.cl un poder simple para actuar en mi representación.
-                        <div class="info-tooltip">
-                            <i class="fas fa-info-circle"></i>
-                            <span class="tooltip-text">Este permiso nos autoriza legalmente a contactar a las empresas en tu nombre para solicitar la baja de tus datos. Es un trámite 100% seguro y necesario para el servicio.</span>
-                        </div>
-                    </label>
+                    <label for="terms">Acepto los <a onclick="openTermsModal(event)">Términos y condiciones</a> y otorgo poder simple a Nomewei.cl para actuar en mi representación.</label>
                 </div>
                 <div data-netlify-recaptcha="true"></div>
-
                 <div class="trust-seals">
                     <span class="seal"><i class="fas fa-lock"></i> Pago 100% Seguro</span>
                     <span class="seal"><i class="fas fa-shield-alt"></i> Datos Encriptados</span>
                 </div>
-
                 <div class="btn-group">
-                    <button type="button" class="btn btn-back" onclick="goToStep(2)">← Volver</button>
+                    <button type="button" class="btn btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Volver</button>
                     <button type="submit" class="btn btn-primary" id="submitBtn">
                         <span class="btn-text">Pagar y Finalizar</span>
                         <span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span>
@@ -202,31 +234,50 @@
             </div>
         </form>
     </main>
+
+    <div id="termsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Términos y Condiciones</h2>
+            <p><strong>1. OBJETO DEL SERVICIO:</strong> Nomewei.cl presta un servicio de gestión para solicitar la eliminación de datos personales de listas de marketing y bases de datos de empresas en Chile, en nombre y representación del cliente.</p>
+            <p><strong>2. OTORGAMIENTO DE PODER:</strong> Al aceptar estos términos, el cliente otorga un poder simple, especial y específico a Nomewei.cl... (texto completo)</p>
+            <button type="button" class="btn btn-primary" onclick="closeTermsModal()">Entendido y Volver</button>
+        </div>
+    </div>
+    
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
     <script>
     let selectedPlanData = {};
+    let formData = {};
     const steps = Array.from(document.querySelectorAll('.step'));
     const progressBar = document.getElementById('progressBar');
     const stepIndicator = document.getElementById('stepIndicator');
-    const mainForm = document.querySelector('form[name="checkout"]');
 
     function selectPlan(name, price, numPhones, element) {
         document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
         element.classList.add('selected');
         selectedPlanData = { name, price, numPhones };
+        formData['selectedPlan'] = {name, price, numPhones, element};
         goToStep(2);
     }
 
     function goToStep(stepNumber) {
-        // CAMBIO: Validación mejorada antes de pasar al paso 3
+        saveFormData();
         if (stepNumber === 3 && !validateStep2()) {
-            return; // La validación ahora muestra los errores en línea
+            return;
         }
         steps.forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${stepNumber}`).classList.add('active');
-        progressBar.style.width = `${stepNumber * 33.33}%`;
-        stepIndicator.textContent = `Paso ${stepNumber} de 3`;
+        const targetStep = document.getElementById(`step${stepNumber}`);
+        if(targetStep) {
+            targetStep.classList.add('active');
+            progressBar.style.width = `${stepNumber * 33.3}%`;
+            stepIndicator.textContent = `Paso ${stepNumber} de 3`;
+        } else {
+            // Si el paso no existe, podría ser una sección como FAQ o Contacto
+            // Por ahora, solo ocultamos los pasos del formulario
+            progressBar.style.width = '0%';
+            stepIndicator.textContent = 'Nomewei';
+        }
 
         if (stepNumber === 2) {
             document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
@@ -235,62 +286,144 @@
             telefonosContainer.innerHTML = '';
             for (let i = 1; i <= selectedPlanData.numPhones; i++) {
                 const labelText = selectedPlanData.numPhones === 1 ? 'Teléfono a Gestionar' : (i === 1 ? 'Teléfono Principal' : `Teléfono Adicional #${i}`);
-                telefonosContainer.innerHTML += `
-                    <div class="form-group">
-                        <label for="telefono-${i}">${labelText}</label>
-                        <input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="+56 9 XXXXXXXX" required>
-                        <i class="fas fa-check validation-icon"></i>
-                        <span class="error-mensaje">El teléfono es requerido.</span>
-                    </div>`;
+                telefonosContainer.innerHTML += `<div class="form-group"><label for="telefono-${i}">${labelText}</label><input type="tel" id="telefono-${i}" name="telefono-${i}" placeholder="XXXXXXXX" maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">El teléfono es requerido.</span></div>`;
             }
-             // Añadir listeners para la validación en tiempo real
-            document.querySelectorAll('#step2 input[required]').forEach(input => {
-                input.addEventListener('blur', () => validateField(input));
-                input.addEventListener('input', () => validateField(input));
+            // Añadir listeners para el formato de teléfono
+            document.querySelectorAll('input[type="tel"]').forEach(input => {
+                input.addEventListener('input', formatPhoneInput);
+                input.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
             });
-
         } else if (stepNumber === 3) {
             document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
             document.getElementById('plan-input').value = selectedPlanData.name;
             document.getElementById('price-input').value = selectedPlanData.price;
             document.querySelector('#submitBtn .btn-text').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
         }
-        window.scrollTo(0, 0); // Vuelve arriba al cambiar de paso
+        
+        loadFormData();
+        window.scrollTo(0, 0);
     }
 
-    // --- INICIO: Lógica de Validación de Formularios Mejorada ---
+    // --- INICIO: Lógica de Menú, Teléfono y Otros ---
+    function formatPhoneInput(e) {
+        const input = e.target;
+        if (!input.value.startsWith('+569')) {
+            input.value = '+569';
+        }
+        // Limitar a solo números después del prefijo (opcional, pero buena práctica)
+        const numericPart = input.value.substring(4).replace(/\D/g, '');
+        input.value = '+569' + numericPart;
+    }
+
+    function toggleMenu() {
+        const menu = document.getElementById('dropdownMenu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function closeMenu() {
+        document.getElementById('dropdownMenu').style.display = 'none';
+    }
+    
+    function closeMenuAndGoToStep(step) {
+        closeMenu();
+        goToStep(step);
+    }
+    
+    function closeMenuAndOpenTerms(event) {
+        closeMenu();
+        openTermsModal(event);
+    }
+
     const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?String(s-1):'k')==d; };
     const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
 
+    function saveFormData() { /* ... (Sin cambios) */ }
+    function loadFormData() { /* ... (Sin cambios) */ }
+    function openTermsModal(event) { event.preventDefault(); document.getElementById('termsModal').style.display = 'flex'; }
+    function closeTermsModal() { document.getElementById('termsModal').style.display = 'none'; }
+    function validateField(input) { /* ... (Sin cambios) */ }
+    function validateStep2() { /* ... (Sin cambios) */ }
+    function handleFormSubmit(event) { /* ... (Sin cambios) */ }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const toggleBtn = document.getElementById('menuToggle');
+            if (menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+                closeMenu();
+            }
+        });
+        
+        document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => {
+            input.addEventListener('blur', () => { validateField(input); saveFormData(); });
+        });
+        document.getElementById('rut').addEventListener('input', (e) => e.target.value = formatearRut(e.target.value));
+        document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+        document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+        document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
+
+        goToStep(1);
+        const popularPlanCard = document.querySelector(".plan-card .popular");
+        if (popularPlanCard) {
+            popularPlanCard.closest('.plan-card').classList.add('selected');
+        }
+    });
+    
+    // Pegar aquí las funciones sin cambios para mantener el código completo
+    function saveFormData() {
+        document.querySelectorAll('form[name="checkout"] input[type="text"], form[name="checkout"] input[type="email"], form[name="checkout"] input[type="tel"]').forEach(input => {
+            if (input.id) formData[input.id] = input.value;
+        });
+    }
+    function loadFormData() {
+        document.querySelectorAll('form[name="checkout"] input[type="text"], form[name="checkout"] input[type="email"], form[name="checkout"] input[type="tel"]').forEach(input => {
+            if (input.id && formData[input.id]) {
+                input.value = formData[input.id];
+                if(input.type !== 'tel') validateField(input); // No validar el teléfono al cargar para evitar conflicto con el +569
+            }
+        });
+        if (formData.selectedPlan && !document.querySelector('.plan-card.selected')) {
+             document.querySelectorAll('.plan-card').forEach(card => {
+                const h3 = card.querySelector('h3');
+                if(h3 && h3.innerText.includes(formData.selectedPlan.name)) {
+                    card.classList.add('selected');
+                }
+             });
+        }
+    }
     function validateField(input) {
-        const formGroup = input.parentElement;
+        const formGroup = input.parentElement.closest('.form-group');
         const errorMsg = formGroup.querySelector('.error-mensaje');
         let isValid = input.checkValidity();
-
-        if (input.type === 'email' && input.value.length > 0) {
-            isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
-            errorMsg.textContent = 'Formato de email inválido.';
+        if (input.value.trim() === "" && input.required) {
+            isValid = false;
+            if (errorMsg) errorMsg.textContent = 'Este campo es requerido.';
+        } else {
+            if (input.type === 'email' && input.value.length > 0) {
+                isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value);
+                if (errorMsg) errorMsg.textContent = 'Formato de email inválido.';
+            }
+            if (input.id === 'rut' && input.value.length > 0) {
+                isValid = validarRut(input.value);
+                if (errorMsg) errorMsg.textContent = 'RUT inválido.';
+            }
+            if(input.type === 'tel' && (input.value.length < 12 && input.value.length > 4)) {
+                isValid = false;
+                if (errorMsg) errorMsg.textContent = 'El número debe tener 8 dígitos.';
+            }
         }
-        if (input.id === 'rut' && input.value.length > 0) {
-            isValid = validarRut(input.value);
-            errorMsg.textContent = 'RUT inválido.';
-        }
-        if (input.value.trim() === "") {
-             errorMsg.textContent = 'Este campo es requerido.';
-        }
-
         if (isValid) {
             formGroup.classList.remove('error');
             formGroup.classList.add('success');
-            errorMsg.style.display = 'none';
+            if(errorMsg) errorMsg.style.display = 'none';
         } else {
             formGroup.classList.remove('success');
             formGroup.classList.add('error');
-            errorMsg.style.display = 'block';
+            if(errorMsg) errorMsg.style.display = 'block';
         }
         return isValid;
     }
-
     function validateStep2() {
         let isStepValid = true;
         document.querySelectorAll('#step2 input[required]').forEach(input => {
@@ -300,41 +433,27 @@
         });
         return isStepValid;
     }
-    // --- FIN: Lógica de Validación de Formularios Mejorada ---
-
-    document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
-    
-    // Simulación de carga en el botón de pago
     function handleFormSubmit(event) {
+        saveFormData();
+        if (!validateStep2()) {
+            event.preventDefault();
+            alert('Por favor, revisa tus datos antes de continuar.');
+            return;
+        }
         const submitBtn = document.getElementById('submitBtn');
         const btnText = submitBtn.querySelector('.btn-text');
         const btnSpinner = submitBtn.querySelector('.btn-spinner');
-
-        // Validar términos y condiciones
         if (!document.getElementById('terms').checked) {
             event.preventDefault();
             alert('Debes aceptar los términos y condiciones para continuar.');
             return;
         }
-
-        // Activar spinner (para una subida de formulario real)
         submitBtn.disabled = true;
         btnText.style.display = 'none';
         btnSpinner.style.display = 'inline-block';
-        
         const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
         document.getElementById('telefonos-input').value = telefonos.join(', ');
-        
-        // No prevenir el envío del formulario para que Netlify lo capture
-        // event.preventDefault(); // Descomentar para probar sin enviar
     }
-
-    window.addEventListener('load', () => {
-        const popularPlanCard = document.querySelector(".plan-card .popular");
-        if (popularPlanCard) {
-            popularPlanCard.closest('.plan-card').click();
-        }
-    });
     </script>
 </body>
 </html>
