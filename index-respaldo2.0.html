@@ -18,34 +18,15 @@
         body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         
-        /* --- INICIO: Estilos de Header y Menú Desplegable --- */
-        header { 
-            background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
-            display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--gris);
-        }
+        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--gris); }
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
         .header-right { display: flex; align-items: center; gap: 1rem; }
         header .step-indicator { font-size: 0.85rem; font-weight: 600; color: var(--marino); background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); }
-        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--marino); cursor: pointer; }
-        .dropdown-menu {
-            position: absolute; top: 65px; right: 20px;
-            background-color: var(--marino);
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 30;
-            overflow: hidden;
-            animation: fadeIn 0.2s ease-out;
-        }
+        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--marino); cursor: pointer; padding: 0.5rem; line-height: 1; }
+        .dropdown-menu { position: absolute; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeIn 0.2s ease-out; }
         .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
-        .dropdown-menu li a {
-            display: block; padding: 0.75rem 1.5rem;
-            color: var(--blanco); text-decoration: none; font-weight: 600;
-            transition: background-color 0.2s ease;
-            cursor: pointer;
-        }
+        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
         .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
-        /* --- FIN: Estilos de Header y Menú Desplegable --- */
 
         .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
         .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
@@ -104,10 +85,30 @@
         .summary-final { background: linear-gradient(45deg, var(--marino), var(--marino-light)); border-radius: 12px; padding: 1.5rem; text-align: center; color: var(--blanco); margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); }
         .summary-final span { font-size: 1rem; opacity: 0.8; display: block; }
         .summary-final h4 { font-size: 2.5rem; font-weight: 700; color: var(--naranja); margin: 0.25rem 0; line-height: 1.2; }
+        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: var(--blanco); color: var(--texto-oscuro); padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
-        .modal-content h2 { color: var(--marino); margin-bottom: 1.5rem; }
+        .modal-content { 
+            background: var(--blanco); color: var(--texto-oscuro);
+            border-radius: 12px; width: 90%; max-width: 600px;
+            max-height: 85vh;
+            display: flex; flex-direction: column;
+            animation: fadeIn 0.3s;
+            padding: 0;
+        }
+        .modal-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--gris); }
+        .modal-header h2 { margin: 0; text-align: left; }
+        .modal-body { overflow-y: auto; padding: 1rem 2rem; }
+        .modal-footer { padding: 1rem 2rem; border-top: 1px solid var(--gris); background-color: var(--blanco); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;}
         .modal-content p { margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6; }
+
+        .faq-item { border-bottom: 1px solid var(--gris); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { padding: 1rem 0; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question i { transition: transform 0.3s ease; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; font-size: 0.9rem; padding-left: 0.5rem;}
+        .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--naranja); }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+
         .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #777; }
     </style>
 </head>
@@ -125,15 +126,13 @@
     <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
         <ul>
             <li><a onclick="closeMenuAndGoToStep(1)">Planes</a></li>
-            <li><a onclick="openModal('termsModal')">Términos y Condiciones</a></li>
-            <li><a href="#">FAQ's</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
+            <li><a onclick="openModal('faqModal', event)">FAQ's</a></li>
+            <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
         </ul>
     </nav>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
     <main class="container">
         <form name="checkout" method="POST" action="/gracias.html" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
@@ -176,20 +175,53 @@
 
     <div id="termsModal" class="modal-overlay">
         <div class="modal-content">
-            <h2>Términos y Condiciones</h2>
-            <p><strong>1. OBJETO DEL SERVICIO:</strong> Nomewei.cl presta un servicio de gestión para solicitar la eliminación de datos personales de listas de marketing y bases de datos de empresas en Chile, en nombre y representación del cliente.</p>
-            <p><strong>2. OTORGAMIENTO DE PODER:</strong> Al aceptar estos términos, el cliente otorga un poder simple, especial y específico a Nomewei.cl, conforme al artículo 2° de la Ley N° 19.628 sobre Protección de la Vida Privada, para que en su nombre y representación, realice las gestiones necesarias para ejercer los derechos de cancelación y bloqueo de sus datos personales.</p>
-            <p><strong>3. OBLIGACIONES DEL CLIENTE:</strong> El cliente debe proporcionar información veraz y completa (Nombre, RUT, Email, Teléfonos a gestionar) para la correcta prestación del servicio. El cliente es responsable de la exactitud de los datos proporcionados.</p>
-            <p><strong>4. PAGO:</strong> El servicio se paga una única vez por la cantidad de números telefónicos contratados. Este pago cubre todas las gestiones administrativas y legales que Nomewei.cl realizará.</p>
-            <p><strong>5. LIMITACIÓN DE RESPONSABILIDAD:</strong> Nomewei.cl se compromete a realizar las gestiones con la máxima diligencia. Sin embargo, el resultado final y los plazos de ejecución pueden depender de la cooperación y los procedimientos internos de las empresas contactadas. Nomewei.cl no se hace responsable si una empresa se niega a cumplir la ley, caso en el cual se informará al cliente sobre posibles acciones adicionales.</p>
-            <p><strong>6. CONFIDENCIALIDAD:</strong> Toda la información proporcionada por el cliente será tratada con la más estricta confidencialidad y será utilizada únicamente para los fines descritos en este acuerdo.</p>
-            <button type="button" class="btn btn-primary" onclick="closeModal('termsModal')">Entendido y Volver</button>
+            <div class="modal-header"><h2>Términos y Condiciones</h2></div>
+            <div class="modal-body">
+                <p><strong>1. OBJETO DEL SERVICIO:</strong> Nomewei.cl presta un servicio de gestión para solicitar la eliminación de datos personales de listas de marketing y bases de datos de empresas en Chile, en nombre y representación del cliente.</p>
+                <p><strong>2. OTORGAMIENTO DE PODER:</strong> Al aceptar estos términos, el cliente otorga un poder simple, especial y específico a Nomewei.cl, conforme al artículo 2° de la Ley N° 19.628 sobre Protección de la Vida Privada, para que en su nombre y representación, realice las gestiones necesarias para ejercer los derechos de cancelación y bloqueo de sus datos personales.</p>
+                <p><strong>3. OBLIGACIONES DEL CLIENTE:</strong> El cliente debe proporcionar información veraz y completa (Nombre, RUT, Email, Teléfonos a gestionar) para la correcta prestación del servicio. El cliente es responsable de la exactitud de los datos proporcionados.</p>
+                <p><strong>4. PAGO:</strong> El servicio se paga una única vez por la cantidad de números telefónicos contratados. Este pago cubre todas las gestiones administrativas y legales que Nomewei.cl realizará.</p>
+                <p><strong>5. LIMITACIÓN DE RESPONSABILIDAD:</strong> Nomewei.cl se compromete a realizar las gestiones con la máxima diligencia. Sin embargo, el resultado final y los plazos de ejecución pueden depender de la cooperación y los procedimientos internos de las empresas contactadas. Nomewei.cl no se hace responsable si una empresa se niega a cumplir la ley, caso en el cual se informará al cliente sobre posibles acciones adicionales.</p>
+                <p><strong>6. CONFIDENCIALIDAD:</strong> Toda la información proporcionada por el cliente será tratada con la más estricta confidencialidad y será utilizada únicamente para los fines descritos en este acuerdo.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="closeModal('termsModal')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="faqModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Preguntas Frecuentes</h2></div>
+            <div class="modal-body">
+                <div class="faq-accordion">
+                    <div class="faq-item"><div class="faq-question">¿Este servicio es legal? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Sí, es 100% legal. Nos amparamos en la Ley N° 19.628 sobre Protección de la Vida Privada, que te otorga el derecho a solicitar la eliminación (cancelación) de tus datos personales de cualquier base de datos. Actuamos como tus representantes para ejercer este derecho.</p></div></div>
+                    <div class="faq-item"><div class="faq-question">¿Cuánto tiempo tarda el proceso? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Iniciamos las gestiones dentro de las primeras 48 horas hábiles. La ley otorga a las empresas un plazo de 2 días hábiles para responder. Aunque la mayoría cumple, el tiempo total puede variar. Te mantendremos informado del estado de cada solicitud.</p></div></div>
+                    <div class="faq-item"><div class="faq-question">¿Esto me protegerá de todo el SPAM para siempre? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Este servicio realiza una limpieza profunda y única de las bases de datos de empresas que operan actualmente en Chile. Si en el futuro te registras en nuevos servicios, podrías ser añadido a nuevas listas. Es una solución para el presente y pasado, no una barrera a futuro.</p></div></div>
+                    <div class="faq-item"><div class="faq-question">¿Qué pasa si una empresa no quiere eliminar mis datos? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>La gran mayoría de las empresas cumple con la ley. En el caso excepcional de que una empresa se niegue, te notificaremos formalmente y te entregaremos la documentación de respaldo para que puedas, si lo deseas, iniciar acciones legales ante el SERNAC o un juzgado.</p></div></div>
+                    <div class="faq-item"><div class="faq-question">¿Mi información de pago está segura? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Absolutamente. Todos los pagos se procesan a través de pasarelas de pago certificadas y con encriptación de extremo a extremo. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta de crédito.</p></div></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('faqModal')">Entendido</button></div>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal-overlay">
+         <div class="modal-content">
+            <div class="modal-header"><h2>Contacto</h2></div>
+            <div class="modal-body" style="text-align: center;">
+                <p>Si tienes alguna duda que no fue resuelta en nuestra sección de Preguntas Frecuentes, no dudes en escribirnos.</p>
+                <p style="font-size: 1.1rem;"><strong><i class="fas fa-envelope"></i> Correo electrónico:</strong><br><a href="mailto:hola@nomewei.cl" style="color: var(--naranja); text-decoration: none;">hola@nomewei.cl</a></p>
+                <p style="font-size: 0.9rem; margin-top: 2rem;">Nos comprometemos a responderte en un plazo máximo de 24 horas hábiles.</p>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('contactModal')">Entendido</button></div>
         </div>
     </div>
     
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
     <script>
+    // --- INICIO SCRIPT FUNCIONAL ---
     let selectedPlanData = {};
     let formData = {};
     const steps = Array.from(document.querySelectorAll('.step'));
@@ -200,7 +232,7 @@
         document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
         element.classList.add('selected');
         selectedPlanData = { name, price, numPhones };
-        formData['selectedPlan'] = {name, price, numPhones, element};
+        formData['selectedPlan'] = {name, price, numPhones };
         goToStep(2);
     }
 
@@ -211,7 +243,7 @@
         const targetStep = document.getElementById(`step${stepNumber}`);
         if(targetStep) {
             targetStep.classList.add('active');
-            progressBar.style.width = `${(stepNumber-1) * 50}%`; // Ajustado para 3 pasos
+            progressBar.style.width = `${(stepNumber-1) * 50}%`;
             stepIndicator.textContent = `Paso ${stepNumber} de 3`;
         }
         if (stepNumber === 2) {
@@ -240,16 +272,14 @@
     function formatPhoneInput(e) {
         const input = e.target;
         let value = input.value;
-        if (!value.startsWith('+569')) {
-            value = '+569';
-        }
+        if (!value.startsWith('+569')) { value = '+569'; }
         const numericPart = value.substring(4).replace(/\D/g, '');
-        input.value = '+569' + numericPart;
+        input.value = '+569' + numericPart.slice(0, 8);
     }
 
     function toggleMenu() {
         const menu = document.getElementById('dropdownMenu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        if(menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
 
     function closeMenu() {
@@ -281,16 +311,49 @@
     function loadFormData() { document.querySelectorAll('form[name="checkout"] input:not([type=checkbox])').forEach(input => { if (input.id && formData[input.id]) { input.value = formData[input.id]; if(input.type !== 'tel') validateField(input); } }); if (formData.selectedPlan && !document.querySelector('.plan-card.selected')) { document.querySelectorAll('.plan-card').forEach(card => { const h3 = card.querySelector('h3'); if(h3 && h3.innerText.includes(formData.selectedPlan.name)) { card.classList.add('selected'); } }); } }
     function validateField(input) { const formGroup = input.parentElement.closest('.form-group'); if(!formGroup) return true; const errorMsg = formGroup.querySelector('.error-mensaje'); let isValid = input.checkValidity(); if (input.value.trim() === "" && input.required) { isValid = false; if (errorMsg) errorMsg.textContent = 'Este campo es requerido.'; } else { if (input.type === 'email' && input.value.length > 0) { isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value); if (errorMsg) errorMsg.textContent = 'Formato de email inválido.'; } if (input.id === 'rut' && input.value.length > 0) { isValid = validarRut(input.value); if (errorMsg) errorMsg.textContent = 'RUT inválido.'; } if(input.type === 'tel') { isValid = input.value.length === 12; if (!isValid && errorMsg) errorMsg.textContent = 'El número debe tener 8 dígitos.'; } } if (isValid) { formGroup.classList.remove('error'); formGroup.classList.add('success'); if(errorMsg) errorMsg.style.display = 'none'; } else { formGroup.classList.remove('success'); formGroup.classList.add('error'); if(errorMsg) errorMsg.style.display = 'block'; } return isValid; }
     function validateStep2() { let isStepValid = true; document.querySelectorAll('#step2 input[required]').forEach(input => { if (!validateField(input)) { isStepValid = false; } }); return isStepValid; }
-    function handleFormSubmit(event) { event.preventDefault(); if (!validateStep2()) { alert('Por favor, revisa tus datos antes de continuar.'); return; } const submitBtn = document.getElementById('submitBtn'); if (!document.getElementById('terms').checked) { alert('Debes aceptar los términos y condiciones para continuar.'); return; } submitBtn.disabled = true; submitBtn.querySelector('.btn-text').style.display = 'none'; submitBtn.querySelector('.btn-spinner').style.display = 'inline-block'; document.querySelector('form[name="checkout"]').submit(); }
+    
+    function handleFormSubmit(event) {
+        event.preventDefault(); 
+        let isFormValid = validateStep2();
+        if (!document.getElementById('terms').checked) {
+            alert('Debes aceptar los términos y condiciones para continuar.');
+            isFormValid = false;
+        }
+        if(!isFormValid){
+             alert('Por favor, revisa que todos tus datos estén correctos.');
+             return;
+        }
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.btn-text').style.display = 'none';
+        submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
+        
+        const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
+        document.getElementById('telefonos-input').value = telefonos.join(', ');
+        
+        setTimeout(() => document.querySelector('form[name="checkout"]').submit(), 500);
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('menuToggle').addEventListener('click', toggleMenu);
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('dropdownMenu');
             const toggleBtn = document.getElementById('menuToggle');
-            if (menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+            if (menu && toggleBtn && menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
                 closeMenu();
             }
+        });
+        
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                const currentlyActive = document.querySelector('.faq-item.active');
+                if (currentlyActive && currentlyActive !== parent) {
+                    currentlyActive.classList.remove('active');
+                }
+                parent.classList.toggle('active');
+            });
         });
         
         goToStep(1);
@@ -303,6 +366,7 @@
         document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
         document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
     });
+    // --- FIN SCRIPT FUNCIONAL ---
     </script>
 </body>
 </html>
