@@ -1,188 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Confirmación - Nomewei.cl</title>
-  <style>
-    :root {
-      --marino: #003366;
-      --naranja: #FFA500;
-      --blanco: #FFFFFF;
-      --gris-claro: #F7F7F7;
-      --gris: #E1E1E1;
-      --texto-oscuro: #333333;
-      --font-main: 'Segoe UI', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font-main);
-      background-color: var(--gris-claro);
-      color: var(--texto-oscuro);
-      line-height: 1.6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-
-    .confirmation-container {
-      background-color: var(--blanco);
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-      padding: 2.5rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .logo svg {
-      width: 32px;
-      height: 32px;
-      fill: var(--marino);
-    }
-
-    .logo h1 {
-      font-size: 1.5rem;
-      color: var(--marino);
-    }
-
-    .icon-success {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 1.5rem;
-      fill: var(--naranja);
-    }
-
-    h2 {
-      font-size: 1.75rem;
-      color: var(--marino);
-      margin-bottom: 0.5rem;
-    }
-
-    p {
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-      color: var(--texto-oscuro);
-    }
-
-    .order-details {
-      background-color: var(--gris-claro);
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      text-align: left;
-      font-size: 0.95rem;
-    }
-
-    .order-details div {
-      margin-bottom: 0.75rem;
-    }
-
-    .order-details strong {
-      color: var(--marino);
-    }
-
-    .cta-button {
-      display: inline-block;
-      background-color: var(--naranja);
-      color: var(--blanco);
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-      margin-top: 1rem;
-    }
-
-    .cta-button:hover {
-      background-color: #e69500;
-    }
-
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.85rem;
-      color: var(--texto-oscuro);
-    }
-
-    .footer a {
-      color: var(--marino);
-      text-decoration: underline;
-      font-weight: bold;
-    }
-
-    @media (max-width: 600px) {
-      .confirmation-container {
-        padding: 1.5rem;
-      }
-
-      .icon-success {
-        width: 50px;
-        height: 50px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Gracias por tu compra! - Nomewei.cl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --texto-oscuro: #333333; --verde-exito: #28a745;
+            --font-main: 'Poppins', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.6; }
+        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E1E1E1; }
+        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
+        .container { max-width: 550px; margin: 2rem auto; padding: 1rem; }
+        .gracias-box {
+            background-color: var(--blanco);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .gracias-box .icon {
+            font-size: 4.5rem;
+            color: var(--verde-exito);
+            margin-bottom: 1.5rem;
+            line-height: 1;
+        }
+        .gracias-box h1 {
+            color: var(--marino);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .gracias-box p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .gracias-box .email-info {
+            background-color: var(--gris-claro);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            border: 1px solid #E1E1E1;
+        }
+        .btn { display: inline-block; background-color: var(--naranja); color: var(--blanco); padding: 0.9rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background-color 0.2s ease; margin-top: 1rem; }
+        .btn:hover { background-color: #e69500; }
+        .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #777; }
+    </style>
 </head>
 <body>
+    <header>
+        <div class="logo">Nomewei.cl</div>
+    </header>
 
-  <div class="confirmation-container">
-    <!-- Logo -->
-    <div class="logo">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7v5c0 5.2 3.8 9.9 10 12s10-4.8 10-12V7L12 2zm0 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5" stroke="var(--marino)" stroke-width="2"/></svg>
-      <h1>Nomewei.cl</h1>
-    </div>
+    <main class="container">
+        <div class="gracias-box">
+            <div class="icon"><i class="fas fa-check-circle"></i></div>
+            <h1>¡Gracias por tu compra!</h1>
+            <p>Hemos recibido tu solicitud correctamente. En breve, nuestro equipo comenzará las gestiones para proteger tu privacidad del SPAM telefónico.</p>
+            <div class="email-info">
+                Recibirás un correo electrónico de confirmación con los detalles de tu plan y los siguientes pasos.
+            </div>
+            <a href="/" class="btn">Volver al Inicio</a>
+        </div>
+    </main>
 
-    <!-- Icono de éxito -->
-    <svg class="icon-success" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-    </svg>
-
-    <!-- Título y mensaje -->
-    <h2>¡Compra realizada con éxito!</h2>
-    <p>Hemos recibido tu pago y tu solicitud está siendo procesada. Tu tranquilidad comienza ahora.</p>
-
-    <!-- Resumen del pedido -->
-    <div class="order-details">
-      <div><strong>ID de Orden:</strong> ORD-20231101-1234</div>
-      <div><strong>Plan Adquirido:</strong> Pack Familiar</div>
-      <div><strong>Precio:</strong> $60.000 CLP</div>
-      <div><strong>Método de Pago:</strong> Tarjeta de Crédito</div>
-    </div>
-
-    <!-- Próximos pasos -->
-    <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Próximos Pasos</h3>
-    <p style="margin-bottom: 1.5rem;">
-      En menos de 10 días hábiles iniciaremos el proceso de desafiliación ante las empresas respectivas.
-      Te mantendremos informado vía WhatsApp o correo electrónico.
-    </p>
-
-    <!-- Botón de soporte -->
-    <a href="https://wa.me/56912345678 " target="_blank" class="cta-button">Contáctanos por WhatsApp</a>
-
-    <!-- Descargar recibo -->
-    <div class="footer" style="margin-top: 2rem;">
-      <p>¿Necesitas tu recibo? <a href="#">Descarga aquí tu comprobante</a></p>
-      <p><a href="/">← Volver al inicio</a></p>
-    </div>
-  </div>
-
+    <footer class="footer">
+        <p>© 2025 Nomewei.cl - Protege tu privacidad</p>
+    </footer>
 </body>
 </html>
