@@ -95,15 +95,7 @@
         .summary-final { background: linear-gradient(45deg, var(--marino), var(--marino-light)); border-radius: 12px; padding: 1.5rem; text-align: center; color: var(--blanco); margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); }
         .summary-final span { font-size: 1rem; opacity: 0.8; display: block; }
         .summary-final h4 { font-size: 2.5rem; font-weight: 700; color: var(--naranja); margin: 0.25rem 0; line-height: 1.2; }
-        
-        /* --- INICIO CAMBIO: Estilo para detalles del plan --- */
-        .summary-final-details {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 0.5rem;
-            color: var(--blanco);
-        }
-        /* --- FIN CAMBIO --- */
+        .summary-final-details { font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem; color: var(--blanco); }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { 
@@ -183,7 +175,7 @@
                     <span>PAGO ÚNICO Y SEGURO</span>
                     <h4 id="finalPlanPrice"></h4>
                     <p id="finalPlanDetails" class="summary-final-details"></p>
-                    </div>
+                </div>
                 <label>Paga con tu tarjeta</label>
                 <div class="payment-logos"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i><i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i><i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i></div>
                 <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
@@ -215,10 +207,10 @@
             <div class="modal-header"><h2>Preguntas Frecuentes</h2></div>
             <div class="modal-body">
                 <div class="faq-accordion">
+                    <div class="faq-item"><div class="faq-question">¿A qué empresas se contacta? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Nos enfocamos en las empresas con la mayor cantidad de reclamos por spam en Chile. Nuestro proceso cubre a los principales actores del sector de <strong>telecomunicaciones (Entel, Movistar, WOM, Claro, etc.)</strong> y del <strong>gran retail (Falabella, Ripley, Paris, Cencosud, entre otros)</strong>. Nos mantenemos constantemente actualizados para incluir a las entidades más relevantes y encontrar el canal de contacto correcto para cada una.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿Este servicio es legal? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Sí, es 100% legal. Nos amparamos en la Ley N° 19.628 sobre Protección de la Vida Privada, que te otorga el derecho a solicitar la eliminación (cancelación) de tus datos personales de cualquier base de datos. Actuamos como tus representantes para ejercer este derecho.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿Cuánto tiempo tarda el proceso? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Iniciamos las gestiones dentro de las primeras 48 horas hábiles. La ley otorga a las empresas un plazo de 2 días hábiles para responder. Aunque la mayoría cumple, el tiempo total puede variar. Te mantendremos informado del estado de cada solicitud.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿Esto me protegerá de todo el SPAM para siempre? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Este servicio realiza una limpieza profunda y única de las bases de datos de empresas que operan actualmente en Chile. Si en el futuro te registras en nuevos servicios, podrías ser añadido a nuevas listas. Es una solución para el presente y pasado, no una barrera a futuro.</p></div></div>
-                    <div class="faq-item"><div class="faq-question">¿Qué pasa si una empresa no quiere eliminar mis datos? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>La gran mayoría de las empresas cumple con la ley. En el caso excepcional de que una empresa se niegue, te notificaremos formalmente y te entregaremos la documentación de respaldo para que puedas, si lo deseas, iniciar acciones legales ante el SERNAC o un juzgado.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿Mi información de pago está segura? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Absolutamente. Todos los pagos se procesan a través de pasarelas de pago certificadas y con encriptación de extremo a extremo. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta de crédito.</p></div></div>
                 </div>
             </div>
@@ -280,11 +272,9 @@
             document.getElementById('price-input').value = selectedPlanData.price;
             document.querySelector('#submitBtn .btn-text').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
             
-            // --- INICIO CAMBIO: Añadir detalles dinámicos del plan ---
             const detailsElement = document.getElementById('finalPlanDetails');
             const phoneText = selectedPlanData.numPhones === 1 ? 'número telefónico' : 'números telefónicos';
             detailsElement.textContent = `Válido para ${selectedPlanData.numPhones} ${phoneText}`;
-            // --- FIN CAMBIO ---
         }
         loadFormData();
         window.scrollTo(0, 0);
@@ -358,7 +348,6 @@
         const numPhones = encodeURIComponent(selectedPlanData.numPhones);
         
         setTimeout(() => {
-            // Se usa window.location.href para la redirección en un entorno estático
             window.location.href = `gracias.html?plan=${planName}&price=${price}&numPhones=${numPhones}`;
         }, 1000);
     }
