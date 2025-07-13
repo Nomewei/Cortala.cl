@@ -11,7 +11,7 @@
 
     <style>
         :root {
-            --marino: #003366; --marino-light: #004a80; --marino-lighter: #005f9e; /* CAMBIO: Añadido color más claro */
+            --marino: #003366; --marino-light: #004a80; --marino-lighter: #0067a3; /* CAMBIO 2: Fondo más claro */
             --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
             --font-main: 'Poppins', sans-serif;
         }
@@ -20,73 +20,37 @@
         body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
         
         #hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100vh;
-            color: var(--blanco);
-            padding: 2rem;
-            /* CAMBIO 3: Fondo más claro */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; height: 100vh; color: var(--blanco); padding: 2rem;
             background-color: var(--marino);
-            background-image: radial-gradient(circle, var(--marino-lighter) 0%, var(--marino) 90%);
+            background-image: radial-gradient(circle, var(--marino-lighter) 0%, var(--marino) 100%);
         }
-        #hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            max-width: 600px;
-            margin-bottom: 1rem;
-        }
-        #hero p {
-            font-size: 1.1rem;
-            max-width: 550px;
-            opacity: 0.9;
-            margin-bottom: 2.5rem;
-        }
+        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; }
+        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 2.5rem; }
         .btn-hero {
-            /* CAMBIO 2: Botón más pequeño */
-            padding: 0.8rem 1.8rem;
-            font-size: 1rem;
-            text-decoration: none;
-            width: auto;
+            padding: 0.7rem 1.6rem; /* CAMBIO 2: Botón más pequeño */
+            font-size: 0.95rem;
+            text-decoration: none; width: auto;
         }
-        .scroll-down-indicator {
-            position: absolute;
-            bottom: 30px;
-            font-size: 2rem;
-            opacity: 0.5;
-            animation: bounce 2s infinite;
-        }
+        .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
         .scroll-down-indicator a { color: var(--blanco); }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         
         header { 
-            background-color: transparent;
-            padding: 1rem 1.5rem;
+            background-color: transparent; padding: 1rem 1.5rem;
             display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 20;
             transition: background-color 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
         }
-        header.scrolled-header {
-            background-color: var(--blanco);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-bottom: 1px solid var(--gris);
-        }
+        header.scrolled-header { background-color: var(--blanco); box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-bottom: 1px solid var(--gris); }
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none;}
         header.scrolled-header .logo { color: var(--marino); }
         .header-right { display: flex; align-items: center; gap: 1rem; }
         
         header .step-indicator { 
-            display: none;
-            font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); 
+            display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); 
             padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris);
             color: var(--marino);
         }
@@ -103,33 +67,16 @@
 
         #checkout-section { padding-top: 2rem; }
         .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
-        .progress-bar { 
-            height: 100%; width: 0; background-color: var(--naranja); 
-            transition: width 0.4s ease-in-out; 
-            position: relative;
-        }
-        /* CAMBIO 1: Círculo al final de la barra de progreso */
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            right: -6px; /* Posiciona el círculo justo al final */
-            top: 50%;
-            transform: translateY(-50%);
-            width: 12px;
-            height: 12px;
-            background-color: var(--naranja);
-            border-radius: 50%;
-            display: none; /* Oculto hasta que haya progreso */
-        }
-        .progress-bar.has-progress::after {
-            display: block;
-        }
+        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; position: relative; }
+        .progress-bar::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background-color: var(--naranja); border-radius: 50%; display: none; }
+        .progress-bar.has-progress::after { display: block; }
 
         main { background-color: var(--blanco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
         .step { display: none; } .step.active { display: block; animation: fadeInStep 0.5s; }
         @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* ... Estilos de Plan Cards, Formularios, etc. no requieren cambios ... */
         .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
         .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
@@ -164,16 +111,19 @@
         .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
         .payment-logos i { font-size: 2.2rem; }
         .card-details-group { display: flex; gap: 1rem; }
-        .summary { background-color: var(--marino); color: var(--blanco); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .summary-header span { font-size: 0.8rem; font-weight: 600; opacity: 0.7; }
-        .summary-header h4 { font-size: 1.5rem; margin: 0; line-height: 1.2; }
-        .summary-price { text-align: right; }
-        .summary-price span:first-child { font-size: 2rem; font-weight: bold; color: var(--naranja); }
-        .summary-price span:last-child { font-size: 1rem; opacity: 0.8; display: block; line-height: 1; }
-        .summary-final { background: linear-gradient(45deg, var(--marino), var(--marino-light)); border-radius: 12px; padding: 1.5rem; text-align: center; color: var(--blanco); margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .summary-final span { font-size: 1rem; opacity: 0.8; display: block; }
-        .summary-final h4 { font-size: 2.5rem; font-weight: 700; color: var(--naranja); margin: 0.25rem 0; line-height: 1.2; }
-        .summary-final-details { font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem; color: var(--blanco); }
+
+        /* --- INICIO CAMBIO 1: Estilos para Resumen Visual --- */
+        .summary, .summary-final {
+            background-color: var(--marino); color: var(--blanco); 
+            padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;
+            text-align: center;
+        }
+        .summary-final { background: linear-gradient(45deg, var(--marino), var(--marino-light)); }
+        .summary-plan-name { font-size: 1.2rem; font-weight: 600; display: block; }
+        .summary-price { font-size: 2.5rem; font-weight: 700; color: var(--naranja); line-height: 1.2; display: block; }
+        .summary-details { display: flex; justify-content: center; align-items: center; gap: 0.5rem; font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;}
+        /* --- FIN CAMBIO 1 --- */
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { background: var(--blanco); color: var(--texto-oscuro); border-radius: 12px; width: 90%; max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; animation: fadeInStep 0.3s; padding: 0; }
         .modal-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--gris); }
@@ -239,7 +189,7 @@
     
                 <div id="step2" class="step">
                     <h2>Ingresa tus datos</h2>
-                    <div class="summary" id="selectedPlanSummary"><div class="summary-header"><span>DETALLES DE TU PLAN</span><h4 id="selectedPlanName"></h4></div><div class="summary-price"><span id="selectedPlanPrice"></span><span>CLP</span></div></div>
+                    <div class="summary" id="selectedPlanSummary"></div>
                     <div class="form-group"><label for="nombre">Nombre y Apellidos (Titular de la compra)</label><input type="text" id="nombre" name="nombre" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">El nombre es requerido.</span></div>
                     <div class="form-group"><label for="rut">RUT (Titular de la compra)</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje" id="rut-error">RUT inválido.</span></div>
                     <div class="form-group"><label for="email">Correo Electrónico (Aquí recibirás los códigos)</label><input type="email" id="email" name="email" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Email inválido.</span></div>
@@ -249,11 +199,7 @@
     
                 <div id="step3" class="step">
                     <h2>¡Estás a un paso de ser Libre!</h2>
-                    <div class="summary-final" id="finalPlanSummary">
-                        <span>PAGO ÚNICO Y SEGURO</span>
-                        <h4 id="finalPlanPrice"></h4>
-                        <p id="finalPlanDetails" class="summary-final-details"></p>
-                    </div>
+                    <div class="summary-final" id="finalPlanSummary"></div>
                     <label>Paga con tus tarjetas</label>
                     <div class="payment-logos"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i><i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i><i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i></div>
                     <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
@@ -325,7 +271,23 @@
 
         function goToStep(stepNumber) {
             saveFormData();
+            const heroSection = document.getElementById('hero');
+            const header = document.getElementById('main-header');
+
+            // CAMBIO 3: Ocultar Hero y forzar header sólido desde el paso 2
+            if (stepNumber >= 2) {
+                heroSection.style.display = 'none';
+                header.classList.add('scrolled-header');
+            } else {
+                heroSection.style.display = 'flex';
+                // Re-evaluar el estado del header si volvemos al paso 1
+                if (window.scrollY <= 50) {
+                    header.classList.remove('scrolled-header');
+                }
+            }
+            
             if (stepNumber === 3 && !validateStep2()) { return; }
+            
             steps.forEach(s => s.classList.remove('active'));
             const targetStep = document.getElementById(`step${stepNumber}`);
             
@@ -333,26 +295,41 @@
                 document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
                 targetStep.classList.add('active');
                 
-                // CAMBIO 1: Lógica de la barra de progreso
+                const progressBarEl = document.getElementById('progressBar');
                 if (stepNumber === 1) {
-                    progressBar.style.width = '10%';
-                    progressBar.classList.add('has-progress');
+                    progressBarEl.style.width = '10%';
+                    progressBarEl.classList.add('has-progress');
                 } else if (stepNumber === 2) {
-                    progressBar.style.width = '50%';
-                    progressBar.classList.add('has-progress');
+                    progressBarEl.style.width = '50%';
+                    progressBarEl.classList.add('has-progress');
                 } else if (stepNumber === 3) {
-                    progressBar.style.width = '100%';
-                    progressBar.classList.add('has-progress');
-                } else {
-                    progressBar.style.width = '0%';
-                    progressBar.classList.remove('has-progress');
+                    progressBarEl.style.width = '100%';
+                    progressBarEl.classList.add('has-progress');
                 }
                 stepIndicator.textContent = `Paso ${stepNumber} de 3`;
             }
 
+            // CAMBIO 1: Generar Resumen Visual Dinámico
+            function renderSummary(containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                let iconsHtml = '';
+                if (selectedPlanData.numPhones > 1) {
+                    iconsHtml = `<i class="fas fa-user"></i> + ${selectedPlanData.numPhones - 1} <i class="fas fa-user-friends"></i>`;
+                } else {
+                    iconsHtml = `<i class="fas fa-user"></i>`;
+                }
+
+                container.innerHTML = `
+                    <span class="summary-plan-name">${selectedPlanData.name}</span>
+                    <span class="summary-price">$${selectedPlanData.price.toLocaleString('es-CL')}</span>
+                    <div class="summary-details">${iconsHtml}</div>
+                `;
+            }
+
             if (stepNumber === 2) {
-                document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
-                document.getElementById('selectedPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
+                renderSummary('selectedPlanSummary');
                 const telefonosContainer = document.getElementById('campos-telefonos');
                 telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
                 const phoneInput = document.getElementById('telefono-1');
@@ -361,13 +338,10 @@
                     phoneInput.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
                 }
             } else if (stepNumber === 3) {
-                document.getElementById('finalPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
+                renderSummary('finalPlanSummary');
                 document.getElementById('plan-input').value = selectedPlanData.name;
                 document.getElementById('price-input').value = selectedPlanData.price;
                 document.querySelector('#submitBtn .btn-text').textContent = `Pagar $${selectedPlanData.price.toLocaleString('es-CL')} y Finalizar`;
-                const detailsElement = document.getElementById('finalPlanDetails');
-                const phoneText = selectedPlanData.numPhones === 1 ? 'número telefónico' : 'números telefónicos';
-                detailsElement.textContent = `Válido para ${selectedPlanData.numPhones} ${phoneText}`;
             }
             loadFormData();
         }
