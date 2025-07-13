@@ -20,13 +20,13 @@
         
         #hero {
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; height: 100vh; color: var(--blanco); padding: 2rem;
+            text-align: center; height: calc(100vh - 69px); /* Altura del viewport menos la altura del header */
+            color: var(--blanco); padding: 2rem;
             background-color: var(--marino);
-            background-image: radial-gradient(var(--marino-light) 1px, transparent 1px), radial-gradient(var(--marino-light) 1px, var(--marino) 1px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 15px 15px;
         }
-        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; }
         #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 2.5rem; }
         .btn-hero { padding: 0.7rem 1.6rem; font-size: 0.95rem; text-decoration: none; width: auto; }
         .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
@@ -36,25 +36,16 @@
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         
         header { 
-            background-color: transparent; padding: 1rem 1.5rem;
+            background-color: var(--blanco); padding: 1rem 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 20;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 1px solid var(--gris);
         }
-        header.scrolled-header { background-color: var(--blanco); box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-bottom: 1px solid var(--gris); }
-        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .logo { color: var(--marino); text-shadow: none; }
+        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); text-decoration: none;}
         .header-right { display: flex; align-items: center; gap: 1rem; }
-        
-        header .step-indicator { 
-            display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); 
-            padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris);
-            color: var(--marino);
-        }
-        header.scrolled-header .step-indicator { display: block; }
-
-        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--blanco); cursor: pointer; padding: 0.5rem; line-height: 1; transition: color 0.3s ease; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .menu-toggle-btn { color: var(--naranja); text-shadow: none; }
+        header .step-indicator { font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); color: var(--marino); }
+        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--marino); cursor: pointer; padding: 0.5rem; line-height: 1; }
         
         .dropdown-menu { position: fixed; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeInDropdown 0.2s ease-out; }
         .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
@@ -139,6 +130,15 @@
     </style>
 </head>
 <body>
+    <header id="main-header">
+        <a href="index.html" class="logo">Nomewei.cl</a>
+        <div class="header-right">
+            <div class="step-indicator" id="stepIndicator" style="display: none;"></div>
+            <div class="menu-container">
+                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
 
     <section id="hero">
         <h1>Elimina las llamadas SPAM para siempre.</h1>
@@ -148,16 +148,6 @@
             <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
         </div>
     </section>
-
-    <header id="main-header">
-        <a href="index.html" class="logo">Nomewei.cl</a>
-        <div class="header-right">
-            <div class="step-indicator" id="stepIndicator" style="display: none;">Paso 1 de 3</div>
-            <div class="menu-container">
-                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-    </header>
     
     <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
         <ul>
@@ -168,7 +158,7 @@
         </ul>
     </nav>
 
-    <section id="checkout-section">
+    <section id="checkout-section" style="display: none;">
         <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
         <main class="container">
             <form name="checkout" method="POST" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
@@ -192,7 +182,7 @@
                     <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Email inválido.</span></div>
                     <div id="campos-telefonos"></div>
                     <div class="btn-group"><button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button></div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver a Planes</a></div>
+                    <div class="back-link-container"><a href="#" onclick="showHeroAndHideCheckout(); event.preventDefault();">← Volver</a></div>
                 </div>
     
                 <div id="step3" class="step">
@@ -224,6 +214,24 @@
         const progressBar = document.getElementById('progressBar');
         const stepIndicator = document.getElementById('stepIndicator');
         const mainHeader = document.getElementById('main-header');
+        const checkoutSection = document.getElementById('checkout-section');
+        const heroSection = document.getElementById('hero');
+
+        function startCheckout() {
+            heroSection.style.display = 'none';
+            checkoutSection.style.display = 'block';
+            mainHeader.classList.add('scrolled-header');
+            goToStep(1);
+        }
+
+        function showHeroAndHideCheckout() {
+            heroSection.style.display = 'flex';
+            checkoutSection.style.display = 'none';
+            mainHeader.classList.remove('scrolled-header');
+            stepIndicator.style.display = 'none';
+            progressBar.style.width = '0%';
+            progressBar.classList.remove('has-progress');
+        }
 
         function selectPlan(name, price, numPhones, element) {
             document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
@@ -235,13 +243,6 @@
 
         function goToStep(stepNumber) {
             saveFormData();
-            const heroSection = document.getElementById('hero');
-
-            if (stepNumber >= 1 && document.body.contains(heroSection)) {
-                heroSection.style.display = 'none';
-                mainHeader.classList.add('scrolled-header');
-            }
-            
             if (stepNumber === 3 && !validateStep2()) { return; }
             
             steps.forEach(s => s.classList.remove('active'));
@@ -288,7 +289,78 @@
             loadFormData();
         }
         
-        // ... (resto de funciones JS, listeners, etc. desde la última versión funcional) ...
+        function formatPhoneInput(e) { const input = e.target; let value = input.value; if (!value.startsWith('+569')) { value = '+569'; } const numericPart = value.substring(4).replace(/\D/g, ''); input.value = '+569' + numericPart.slice(0, 8); }
+        function toggleMenu() { const menu = document.getElementById('dropdownMenu'); if(menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; }
+        function closeMenu() { const menu = document.getElementById('dropdownMenu'); if (menu) menu.style.display = 'none'; }
+        function openModal(modalId, event) { if (event) event.preventDefault(); closeMenu(); const modal = document.getElementById(modalId); if (modal) modal.style.display = 'flex'; }
+        function closeModal(modalId) { const modal = document.getElementById(modalId); if (modal) modal.style.display = 'none'; }
+        function closeMenuAndScrollToPlans() { closeMenu(); document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' }); startCheckout(); }
+        const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?String(s-1):'k')==d; };
+        const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
+        function saveFormData() { document.querySelectorAll('form[name="checkout"] input:not([type=checkbox])').forEach(input => { if (input.id) formData[input.id] = input.value; }); }
+        function loadFormData() { document.querySelectorAll('form[name="checkout"] input:not([type=checkbox])').forEach(input => { if (input.id && formData[input.id]) { input.value = formData[input.id]; if(input.type !== 'tel') validateField(input); } }); if (formData.selectedPlan && !document.querySelector('.plan-card.selected')) { document.querySelectorAll('.plan-card').forEach(card => { const h3 = card.querySelector('h3'); if(h3 && h3.innerText.includes(formData.selectedPlan.name)) { card.classList.add('selected'); } }); } }
+        function validateField(input) { const formGroup = input.parentElement.closest('.form-group'); if(!formGroup) return true; const errorMsg = formGroup.querySelector('.error-mensaje'); let isValid = input.checkValidity(); if (input.value.trim() === "" && input.required) { isValid = false; if (errorMsg) errorMsg.textContent = 'Este campo es requerido.'; } else { if (input.type === 'email' && input.value.length > 0) { isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value); if (errorMsg) errorMsg.textContent = 'Formato de email inválido.'; } if (input.id === 'rut' && input.value.length > 0) { isValid = validarRut(input.value); if (errorMsg) errorMsg.textContent = 'RUT inválido.'; } if(input.type === 'tel') { isValid = input.value.length === 12; if (!isValid && errorMsg) errorMsg.textContent = 'El número debe tener 8 dígitos.'; } } if (isValid) { formGroup.classList.remove('error'); formGroup.classList.add('success'); if(errorMsg) errorMsg.style.display = 'none'; } else { formGroup.classList.remove('success'); formGroup.classList.add('error'); if(errorMsg) errorMsg.style.display = 'block'; } return isValid; }
+        function validateStep2() { let isStepValid = true; document.querySelectorAll('#step2 input[required]').forEach(input => { if (!validateField(input)) { isStepValid = false; } }); return isStepValid; }
+        
+        function handleFormSubmit(event) {
+            event.preventDefault(); 
+            let isFormValid = validateStep2();
+            if (!document.getElementById('terms').checked) { alert('Debes aceptar los términos y condiciones para continuar.'); isFormValid = false; }
+            if(!isFormValid){ alert('Por favor, revisa que todos tus datos estén correctos.'); return; }
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.querySelector('.btn-text').style.display = 'none';
+            submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
+            const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
+            document.getElementById('telefonos-input').value = telefonos.join(', ');
+            const planName = encodeURIComponent(selectedPlanData.name);
+            const price = encodeURIComponent(selectedPlanData.price);
+            const numPhones = encodeURIComponent(selectedPlanData.numPhones);
+            setTimeout(() => { window.location.href = `gracias.html?plan=${planName}&price=${price}&numPhones=${numPhones}`; }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroButton = document.querySelector('.btn-hero');
+            if (heroButton) {
+                heroButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    startCheckout();
+                });
+            }
+             const scrollIndicator = document.querySelector('.scroll-down-indicator a');
+            if(scrollIndicator){
+                 scrollIndicator.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    startCheckout();
+                });
+            }
+            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+            document.addEventListener('click', function(event) {
+                const menu = document.getElementById('dropdownMenu');
+                const toggleBtn = document.getElementById('menuToggle');
+                if (menu && toggleBtn && menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+            document.querySelectorAll('.faq-question').forEach(item => {
+                item.addEventListener('click', () => {
+                    const parent = item.parentElement;
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== parent) { currentlyActive.classList.remove('active'); }
+                    parent.classList.toggle('active');
+                });
+            });
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', function(event) { if (event.target === this) { closeModal(this.id); } });
+            });
+            const popularPlanCard = document.querySelector(".plan-card .popular");
+            if (popularPlanCard) { popularPlanCard.closest('.plan-card').classList.add('selected'); }
+            document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => { input.addEventListener('blur', () => { validateField(input); saveFormData(); }); });
+            document.getElementById('rut').addEventListener('input', (e) => e.target.value = formatearRut(e.target.value));
+            document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+            document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+            document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
+        });
     </script>
 </body>
 </html>
