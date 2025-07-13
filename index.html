@@ -171,7 +171,7 @@
 
     <section id="hero">
         <h1>Recupera tu Paz Mental.<br>Elimina las llamadas SPAM para siempre.</h1>
-        <p>Nomewei utiliza la ley chilena para exigir a las empresas que dejen de molestarte. Un único pago, sin suscripciones.</p>
+        <p>Exigimos a las empresas que dejen de molestarte por ley. Un único pago, sin suscripciones.</p>
         <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mi Número Ahora</a>
         <div class="scroll-down-indicator">
             <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
@@ -208,14 +208,14 @@
     
                 <div id="step1" class="step">
                     <h2>Elige tu plan y libérate del SPAM telefónico</h2>
-                    <div class="plan-card" onclick="selectPlan('Plan Personal', 9990, 1, this)"><h3><i class="fa-solid fa-user"></i>Plan Personal</h3><p>Protección para 1 número telefónico.</p></div>
-                    <div class="plan-card" onclick="selectPlan('Plan Dúo', 15990, 2, this)"><span class="popular">Más Popular</span><h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3><p>Protección para ti y otra persona. Recibes 1 código de activación para compartir.</p></div>
-                    <div class="plan-card" onclick="selectPlan('Plan Familiar', 24990, 5, this)"><h3><i class="fa-solid fa-users"></i>Plan Familiar</h3><p>Protección para todo tu grupo. Recibes 4 códigos de activación para compartir.</p></div>
+                    <div class="plan-card" onclick="selectPlan('Plan Personal', 14990, 1, this)"><h3><i class="fa-solid fa-user"></i>Plan Personal</h3><p>Protección para 1 número telefónico.</p></div>
+                    <div class="plan-card" onclick="selectPlan('Plan Dúo', 24990, 2, this)"><span class="popular">Más Popular</span><h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3><p>Protección para ti y otra persona. Recibes 1 código de activación para compartir.</p></div>
+                    <div class="plan-card" onclick="selectPlan('Plan Familiar', 49990, 5, this)"><h3><i class="fa-solid fa-users"></i>Plan Familiar</h3><p>Protección para todo tu grupo. Recibes 4 códigos de activación para compartir.</p></div>
                 </div>
     
                 <div id="step2" class="step">
                     <h2>Ingresa tus datos</h2>
-                    <div class="summary" id="selectedPlanSummary"><div class="summary-header"><span>DETALLES DE TU PLAN</span><h4 id="selectedPlanName"></h4></div><div class="summary-price"><span id="selectedPlanPrice"></span><span>CLP</span></div></div>
+                    <div class="summary" id="selectedPlanSummary"><div class="summary-header"><span>ELEGISTE EL PLAN</span><h4 id="selectedPlanName"></h4></div><div class="summary-price"><span id="selectedPlanPrice"></span><span>CLP</span></div></div>
                     <div class="form-group"><label for="nombre">Nombre y Apellidos (Titular de la compra)</label><input type="text" id="nombre" name="nombre" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">El nombre es requerido.</span></div>
                     <div class="form-group"><label for="rut">RUT (Titular de la compra)</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje" id="rut-error">RUT inválido.</span></div>
                     <div class="form-group"><label for="email">Correo Electrónico (Aquí recibirás los códigos)</label><input type="email" id="email" name="email" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Email inválido.</span></div>
@@ -230,7 +230,7 @@
                         <h4 id="finalPlanPrice"></h4>
                         <p id="finalPlanDetails" class="summary-final-details"></p>
                     </div>
-                    <label>Paga con tu tarjeta</label>
+                    <label>Paga con tus tarjetas</label>
                     <div class="payment-logos"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i><i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i><i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i></div>
                     <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
                     <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" required /></div>
@@ -314,7 +314,7 @@
                 document.getElementById('selectedPlanName').textContent = selectedPlanData.name;
                 document.getElementById('selectedPlanPrice').textContent = `$${selectedPlanData.price.toLocaleString('es-CL')}`;
                 const telefonosContainer = document.getElementById('campos-telefonos');
-                telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="XXXXXXXX" maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
+                telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
                 const phoneInput = document.getElementById('telefono-1');
                 if(phoneInput) {
                     phoneInput.addEventListener('input', formatPhoneInput);
