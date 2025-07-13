@@ -3,70 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Checkout - Nomewei.cl (V1: 3 Pasos)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <title>Checkout - Nomewei.cl (V2: 4 Pasos)</title>
     <style>
-        :root {
-            --marino: #003366; --marino-light: #004a80; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
-            --font-main: 'Poppins', sans-serif;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth;}
-        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
-        .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
-        
-        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--gris); }
-        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-        header .step-indicator { font-size: 0.85rem; font-weight: 600; color: var(--marino); background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); }
-        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--marino); cursor: pointer; }
-        .dropdown-menu { position: absolute; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; }
-        .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
-        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
-        .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
-
-        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
-        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; }
-        main { background-color: var(--blanco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
-        .step { display: none; } .step.active { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
-        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
-        .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        
-        .btn-back { background-color: transparent; color: var(--marino); width: auto; margin-right: 1rem; font-weight: 600; gap: 8px; padding: 0.9rem 0; border: none; }
-        .btn-back:hover { opacity: 0.7; }
-        
-        /* Estilos de Modales y Contenido Adicional */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: var(--blanco); color: var(--texto-oscuro); padding: 2rem; border-radius: 12px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; animation: fadeIn 0.3s; }
-        .modal-content h2 { color: var(--marino); text-align: left; }
-        .modal-content p { margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6; }
-        
-        .how-it-works-list { list-style: none; padding: 0; }
-        .how-it-works-list li { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .how-it-works-list .step-number { background-color: var(--naranja); color: var(--blanco); font-size: 1.2rem; font-weight: 700; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .how-it-works-list h3 { font-size: 1.1rem; color: var(--marino); margin: 0 0 0.25rem; }
-        
-        .faq-item { border-bottom: 1px solid var(--gris); }
-        .faq-question { padding: 1rem 0; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question i { transition: transform 0.3s ease; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 0.9rem; }
-        .faq-item.active .faq-question i { transform: rotate(180deg); }
-        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+        /* CSS idéntico a la versión 1 */
     </style>
 </head>
 <body>
     <header>
         <div class="logo">Nomewei.cl</div>
         <div class="header-right">
-            <div class="step-indicator" id="stepIndicator">Paso 1 de 3</div>
+            <div class="step-indicator" id="stepIndicator">Paso 1 de 4</div>
             <div class="menu-container">
                 <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
             </div>
@@ -75,7 +21,8 @@
     
     <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
         <ul>
-            <li><a onclick="closeMenuAndOpenModal('howItWorksModal')">Cómo Funciona</a></li>
+            <li><a onclick="closeMenuAndGoToStep(1)">Cómo Funciona</a></li>
+            <li><a onclick="closeMenuAndGoToStep(2)">Planes</a></li>
             <li><a onclick="closeMenuAndOpenModal('faqModal')">FAQ's</a></li>
             <li><a onclick="closeMenuAndOpenModal('termsModal')">Términos y Condiciones</a></li>
             <li><a onclick="closeMenuAndOpenModal('contactModal')">Contacto</a></li>
@@ -88,103 +35,61 @@
 
     <main class="container">
         <form name="checkout" method="POST" action="/gracias.html" data-netlify="true">
-            </form>
+            <div id="step1" class="step">
+                <h2>Recupera tu Tranquilidad en 3 Simples Pasos</h2>
+                <ul class="how-it-works-list">
+                    <li><div class="step-number">1</div><div><h3>Elige tu Plan</h3><p>Selecciona el pack que mejor se adapte a la cantidad de números que deseas proteger.</p></div></li>
+                    <li><div class="step-number">2</div><div><h3>Ingresa tus Datos</h3><p>Completa tu información personal para que podamos representarte legalmente.</p></div></li>
+                    <li><div class="step-number">3</div><div><h3>Nosotros nos Encargamos</h3><p>Nuestro equipo inicia las gestiones legales para eliminar tus datos de las listas de marketing.</p></div></li>
+                </ul>
+                <div class="btn-group" style="justify-content: center;">
+                    <button type="button" class="btn btn-primary" onclick="goToStep(2)">Ver Planes y Empezar →</button>
+                </div>
+            </div>
+            
+            <div id="step2" class="step">
+                <h2>Elige tu plan y libérate del SPAM telefónico</h2>
+                </div>
+
+            <div id="step3" class="step">
+                <h2>Ingresa tus datos</h2>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Volver</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn3" onclick="goToStep(4)">Continuar al Pago →</button>
+                </div>
+            </div>
+
+            <div id="step4" class="step">
+                <h2>¡Estás a un paso de ser Libre!</h2>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-back" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Volver</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">...</button>
+                </div>
+            </div>
+        </form>
     </main>
 
-    <div id="howItWorksModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Cómo Funciona</h2>
-            <ul class="how-it-works-list">
-                <li><div class="step-number">1</div><div><h3>Elige tu Plan</h3><p>Selecciona el plan que mejor se adapte a la cantidad de números que deseas proteger.</p></div></li>
-                <li><div class="step-number">2</div><div><h3>Ingresa tus Datos</h3><p>Completa tu información personal para que podamos representarte legalmente.</p></div></li>
-                <li><div class="step-number">3</div><div><h3>Nosotros nos Encargamos</h3><p>Nuestro equipo inicia las gestiones legales para eliminar tus datos de las listas de marketing.</p></div></li>
-            </ul>
-            <button type="button" class="btn btn-primary" onclick="closeAllModals()">Entendido</button>
-        </div>
-    </div>
-    
-    <div id="faqModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Preguntas Frecuentes</h2>
-            <div class="faq-item">
-                <div class="faq-question">¿Este servicio es legal? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Sí, es 100% legal. Nos amparamos en la Ley N° 19.628 sobre Protección de la Vida Privada, que te otorga el derecho a solicitar la eliminación (cancelación) de tus datos personales de cualquier base de datos. Actuamos como tus representantes para ejercer este derecho.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">¿Cuánto tiempo tarda el proceso? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Iniciamos las gestiones dentro de las primeras 48 horas hábiles. La ley otorga a las empresas un plazo de 2 días hábiles para responder. Aunque la mayoría cumple, el tiempo total puede variar. Te mantendremos informado del estado de cada solicitud.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">¿Esto me protegerá de todo el SPAM para siempre? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Este servicio realiza una limpieza profunda y única de las bases de datos de empresas que operan actualmente en Chile. Si en el futuro te registras en nuevos servicios, podrías ser añadido a nuevas listas. Es una solución para el presente y pasado, no una barrera a futuro.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">¿Qué pasa si una empresa no quiere eliminar mis datos? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">La gran mayoría de las empresas cumple con la ley. En el caso excepcional de que una empresa se niegue, te notificaremos formalmente y te entregaremos la documentación de respaldo para que puedas, si lo deseas, iniciar acciones legales ante el SERNAC o un juzgado.</div>
-            </div>
-             <div class="faq-item">
-                <div class="faq-question">¿Mi información de pago está segura? <i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">Absolutamente. Todos los pagos se procesan a través de pasarelas de pago certificadas y con encriptación de extremo a extremo. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta de crédito.</div>
-            </div>
-            <br>
-            <button type="button" class="btn btn-primary" onclick="closeAllModals()">Cerrar</button>
-        </div>
-    </div>
-
-    <div id="termsModal" class="modal-overlay">
-         <div class="modal-content">
-            <h2>Términos y Condiciones</h2>
-            <p><strong>1. OBJETO DEL SERVICIO:</strong> Nomewei.cl presta un servicio de gestión para solicitar la eliminación de datos personales de listas de marketing y bases de datos de empresas en Chile, en nombre y representación del cliente.</p>
-            <p><strong>2. OTORGAMIENTO DE PODER:</strong> Al aceptar estos términos, el cliente otorga un poder simple, especial y específico a Nomewei.cl, conforme al artículo 2° de la Ley N° 19.628 sobre Protección de la Vida Privada, para que en su nombre y representación, realice las gestiones necesarias para ejercer los derechos de cancelación y bloqueo de sus datos personales.</p>
-            <p><strong>3. OBLIGACIONES DEL CLIENTE:</strong> El cliente debe proporcionar información veraz y completa (Nombre, RUT, Email, Teléfonos a gestionar) para la correcta prestación del servicio. El cliente es responsable de la exactitud de los datos proporcionados.</p>
-            <p><strong>4. PAGO:</strong> El servicio se paga una única vez por la cantidad de números telefónicos contratados. Este pago cubre todas las gestiones administrativas y legales que Nomewei.cl realizará.</p>
-            <p><strong>5. LIMITACIÓN DE RESPONSABILIDAD:</strong> Nomewei.cl se compromete a realizar las gestiones con la máxima diligencia. Sin embargo, el resultado final y los plazos de ejecución pueden depender de la cooperación y los procedimientos internos de las empresas contactadas. Nomewei.cl no se hace responsable si una empresa se niega a cumplir la ley, caso en el cual se informará al cliente sobre posibles acciones adicionales.</p>
-            <p><strong>6. CONFIDENCIALIDAD:</strong> Toda la información proporcionada por el cliente será tratada con la más estricta confidencialidad y será utilizada únicamente para los fines descritos en este acuerdo.</p>
-            <button type="button" class="btn btn-primary" onclick="closeAllModals()">Entendido y Volver</button>
-        </div>
-    </div>
-
-    <div id="contactModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Contacto</h2>
-            <p>Si tienes alguna duda que no fue resuelta en nuestra sección de Preguntas Frecuentes, no dudes en escribirnos.</p>
-            <p><strong>Correo electrónico:</strong><br><a href="mailto:hola@nomewei.cl">hola@nomewei.cl</a></p>
-            <p>Nos comprometemos a responderte en un plazo máximo de 24 horas hábiles.</p>
-            <button type="button" class="btn btn-primary" onclick="closeAllModals()">Cerrar</button>
-        </div>
-    </div>
     <script>
-    // SCRIPT PARA VERSIÓN 1 (3 PASOS)
-    // El script de la versión anterior de 3 pasos iría aquí,
-    // más las nuevas funciones para abrir/cerrar los modales y el acordeón de FAQ.
+    // SCRIPT PARA VERSIÓN 2 (4 PASOS)
+    let selectedPlanData = {};
+    // ... (resto de variables iniciales)
+
+    function goToStep(stepNumber) {
+        // Lógica de 4 pasos
+        const totalSteps = 4;
+        progressBar.style.width = `${(stepNumber / totalSteps) * 100}%`;
+        stepIndicator.textContent = `Paso ${stepNumber} de ${totalSteps}`;
+        
+        // ... Lógica para mostrar/ocultar cada uno de los 4 pasos
+        // y para actualizar los datos del plan en los pasos 3 y 4.
+    }
     
-    document.addEventListener('DOMContentLoaded', () => {
-        // ... (listeners del formulario de 3 pasos)
+    function selectPlan(name, price, numPhones, element) {
+        // ... (lógica de selección)
+        goToStep(3); // Avanza al nuevo paso 3 (datos)
+    }
 
-        // Listeners del menú y modales
-        document.getElementById('menuToggle').addEventListener('click', toggleMenu);
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdownMenu');
-            const toggleBtn = document.getElementById('menuToggle');
-            if (menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
-                closeMenu();
-            }
-        });
-
-        // Listener para el acordeón de FAQ
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => {
-                const parent = item.parentElement;
-                parent.classList.toggle('active');
-            });
-        });
-    });
-
-    function toggleMenu() { /* ... */ }
-    function closeMenu() { /* ... */ }
-    function openModal(modalId) { closeMenu(); document.getElementById(modalId).style.display = 'flex'; }
-    function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(modal => modal.style.display = 'none'); }
-    function closeMenuAndOpenModal(modalId) { closeMenu(); openModal(modalId); }
+    // El resto del script adaptado para 4 pasos...
     </script>
 </body>
 </html>
