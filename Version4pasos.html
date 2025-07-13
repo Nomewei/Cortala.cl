@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Checkout - Nomewei.cl (V2: 4 Pasos)</title>
+    <style>
+        /* CSS idéntico a la versión 1 */
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Nomewei.cl</div>
+        <div class="header-right">
+            <div class="step-indicator" id="stepIndicator">Paso 1 de 4</div>
+            <div class="menu-container">
+                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+    
+    <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
+        <ul>
+            <li><a onclick="closeMenuAndGoToStep(1)">Cómo Funciona</a></li>
+            <li><a onclick="closeMenuAndGoToStep(2)">Planes</a></li>
+            <li><a onclick="closeMenuAndOpenModal('faqModal')">FAQ's</a></li>
+            <li><a onclick="closeMenuAndOpenModal('termsModal')">Términos y Condiciones</a></li>
+            <li><a onclick="closeMenuAndOpenModal('contactModal')">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <main class="container">
+        <form name="checkout" method="POST" action="/gracias.html" data-netlify="true">
+            <div id="step1" class="step">
+                <h2>Recupera tu Tranquilidad en 3 Simples Pasos</h2>
+                <ul class="how-it-works-list">
+                    <li><div class="step-number">1</div><div><h3>Elige tu Plan</h3><p>Selecciona el pack que mejor se adapte a la cantidad de números que deseas proteger.</p></div></li>
+                    <li><div class="step-number">2</div><div><h3>Ingresa tus Datos</h3><p>Completa tu información personal para que podamos representarte legalmente.</p></div></li>
+                    <li><div class="step-number">3</div><div><h3>Nosotros nos Encargamos</h3><p>Nuestro equipo inicia las gestiones legales para eliminar tus datos de las listas de marketing.</p></div></li>
+                </ul>
+                <div class="btn-group" style="justify-content: center;">
+                    <button type="button" class="btn btn-primary" onclick="goToStep(2)">Ver Planes y Empezar →</button>
+                </div>
+            </div>
+            
+            <div id="step2" class="step">
+                <h2>Elige tu plan y libérate del SPAM telefónico</h2>
+                </div>
+
+            <div id="step3" class="step">
+                <h2>Ingresa tus datos</h2>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Volver</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn3" onclick="goToStep(4)">Continuar al Pago →</button>
+                </div>
+            </div>
+
+            <div id="step4" class="step">
+                <h2>¡Estás a un paso de ser Libre!</h2>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-back" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Volver</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">...</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script>
+    // SCRIPT PARA VERSIÓN 2 (4 PASOS)
+    let selectedPlanData = {};
+    // ... (resto de variables iniciales)
+
+    function goToStep(stepNumber) {
+        // Lógica de 4 pasos
+        const totalSteps = 4;
+        progressBar.style.width = `${(stepNumber / totalSteps) * 100}%`;
+        stepIndicator.textContent = `Paso ${stepNumber} de ${totalSteps}`;
+        
+        // ... Lógica para mostrar/ocultar cada uno de los 4 pasos
+        // y para actualizar los datos del plan en los pasos 3 y 4.
+    }
+    
+    function selectPlan(name, price, numPhones, element) {
+        // ... (lógica de selección)
+        goToStep(3); // Avanza al nuevo paso 3 (datos)
+    }
+
+    // El resto del script adaptado para 4 pasos...
+    </script>
+</body>
+</html>
