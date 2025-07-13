@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - Nomewei.cl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root { --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --font-main: 'Poppins', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-main); background-color: var(--gris-claro); color: #333; line-height: 1.6; }
+        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gris); }
+        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); text-decoration: none; }
+        .container { max-width: 700px; margin: 2rem auto; padding: 1rem; }
+        main { background-color: var(--blanco); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        h1 { color: var(--marino); text-align: center; margin-bottom: 2rem; }
+        .faq-item { border-bottom: 1px solid var(--gris); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-question { padding: 1.25rem 0.5rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: color 0.2s ease; }
+        .faq-question:hover { color: var(--naranja); }
+        .faq-question i { transition: transform 0.3s ease; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: all 0.4s ease-in-out; font-size: 0.95rem; color: #555; }
+        .faq-item.active .faq-question { color: var(--naranja); }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-item.active .faq-answer { max-height: 200px; padding: 0 0.5rem 1.25rem; }
+        .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #777; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Nomewei.cl</a>
+    </header>
+
+    <main class="container">
+        <h1>Preguntas Frecuentes (FAQ's)</h1>
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <div class="faq-question">¿Este servicio es legal? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Sí, es 100% legal. Nos amparamos en la Ley N° 19.628 sobre Protección de la Vida Privada, que te otorga el derecho a solicitar la eliminación (cancelación) de tus datos personales de cualquier base de datos. Actuamos como tus representantes para ejercer este derecho.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Cuánto tiempo tarda el proceso? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Iniciamos las gestiones dentro de las primeras 48 horas hábiles. La ley otorga a las empresas un plazo de 2 días hábiles para responder. Aunque la mayoría cumple, el tiempo total puede variar. Te mantendremos informado del estado de cada solicitud.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Esto me protegerá de todo el SPAM para siempre? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Este servicio realiza una limpieza profunda y única de las bases de datos de empresas que operan actualmente en Chile. Si en el futuro te registras en nuevos servicios, podrías ser añadido a nuevas listas. Es una solución para el presente y pasado, no una barrera a futuro.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Qué pasa si una empresa no quiere eliminar mis datos? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">La gran mayoría de las empresas cumple con la ley. En el caso excepcional de que una empresa se niegue, te notificaremos formalmente y te entregaremos la documentación de respaldo para que puedas, si lo deseas, iniciar acciones legales ante el SERNAC o un juzgado.</div>
+            </div>
+             <div class="faq-item">
+                <div class="faq-question">¿Mi información de pago está segura? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Absolutamente. Todos los pagos se procesan a través de pasarelas de pago certificadas y con encriptación de extremo a extremo. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta de crédito.</div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
