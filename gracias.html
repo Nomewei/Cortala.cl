@@ -9,14 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        :root {
-            --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --texto-oscuro: #333333; --verde-exito: #28a745;
-            --font-main: 'Poppins', sans-serif;
-        }
+        :root { --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --verde-exito: #28a745; --font-main: 'Poppins', sans-serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.6; }
-        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E1E1E1; }
-        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); }
+        body { font-family: var(--font-main); background-color: var(--gris-claro); color: #333; line-height: 1.6; }
+        header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gris); }
+        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); text-decoration: none; }
         .container { max-width: 550px; margin: 2rem auto; padding: 1rem; }
         .gracias-box {
             background-color: var(--blanco);
@@ -27,55 +24,147 @@
             animation: fadeIn 0.8s ease-out;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .gracias-box .icon {
-            font-size: 4.5rem;
-            color: var(--verde-exito);
-            margin-bottom: 1.5rem;
-            line-height: 1;
-        }
-        .gracias-box h1 {
-            color: var(--marino);
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .gracias-box p {
-            color: #555;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .gracias-box .email-info {
-            background-color: var(--gris-claro);
-            padding: 0.8rem;
+        
+        .gracias-box .icon { font-size: 4.5rem; color: var(--verde-exito); margin-bottom: 1.5rem; line-height: 1; }
+        .gracias-box h1 { color: var(--marino); font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
+        .gracias-box .mensaje-principal { color: #555; font-size: 1.1rem; margin-bottom: 2rem; }
+
+        .resumen-compra { background-color: var(--gris-claro); padding: 1.5rem; border-radius: 8px; font-size: 0.9rem; margin-top: 2rem; border: 1px solid var(--gris); text-align: left; }
+        .resumen-compra div { display: flex; justify-content: space-between; padding: 0.5rem 0; }
+        .resumen-compra div:not(:last-child) { border-bottom: 1px solid var(--gris); }
+        .resumen-compra span:first-child { font-weight: 600; color: var(--marino); }
+        .resumen-compra span:last-child { font-weight: bold; }
+
+        .proximos-pasos { margin-top: 2.5rem; text-align: left; border-top: 1px solid var(--gris); padding-top: 2rem; }
+        .proximos-pasos h3 { color: var(--marino); font-size: 1.2rem; margin-bottom: 1rem; text-align: center; }
+        .proximos-pasos p { text-align: center; color: #555; }
+        
+        /* --- INICIO ESTILOS CUPONES --- */
+        .coupon-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .coupon-card {
+            background-color: #fff;
+            border: 2px dashed var(--naranja);
             border-radius: 8px;
-            font-size: 0.9rem;
-            margin-top: 2rem;
-            border: 1px solid #E1E1E1;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
         }
-        .btn { display: inline-block; background-color: var(--naranja); color: var(--blanco); padding: 0.9rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background-color 0.2s ease; margin-top: 1rem; }
+        .coupon-code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--marino);
+            flex-grow: 1;
+            text-align: left;
+        }
+        .btn-copy {
+            background-color: var(--marino);
+            color: var(--blanco);
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-copy:hover { background-color: var(--marino-light); }
+        .btn-copy.copied { background-color: var(--verde-exito); }
+        /* --- FIN ESTILOS CUPONES --- */
+
+        .btn { display: inline-block; background-color: var(--naranja); color: var(--blanco); padding: 0.9rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background-color 0.2s ease; margin-top: 2.5rem; }
         .btn:hover { background-color: #e69500; }
         .footer { margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #777; }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">Nomewei.cl</div>
+        <a href="index.html" class="logo">Nomewei.cl</a>
     </header>
 
     <main class="container">
         <div class="gracias-box">
             <div class="icon"><i class="fas fa-check-circle"></i></div>
             <h1>¡Gracias por tu compra!</h1>
-            <p>Hemos recibido tu solicitud correctamente. En breve, nuestro equipo comenzará las gestiones para proteger tu privacidad del SPAM telefónico.</p>
-            <div class="email-info">
-                Recibirás un correo electrónico de confirmación con los detalles de tu plan y los siguientes pasos.
+            <p class="mensaje-principal">Hemos recibido tu solicitud correctamente. Tu tranquilidad comienza ahora.</p>
+
+            <div class="resumen-compra">
+                <div><span>Plan Adquirido:</span> <span id="planAdquirido"></span></div>
+                <div><span>Valor Pagado:</span> <span id="precioPagado"></span></div>
             </div>
-            <a href="/" class="btn">Volver al Inicio</a>
+
+            <div id="infoCodigos" style="display: none;" class="proximos-pasos">
+                <h3><i class="fas fa-ticket-alt"></i> Tus Códigos de Activación</h3>
+                <p>Copia y comparte los siguientes códigos con tus familiares o amigos.</p>
+                <div id="couponList" class="coupon-list">
+                    </div>
+            </div>
+
+            <a href="index.html" class="btn">Volver al Inicio</a>
         </div>
     </main>
+    
+    <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
-    <footer class="footer">
-        <p>© 2025 Nomewei.cl - Protege tu privacidad</p>
-    </footer>
+    <script>
+        function generateCouponCode() {
+            const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+            let result = 'NOMEWEI-';
+            for (let i = 0; i < 4; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
+            result += '-';
+            for (let i = 0; i < 4; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
+            return result;
+        }
+
+        function copyToClipboard(button, code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+                alert('No se pudo copiar el código.');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            
+            const plan = params.get('plan') || 'Plan Desconocido';
+            const price = parseInt(params.get('price'), 10) || 0;
+            const numPhones = parseInt(params.get('numPhones'), 10) || 0;
+
+            document.getElementById('planAdquirido').textContent = plan;
+            document.getElementById('precioPagado').textContent = `$${price.toLocaleString('es-CL')} CLP`;
+
+            if (numPhones > 1) {
+                const numCodigos = numPhones - 1;
+                const couponList = document.getElementById('couponList');
+
+                for (let i = 0; i < numCodigos; i++) {
+                    const code = generateCouponCode();
+                    const couponCard = document.createElement('div');
+                    couponCard.className = 'coupon-card';
+                    couponCard.innerHTML = `
+                        <span class="coupon-code">${code}</span>
+                        <button class="btn-copy">Copiar</button>
+                    `;
+                    couponList.appendChild(couponCard);
+
+                    couponCard.querySelector('.btn-copy').addEventListener('click', function() {
+                        copyToClipboard(this, code);
+                    });
+                }
+                
+                document.getElementById('infoCodigos').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
