@@ -23,7 +23,20 @@
         .header-right { display: flex; align-items: center; gap: 1rem; }
         header .step-indicator { font-size: 0.85rem; font-weight: 600; color: var(--marino); background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); }
         .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--marino); cursor: pointer; padding: 0.5rem; line-height: 1; }
-        .dropdown-menu { position: absolute; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeIn 0.2s ease-out; }
+        
+        /* --- INICIO CAMBIO 1: Menú Fijo --- */
+        .dropdown-menu {
+            position: fixed; /* Cambiado a fixed para que no se mueva con el scroll */
+            top: 65px; right: 20px;
+            background-color: var(--marino);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 30;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+        /* --- FIN CAMBIO 1 --- */
+
         .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
         .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
         .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
@@ -184,9 +197,7 @@
                 <p><strong>5. LIMITACIÓN DE RESPONSABILIDAD:</strong> Nomewei.cl se compromete a realizar las gestiones con la máxima diligencia. Sin embargo, el resultado final y los plazos de ejecución pueden depender de la cooperación y los procedimientos internos de las empresas contactadas. Nomewei.cl no se hace responsable si una empresa se niega a cumplir la ley, caso en el cual se informará al cliente sobre posibles acciones adicionales.</p>
                 <p><strong>6. CONFIDENCIALIDAD:</strong> Toda la información proporcionada por el cliente será tratada con la más estricta confidencialidad y será utilizada únicamente para los fines descritos en este acuerdo.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="closeModal('termsModal')">Entendido</button>
-            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('termsModal')">Entendido</button></div>
         </div>
     </div>
 
@@ -355,6 +366,16 @@
                 parent.classList.toggle('active');
             });
         });
+
+        // --- INICIO CAMBIO 2: Cerrar modal al hacer clic fuera ---
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeModal(this.id);
+                }
+            });
+        });
+        // --- FIN CAMBIO 2 ---
         
         goToStep(1);
         const popularPlanCard = document.querySelector(".plan-card .popular");
@@ -366,7 +387,6 @@
         document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
         document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
     });
-    // --- FIN SCRIPT FUNCIONAL ---
     </script>
 </body>
 </html>
