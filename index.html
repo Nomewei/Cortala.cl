@@ -122,10 +122,10 @@
             <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
 
             <div id="step1" class="step active">
-                <h2>Elige el plan ideal para tu tranquilidad</h2>
-                <div class="plan-card" onclick="selectPlan('Pack Esencial', 9990, 1, this)"><h3>Pack Esencial</h3><p>Para 1 número telefónico</p><p class="price">$9.990 CLP</p></div>
-                <div class="plan-card" onclick="selectPlan('Dual Pack', 15990, 2, this)"><span class="popular">Más Popular</span><h3>Dual Pack</h3><p>Para hasta 2 números</p><p class="price">$15.990 CLP</p></div>
-                <div class="plan-card" onclick="selectPlan('Pack Total', 24990, 5, this)"><h3>Pack Total</h3><p>Para hasta 5 números</p><p class="price">$24.990 CLP</p></div>
+                <h2>Elige el plan que mejor se ajuste a ti</h2>
+                <div class="plan-card" onclick="selectPlan('Esencial', 9990, 1, this)"><h3>Pack Esencial</h3><p>Para 1 número telefónico</p><p class="price">$9.990 CLP</p></div>
+                <div class="plan-card" onclick="selectPlan('Dual', 15990, 2, this)"><span class="popular">Más Popular</span><h3>Dual Pack</h3><p>Para hasta 2 números</p><p class="price">$15.990 CLP</p></div>
+                <div class="plan-card" onclick="selectPlan('Total', 24990, 5, this)"><h3>Pack Total</h3><p>Para hasta 5 números</p><p class="price">$24.990 CLP</p></div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" id="nextBtn1" onclick="goToStep(2)" disabled>Continuar →</button>
                 </div>
@@ -135,7 +135,7 @@
                 <h2>Ingresa tus datos</h2>
                 <div class="summary" id="selectedPlanSummary">
                     <div class="summary-header">
-                        <span>TU PLAN</span>
+                        <span>PLAN SELECCIONADO</span>
                         <h4 id="selectedPlanName"></h4>
                     </div>
                     <div class="summary-price">
@@ -143,7 +143,7 @@
                         <span>CLP</span>
                     </div>
                 </div>
-                <div class="form-group"><label for="nombre">Nombre y apellidos</label><input type="text" id="nombre" name="nombre" required /></div>
+                <div class="form-group"><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required /></div>
                 <div class="form-group"><label for="rut">RUT</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><span id="rut-error" class="error-mensaje"></span></div>
                 <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /></div>
                 <div id="campos-telefonos"></div>
@@ -154,19 +154,19 @@
             </div>
 
             <div id="step3" class="step">
-                <h2>¡Estás a un paso de ser Libre!</h2>
+                <h2>Finaliza tu Compra</h2>
                 <div class="summary" id="finalPlanSummary">
                     <div class="summary-header"><span>TOTAL A PAGAR</span><h4 id="finalPlanPrice"></h4></div>
                 </div>
                 <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
-                <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" required /></div>
+                <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required /></div>
                 <div class="form-group" style="display: flex; gap: 1rem;">
                     <div style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/AA" required /></div>
-                    <div style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required /></div>
+                    <div style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="XXX" required /></div>
                 </div>
                 <div class="form-group terminos-mandato">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">Acepto los <a href="/terminos.html" target="_blank">Términos y condiciones</a> y otorgo un poder simple a Nomewei para actuar en representación de mi persona.</label>
+                    <label for="terms">Acepto los <a href="/terminos.html" target="_blank">Términos</a> y otorgo poder simple a Nomewei para actuar en mi nombre.</label>
                 </div>
                 <div data-netlify-recaptcha="true"></div>
                 <div class="btn-group">
@@ -175,7 +175,7 @@
                 </div>
             </div>
         </form>
-        <div id="successMessage" style="display: none; text-align: center; padding: 2rem;"><h2>¡Compra realizada con éxito!</h2><p>Gracias por confiar en Nomewei.cl. Te contactaremos pronto.</p></div>
+        <div id="successMessage" style="display: none; text-align: center; padding: 2rem;"><h2>¡Compra realizada con éxito!</h2><p>Gracias por usar Nomewei.cl. Te contactaremos pronto.</p></div>
     </main>
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
