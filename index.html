@@ -109,7 +109,7 @@
                     <div class="summary-header"><span>PLAN SELECCIONADO</span><h4 id="selectedPlanName"></h4></div>
                     <div class="summary-price"><span id="selectedPlanPrice"></span><span>CLP</span></div>
                 </div>
-                <div class="form-group"><label for="nombre">Nombre Completo</label><input type="text" id="nombre" name="nombre" required /></div>
+                <div class="form-group"><label for="nombre">Nombre y apellidos</label><input type="text" id="nombre" name="nombre" required /></div>
                 <div class="form-group"><label for="rut">RUT</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><span id="rut-error" class="error-mensaje"></span></div>
                 <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /></div>
                 <div id="campos-telefonos"></div>
@@ -120,17 +120,19 @@
             </div>
 
             <div id="step3" class="step">
-                <h2>Finaliza tu Compra</h2>
-                <div class="summary"><strong>Total a Pagar:</strong> <span id="finalPlanPrice"></span> CLP</div>
+                <h2>¡Estás a un paso de ser Libre!</h2>
+                <div class="summary" id="finalPlanSummary">
+                    <div class="summary-header"><span>TOTAL A PAGAR</span><h4 id="finalPlanPrice"></h4></div>
+                </div>
                 <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
-                <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX" required /></div>
+                <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" required /></div>
                 <div class="form-group" style="display: flex; gap: 1rem;">
                     <div style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/AA" required /></div>
-                    <div style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="XXX" required /></div>
+                    <div style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required /></div>
                 </div>
                 <div class="form-group terminos-mandato">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">Acepto los <a href="/terminos.html" target="_blank">Términos</a> y otorgo poder simple a Nomewei para actuar en mi nombre.</label>
+                    <label for="terms">Acepto los <a href="/terminos.html" target="_blank">Términos y condiciones</a> y otorgo un poder simple a Nomewei para actuar en representación de mi persona.</label>
                 </div>
                 <div data-netlify-recaptcha="true"></div>
                 <div class="btn-group">
@@ -139,7 +141,7 @@
                 </div>
             </div>
         </form>
-        <div id="successMessage" style="display: none; text-align: center; padding: 2rem;"><h2>¡Compra realizada con éxito!</h2><p>Gracias por usar Nomewei.cl. Te contactaremos pronto.</p></div>
+        <div id="successMessage" style="display: none; text-align: center; padding: 2rem;"><h2>¡Compra realizada con éxito!</h2><p>Gracias por confiar en Nomewei.cl. Te contactaremos pronto.</p></div>
     </main>
     <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
 
@@ -149,7 +151,6 @@
         const progressBar = document.getElementById('progressBar');
         const stepIndicator = document.getElementById('stepIndicator');
         const mainForm = document.querySelector('form[name="checkout"]');
-        const rutInput = document.getElementById('rut');
 
         function selectPlan(name, price, numPhones, element) {
             document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
@@ -187,33 +188,19 @@
         function validateStep2() {
             let isValid = true;
             document.querySelectorAll('#step2 input[required]').forEach(input => { if (!input.checkValidity()) { isValid = false; }});
-            const rutError = document.getElementById('rut-error');
+            const rutInput = document.getElementById('rut');
             if (!validarRut(rutInput.value)) {
-                rutError.style.display = 'block';
-                rutError.textContent = 'RUT inválido.';
+                document.getElementById('rut-error').style.display = 'block';
+                document.getElementById('rut-error').textContent = 'RUT inválido.';
                 isValid = false;
             } else {
-                rutError.style.display = 'none';
+                document.getElementById('rut-error').style.display = 'none';
             }
             return isValid;
         }
 
         const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
-        
-        // --- INICIO CÓDIGO VERIFICADO Y CORREGIDO ---
-        const validarRut = (rutCompleto) => {
-            if (!rutCompleto || !/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(rutCompleto)) return false;
-            let rutSinFormato = rutCompleto.replace(/\./g, "").replace("-", "");
-            let dv = rutSinFormato.slice(-1).toLowerCase();
-            let rut = parseInt(rutSinFormato.slice(0, -1), 10);
-            let M = 0, S = 1;
-            for (; rut; rut = Math.floor(rut / 10)) {
-                S = (S + rut % 10 * (9 - M++ % 6)) % 11;
-            }
-            let dvEsperado = S ? String(S - 1) : "k";
-            return dv === dvEsperado;
-        };
-        // --- FIN CÓDIGO VERIFICADO Y CORREGIDO ---
+        const validarRut = (r) => { if (!r || !/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?String(s-1):'k')==d; };
         
         document.getElementById('rut').addEventListener('input', (e) => { e.target.value = formatearRut(e.target.value); });
         document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
@@ -230,6 +217,7 @@
                 alert('Debes aceptar los términos y condiciones para continuar.');
             }
         });
+        
     </script>
 </body>
 </html>
