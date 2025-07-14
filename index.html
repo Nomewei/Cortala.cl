@@ -67,6 +67,7 @@
         .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
         .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
         .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
+        #nav-inicio { display: none; }
         @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         #checkout-section { padding-top: 4.5rem; }
@@ -142,6 +143,15 @@
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; font-size: 0.9rem; padding-left: 0.5rem;}
         .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--naranja); }
         .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+
+        .testimonial-item { margin-bottom: 2rem; }
+        .testimonial-item:last-child { margin-bottom: 0.5rem; }
+        .testimonial-stars { color: var(--naranja); margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .testimonial-text { font-style: italic; color: #555; margin-bottom: 0.75rem; }
+        .testimonial-text::before { content: '“'; font-size: 1.5em; line-height: 0; position: relative; top: 10px; left: -5px; }
+        .testimonial-text::after { content: '”'; font-size: 1.5em; line-height: 0; position: relative; top: 10px; right: -5px; }
+        .testimonial-author { font-weight: 700; color: var(--marino); }
+
         .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
     </style>
 </head>
@@ -168,7 +178,9 @@
     
     <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
         <ul>
+            <li><a id="nav-inicio" href="index.html">Inicio</a></li>
             <li><a onclick="closeMenuAndScrollToPlans()">Planes</a></li>
+            <li><a onclick="openModal('testimonialsModal', event)">Testimonios</a></li>
             <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
             <li><a onclick="openModal('faqModal', event)">FAQ's</a></li>
             <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
@@ -220,6 +232,36 @@
         <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
     </section>
 
+    <div id="testimonialsModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Qué dicen nuestros clientes</h2></div>
+            <div class="modal-body">
+                <div class="testimonial-item">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">¡Santo remedio! Estaba chato de las llamadas de los bancos a cualquier hora. Hice el trámite y de verdad que pararon. ¡Se pasaron!</p>
+                    <p class="testimonial-author">- Carlos P.</p>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">Pensé que era mentira, pero funciona. Lo mejor es que fue un solo pago y me olvidé del tema. ¡Totalmente recomendado!</p>
+                    <p class="testimonial-author">- Javiera L.</p>
+                </div>
+                 <div class="testimonial-item">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">Excelente servicio, muy fácil de usar. Protegí el número de mi mamá que ya estaba perdiendo la paciencia. ¡Muchas gracias!</p>
+                    <p class="testimonial-author">- Sofía R.</p>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('testimonialsModal')">Entendido</button></div>
+        </div>
+    </div>
+
     <div id="termsModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header"><h2>Términos y Condiciones</h2></div>
@@ -239,6 +281,7 @@
             <div class="modal-header"><h2>Preguntas Frecuentes</h2></div>
             <div class="modal-body">
                 <div class="faq-accordion">
+                    <div class="faq-item"><div class="faq-question">¿Qué tipo de comunicaciones bloquea el servicio? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Nuestro servicio gestiona la eliminación de tus datos para todo tipo de comunicación de marketing no deseada. Esto incluye no solo las <strong>llamadas telefónicas de spam</strong>, sino también los <strong>mensajes de texto (SMS), mensajes de WhatsApp y correos electrónicos</strong> con fines publicitarios.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿A qué empresas se contacta? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Nos enfocamos en las empresas con la mayor cantidad de reclamos por spam en Chile. Nuestro proceso cubre a los principales actores del sector de <strong>telecomunicaciones (Entel, Movistar, WOM, Claro, etc.)</strong> y del <strong>gran retail (Falabella, Ripley, Paris, Cencosud, entre otros)</strong>. Nos mantenemos constantemente actualizados para incluir a las entidades más relevantes.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿Este servicio es legal? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Sí, es 100% legal. Nos amparamos en la Ley N° 19.628 sobre Protección de la Vida Privada, que te otorga el derecho a solicitar la eliminación de tus datos personales.</p></div></div>
                     <div class="faq-item"><div class="faq-question">¿Cuánto tiempo tarda el proceso? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Iniciamos las gestiones dentro de las primeras 48 horas hábiles. La ley otorga a las empresas un plazo de 2 días hábiles para responder. Te mantendremos informado del estado de cada solicitud.</p></div></div>
@@ -268,6 +311,7 @@
         const mainHeader = document.getElementById('main-header');
         const checkoutSection = document.getElementById('checkout-section');
         const heroSection = document.getElementById('hero');
+        const navInicio = document.getElementById('nav-inicio');
 
         function startCheckout() {
             document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
@@ -284,22 +328,15 @@
 
         function goToStep(stepNumber) {
             saveFormData();
-            // Lógica para mostrar/ocultar el Hero y forzar el header
             if (stepNumber > 1) {
-                if (document.body.contains(heroSection)) {
-                    heroSection.style.display = 'none';
-                }
+                if (document.body.contains(heroSection)) heroSection.style.display = 'none';
+                if (navInicio) navInicio.style.display = 'block';
                 mainHeader.classList.add('scrolled-header');
             } else {
-                 if (document.body.contains(heroSection)) {
-                    heroSection.style.display = 'flex';
-                }
-                // Para el paso 1, dejamos que el scroll listener maneje el header
-                if (window.scrollY < 50) {
-                     mainHeader.classList.remove('scrolled-header');
-                } else {
-                     mainHeader.classList.add('scrolled-header');
-                }
+                 if (document.body.contains(heroSection)) heroSection.style.display = 'flex';
+                 if (navInicio) navInicio.style.display = 'none';
+                 if (window.scrollY < 50) mainHeader.classList.remove('scrolled-header');
+                 else mainHeader.classList.add('scrolled-header');
             }
             
             if (stepNumber === 3 && !validateStep2()) { return; }
@@ -310,13 +347,14 @@
             if(targetStep) {
                 targetStep.classList.add('active');
                 const progressBarEl = document.getElementById('progressBar');
-                if (stepNumber === 1) { progressBarEl.style.width = '10%'; progressBarEl.classList.add('has-progress'); }
-                else if (stepNumber === 2) { progressBarEl.style.width = '50%'; progressBarEl.classList.add('has-progress'); }
-                else if (stepNumber === 3) { progressBarEl.style.width = '100%'; progressBarEl.classList.add('has-progress'); }
+                if (stepNumber === 1) { progressBarEl.style.width = '25%'; }
+                else if (stepNumber === 2) { progressBarEl.style.width = '50%'; }
+                else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
+                progressBarEl.classList.add('has-progress');
             }
-
-            // Lógica para mostrar el indicador de paso
-            if (mainHeader.classList.contains('scrolled-header')) {
+            
+            const isScrolled = mainHeader.classList.contains('scrolled-header');
+            if (isScrolled) {
                 stepIndicator.style.display = 'block';
                 stepIndicator.textContent = `Paso ${stepNumber} de 3`;
             } else {
@@ -387,27 +425,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             const heroButton = document.querySelector('.btn-hero');
             if (heroButton) {
-                heroButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    startCheckout();
-                });
+                heroButton.addEventListener('click', (e) => { e.preventDefault(); startCheckout(); });
             }
-              const scrollIndicator = document.querySelector('.scroll-down-indicator a');
+            const scrollIndicator = document.querySelector('.scroll-down-indicator a');
             if(scrollIndicator){
-                 scrollIndicator.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    startCheckout();
-                });
+                 scrollIndicator.addEventListener('click', (e) => { e.preventDefault(); startCheckout(); });
             }
             
             window.addEventListener('scroll', () => {
                 const isScrolled = window.scrollY > 50;
-                const currentStepDiv = document.querySelector('.step.active');
-                const currentStepNumber = currentStepDiv ? parseInt(currentStepDiv.id.replace('step', ''), 10) : 0;
-
-                if (isScrolled || currentStepNumber > 1) {
+                if (isScrolled) {
                     mainHeader.classList.add('scrolled-header');
-                    if (currentStepNumber > 0) {
+                    // Actualizar el indicador de paso si ya estamos en un paso
+                    const currentStepDiv = document.querySelector('.step.active');
+                    if (currentStepDiv) {
+                        const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
                         stepIndicator.style.display = 'block';
                         stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
                     }
