@@ -184,7 +184,7 @@
                 <input type="hidden" id="price-input" name="price">
                 <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
     
-                <div id="step1" class="step">
+                <div id="step1" class="step active">
                     <h2>Libérate hoy de las llamadas SPAM</h2>
                     <div class="plan-card" onclick="selectPlan('Plan Personal', 14990, 1, this)"><h3><i class="fa-solid fa-user"></i>Plan Personal</h3><p>Protección para 1 número telefónico.</p><p class="price">$14.990 CLP</p></div>
                     <div class="plan-card" onclick="selectPlan('Plan Dúo', 24990, 2, this)"><span class="popular">Más Popular</span><h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3><p>Protección para ti y otra persona. Recibes 1 código de activación para compartir.</p><p class="price">$24.990 CLP</p></div>
@@ -306,7 +306,7 @@
                 else if (stepNumber === 2) { progressBarEl.style.width = '50%'; progressBarEl.classList.add('has-progress'); }
                 else if (stepNumber === 3) { progressBarEl.style.width = '100%'; progressBarEl.classList.add('has-progress'); }
                 
-                if (stepNumber > 0) {
+                if (window.scrollY > 50) {
                     stepIndicator.style.display = 'block';
                     stepIndicator.textContent = `Paso ${stepNumber} de 3`;
                 }
@@ -393,12 +393,13 @@
                 const isScrolled = window.scrollY > 50;
                 if (isScrolled) {
                     mainHeader.classList.add('scrolled-header');
+                    // Ensure the step indicator is visible if a step is active
+                    if (document.querySelector('.step.active')) {
+                        stepIndicator.style.display = 'block';
+                    }
                 } else {
                     mainHeader.classList.remove('scrolled-header');
-                }
-                // Si el indicador de pasos existe y estamos arriba, se oculta. Si estamos abajo, `goToStep` lo controla.
-                if (!isScrolled && stepIndicator) {
-                     stepIndicator.style.display = 'none';
+                    stepIndicator.style.display = 'none';
                 }
             });
 
