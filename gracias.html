@@ -9,9 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        :root { --marino: #003366; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --verde-exito: #28a745; --font-main: 'Poppins', sans-serif; }
+        :root { --marino: #003366; --marino-light: #004a80; --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --verde-exito: #28a745; --texto-oscuro: #333; --font-main: 'Poppins', sans-serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-main); background-color: var(--gris-claro); color: #333; line-height: 1.6; }
+        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.6; }
         header { background-color: var(--blanco); padding: 1rem 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gris); }
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--marino); text-decoration: none; }
         .container { max-width: 550px; margin: 2rem auto; padding: 1rem; }
@@ -30,32 +30,35 @@
         .gracias-box .mensaje-principal { color: #555; font-size: 1.1rem; margin-bottom: 2rem; }
 
         .resumen-compra { 
-            background-color: var(--blanco);
-            padding: 1rem; 
-            border-radius: 8px; 
-            font-size: 0.9rem; 
+            background-color: #F0F5FA;
+            border: 1px solid #DDE8F3;
+            border-radius: 12px;
+            padding: 1rem 1.5rem; 
             margin-top: 2rem; 
-            border: 1px solid var(--gris); 
             text-align: left;
         }
-        .resumen-item {
-            padding: 0.75rem 0.5rem;
+        .resumen-compra .resumen-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
         }
-        .resumen-item:not(:last-child) { border-bottom: 1px solid var(--gris); }
-        .resumen-label {
-            display: block;
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 0.25rem;
+        .resumen-compra .resumen-item:not(:last-child) {
+            border-bottom: 1px dashed var(--gris);
         }
-        .resumen-value {
-            display: block;
-            font-weight: 700;
-            font-size: 1.1rem;
+        .resumen-compra .resumen-label {
+            font-size: 1rem;
             color: var(--marino);
+            font-weight: 600;
         }
-        #precioPagado {
+        .resumen-compra .resumen-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--texto-oscuro);
+        }
+        .resumen-compra #precioPagado {
             color: var(--naranja);
+            font-size: 1.3rem;
         }
 
         .proximos-pasos { margin-top: 2.5rem; text-align: left; border-top: 1px solid var(--gris); padding-top: 2rem; }
@@ -112,11 +115,11 @@
 
             <div class="resumen-compra">
                 <div class="resumen-item">
-                    <span class="resumen-label">Plan Adquirido:</span>
+                    <span class="resumen-label">Plan Adquirido</span>
                     <span id="planAdquirido" class="resumen-value"></span>
                 </div>
                 <div class="resumen-item">
-                     <span class="resumen-label">Valor Pagado:</span>
+                    <span class="resumen-label">Valor Pagado</span>
                     <span id="precioPagado" class="resumen-value"></span>
                 </div>
             </div>
@@ -125,7 +128,7 @@
                 <h3><i class="fas fa-ticket-alt"></i> Comparte tus Códigos de Activación</h3>
                 <p id="coupon-instruction" class="instruction-text"></p>
                 <div id="couponList" class="coupon-list">
-                    </div>
+                </div>
             </div>
 
             <a href="index.html" class="btn">Volver al Inicio</a>
@@ -172,21 +175,17 @@
             const mainMessageEl = document.getElementById('main-message');
 
             if (numPhones > 1) {
-                // --- INICIO CAMBIO 2: Mensaje para planes grupales ---
                 mainMessageEl.innerHTML = 'Hemos recibido tu solicitud correctamente. <strong>Tu tranquilidad y la de tus cercanos comienza ahora.</strong>';
-                // --- FIN CAMBIO 2 ---
                 
                 const numCodigos = numPhones - 1;
                 const couponList = document.getElementById('couponList');
                 const instructionP = document.getElementById('coupon-instruction');
 
-                // --- INICIO CAMBIO 3: Instrucciones de activación ---
                 if (numCodigos === 1) {
                     instructionP.innerHTML = 'Comparte el siguiente código con tu familiar o amigo. Deberá usarlo para activar su protección.';
                 } else {
                     instructionP.innerHTML = 'Copia y comparte los siguientes códigos con tus familiares o amigos. Cada uno deberá usar su código para activar su protección.';
                 }
-                // --- FIN CAMBIO 3 ---
 
                 for (let i = 0; i < numCodigos; i++) {
                     const code = generateCouponCode();
@@ -206,9 +205,7 @@
                 
                 document.getElementById('infoCodigos').style.display = 'block';
             } else {
-                // --- INICIO CAMBIO 1: Mensaje para plan individual ---
                 mainMessageEl.innerHTML = 'Hemos recibido tu solicitud correctamente. Dentro de las próximas <strong>24 horas hábiles</strong> iniciaremos las gestiones para proteger tu número. Tu tranquilidad comienza ahora.';
-                // --- FIN CAMBIO 1 ---
             }
         });
     </script>
