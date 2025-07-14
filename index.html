@@ -158,8 +158,8 @@
     </header>
 
     <section id="hero">
-        <h1>Elimina las llamadas SPAM en sólo 3 pasos.</h1>
-        <p>Hacemos la gestión completa por tí. Exigimos a las empresas que dejen de molestarte por ley. Un único pago, sin suscripciones ni letra chica.</p>
+        <h1>Elimina las llamadas SPAM para siempre.</h1>
+        <p>Hacemos la gestión completa por tí. Exigimos a las empresas que dejen de molestarte por ley. Un único pago, sin suscripciones.</p>
         <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mi Número Ahora</a>
         <div class="scroll-down-indicator">
             <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
@@ -268,17 +268,10 @@
         const mainHeader = document.getElementById('main-header');
         const checkoutSection = document.getElementById('checkout-section');
         const heroSection = document.getElementById('hero');
-        let isCheckoutActive = false;
 
         function startCheckout() {
-            isCheckoutActive = true;
             document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
-            mainHeader.classList.add('scrolled-header');
             goToStep(1);
-        }
-
-        function showHeroAndHideCheckout() {
-             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function selectPlan(name, price, numPhones, element) {
@@ -300,11 +293,6 @@
                     heroSection.style.display = 'flex';
                 }
             }
-
-            if (!isCheckoutActive) {
-                mainHeader.classList.add('scrolled-header');
-                isCheckoutActive = true;
-            }
             
             if (stepNumber === 3 && !validateStep2()) { return; }
             
@@ -317,8 +305,11 @@
                 if (stepNumber === 1) { progressBarEl.style.width = '10%'; progressBarEl.classList.add('has-progress'); }
                 else if (stepNumber === 2) { progressBarEl.style.width = '50%'; progressBarEl.classList.add('has-progress'); }
                 else if (stepNumber === 3) { progressBarEl.style.width = '100%'; progressBarEl.classList.add('has-progress'); }
-                stepIndicator.style.display = 'block';
-                stepIndicator.textContent = `Paso ${stepNumber} de 3`;
+                
+                if (stepNumber > 0) { // Show indicator for all steps
+                    stepIndicator.style.display = 'block';
+                    stepIndicator.textContent = `Paso ${stepNumber} de 3`;
+                }
             }
 
             function renderSummary(containerId) {
@@ -383,8 +374,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Activa el primer paso por defecto
-            goToStep(1);
             
             const heroButton = document.querySelector('.btn-hero');
             if (heroButton) {
@@ -401,19 +390,15 @@
                 });
             }
             
-            // Listener para cambiar el estado del header con el scroll
-            const observer = new IntersectionObserver((entries) => {
-                if (!entries[0].isIntersecting && isCheckoutActive) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
                     mainHeader.classList.add('scrolled-header');
-                } else if (entries[0].isIntersecting) {
+                } else {
                     mainHeader.classList.remove('scrolled-header');
-                    isCheckoutActive = false;
+                    // Ocultar indicador de paso si volvemos arriba del todo
+                    if(stepIndicator) stepIndicator.style.display = 'none';
                 }
-            }, { threshold: 0.1 });
-            if (document.body.contains(heroSection)) {
-                observer.observe(heroSection);
-            }
-
+            });
 
             document.getElementById('menuToggle').addEventListener('click', toggleMenu);
             document.addEventListener('click', function(event) {
