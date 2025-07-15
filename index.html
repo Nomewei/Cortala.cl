@@ -1,511 +1,1238 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Córtala.cl - Libérate del SPAM Telefónico</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <style>
-        :root {
-            --marino: #003366; --marino-light: #004a80; --marino-lighter: #005f9e;
-            --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
-            --font-main: 'Poppins', sans-serif;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
-        
-        #hero {
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; height: 100vh; color: var(--blanco); padding: 2rem;
-            background-color: var(--marino);
-            background-image: radial-gradient(var(--marino-light) 1px, transparent 1px), radial-gradient(var(--marino-light) 1px, var(--marino) 1px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-        }
-        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 1.5rem; }
-        .btn-hero { padding: 0.7rem 1.6rem; font-size: 1rem; text-decoration: none; }
-        .btn-primary.btn-hero { width: auto; }
-        .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
-        .scroll-down-indicator a { color: var(--blanco); }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+    <meta charset="UTF-8" />
 
-        /* --- ESTILOS PARA EL NUEVO CONTADOR DINÁMICO --- */
-        .dynamic-counter-container {
-            margin: 1.5rem 0;
-            padding: 0.8rem 1.5rem 0.6rem 1.5rem;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-        .counter-digits {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            height: 60px;
-            font-size: 48px;
-            font-weight: 700;
-            line-height: 60px;
-            perspective: 300px;
-        }
-        .digit-container {
-            height: 100%;
-            width: 45px;
-            overflow: hidden;
-            mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
-        }
-        .digit-spool {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
-        }
-        .counter-label {
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 0.5rem;
-            opacity: 0.8;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        /* --- FIN ESTILOS CONTADOR --- */
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-        .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
-        
-        header { 
-            background-color: transparent; padding: 1rem 1.5rem;
-            display: flex; justify-content: space-between; align-items: center; 
-            position: absolute; top: 0; z-index: 20; width: 100%;
-            transition: background-color 0.5s ease, box-shadow 0.5s ease, border-bottom 0.5s ease;
-        }
-        header.scrolled-header {
-            position: sticky;
-            background-color: var(--blanco);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-bottom: 1px solid var(--gris);
-        }
-        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .logo { color: var(--marino); text-shadow: none; }
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-        
-        header .step-indicator { 
-            display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); 
-            padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris);
-            color: var(--marino);
-        }
-        header.scrolled-header .step-indicator { display: block; }
+    <title>Córtala.cl - Libérate del SPAM Telefónico</title>
 
-        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--blanco); cursor: pointer; padding: 0.5rem; line-height: 1; transition: color 0.3s ease; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .menu-toggle-btn { color: var(--marino); text-shadow: none;}
-        
-        .dropdown-menu { position: fixed; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeInDropdown 0.2s ease-out; }
-        .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
-        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
-        .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
-        #nav-inicio { display: none; }
-        @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-        #checkout-section { padding-top: 4.5rem; }
-        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
-        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; position: relative; }
-        .progress-bar::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background-color: var(--naranja); border-radius: 50%; display: none; }
-        .progress-bar.has-progress::after { display: block; }
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        main { background-color: var(--blanco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
-        .step { display: none; } .step.active { display: block; animation: fadeInStep 0.5s; }
-        @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
-        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
-        .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
-        .plan-card h3 i { color: var(--naranja); }
-        .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
-        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
-        label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
-        .form-group { margin-bottom: 1.25rem; position: relative; }
-        input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
-        input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
-        .form-group .validation-icon { position: absolute; right: 12px; top: 38px; visibility: hidden; }
-        .form-group.success input { border-color: var(--verde-exito); }
-        .form-group.success .validation-icon { color: var(--verde-exito); visibility: visible; }
-        .form-group.error input { border-color: var(--rojo-error); }
-        .error-mensaje { color: var(--rojo-error); font-size: 0.8rem; display: none; margin-top: 4px; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
-        .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
-        .btn-primary:hover { background-color: #e69500; }
-        .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
-        .btn-group { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-        .back-link-container { text-align: center; margin-top: 1rem; }
-        .back-link-container a { color: var(--texto-oscuro); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
-        .back-link-container a:hover { text-decoration: underline; }
-        .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
-        .terminos-mandato input { width: auto; margin-top: 5px; flex-shrink: 0; }
-        .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
-        .terminos-mandato a { color: var(--marino); text-decoration: underline; cursor: pointer; }
-        .trust-seals { text-align: center; margin: 2rem 0 1rem; }
-        .trust-seals .seal { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; margin: 0 10px; }
-        .trust-seals .seal i { color: var(--verde-exito); }
-        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
-        .payment-logos i { font-size: 2.2rem; }
-        .card-details-group { display: flex; gap: 1rem; }
-        
-        .summary, .summary-final {
-            background-color: var(--blanco); border: 1px solid var(--gris); color: var(--texto-oscuro); 
-            padding: 1.25rem; border-radius: 12px; margin-bottom: 2rem;
-            display: flex; justify-content: space-between;
-        }
-        .summary-final { background-color: var(--marino); color: var(--blanco); border: none; }
-        .summary-info .plan-name { font-size: 1.1rem; font-weight: 600; color: var(--marino); display: block; margin-bottom: 0.75rem; }
-        .summary-final .summary-info .plan-name { color: var(--blanco); }
-        .summary-info .plan-details { 
-            font-size: 0.9rem; 
-            color: #666;
-            line-height: 1.8;
-            display: block;
-        }
-        .summary-info .plan-details i { margin-right: 8px; width: 15px; text-align: center; }
-        .summary-final .summary-info .plan-details { color: var(--blanco); opacity: 0.9; }
-        .summary-price-tag { font-size: 1.5rem; font-weight: 700; color: var(--naranja); text-align: right; }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: var(--blanco); color: var(--texto-oscuro); border-radius: 12px; width: 90%; max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; animation: fadeInStep 0.3s; padding: 0; }
-        .modal-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--gris); flex-shrink: 0; }
-        .modal-header h2 { margin: 0; text-align: left; }
-        .modal-body { overflow-y: auto; padding: 1rem 2rem; }
-        .modal-footer { padding: 1rem 2rem; border-top: 1px solid var(--gris); background-color: var(--blanco); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; flex-shrink: 0; }
-        .modal-content p { margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6; }
-        .faq-item { border-bottom: 1px solid var(--gris); }
-        .faq-item:last-child { border-bottom: none; }
-        .faq-question { padding: 1rem 0; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question i { transition: transform 0.3s ease; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; font-size: 0.9rem; padding-left: 0.5rem;}
-        .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--naranja); }
-        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1rem; }
-        
-        .testimonial-item { margin-bottom: 2rem; }
-        .testimonial-item:last-child { margin-bottom: 0.5rem; }
-        .testimonial-stars { color: var(--naranja); margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .testimonial-text { font-style: italic; color: #555; margin-bottom: 0.75rem; }
-        .testimonial-text::before { content: '“'; font-size: 1.5em; line-height: 0; position: relative; top: 10px; left: -5px; }
-        .testimonial-text::after { content: '”'; font-size: 1.5em; line-height: 0; position: relative; top: 10px; right: -5px; }
-        .testimonial-author { font-weight: 700; color: var(--marino); }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-        .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        /* --- ESTILOS RESPONSIVE PARA MÓVIL --- */
-        @media (max-width: 600px) {
-            #hero h1 {
-                font-size: 2rem;
-            }
-            #hero {
-                padding-top: 6rem;
-            }
-            .counter-digits {
-                height: 50px;
-                font-size: 40px;
-                line-height: 50px;
-            }
-            .digit-container {
-                width: 38px;
-            }
-        }
-    </style>
+
+
+    <style>
+
+        :root {
+
+            --marino: #003366; --marino-light: #004a80; --marino-lighter: #005f9e;
+
+            --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
+
+            --font-main: 'Poppins', sans-serif;
+
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
+
+        
+
+        #hero {
+
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+
+            text-align: center; height: 100vh; color: var(--blanco); padding: 2rem;
+
+            background-color: var(--marino);
+
+            background-image: radial-gradient(var(--marino-light) 1px, transparent 1px), radial-gradient(var(--marino-light) 1px, var(--marino) 1px);
+
+            background-size: 20px 20px;
+
+            background-position: 0 0, 10px 10px;
+
+        }
+
+        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 1.5rem; }
+
+        .btn-hero { padding: 0.7rem 1.6rem; font-size: 1rem; text-decoration: none; }
+
+        .btn-primary.btn-hero { width: auto; }
+
+        .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
+
+        .scroll-down-indicator a { color: var(--blanco); }
+
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+
+
+
+        /* --- ESTILOS PARA EL NUEVO CONTADOR DINÁMICO --- */
+
+        .dynamic-counter-container {
+
+    margin: 1.5rem 0;
+
+    padding: 0.8rem 1.5rem 0.6rem 1.5rem;
+
+    background-color: rgba(0, 0, 0, 0.2);
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    backdrop-filter: blur(4px);
+
+    -webkit-backdrop-filter: blur(4px);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+}
+
+        .counter-digits {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 5px;
+
+            height: 60px;
+
+            font-size: 48px;
+
+            font-weight: 700;
+
+            line-height: 60px;
+
+            perspective: 300px;
+
+        }
+
+        .digit-container {
+
+            height: 100%;
+
+            width: 45px;
+
+            overflow: hidden;
+
+            mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+
+        }
+
+        .digit-spool {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+
+        }
+
+        .counter-label {
+
+            font-size: 0.8rem;
+
+            text-align: center;
+
+            margin-top: 0.5rem;
+
+            opacity: 0.8;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.5px;
+
+        }
+
+        /* --- FIN ESTILOS CONTADOR --- */
+
+
+
+        .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
+
+        
+
+        header { 
+
+            background-color: transparent; padding: 1rem 1.5rem;
+
+            display: flex; justify-content: space-between; align-items: center; 
+
+            position: absolute; top: 0; z-index: 20; width: 100%;
+
+            transition: background-color 0.5s ease, box-shadow 0.5s ease, border-bottom 0.5s ease;
+
+        }
+
+        header.scrolled-header {
+
+            position: sticky;
+
+            background-color: var(--blanco);
+
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+            border-bottom: 1px solid var(--gris);
+
+        }
+
+        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+        header.scrolled-header .logo { color: var(--marino); text-shadow: none; }
+
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+
+        
+
+        header .step-indicator { 
+
+            display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); 
+
+            padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris);
+
+            color: var(--marino);
+
+        }
+
+        header.scrolled-header .step-indicator { display: block; }
+
+
+
+        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--blanco); cursor: pointer; padding: 0.5rem; line-height: 1; transition: color 0.3s ease; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+        header.scrolled-header .menu-toggle-btn { color: var(--marino); text-shadow: none;}
+
+        
+
+        .dropdown-menu { position: fixed; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeInDropdown 0.2s ease-out; }
+
+        .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
+
+        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
+
+        .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
+
+        #nav-inicio { display: none; }
+
+        @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+
+        #checkout-section { padding-top: 4.5rem; }
+
+        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
+
+        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; position: relative; }
+
+        .progress-bar::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background-color: var(--naranja); border-radius: 50%; display: none; }
+
+        .progress-bar.has-progress::after { display: block; }
+
+
+
+        main { background-color: var(--blanco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+        h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
+
+        .step { display: none; } .step.active { display: block; animation: fadeInStep 0.5s; }
+
+        @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        
+
+        .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
+
+        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
+
+        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
+
+        .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+        .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
+
+        .plan-card h3 i { color: var(--naranja); }
+
+        .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
+
+        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
+
+        label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
+
+        .form-group { margin-bottom: 1.25rem; position: relative; }
+
+        input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
+
+        input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
+
+        .form-group .validation-icon { position: absolute; right: 12px; top: 38px; visibility: hidden; }
+
+        .form-group.success input { border-color: var(--verde-exito); }
+
+        .form-group.success .validation-icon { color: var(--verde-exito); visibility: visible; }
+
+        .form-group.error input { border-color: var(--rojo-error); }
+
+        .error-mensaje { color: var(--rojo-error); font-size: 0.8rem; display: none; margin-top: 4px; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
+
+        .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
+
+        .btn-primary:hover { background-color: #e69500; }
+
+        .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
+
+        .back-link-container { text-align: center; margin-top: 1rem; }
+
+        .back-link-container a { color: var(--texto-oscuro); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
+
+        .back-link-container a:hover { text-decoration: underline; }
+
+        .terminos-mandato { display: flex; align-items: flex-start; gap: 10px; }
+
+        .terminos-mandato input { width: auto; margin-top: 5px; flex-shrink: 0; }
+
+        .terminos-mandato label { font-weight: normal; font-size: 0.85rem; }
+
+        .terminos-mandato a { color: var(--marino); text-decoration: underline; cursor: pointer; }
+
+        .trust-seals { text-align: center; margin: 2rem 0 1rem; }
+
+        .trust-seals .seal { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; margin: 0 10px; }
+
+        .trust-seals .seal i { color: var(--verde-exito); }
+
+        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
+
+        .payment-logos i { font-size: 2.2rem; }
+
+        .card-details-group { display: flex; gap: 1rem; }
+
+        
+
+        .summary, .summary-final {
+
+            background-color: var(--blanco); border: 1px solid var(--gris); color: var(--texto-oscuro); 
+
+            padding: 1.25rem; border-radius: 12px; margin-bottom: 2rem;
+
+            display: flex; justify-content: space-between;
+
+        }
+
+        .summary-final { background-color: var(--marino); color: var(--blanco); border: none; }
+
+        .summary-info .plan-name { font-size: 1.1rem; font-weight: 600; color: var(--marino); display: block; margin-bottom: 0.75rem; }
+
+        .summary-final .summary-info .plan-name { color: var(--blanco); }
+
+        .summary-info .plan-details { 
+
+            font-size: 0.9rem; 
+
+            color: #666;
+
+            line-height: 1.8;
+
+            display: block;
+
+        }
+
+        .summary-info .plan-details i { margin-right: 8px; width: 15px; text-align: center; }
+
+        .summary-final .summary-info .plan-details { color: var(--blanco); opacity: 0.9; }
+
+        .summary-price-tag { font-size: 1.5rem; font-weight: 700; color: var(--naranja); text-align: right; }
+
+        
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; align-items: center; justify-content: center; z-index: 1000; }
+
+        .modal-content { background: var(--blanco); color: var(--texto-oscuro); border-radius: 12px; width: 90%; max-width: 600px; max-height: 85vh; display: flex; flex-direction: column; animation: fadeInStep 0.3s; padding: 0; }
+
+        .modal-header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--gris); flex-shrink: 0; }
+
+        .modal-header h2 { margin: 0; text-align: left; }
+
+        .modal-body { overflow-y: auto; padding: 1rem 2rem; }
+
+        .modal-footer { padding: 1rem 2rem; border-top: 1px solid var(--gris); background-color: var(--blanco); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; flex-shrink: 0; }
+
+        .modal-content p { margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6; }
+
+        .faq-item { border-bottom: 1px solid var(--gris); }
+
+        .faq-item:last-child { border-bottom: none; }
+
+        .faq-question { padding: 1rem 0; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+
+        .faq-question i { transition: transform 0.3s ease; }
+
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; font-size: 0.9rem; padding-left: 0.5rem;}
+
+        .faq-item.active .faq-question i { transform: rotate(180deg); color: var(--naranja); }
+
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 1rem; }
+
+        
+
+        .testimonial-item { margin-bottom: 2rem; }
+
+        .testimonial-item:last-child { margin-bottom: 0.5rem; }
+
+        .testimonial-stars { color: var(--naranja); margin-bottom: 0.5rem; font-size: 1.1rem; }
+
+        .testimonial-text { font-style: italic; color: #555; margin-bottom: 0.75rem; }
+
+        .testimonial-text::before { content: '“'; font-size: 1.5em; line-height: 0; position: relative; top: 10px; left: -5px; }
+
+        .testimonial-text::after { content: '”'; font-size: 1.5em; line-height: 0; position: relative; top: 10px; right: -5px; }
+
+        .testimonial-author { font-weight: 700; color: var(--marino); }
+
+
+
+        .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
+
+    </style>
+
 </head>
+
 <body>
 
-    <header id="main-header">
-        <a href="index.html" class="logo">Córtala.cl</a>
-        <div class="header-right">
-            <div class="step-indicator" id="stepIndicator" style="display: none;"></div>
-            <div class="menu-container">
-                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
-            </div>
-        </div>
-    </header>
 
-    <section id="hero">
-        <h1>Elimina las llamadas SPAM en sólo 3 pasos.</h1>
-        <p>Hacemos la gestión completa por tí con un PAGO ÚNICO. Exigimos a las empresas que dejen de molestarte por ley. Sin suscripciones ni letra chica.</p>
-        
-        <div class="dynamic-counter-container">
-            <div class="counter-digits" id="dynamicCounter"></div>
-            <p class="counter-label">CLIENTES SATISFECHOS</p>
-        </div>
 
-        <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mi Número Ahora</a>
-        <div class="scroll-down-indicator">
-            <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
-        </div>
-    </section>
-    
-    <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
-        <ul>
-            <li><a id="nav-inicio" href="index.html">Inicio</a></li>
-            <li><a onclick="closeMenuAndScrollToPlans()">Planes</a></li>
-            <li><a onclick="openModal('testimonialsModal', event)">Testimonios</a></li>
-            <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
-            <li><a onclick="openModal('faqModal', event)">FAQ's</a></li>
-            <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
-        </ul>
-    </nav>
+    <header id="main-header">
 
-    <section id="checkout-section">
-        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-        <main class="container">
-            <form name="checkout" method="POST" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
-                <input type="hidden" name="form-name" value="checkout" />
-                <input type="hidden" id="plan-input" name="plan">
-                <input type="hidden" id="price-input" name="price">
-                <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
-    
-                <div id="step1" class="step active">
-                    <h2>Libérate hoy de las llamadas SPAM</h2>
-                    <div class="plan-card" onclick="selectPlan('Plan Personal', 14990, 1, this)">
-                        <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
-                        <p>Protección para 1 número telefónico.</p>
-                        <p class="price">$14.990 CLP</p>
-                    </div>
-                    <div class="plan-card" onclick="selectPlan('Plan Dúo', 24990, 2, this)">
-                        <span class="popular">Más Popular</span>
-                        <h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3>
-                        <p>Protección para ti y otra persona. Recibes 1 código de activación para compartir.</p>
-                        <p class="price">$24.990 CLP</p>
-                    </div>
-                    <div class="plan-card" onclick="selectPlan('Plan Familiar', 49990, 5, this)">
-                        <h3><i class="fa-solid fa-users"></i>Plan Familiar</h3>
-                        <p>Protección para todo tu grupo. Recibes 4 códigos de activación para compartir.</p>
-                        <p class="price">$49.990 CLP</p>
-                    </div>
-                </div>
-    
-                <div id="step2" class="step">
-                    <h2>Datos personales</h2>
-                    <div class="summary-final" id="selectedPlanSummary"></div>
-                    <div class="form-group"><label for="nombre">Nombre y Apellidos (Titular)</label><input type="text" id="nombre" name="nombre" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">El nombre es requerido.</span></div>
-                    <div class="form-group"><label for="rut">RUT (Titular)</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje" id="rut-error">RUT inválido.</span></div>
-                    <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Email inválido.</span></div>
-                    <div id="campos-telefonos"></div>
-                    <div class="btn-group"><button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button></div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
-                </div>
-    
-                <div id="step3" class="step">
-                    <h2>¡Estás a un paso de ser Libre!</h2>
-                    <div class="summary-final" id="finalPlanSummary"></div>
-                    <label>Paga con tus tarjetas</label>
-                    <div class="payment-logos"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i><i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i><i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i></div>
-                    <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
-                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
-                    <div class="card-details-group">
-                        <div class="form-group" style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required maxlength="5" /></div>
-                        <div class="form-group" style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required minlength="3" maxlength="4" /></div>
-                    </div>
-                    <div class="form-group terminos-mandato"><input type="checkbox" id="terms" name="terms" required><label for="terms">Acepto los <a onclick="openModal('termsModal', event)">Términos y condiciones</a> y otorgo poder simple a Nomewei.cl para actuar en mi representación.</label></div>
-                    <div data-netlify-recaptcha="true"></div><div class="trust-seals"><span class="seal"><i class="fas fa-lock"></i> Pago 100% Seguro</span><span class="seal"><i class="fas fa-shield-alt"></i> Datos Encriptados</span></div>
-                    <div class="btn-group"><button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text">Pagar y Finalizar</span><span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span></button></div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
-                </div>
-            </form>
-        </main>
-        <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
-    </section>
+        <a href="index.html" class="logo">Córtala.cl</a>
 
-    <div id="testimonialsModal" class="modal-overlay">
-        </div>
-    <div id="termsModal" class="modal-overlay">
-        </div>
-    <div id="faqModal" class="modal-overlay">
-       </div>
-    <div id="contactModal" class="modal-overlay">
-        </div>
-    
-    <script>
-        let selectedPlanData = {};
-        let formData = {};
-        const steps = Array.from(document.querySelectorAll('.step'));
-        const progressBar = document.getElementById('progressBar');
-        const stepIndicator = document.getElementById('stepIndicator');
-        const mainHeader = document.getElementById('main-header');
-        const checkoutSection = document.getElementById('checkout-section');
-        const heroSection = document.getElementById('hero');
-        const navInicio = document.getElementById('nav-inicio');
+        <div class="header-right">
 
-        function startCheckout(event) {
-            if(event) event.preventDefault();
-            document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
-        }
+            <div class="step-indicator" id="stepIndicator" style="display: none;"></div>
 
-        function selectPlan(name, price, numPhones, element) {
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPlanData = { name, price, numPhones };
-            formData['selectedPlan'] = {name, price, numPhones };
-            goToStep(2);
-        }
+            <div class="menu-container">
 
-        function goToStep(stepNumber) {
-            saveFormData();
-            if (stepNumber > 1) {
-                if (document.body.contains(heroSection)) heroSection.style.display = 'none';
-                if (navInicio) navInicio.style.display = 'block';
-            } else {
-                 if (document.body.contains(heroSection)) heroSection.style.display = 'flex';
-                 if (navInicio) navInicio.style.display = 'none';
-            }
-            if (stepNumber === 3 && !validateStep2()) { return; }
-            steps.forEach(s => s.classList.remove('active'));
-            const targetStep = document.getElementById(`step${stepNumber}`);
-            if(targetStep) {
-                targetStep.classList.add('active');
-                const progressBarEl = document.getElementById('progressBar');
-                if (stepNumber === 1) { progressBarEl.style.width = '25%'; }
-                else if (stepNumber === 2) { progressBarEl.style.width = '50%'; }
-                else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
-                progressBarEl.classList.add('has-progress');
-            }
-            handleHeaderState();
-            if (stepNumber >= 2) {
-                renderSummary('selectedPlanSummary');
-                renderSummary('finalPlanSummary');
-                const telefonosContainer = document.getElementById('campos-telefonos');
-                telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
-                const phoneInput = document.getElementById('telefono-1');
-                if(phoneInput) {
-                    phoneInput.addEventListener('input', formatPhoneInput);
-                    phoneInput.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
-                }
-            }
-            loadFormData();
-        }
+                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
 
-        function renderSummary(containerId) {
-            const container = document.getElementById(containerId);
-            if (!container || !selectedPlanData.name) return;
-            const numProtections = selectedPlanData.numPhones;
-            const phoneText = numProtections > 1 ? 'Números de teléfono' : 'Número de teléfono';
-            const emailText = numProtections > 1 ? 'Correos electrónicos' : 'Correo electrónico';
-            container.innerHTML = `
-                <div class="summary-info">
-                    <span class="plan-name">${selectedPlanData.name}</span>
-                    <span class="plan-details">
-                        Estás protegiendo:<br>
-                        <i class="fas fa-mobile-alt"></i> ${numProtections} ${phoneText}<br>
-                        <i class="fas fa-at"></i> ${numProtections} ${emailText}
-                    </span>
-                </div>
-                <div class="summary-price-tag">$${selectedPlanData.price.toLocaleString('es-CL')} CLP</div>
-            `;
-        }
-        
-        function handleHeaderState() {
-            const heroIsVisible = heroSection.style.display !== 'none';
-            const isScrolled = window.scrollY > 50;
-            if (isScrolled || !heroIsVisible) {
-                mainHeader.classList.add('scrolled-header');
-                const currentStepDiv = document.querySelector('.step.active');
-                if (currentStepDiv) {
-                    const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
-                    stepIndicator.style.display = 'block';
-                    stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
-                }
-            } else {
-                mainHeader.classList.remove('scrolled-header');
-                stepIndicator.style.display = 'none';
-            }
-        }
+            </div>
 
-        function validatePaymentFields() {
-            // ...
-        }
+        </div>
 
-        function handleFormSubmit(event) {
-           // ...
-        }
+    </header>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroButton = document.querySelector('.btn-hero');
-            if (heroButton) heroButton.addEventListener('click', (e) => startCheckout(e));
-            
-            const scrollIndicator = document.querySelector('.scroll-down-indicator a');
-            if(scrollIndicator) scrollIndicator.addEventListener('click', (e) => startCheckout(e));
-            
-            window.addEventListener('scroll', handleHeaderState);
-            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
-            // ... otros listeners ...
-        
-            // --- Lógica del Contador Dinámico ---
-            const counterElement = document.getElementById('dynamicCounter');
-            if (counterElement) {
-                let protectedCount = 247;
-                let digitHeight = 60; 
 
-                function setupCounter(initialValue) {
-                    const valueStr = String(initialValue).padStart(3, '0');
-                    counterElement.innerHTML = '';
-                    for (let i = 0; i < valueStr.length; i++) {
-                        const digitContainer = document.createElement('div');
-                        digitContainer.className = 'digit-container';
-                        const spool = document.createElement('div');
-                        spool.className = 'digit-spool';
-                        for (let j = 0; j <= 9; j++) {
-                            const digit = document.createElement('div');
-                            digit.textContent = j;
-                            spool.appendChild(digit);
-                        }
-                        digitContainer.appendChild(spool);
-                        counterElement.appendChild(digitContainer);
-                    }
-                    if (counterElement.querySelector('.digit-container')) {
-                       digitHeight = counterElement.querySelector('.digit-container').offsetHeight;
-                    }
-                    updateCounter(initialValue, false);
-                }
 
-                function updateCounter(newValue, animate = true) {
-                    const valueStr = String(newValue).padStart(3, '0');
-                    const spools = counterElement.querySelectorAll('.digit-spool');
-                    if (valueStr.length > spools.length) {
-                        setupCounter(newValue);
-                        return;
-                    }
-                    for (let i = 0; i < spools.length; i++) {
-                        const digit = parseInt(valueStr[i], 10);
-                        const spool = spools[i];
-                        if (!animate) {
-                           spool.style.transition = 'none';
-                        } else {
-                           spool.style.transition = 'transform 1.2s cubic-bezier(0.65, 0, 0.35, 1)';
-                        }
-                        spool.style.transform = `translateY(-${digit * digitHeight}px)`;
-                    }
-                }
+    <section id="hero">
 
-                setupCounter(protectedCount);
+        <h1>Elimina las llamadas SPAM en sólo 3 pasos.</h1>
 
-                setInterval(() => {
-                    const increments = [1, 2];
-                    const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
-                    protectedCount += randomIncrement;
-                    updateCounter(protectedCount);
-                }, 35000); 
-            }
-            // ... el resto del script ...
-        });
-        
-        // ... El resto de las funciones de utilidad (validación, formato, etc.)
-    </script>
+        <p>Hacemos la gestión completa por tí con un PAGO ÚNICO. Exigimos a las empresas que dejen de molestarte por ley. Sin suscripciones ni letra chica.</p>
+
+        
+
+        <div class="dynamic-counter-container">
+
+            <div class="counter-digits" id="dynamicCounter"></div>
+
+            <p class="counter-label">Clientes liberados</p>
+
+        </div>
+
+
+
+        <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mi Número Ahora</a>
+
+        <div class="scroll-down-indicator">
+
+            <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
+
+        </div>
+
+    </section>
+
+    
+
+    <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
+
+        <ul>
+
+            <li><a id="nav-inicio" href="index.html">Inicio</a></li>
+
+            <li><a onclick="closeMenuAndScrollToPlans()">Planes</a></li>
+
+            <li><a onclick="openModal('testimonialsModal', event)">Testimonios</a></li>
+
+            <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
+
+            <li><a onclick="openModal('faqModal', event)">FAQ's</a></li>
+
+            <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
+
+        </ul>
+
+    </nav>
+
+
+
+    <section id="checkout-section">
+
+        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+        <main class="container">
+
+            <form name="checkout" method="POST" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
+
+                <input type="hidden" name="form-name" value="checkout" />
+
+                <input type="hidden" id="plan-input" name="plan">
+
+                <input type="hidden" id="price-input" name="price">
+
+                <input type="hidden" id="telefonos-input" name="telefonos_gestionados">
+
+    
+
+                <div id="step1" class="step active">
+
+                    <h2>Libérate hoy de las llamadas SPAM</h2>
+
+                    <div class="plan-card" onclick="selectPlan('Plan Personal', 14990, 1, this)">
+
+                        <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
+
+                        <p>Protección para 1 número telefónico.</p>
+
+                        <p class="price">$14.990 CLP</p>
+
+                    </div>
+
+                    <div class="plan-card" onclick="selectPlan('Plan Dúo', 24990, 2, this)">
+
+                        <span class="popular">Más Popular</span>
+
+                        <h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3>
+
+                        <p>Protección para ti y otra persona. Recibes 1 código de activación para compartir.</p>
+
+                        <p class="price">$24.990 CLP</p>
+
+                    </div>
+
+                    <div class="plan-card" onclick="selectPlan('Plan Familiar', 49990, 5, this)">
+
+                        <h3><i class="fa-solid fa-users"></i>Plan Familiar</h3>
+
+                        <p>Protección para todo tu grupo. Recibes 4 códigos de activación para compartir.</p>
+
+                        <p class="price">$49.990 CLP</p>
+
+                    </div>
+
+                </div>
+
+    
+
+                <div id="step2" class="step">
+
+                    <h2>Datos personales</h2>
+
+                    <div class="summary-final" id="selectedPlanSummary"></div>
+
+                    <div class="form-group"><label for="nombre">Nombre y Apellidos (Titular)</label><input type="text" id="nombre" name="nombre" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">El nombre es requerido.</span></div>
+
+                    <div class="form-group"><label for="rut">RUT (Titular)</label><input type="text" id="rut" name="rut" placeholder="12.345.678-9" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje" id="rut-error">RUT inválido.</span></div>
+
+                    <div class="form-group"><label for="email">Correo Electrónico</label><input type="email" id="email" name="email" required /><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Email inválido.</span></div>
+
+                    <div id="campos-telefonos"></div>
+
+                    <div class="btn-group"><button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button></div>
+
+                    <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
+
+                </div>
+
+    
+
+                <div id="step3" class="step">
+
+                    <h2>¡Estás a un paso de ser Libre!</h2>
+
+                    <div class="summary-final" id="finalPlanSummary"></div>
+
+                    <label>Paga con tus tarjetas</label>
+
+                    <div class="payment-logos"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i><i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i><i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i></div>
+
+                    <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
+
+                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
+
+                    <div class="card-details-group">
+
+                        <div class="form-group" style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required maxlength="5" /></div>
+
+                        <div class="form-group" style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required minlength="3" maxlength="4" /></div>
+
+                    </div>
+
+                    <div class="form-group terminos-mandato"><input type="checkbox" id="terms" name="terms" required><label for="terms">Acepto los <a onclick="openModal('termsModal', event)">Términos y condiciones</a> y otorgo poder simple a Nomewei.cl para actuar en mi representación.</label></div>
+
+                    <div data-netlify-recaptcha="true"></div><div class="trust-seals"><span class="seal"><i class="fas fa-lock"></i> Pago 100% Seguro</span><span class="seal"><i class="fas fa-shield-alt"></i> Datos Encriptados</span></div>
+
+                    <div class="btn-group"><button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text">Pagar y Finalizar</span><span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span></button></div>
+
+                    <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
+
+                </div>
+
+            </form>
+
+        </main>
+
+        <footer class="footer"><p>© 2025 Nomewei.cl - Protege tu privacidad</p></footer>
+
+    </section>
+
+
+
+    <div id="testimonialsModal" class="modal-overlay">
+
+         <div class="modal-content">
+
+             <div class="modal-header"><h2>Qué dicen nuestros clientes</h2></div>
+
+             <div class="modal-body">
+
+                 <div class="testimonial-item">
+
+                     <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+
+                     <p class="testimonial-text">¡Lo recomiendo! Estaba chato de las llamadas de las tiendas comerciales a cualquier hora. Hice el trámite y de verdad que pararon. ¡Se pasaron!</p>
+
+                     <p class="testimonial-author">- Benjamín B.</p>
+
+                 </div>
+
+                 <div class="testimonial-item">
+
+                     <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+
+                     <p class="testimonial-text">Pensé que era mentira, pero funciona. Lo mejor es que fue un solo pago y me olvidé del tema. ¡Lo recomiendo 100%!</p>
+
+                     <p class="testimonial-author">- María Paz R.</p>
+
+                 </div>
+
+                 <div class="testimonial-item">
+
+                     <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+
+                     <p class="testimonial-text">Excelente servicio, muy fácil de usar. En 3 pasos protegí mi número y el de mi mamá que ya estaba perdiendo la paciencia. ¡Muchas gracias!</p>
+
+                     <p class="testimonial-author">- Sofía M.</p>
+
+                 </div>
+
+             </div>
+
+             <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('testimonialsModal')">Entendido</button></div>
+
+         </div>
+
+    </div>
+
+    <div id="termsModal" class="modal-overlay">
+
+         <div class="modal-content">
+
+             <div class="modal-header"><h2>Términos y Condiciones</h2></div>
+
+             <div class="modal-body">
+
+                 <p><strong>1. OBJETO DEL SERVICIO:</strong> Nomewei.cl presta un servicio de gestión para solicitar la eliminación de datos personales de listas de marketing y bases de datos de las principales empresas de Telecom, Retail y Banca en Chile, en nombre y representación del cliente.</p>
+
+                 <p><strong>2. OTORGAMIENTO DE PODER:</strong> Al aceptar estos términos, el cliente otorga un poder simple, especial y específico a Nomewei.cl, conforme al artículo 2° de la Ley N° 19.628 sobre Protección de la Vida Privada, para que en su nombre y representación, realice las gestiones necesarias para ejercer los derechos de cancelación y bloqueo de sus datos personales.</p>
+
+                 <p><strong>3. OBLIGACIONES DEL CLIENTE:</strong> El cliente debe proporcionar información veráz y completa para la correcta prestación del servicio. El cliente es responsable de la exactitud de los datos proporcionados.</p>
+
+                 <p><strong>4. PAGO:</strong> El servicio se paga una única vez por la cantidad de números telefónicos contratados. Este pago cubre todas las gestiones administrativas y legales que realizaremos en tu nombre.</p>
+
+                 <p><strong>5. LIMITACIÓN DE RESPONSABILIDAD:</strong> Nomewei.cl se compromete a realizar las gestiones con la máxima diligencia. Sin embargo, el resultado final y los plazos de ejecución pueden depender de la cooperación y los procedimientos internos de las empresas contactadas. Llamadas, SMS o correos relacionados a cobranza no pueden ser excluidos.</p>
+
+                 <p><strong>6. CONFIDENCIALIDAD:</strong> Toda la información proporcionada por el cliente está protegida y será tratada con la más estricta confidencialidad, siendo utilizada únicamente para los fines descritos en este acuerdo.</p>
+
+             </div>
+
+             <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('termsModal')">Entendido</button></div>
+
+         </div>
+
+    </div>
+
+    <div id="faqModal" class="modal-overlay">
+
+         <div class="modal-content">
+
+             <div class="modal-header"><h2>Preguntas Frecuentes</h2></div>
+
+             <div class="modal-body">
+
+                 <div class="faq-accordion">
+
+                     <div class="faq-item"><div class="faq-question">¿Qué tipo de comunicaciones bloquea el servicio? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Nuestro servicio gestiona la eliminación de tus datos para todo tipo de comunicación de marketing no deseada. Esto incluye no solo las <strong>llamadas telefónicas de spam</strong>, sino también los <strong>mensajes de texto (SMS), mensajes de WhatsApp y correos electrónicos</strong> con fines publicitarios.</p></div></div>
+
+                     <div class="faq-item"><div class="faq-question">¿A qué empresas se contacta? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Nos enfocamos en las empresas con la mayor cantidad de reclamos por spam en Chile. Nuestro proceso cubre a los principales actores del sector de <strong>telecomunicaciones (Entel, Movistar, WOM, Claro, etc.)</strong>, del <strong>gran retail (Falabella, Ripley, Paris, Cencosud, entre otros)</strong> y principales actores de la banca chilena. Si bien no podemos garantizar la exclusión de la totalidad de las empresas, si nos mantenemos constantemente actualizados para incluir a las entidades más relevantes.</p></div></div>
+
+                     <div class="faq-item"><div class="faq-question">¿Este servicio es legal? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Sí, es 100% legal. Nos amparamos en la Ley N° 19.628 sobre Protección de la Vida Privada, que te otorga el derecho a solicitar la eliminación de tus datos personales.</p></div></div>
+
+                     <div class="faq-item"><div class="faq-question">¿Cuánto tiempo tarda el proceso? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Iniciamos las gestiones dentro de las primeras 24 horas hábiles. La ley otorga a las empresas un plazo de 10 días hábiles para cumplir. Te mantendremos informado del estado de cada solicitud.En caso de incumplimiento, nos comprometemos a otorgar a nuestros clientes TODA la documentación recopilada y necesaria para que nuestros representados puedan reclamar al SERNAC.</p></div></div>
+
+                     <div class="faq-item"><div class="faq-question">¿Mi información de pago está segura? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Absolutamente. Todos los pagos se procesan a través de pasarelas de pago certificadas. Nosotros nunca vemos ni almacenamos los datos de tu tarjeta de crédito.</p></div></div>
+
+                 </div>
+
+             </div>
+
+             <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('faqModal')">Entendido</button></div>
+
+         </div>
+
+    </div>
+
+    <div id="contactModal" class="modal-overlay">
+
+         <div class="modal-content">
+
+            <div class="modal-header"><h2>Contacto</h2></div>
+
+            <div class="modal-body" style="text-align: center;">
+
+                <p>Si tienes alguna duda, no dudes en escribirnos.</p>
+
+                <p><strong><i class="fas fa-envelope"></i> Correo:</strong><br><a href="mailto:hola@nomewei.cl" style="color: var(--naranja); text-decoration: none;">hola@nomewei.cl</a></p>
+
+            </div>
+
+            <div class="modal-footer"><button type="button" class="btn btn-primary" onclick="closeModal('contactModal')">Entendido</button></div>
+
+        </div>
+
+    </div>
+
+    
+
+    <script>
+
+        let selectedPlanData = {};
+
+        let formData = {};
+
+        const steps = Array.from(document.querySelectorAll('.step'));
+
+        const progressBar = document.getElementById('progressBar');
+
+        const stepIndicator = document.getElementById('stepIndicator');
+
+        const mainHeader = document.getElementById('main-header');
+
+        const checkoutSection = document.getElementById('checkout-section');
+
+        const heroSection = document.getElementById('hero');
+
+        const navInicio = document.getElementById('nav-inicio');
+
+
+
+        function startCheckout(event) {
+
+            if(event) event.preventDefault();
+
+            document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
+
+        }
+
+
+
+        function selectPlan(name, price, numPhones, element) {
+
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+
+            element.classList.add('selected');
+
+            selectedPlanData = { name, price, numPhones };
+
+            formData['selectedPlan'] = {name, price, numPhones };
+
+            goToStep(2);
+
+        }
+
+
+
+        function goToStep(stepNumber) {
+
+            saveFormData();
+
+            if (stepNumber > 1) {
+
+                if (document.body.contains(heroSection)) heroSection.style.display = 'none';
+
+                if (navInicio) navInicio.style.display = 'block';
+
+            } else {
+
+                 if (document.body.contains(heroSection)) heroSection.style.display = 'flex';
+
+                 if (navInicio) navInicio.style.display = 'none';
+
+            }
+
+            if (stepNumber === 3 && !validateStep2()) { return; }
+
+            steps.forEach(s => s.classList.remove('active'));
+
+            const targetStep = document.getElementById(`step${stepNumber}`);
+
+            if(targetStep) {
+
+                targetStep.classList.add('active');
+
+                const progressBarEl = document.getElementById('progressBar');
+
+                if (stepNumber === 1) { progressBarEl.style.width = '25%'; }
+
+                else if (stepNumber === 2) { progressBarEl.style.width = '50%'; }
+
+                else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
+
+                progressBarEl.classList.add('has-progress');
+
+            }
+
+            handleHeaderState();
+
+            if (stepNumber >= 2) {
+
+                renderSummary('selectedPlanSummary');
+
+                renderSummary('finalPlanSummary');
+
+                const telefonosContainer = document.getElementById('campos-telefonos');
+
+                telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
+
+                const phoneInput = document.getElementById('telefono-1');
+
+                if(phoneInput) {
+
+                    phoneInput.addEventListener('input', formatPhoneInput);
+
+                    phoneInput.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
+
+                }
+
+            }
+
+            loadFormData();
+
+        }
+
+
+
+        function renderSummary(containerId) {
+
+            const container = document.getElementById(containerId);
+
+            if (!container || !selectedPlanData.name) return;
+
+            const numProtections = selectedPlanData.numPhones;
+
+            const phoneText = numProtections > 1 ? 'Números de teléfono' : 'Número de teléfono';
+
+            const emailText = numProtections > 1 ? 'Correos electrónicos' : 'Correo electrónico';
+
+            container.innerHTML = `
+
+                <div class="summary-info">
+
+                    <span class="plan-name">${selectedPlanData.name}</span>
+
+                    <span class="plan-details">
+
+                        Estás protegiendo:<br>
+
+                        <i class="fas fa-mobile-alt"></i> ${numProtections} ${phoneText}<br>
+
+                        <i class="fas fa-at"></i> ${numProtections} ${emailText}
+
+                    </span>
+
+                </div>
+
+                <div class="summary-price-tag">$${selectedPlanData.price.toLocaleString('es-CL')} CLP</div>
+
+            `;
+
+        }
+
+        
+
+        function handleHeaderState() {
+
+            const heroIsVisible = heroSection.style.display !== 'none';
+
+            const isScrolled = window.scrollY > 50;
+
+            if (isScrolled || !heroIsVisible) {
+
+                mainHeader.classList.add('scrolled-header');
+
+                const currentStepDiv = document.querySelector('.step.active');
+
+                if (currentStepDiv) {
+
+                    const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
+
+                    stepIndicator.style.display = 'block';
+
+                    stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
+
+                }
+
+            } else {
+
+                mainHeader.classList.remove('scrolled-header');
+
+                stepIndicator.style.display = 'none';
+
+            }
+
+        }
+
+
+
+        function validatePaymentFields() {
+
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+
+            const cardExpiry = document.getElementById('cardExpiry').value;
+
+            const cardCVC = document.getElementById('cardCVC').value;
+
+            let isValid = true;
+
+            let errorMessages = [];
+
+            if (cardNumber.length < 12) {
+
+                errorMessages.push('El número de tarjeta debe tener al menos 12 dígitos.');
+
+                isValid = false;
+
+            }
+
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry) || cardExpiry.length !== 5) {
+
+                errorMessages.push('La fecha de vencimiento debe tener el formato MM/YY.');
+
+                isValid = false;
+
+            }
+
+            if (cardCVC.length < 3) {
+
+                errorMessages.push('El CVV debe tener al menos 3 dígitos.');
+
+                isValid = false;
+
+            }
+
+            if (!isValid) {
+
+                alert(errorMessages.join('\n'));
+
+            }
+
+            return isValid;
+
+        }
+
+
+
+        function handleFormSubmit(event) {
+
+            event.preventDefault(); 
+
+            if (document.getElementById('step3').classList.contains('active')) {
+
+                if (!validatePaymentFields()) { return; }
+
+            }
+
+            if (!document.getElementById('terms').checked) { 
+
+                alert('Debes aceptar los términos y condiciones para continuar.'); 
+
+                return; 
+
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+
+            submitBtn.disabled = true;
+
+            submitBtn.querySelector('.btn-text').style.display = 'none';
+
+            submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
+
+            const telefonos = Array.from(document.querySelectorAll('#campos-telefonos input[type="tel"]')).map(input => input.value);
+
+            document.getElementById('telefonos-input').value = telefonos.join(', ');
+
+            const planName = encodeURIComponent(selectedPlanData.name);
+
+            const price = encodeURIComponent(selectedPlanData.price);
+
+            const numPhones = encodeURIComponent(selectedPlanData.numPhones);
+
+            setTimeout(() => { window.location.href = `gracias.html?plan=${planName}&price=${price}&numPhones=${numPhones}`; }, 1000);
+
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const heroButton = document.querySelector('.btn-hero');
+
+            if (heroButton) heroButton.addEventListener('click', (e) => startCheckout(e));
+
+            
+
+            const scrollIndicator = document.querySelector('.scroll-down-indicator a');
+
+            if(scrollIndicator) scrollIndicator.addEventListener('click', (e) => startCheckout(e));
+
+            
+
+            window.addEventListener('scroll', handleHeaderState);
+
+            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+
+
+
+            document.addEventListener('click', function(event) {
+
+                if (event.target.closest('.faq-question')) {
+
+                    const parent = event.target.closest('.faq-item');
+
+                    const currentlyActive = document.querySelector('.faq-item.active');
+
+                    if (currentlyActive && currentlyActive !== parent) { currentlyActive.classList.remove('active');}
+
+                    parent.classList.toggle('active');
+
+                }
+
+                if (event.target.matches('.modal-overlay')) {
+
+                    closeModal(event.target.id);
+
+                }
+
+                const menu = document.getElementById('dropdownMenu');
+
+                const toggleBtn = document.getElementById('menuToggle');
+
+                if (menu && toggleBtn && menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+
+                    closeMenu();
+
+                }
+
+            });
+
+            
+
+            const popularPlanCard = document.querySelector(".plan-card .popular");
+
+            if (popularPlanCard) { popularPlanCard.closest('.plan-card').classList.add('selected'); }
+
+            document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => {
+
+                input.addEventListener('blur', () => { validateField(input); saveFormData(); });
+
+            });
+
+            document.getElementById('rut').addEventListener('input', (e) => e.target.value = formatearRut(e.target.value));
+
+            document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+
+            document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length > 2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+
+            document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
+
+        
+
+            // --- Lógica del Contador Dinámico ---
+
+            const counterElement = document.getElementById('dynamicCounter');
+
+            if (counterElement) {
+
+                let protectedCount = 247;
+
+                const digitHeight = 60;
+
+
+
+                function setupCounter(initialValue) {
+
+                    const valueStr = String(initialValue).padStart(3, '0');
+
+                    counterElement.innerHTML = '';
+
+                    for (let i = 0; i < valueStr.length; i++) {
+
+                        const digitContainer = document.createElement('div');
+
+                        digitContainer.className = 'digit-container';
+
+                        const spool = document.createElement('div');
+
+                        spool.className = 'digit-spool';
+
+                        for (let j = 0; j <= 9; j++) {
+
+                            const digit = document.createElement('div');
+
+                            digit.textContent = j;
+
+                            spool.appendChild(digit);
+
+                        }
+
+                        digitContainer.appendChild(spool);
+
+                        counterElement.appendChild(digitContainer);
+
+                    }
+
+                    updateCounter(initialValue, false);
+
+                }
+
+
+
+                function updateCounter(newValue, animate = true) {
+
+                    const valueStr = String(newValue).padStart(3, '0');
+
+                    const spools = counterElement.querySelectorAll('.digit-spool');
+
+                    
+
+                    if (valueStr.length > spools.length) {
+
+                        setupCounter(newValue);
+
+                        return;
+
+                    }
+
+
+
+                    for (let i = 0; i < spools.length; i++) {
+
+                        const digit = parseInt(valueStr[i], 10);
+
+                        const spool = spools[i];
+
+                        if (!animate) {
+
+                           spool.style.transition = 'none';
+
+                        } else {
+
+                           spool.style.transition = 'transform 1.2s cubic-bezier(0.65, 0, 0.35, 1)';
+
+                        }
+
+                        spool.style.transform = `translateY(-${digit * digitHeight}px)`;
+
+                    }
+
+                }
+
+
+
+                setupCounter(protectedCount);
+
+
+
+                setInterval(() => {
+
+                    const increments = [1, 2];
+
+                    const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
+
+                    protectedCount += randomIncrement;
+
+                    updateCounter(protectedCount);
+
+                }, 35000); 
+
+            }
+
+        });
+
+        
+
+        function formatPhoneInput(e) { const input = e.target; let value = input.value; if (!value.startsWith('+569')) { value = '+569'; } const numericPart = value.substring(4).replace(/\D/g, ''); input.value = '+569' + numericPart.slice(0, 8); }
+
+        function toggleMenu() { const menu = document.getElementById('dropdownMenu'); if(menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; }
+
+        function closeMenu() { const menu = document.getElementById('dropdownMenu'); if (menu) menu.style.display = 'none'; }
+
+        function openModal(modalId, event) { if (event) event.preventDefault(); closeMenu(); const modal = document.getElementById(modalId); if (modal) modal.style.display = 'flex'; }
+
+        function closeModal(modalId) { const modal = document.getElementById(modalId); if (modal) modal.style.display = 'none'; }
+
+        function closeMenuAndScrollToPlans() { closeMenu(); startCheckout(); }
+
+        const validarRut = (r) => { if (!/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}[-‐][0-9kK]{1}$/.test(r)) return false; let v=r.replace(/\./g,"").replace("-",""); let c=v.slice(0,-1); let d=v.slice(-1).toLowerCase(); if(d==='k') d='K'; let t=parseInt(c); if(isNaN(t))return false; let m=0,s=1; for(;t;t=Math.floor(t/10))s=(s+t%10*(9-m++%6))%11; return(s?String(s-1):'k')==d; };
+
+        const formatearRut = (rut) => { let v = rut.replace(/[^0-9kK]/g, ''); if(v.length < 2) return v; let c = v.slice(0,-1); let d = v.slice(-1).toUpperCase(); return new Intl.NumberFormat('de-DE').format(c)+'-'+d; };
+
+        function saveFormData() { document.querySelectorAll('form[name="checkout"] input:not([type=checkbox])').forEach(input => { if (input.id) formData[input.id] = input.value; }); }
+
+        function loadFormData() { document.querySelectorAll('form[name="checkout"] input:not([type=checkbox])').forEach(input => { if (input.id && formData[input.id]) { input.value = formData[input.id]; if(input.type !== 'tel') validateField(input); } }); if (formData.selectedPlan && !document.querySelector('.plan-card.selected')) { document.querySelectorAll('.plan-card').forEach(card => { const h3 = card.querySelector('h3'); if(h3 && h3.innerText.includes(formData.selectedPlan.name)) { card.classList.add('selected'); } }); } }
+
+        function validateField(input) { const formGroup = input.parentElement.closest('.form-group'); if(!formGroup) return true; const errorMsg = formGroup.querySelector('.error-mensaje'); let isValid = input.checkValidity(); if (input.value.trim() === "" && input.required) { isValid = false; if (errorMsg) errorMsg.textContent = 'Este campo es requerido.'; } else { if (input.type === 'email' && input.value.length > 0) { isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value); if (errorMsg) errorMsg.textContent = 'Formato de email inválido.'; } if (input.id === 'rut' && input.value.length > 0) { isValid = validarRut(input.value); if (errorMsg) errorMsg.textContent = 'RUT inválido.'; } if(input.type === 'tel') { isValid = input.value.length === 12; if (!isValid && errorMsg) errorMsg.textContent = 'El número debe tener 8 dígitos.'; } } if (isValid) { formGroup.classList.remove('error'); formGroup.classList.add('success'); if(errorMsg) errorMsg.style.display = 'none'; } else { formGroup.classList.remove('success'); formGroup.classList.add('error'); if(errorMsg) errorMsg.style.display = 'block'; } return isValid; }
+
+        function validateStep2() { let isStepValid = true; document.querySelectorAll('#step2 input[required]').forEach(input => { if (!validateField(input)) { isStepValid = false; } }); return isStepValid; }
+
+    </script>
+
 </body>
+
 </html>
+
