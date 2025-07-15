@@ -120,7 +120,7 @@
         .summary, .summary-final {
             background-color: var(--blanco); border: 1px solid var(--gris); color: var(--texto-oscuro); 
             padding: 1.25rem; border-radius: 12px; margin-bottom: 2rem;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; justify-content: space-between;
         }
         .summary-final { background-color: var(--marino); color: var(--blanco); border: none; }
         .summary-info .plan-name { font-size: 1.1rem; font-weight: 600; color: var(--marino); display: block; margin-bottom: 0.75rem; }
@@ -321,7 +321,7 @@
 
         function startCheckout() {
             document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
-            goToStep(1);
+            // goToStep(1) se llama implícitamente por el scroll listener
         }
 
         function selectPlan(name, price, numPhones, element) {
@@ -343,8 +343,7 @@
             } else {
                  if (document.body.contains(heroSection)) heroSection.style.display = 'flex';
                  if (navInicio) navInicio.style.display = 'none';
-                 // Dejar que el scroll listener maneje el header en el paso 1
-                 handleHeaderState();
+                 handleHeaderState(); // Re-evaluar header state al volver al paso 1
             }
             
             if (stepNumber === 3 && !validateStep2()) { return; }
@@ -361,10 +360,25 @@
                 progressBarEl.classList.add('has-progress');
             }
             
-            handleHeaderState(); // Actualiza el indicador de paso
+            handleHeaderState(); 
             
-            renderSummary('selectedPlanSummary');
-            renderSummary('finalPlanSummary');
+            if (stepNumber === 2) {
+                renderSummary('selectedPlanSummary');
+                const telefonosContainer = document.getElementById('campos-telefonos');
+                // Lógica restaurada para crear el campo de teléfono
+                telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
+                const phoneInput = document.getElementById('telefono-1');
+                if(phoneInput) {
+                    phoneInput.addEventListener('input', formatPhoneInput);
+                    phoneInput.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
+                }
+            } else if (stepNumber === 3) {
+                renderSummary('finalPlanSummary');
+            } else if (stepNumber === 1) {
+                // Limpiar el summary si volvemos al paso 1
+                document.getElementById('selectedPlanSummary').innerHTML = '';
+            }
+            loadFormData();
         }
 
         function renderSummary(containerId) {
@@ -393,7 +407,7 @@
             const currentStepDiv = document.querySelector('.step.active');
             const currentStepNumber = currentStepDiv ? parseInt(currentStepDiv.id.replace('step', ''), 10) : 0;
 
-            if (isScrolled || currentStepNumber > 1) {
+            if (isScrolled || heroSection.style.display === 'none') {
                 mainHeader.classList.add('scrolled-header');
                 if (currentStepNumber > 0) {
                     stepIndicator.style.display = 'block';
@@ -416,14 +430,37 @@
             }
             
             window.addEventListener('scroll', handleHeaderState);
-
             document.getElementById('menuToggle').addEventListener('click', toggleMenu);
-            // ... (resto de listeners que no cambian)
+
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.faq-question')) {
+                    const parent = event.target.parentElement;
+                    const currentlyActive = document.querySelector('.faq-item.active');
+                    if (currentlyActive && currentlyActive !== parent) { 
+                        currentlyActive.classList.remove('active');
+                    }
+                    parent.classList.toggle('active');
+                }
+                if (event.target.matches('.modal-overlay')) {
+                    closeModal(event.target.id);
+                }
+                const menu = document.getElementById('dropdownMenu');
+                const toggleBtn = document.getElementById('menuToggle');
+                if (menu && toggleBtn && menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+            
+            const popularPlanCard = document.querySelector(".plan-card .popular");
+            if (popularPlanCard) { popularPlanCard.closest('.plan-card').classList.add('selected'); }
+            document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => { input.addEventListener('blur', () => { validateField(input); saveFormData(); }); });
+            document.getElementById('rut').addEventListener('input', (e) => e.target.value = formatearRut(e.target.value));
+            document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
+            document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
+            document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
         });
 
         // El resto del script (funciones de validación, formato, modales, etc.) no requiere cambios y se mantiene igual.
-        // Por brevedad, se omite aquí pero está presente en el código completo que te he entregado.
-        
         function formatPhoneInput(e) { const input = e.target; let value = input.value; if (!value.startsWith('+569')) { value = '+569'; } const numericPart = value.substring(4).replace(/\D/g, ''); input.value = '+569' + numericPart.slice(0, 8); }
         function toggleMenu() { const menu = document.getElementById('dropdownMenu'); if(menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; }
         function closeMenu() { const menu = document.getElementById('dropdownMenu'); if (menu) menu.style.display = 'none'; }
@@ -438,13 +475,15 @@
         function validateStep2() { let isStepValid = true; document.querySelectorAll('#step2 input[required]').forEach(input => { if (!validateField(input)) { isStepValid = false; } }); return isStepValid; }
         function handleFormSubmit(event) {
             event.preventDefault(); 
-            if(document.getElementById('step2').classList.contains('active')) {
-                if (!validateStep2()) {
-                    alert('Por favor, revisa que todos tus datos estén correctos.');
-                    return;
-                }
+            let isFormValid = true;
+            if(document.getElementById('step3').classList.contains('active')) {
+                document.querySelectorAll('#step3 input[required]').forEach(input => {
+                    if (input.value.trim() === "") { isFormValid = false; }
+                });
+                if (!document.getElementById('terms').checked) { isFormValid = false; }
             }
-            if (!document.getElementById('terms').checked) { alert('Debes aceptar los términos y condiciones para continuar.'); return; }
+            if (!isFormValid) { alert('Por favor, completa todos los campos de pago y acepta los términos.'); return; }
+
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.querySelector('.btn-text').style.display = 'none';
@@ -456,31 +495,6 @@
             const numPhones = encodeURIComponent(selectedPlanData.numPhones);
             setTimeout(() => { window.location.href = `gracias.html?plan=${planName}&price=${price}&numPhones=${numPhones}`; }, 1000);
         }
-         document.addEventListener('click', function(event) {
-                const menu = document.getElementById('dropdownMenu');
-                const toggleBtn = document.getElementById('menuToggle');
-                if (menu && toggleBtn && menu.style.display === 'block' && !menu.contains(event.target) && !toggleBtn.contains(event.target)) {
-                    closeMenu();
-                }
-            });
-            document.querySelectorAll('.faq-question').forEach(item => {
-                item.addEventListener('click', () => {
-                    const parent = item.parentElement;
-                    const currentlyActive = document.querySelector('.faq-item.active');
-                    if (currentlyActive && currentlyActive !== parent) { currentlyActive.classList.remove('active'); }
-                    parent.classList.toggle('active');
-                });
-            });
-            document.querySelectorAll('.modal-overlay').forEach(overlay => {
-                overlay.addEventListener('click', function(event) { if (event.target === this) { closeModal(this.id); } });
-            });
-            const popularPlanCard = document.querySelector(".plan-card .popular");
-            if (popularPlanCard) { popularPlanCard.closest('.plan-card').classList.add('selected'); }
-            document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => { input.addEventListener('blur', () => { validateField(input); saveFormData(); }); });
-            document.getElementById('rut').addEventListener('input', (e) => e.target.value = formatearRut(e.target.value));
-            document.getElementById('cardNumber').addEventListener('input', (e) => { e.target.value = (e.target.value.replace(/\s+/g, "").replace(/[^0-9]/g, "").match(/.{1,4}/g) || []).join(" ").slice(0, 19); });
-            document.getElementById('cardExpiry').addEventListener('input', (e) => { let v = e.target.value.replace(/\D/g,"").slice(0,4); if(v.length>2) e.target.value = v.slice(0,2)+"/"+v.slice(2); else e.target.value = v; });
-            document.getElementById('cardCVC').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g,"").slice(0, 4); });
     </script>
 </body>
 </html>
