@@ -551,7 +551,7 @@
             // --- Lógica del Contador Dinámico ---
             const counterElement = document.getElementById('dynamicCounter');
             if (counterElement) {
-                let protectedCount = 547; // Número inicial bajo y creíble
+                let protectedCount = 247; // Número inicial bajo y creíble
                 const digitHeight = 60; // Debe coincidir con la altura en el CSS
 
                 function setupCounter(initialValue) {
@@ -601,7 +601,7 @@
                     const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
                     protectedCount += randomIncrement;
                     updateCounter(protectedCount);
-                }, 15000); // Actualiza cada 20 segundos
+                }, 15000); // Actualiza cada 35 segundos
             }
             // --- Fin del Bloque del Contador ---
         });
