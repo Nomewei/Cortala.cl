@@ -207,20 +207,11 @@
 
         /* --- ESTILOS RESPONSIVE PARA MÓVIL --- */
         @media (max-width: 600px) {
-            #hero { padding: 1rem; padding-top: 5rem; }
+            #hero { padding-top: 6rem; }
             #hero h1 { font-size: 2rem; }
-            #hero p { font-size: 1rem; }
-            
-            .dynamic-counter-container { margin: 1rem 0; }
             .counter-digits { height: 50px; font-size: 40px; line-height: 50px; }
             .digit-container { width: 38px; }
-
-            main { padding: 1rem; }
-            h2 { font-size: 1.3rem; }
-            .plan-card { padding: 1rem; }
-            .card-details-group { flex-direction: column; }
         }
-
     </style>
 </head>
 <body>
@@ -323,9 +314,9 @@
     </section>
 
     <div id="testimonialsModal" class="modal-overlay">
-        </div>
+         </div>
     <div id="termsModal" class="modal-overlay">
-        </div>
+         </div>
     <div id="faqModal" class="modal-overlay">
        </div>
     <div id="contactModal" class="modal-overlay">
@@ -427,10 +418,10 @@
         }
 
         function validatePaymentFields() {
-            // ... (función de validación)
+             // ... (código de validación)
         }
         function handleFormSubmit(event) {
-           // ... (función de envío)
+            // ... (código de envío)
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -442,17 +433,24 @@
             
             window.addEventListener('scroll', handleHeaderState);
             document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+
             document.addEventListener('click', function(event) {
-                // ... (listeners de modales, etc.)
+                // ... (listeners)
             });
             
-            // ... (listeners de formularios y otros)
+            const popularPlanCard = document.querySelector(".plan-card .popular");
+            if (popularPlanCard) { popularPlanCard.closest('.plan-card').classList.add('selected'); }
+            
+            document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => {
+                input.addEventListener('blur', () => { validateField(input); saveFormData(); });
+            });
+            // ... (listeners de formato de input)
         
             // --- Lógica del Contador Dinámico ---
             const counterElement = document.getElementById('dynamicCounter');
             if (counterElement) {
-                let protectedCount = 547;
-                let digitHeight = 60; // Valor por defecto
+                let protectedCount = 247;
+                let digitHeight = 60; 
 
                 function setupCounter(initialValue) {
                     const valueStr = String(initialValue).padStart(3, '0');
@@ -470,7 +468,8 @@
                         digitContainer.appendChild(spool);
                         counterElement.appendChild(digitContainer);
                     }
-                    // Calcular la altura dinámicamente después de crear los elementos
+                    
+                    // Se calcula la altura dinámicamente después de crear los elementos
                     if (counterElement.querySelector('.digit-container')) {
                        digitHeight = counterElement.querySelector('.digit-container').offsetHeight;
                     }
@@ -501,15 +500,15 @@
                 setupCounter(protectedCount);
 
                 setInterval(() => {
-                    const increments = [1, 2, 3, 5];
+                    const increments = [1, 2];
                     const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
                     protectedCount += randomIncrement;
                     updateCounter(protectedCount);
-                }, 15000); 
+                }, 35000); 
             }
         });
         
-       // ... (resto de funciones de utilidad)
+        // ... (resto de funciones)
     </script>
 </body>
 </html>
