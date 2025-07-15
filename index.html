@@ -37,8 +37,8 @@
 
         /* --- ESTILOS PARA EL NUEVO CONTADOR DINÁMICO --- */
         .dynamic-counter-container {
-            margin: 2rem 0;
-            padding: 1rem;
+            margin: 1.5rem 0;
+            padding: 0.75rem 1.5rem;
             background-color: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -50,17 +50,16 @@
             display: flex;
             justify-content: center;
             gap: 5px;
-            height: 60px; /* Altura aumentada para más impacto */
+            height: 60px;
             font-size: 48px;
             font-weight: 700;
             line-height: 60px;
-            perspective: 300px; /* Mejora la percepción 3D */
+            perspective: 300px;
         }
         .digit-container {
             height: 100%;
             width: 45px;
             overflow: hidden;
-            /* Máscara para el efecto de cilindro sin cortes */
             mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
         }
@@ -68,13 +67,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Transición más suave y profesional */
             transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .counter-label {
             font-size: 0.8rem;
             text-align: center;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
             opacity: 0.8;
             font-weight: 600;
             text-transform: uppercase;
@@ -208,7 +206,6 @@
         .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
     </style>
 </head>
-
 <body>
 
     <header id="main-header">
@@ -227,7 +224,7 @@
         
         <div class="dynamic-counter-container">
             <div class="counter-digits" id="dynamicCounter"></div>
-            <p class="counter-label">Usuarios satisfechos</p>
+            <p class="counter-label">Usuarios Satisfechos</p>
         </div>
 
         <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mi Número Ahora</a>
@@ -551,8 +548,8 @@
             // --- Lógica del Contador Dinámico ---
             const counterElement = document.getElementById('dynamicCounter');
             if (counterElement) {
-                let protectedCount = 247; // Número inicial bajo y creíble
-                const digitHeight = 60; // Debe coincidir con la altura en el CSS
+                let protectedCount = 247;
+                const digitHeight = 60;
 
                 function setupCounter(initialValue) {
                     const valueStr = String(initialValue).padStart(3, '0');
@@ -601,9 +598,8 @@
                     const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
                     protectedCount += randomIncrement;
                     updateCounter(protectedCount);
-                }, 15000); // Actualiza cada 35 segundos
+                }, 35000); 
             }
-            // --- Fin del Bloque del Contador ---
         });
         
         function formatPhoneInput(e) { const input = e.target; let value = input.value; if (!value.startsWith('+569')) { value = '+569'; } const numericPart = value.substring(4).replace(/\D/g, ''); input.value = '+569' + numericPart.slice(0, 8); }
