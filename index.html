@@ -84,13 +84,11 @@
         .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
         .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
-        .plan-card-content { display: flex; justify-content: space-between; align-items: flex-start; }
-        .plan-card-info { text-align: left; }
         .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
         .plan-card h3 i { color: var(--naranja); }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
-        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--naranja); }
+        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
         label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
         .form-group { margin-bottom: 1.25rem; position: relative; }
         input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
@@ -207,32 +205,20 @@
                 <div id="step1" class="step active">
                     <h2>Libérate hoy de las llamadas SPAM</h2>
                     <div class="plan-card" onclick="selectPlan('Plan Personal', 14990, 1, this)">
-                        <div class="plan-card-content">
-                            <div class="plan-card-info">
-                                <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
-                                <p>Protección para 1 número telefónico.</p>
-                            </div>
-                            <p class="price">$14.990</p>
-                        </div>
+                        <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
+                        <p>Protección para 1 número telefónico.</p>
+                        <p class="price">$14.990 CLP</p>
                     </div>
                     <div class="plan-card" onclick="selectPlan('Plan Dúo', 24990, 2, this)">
                         <span class="popular">Más Popular</span>
-                        <div class="plan-card-content">
-                            <div class="plan-card-info">
-                                <h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3>
-                                <p>Protección para ti y otra persona.</p>
-                            </div>
-                            <p class="price">$24.990</p>
-                        </div>
+                        <h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3>
+                        <p>Protección para ti y otra persona. Recibes 1 código de activación para compartir.</p>
+                        <p class="price">$24.990 CLP</p>
                     </div>
                     <div class="plan-card" onclick="selectPlan('Plan Familiar', 49990, 5, this)">
-                        <div class="plan-card-content">
-                            <div class="plan-card-info">
-                                <h3><i class="fa-solid fa-users"></i>Plan Familiar</h3>
-                                <p>Protección para todo tu grupo.</p>
-                            </div>
-                            <p class="price">$49.990</p>
-                        </div>
+                        <h3><i class="fa-solid fa-users"></i>Plan Familiar</h3>
+                        <p>Protección para todo tu grupo. Recibes 4 códigos de activación para compartir.</p>
+                        <p class="price">$49.990 CLP</p>
                     </div>
                 </div>
     
@@ -253,7 +239,7 @@
                     <label>Paga con tus tarjetas</label>
                     <div class="payment-logos"><i class="fa-brands fa-cc-visa" style="color: #1a1f71;"></i><i class="fa-brands fa-cc-mastercard" style="color: #f69f14;"></i><i class="fa-brands fa-cc-amex" style="color: #016fcf;"></i></div>
                     <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
-                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" required /></div>
+                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
                     <div class="card-details-group">
                         <div class="form-group" style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required maxlength="5" /></div>
                         <div class="form-group" style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required minlength="3" maxlength="4" /></div>
@@ -343,7 +329,8 @@
         const heroSection = document.getElementById('hero');
         const navInicio = document.getElementById('nav-inicio');
 
-        function startCheckout() {
+        function startCheckout(event) {
+            if(event) event.preventDefault();
             document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -357,14 +344,13 @@
 
         function goToStep(stepNumber) {
             saveFormData();
+            
             if (stepNumber > 1) {
                 if (document.body.contains(heroSection)) heroSection.style.display = 'none';
                 if (navInicio) navInicio.style.display = 'block';
-                mainHeader.classList.add('scrolled-header');
             } else {
                  if (document.body.contains(heroSection)) heroSection.style.display = 'flex';
                  if (navInicio) navInicio.style.display = 'none';
-                 handleHeaderState();
             }
             if (stepNumber === 3 && !validateStep2()) { return; }
             steps.forEach(s => s.classList.remove('active'));
@@ -377,10 +363,10 @@
                 else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
                 progressBarEl.classList.add('has-progress');
             }
-            handleHeaderState(); 
-            renderSummary('selectedPlanSummary');
-            renderSummary('finalPlanSummary');
-            if (stepNumber === 2) {
+            handleHeaderState();
+            if (stepNumber >= 2) {
+                renderSummary('selectedPlanSummary');
+                renderSummary('finalPlanSummary');
                 const telefonosContainer = document.getElementById('campos-telefonos');
                 telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
                 const phoneInput = document.getElementById('telefono-1');
@@ -412,8 +398,8 @@
         }
         
         function handleHeaderState() {
-            const isScrolled = window.scrollY > 50;
             const heroIsVisible = heroSection.style.display !== 'none';
+            const isScrolled = window.scrollY > 50;
             if (isScrolled || !heroIsVisible) {
                 mainHeader.classList.add('scrolled-header');
                 const currentStepDiv = document.querySelector('.step.active');
@@ -432,20 +418,26 @@
             const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
             const cardExpiry = document.getElementById('cardExpiry').value;
             const cardCVC = document.getElementById('cardCVC').value;
+            let isValid = true;
+            let errorMessages = [];
 
             if (cardNumber.length < 12) {
-                alert('El número de tarjeta debe tener al menos 12 dígitos.');
-                return false;
+                errorMessages.push('El número de tarjeta debe tener al menos 12 dígitos.');
+                isValid = false;
             }
-            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) {
-                alert('La fecha de vencimiento debe tener el formato MM/YY.');
-                return false;
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry) || cardExpiry.length !== 5) {
+                errorMessages.push('La fecha de vencimiento debe tener el formato MM/YY.');
+                isValid = false;
             }
             if (cardCVC.length < 3) {
-                alert('El CVV debe tener al menos 3 dígitos.');
-                return false;
+                errorMessages.push('El CVV debe tener al menos 3 dígitos.');
+                isValid = false;
             }
-            return true;
+
+            if (!isValid) {
+                alert(errorMessages.join('\n'));
+            }
+            return isValid;
         }
 
         function handleFormSubmit(event) {
@@ -471,18 +463,17 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const heroButton = document.querySelector('.btn-hero');
-            if (heroButton) {
-                heroButton.addEventListener('click', (e) => { e.preventDefault(); startCheckout(); });
-            }
+            if (heroButton) heroButton.addEventListener('click', (e) => startCheckout(e));
+            
             const scrollIndicator = document.querySelector('.scroll-down-indicator a');
-            if(scrollIndicator){
-                 scrollIndicator.addEventListener('click', (e) => { e.preventDefault(); startCheckout(); });
-            }
+            if(scrollIndicator) scrollIndicator.addEventListener('click', (e) => startCheckout(e));
+            
             window.addEventListener('scroll', handleHeaderState);
             document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+
             document.addEventListener('click', function(event) {
-                if (event.target.matches('.faq-question')) {
-                    const parent = event.target.parentElement;
+                if (event.target.closest('.faq-question')) {
+                    const parent = event.target.closest('.faq-item');
                     const currentlyActive = document.querySelector('.faq-item.active');
                     if (currentlyActive && currentlyActive !== parent) { currentlyActive.classList.remove('active');}
                     parent.classList.toggle('active');
@@ -496,6 +487,7 @@
                     closeMenu();
                 }
             });
+            
             const popularPlanCard = document.querySelector(".plan-card .popular");
             if (popularPlanCard) { popularPlanCard.closest('.plan-card').classList.add('selected'); }
             document.querySelectorAll('form[name="checkout"] input[required]').forEach(input => {
