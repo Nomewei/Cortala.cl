@@ -385,11 +385,13 @@
                 renderSummary('selectedPlanSummary');
                 renderSummary('finalPlanSummary');
                 const telefonosContainer = document.getElementById('campos-telefonos');
-                telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
-                const phoneInput = document.getElementById('telefono-1');
-                if(phoneInput) {
-                    phoneInput.addEventListener('input', formatPhoneInput);
-                    phoneInput.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
+                if (telefonosContainer.innerHTML === '') {
+                    telefonosContainer.innerHTML = `<div class="form-group"><label for="telefono-1">Tu Número de Teléfono</label><input type="tel" id="telefono-1" name="telefono-1" placeholder="+569..." maxlength="12" required><i class="fas fa-check validation-icon"></i><span class="error-mensaje">Formato incorrecto.</span></div>`;
+                    const phoneInput = document.getElementById('telefono-1');
+                    if(phoneInput) {
+                        phoneInput.addEventListener('input', formatPhoneInput);
+                        phoneInput.addEventListener('focus', e => { if(e.target.value === '') e.target.value = '+569'; });
+                    }
                 }
             }
             loadFormData();
@@ -485,6 +487,7 @@
             
             window.addEventListener('scroll', handleHeaderState);
             document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+
             document.addEventListener('click', function(event) {
                 if (event.target.closest('.faq-question')) {
                     const parent = event.target.closest('.faq-item');
@@ -516,7 +519,7 @@
             // --- Lógica del Contador Dinámico ---
             const counterElement = document.getElementById('dynamicCounter');
             if (counterElement) {
-                let protectedCount = 247;
+                let protectedCount = 547;
                 let digitHeight = 60; 
 
                 function setupCounter(initialValue) {
@@ -565,11 +568,11 @@
                 setupCounter(protectedCount);
 
                 setInterval(() => {
-                    const increments = [1, 2];
+                    const increments = [1, 2, 3, 5];
                     const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
                     protectedCount += randomIncrement;
                     updateCounter(protectedCount);
-                }, 35000); 
+                }, 15000); 
             }
             // --- FIN LÓGICA CONTADOR ---
         });
