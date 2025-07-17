@@ -44,7 +44,7 @@
         .digit-container { height: 100%; width: 45px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); }
         .digit-spool { display: flex; flex-direction: column; align-items: center; transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1); }
         .counter-label { font-size: 0.8rem; text-align: center; margin-top: 0.5rem; opacity: 0.8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
-
+        
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         
         header { 
@@ -75,7 +75,7 @@
         .progress-bar::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background-color: var(--naranja); border-radius: 50%; display: none; }
         .progress-bar.has-progress::after { display: block; }
 
-        main { background-color: var(--blanco); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        main { background-color: var(--blanco); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
         .step { display: none; } .step.active { display: block; animation: fadeInStep 0.5s; }
         @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -88,6 +88,7 @@
         .plan-card h3 i { color: var(--naranja); }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
         .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
+        
         label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
         .form-group { margin-bottom: 1.25rem; position: relative; }
         input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
@@ -97,6 +98,7 @@
         .form-group.success .validation-icon { color: var(--verde-exito); visibility: visible; }
         .form-group.error input { border-color: var(--rojo-error); }
         .error-mensaje { color: var(--rojo-error); font-size: 0.8rem; display: none; margin-top: 4px; }
+        
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
         .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
         .btn-primary:hover { background-color: #e69500; }
@@ -112,8 +114,8 @@
         .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
         .payment-logos i { font-size: 2.2rem; }
         .card-details-group { display: flex; gap: 1rem; }
-        
-        /* Estilos para el nuevo checkout */
+
+        /* Estilos para el nuevo checkout de "slots" */
         .contact-list-container { margin-top: 1.5rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
         .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
         .contact-input-group input { flex-grow: 1; }
@@ -123,7 +125,7 @@
         .contact-item { background-color: var(--gris-claro); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
         .contact-item:not(:last-child) { border-bottom: 1px solid var(--gris); }
         .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; }
-
+        
         .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
 
         @media (max-width: 600px) {
@@ -163,7 +165,15 @@
     </section>
     
     <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
-        </nav>
+        <ul>
+            <li><a id="nav-inicio" href="index.html">Inicio</a></li>
+            <li><a onclick="closeMenuAndScrollToPlans()">Planes</a></li>
+            <li><a onclick="openModal('testimonialsModal', event)">Testimonios</a></li>
+            <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
+            <li><a onclick="openModal('faqModal', event)">Preguntas frecuentes</a></li>
+            <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
+        </ul>
+    </nav>
 
     <section id="checkout-section">
         <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
@@ -171,6 +181,8 @@
             <form name="checkout" method="POST" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
                 <input type="hidden" name="form-name" value="checkout" />
                 <input type="hidden" id="plan-input" name="plan">
+                <input type="hidden" id="price-input" name="price">
+                <input type="hidden" id="slots-input" name="slots">
                 <input type="hidden" id="final-contacts-input" name="contactos_finales">
     
                 <div id="step1" class="step active">
@@ -202,14 +214,14 @@
                         <label for="contactInput">Añadir Teléfono o Email</label>
                         <div class="contact-input-group">
                             <input type="text" id="contactInput" placeholder="+569... o tu@email.com">
-                            <button type="button" class="btn btn-primary" onclick="addContact()">Añadir</button>
+                            <button type="button" class="btn btn-primary" id="addContactBtn" onclick="addContact()">Añadir</button>
                         </div>
                         <ul class="contact-list" id="contactList"></ul>
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button>
-                        <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
                     </div>
+                    <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
                 </div>
     
                 <div id="step3" class="step">
@@ -226,34 +238,59 @@
                     <div data-netlify-recaptcha="true"></div>
                     <div class="btn-group">
                         <button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text">Pagar y Finalizar</span><span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span></button>
-                        <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
                     </div>
+                    <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
                 </div>
             </form>
         </main>
         <footer class="footer"><p>© 2025 Córtala.cl - Protege tu tranquilidad</p></footer>
     </section>
 
+    <div id="testimonialsModal" class="modal-overlay"></div>
+    <div id="termsModal" class="modal-overlay"></div>
+    <div id="faqModal" class="modal-overlay"></div>
+    <div id="contactModal" class="modal-overlay"></div>
+    
     <script>
         let selectedPlanData = {};
         let contacts = [];
+        const mainHeader = document.getElementById('main-header');
+        const heroSection = document.getElementById('hero');
+        const navInicio = document.getElementById('nav-inicio');
+        const stepIndicator = document.getElementById('stepIndicator');
 
         function selectPlan(name, price, slots, element) {
             document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
             element.classList.add('selected');
             selectedPlanData = { name, price, slots };
+            document.getElementById('plan-input').value = name;
+            document.getElementById('price-input').value = price;
+            document.getElementById('slots-input').value = slots;
             goToStep(2);
         }
 
         function goToStep(stepNumber) {
-            // Lógica para cambiar entre los pasos del formulario
             const steps = document.querySelectorAll('.step');
             steps.forEach(s => s.classList.remove('active'));
             document.getElementById(`step${stepNumber}`).classList.add('active');
             
+            if (stepNumber > 1) {
+                if (heroSection) heroSection.style.display = 'none';
+                if (navInicio) navInicio.style.display = 'block';
+            } else {
+                 if (heroSection) heroSection.style.display = 'flex';
+                 if (navInicio) navInicio.style.display = 'none';
+            }
+
+            const progressBarEl = document.getElementById('progressBar');
+            if (stepNumber === 1) { progressBarEl.style.width = '25%'; }
+            else if (stepNumber === 2) { progressBarEl.style.width = '50%'; }
+            else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
+            
             if(stepNumber === 2) {
                 updateSlotsCounter();
             }
+            handleHeaderState();
         }
         
         function updateSlotsCounter() {
@@ -274,11 +311,10 @@
                 return;
             }
             
-            // Validación simple de formato
-            const isEmail = value.includes('@');
-            const isPhone = value.match(/^\+?569\d{8}$/);
+            const isEmail = value.includes('@') && value.includes('.');
+            const isPhone = /^\+?569\d{8}$/.test(value);
             if (!isEmail && !isPhone) {
-                alert('Formato no válido. Ingresa un teléfono (+569...) o un email.');
+                alert('Formato no válido. Ingresa un teléfono chileno (+569........) o un email.');
                 return;
             }
 
@@ -312,21 +348,68 @@
                 alert('Debes añadir al menos un contacto para proteger.');
                 return;
             }
+            
+            const name = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+
+            if(!name || !email){
+                 alert('Por favor, ingresa tu nombre y correo electrónico para continuar.');
+                 return;
+            }
+
             document.getElementById('final-contacts-input').value = contacts.join(', ');
             
-            // Simulación de envío
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.querySelector('.btn-text').style.display = 'none';
             submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
             
             setTimeout(() => {
-                window.location.href = `gracias.html`; // Redirigir a una página de gracias genérica
+                const queryParams = new URLSearchParams({
+                    plan: selectedPlanData.name,
+                    slots: selectedPlanData.slots,
+                    contacts: contacts.join(',')
+                }).toString();
+                window.location.href = `gracias.html?${queryParams}`;
             }, 1500);
         }
 
+        function handleHeaderState() {
+            const heroIsVisible = heroSection.style.display !== 'none';
+            const isScrolled = window.scrollY > 50;
+            if (isScrolled || !heroIsVisible) {
+                mainHeader.classList.add('scrolled-header');
+                const currentStepDiv = document.querySelector('.step.active');
+                if (currentStepDiv) {
+                    const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
+                    stepIndicator.style.display = 'block';
+                    stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
+                }
+            } else {
+                mainHeader.classList.remove('scrolled-header');
+                if(stepIndicator) stepIndicator.style.display = 'none';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica existente de listeners y contador...
+            document.querySelector('.btn-hero').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
+            document.querySelector('.scroll-down-indicator a').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
+            
+            window.addEventListener('scroll', handleHeaderState);
+            document.getElementById('menuToggle').addEventListener('click', () => {
+                const menu = document.getElementById('dropdownMenu');
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            const contactInput = document.getElementById('contactInput');
+            if(contactInput) {
+                contactInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addContact();
+                    }
+                });
+            }
         });
     </script>
 </body>
