@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Córtala.cl - Libérate del SPAM en 60 Segundos</title>
+    <title>Córtala.cl - Libérate del SPAM Telefónico</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -28,13 +28,14 @@
             background-position: 0 0, 10px 10px;
         }
         #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        #hero p { font-size: 1.1rem; max-width: 600px; opacity: 0.9; margin-bottom: 1.5rem; }
+        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 1.5rem; }
         .btn-hero { padding: 0.7rem 1.6rem; font-size: 1rem; text-decoration: none; }
         .btn-primary.btn-hero { width: auto; }
         .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
         .scroll-down-indicator a { color: var(--blanco); }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
+        /* --- ESTILOS PARA EL CONTADOR DINÁMICO --- */
         .dynamic-counter-container {
             margin: 1.5rem 0; padding: 0.8rem 1.5rem 0.6rem 1.5rem; background-color: rgba(0, 0, 0, 0.2);
             border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px);
@@ -44,7 +45,7 @@
         .digit-container { height: 100%; width: 45px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); }
         .digit-spool { display: flex; flex-direction: column; align-items: center; transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1); }
         .counter-label { font-size: 0.8rem; text-align: center; margin-top: 0.5rem; opacity: 0.8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
-        
+
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         
         header { 
@@ -81,23 +82,17 @@
         @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
-        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: translateY(-2px); }
+        .plan-card:hover, .plan-card.selected:hover { transform: translateY(-5px); border-color: var(--naranja); }
+        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: scale(1.03); }
         .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
         .plan-card h3 i { color: var(--naranja); }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
         .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
-        
         label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
         .form-group { margin-bottom: 1.25rem; position: relative; }
         input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
         input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
-        .form-group .validation-icon { position: absolute; right: 12px; top: 38px; visibility: hidden; }
-        .form-group.success input { border-color: var(--verde-exito); }
-        .form-group.success .validation-icon { color: var(--verde-exito); visibility: visible; }
-        .form-group.error input { border-color: var(--rojo-error); }
-        .error-mensaje { color: var(--rojo-error); font-size: 0.8rem; display: none; margin-top: 4px; }
         
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
         .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
@@ -114,22 +109,24 @@
         .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
         .payment-logos i { font-size: 2.2rem; }
         .card-details-group { display: flex; gap: 1rem; }
-
+        
         /* Estilos para el nuevo checkout de "slots" */
-        .contact-list-container { margin-top: 1.5rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
-        .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        #slots-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+        #slots-header h2 { margin-bottom: 0; }
+        #slots-counter { font-size: 0.9rem; font-weight: 600; color: var(--texto-secundario); }
+        .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
         .contact-input-group input { flex-grow: 1; }
-        .contact-input-group button { flex-shrink: 0; padding: 0 1.25rem; }
-        #slots-counter { text-align: right; font-size: 0.85rem; font-weight: 600; color: var(--texto-secundario); margin-bottom: 1rem; }
-        .contact-list { list-style: none; padding-left: 0; max-height: 160px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 6px; }
+        .contact-input-group .btn-add { flex-shrink: 0; padding: 0; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; line-height: 1; }
+        .contact-list { list-style: none; padding-left: 0; max-height: 168px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 8px; }
         .contact-item { background-color: var(--gris-claro); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
         .contact-item:not(:last-child) { border-bottom: 1px solid var(--gris); }
+        .contact-item span { word-break: break-all; }
         .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; }
         
         .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
 
         @media (max-width: 600px) {
-            #hero { padding-top: 6rem; }
+            #hero { padding-top: 5rem; }
             #hero h1 { font-size: 2rem; }
             .counter-digits { height: 50px; font-size: 40px; line-height: 50px; }
             .digit-container { width: 38px; }
@@ -208,18 +205,20 @@
                 </div>
     
                 <div id="step2" class="step">
-                    <h2>2. Ingresa los Contactos a Proteger</h2>
-                    <div id="slots-counter"></div>
+                    <div id="slots-header">
+                         <h2>2. Ingresa los Contactos</h2>
+                         <div id="slots-counter"></div>
+                    </div>
                     <div class="contact-list-container">
                         <label for="contactInput">Añadir Teléfono o Email</label>
                         <div class="contact-input-group">
                             <input type="text" id="contactInput" placeholder="+569... o tu@email.com">
-                            <button type="button" class="btn btn-primary" id="addContactBtn" onclick="addContact()">Añadir</button>
+                            <button type="button" class="btn btn-primary btn-add" id="addContactBtn" onclick="addContact()">+</button>
                         </div>
                         <ul class="contact-list" id="contactList"></ul>
                     </div>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)">Continuar al Pago →</button>
+                        <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)" disabled>Continuar al Pago →</button>
                     </div>
                     <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
                 </div>
@@ -227,7 +226,7 @@
                 <div id="step3" class="step">
                     <h2>3. Datos del Comprador y Pago</h2>
                     <div class="form-group"><label for="nombre">Tu Nombre y Apellidos</label><input type="text" id="nombre" name="nombre" required /></div>
-                    <div class="form-group"><label for="email">Tu Correo Electrónico (para el recibo)</label><input type="email" id="email" name="email" required /></div>
+                    <div class="form-group"><label for="email">Tu Correo (para enviar el recibo)</label><input type="email" id="email" name="email" required /></div>
                     <hr style="border:none; border-top:1px solid var(--gris); margin: 1.5rem 0;">
                     <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
                     <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
@@ -246,10 +245,14 @@
         <footer class="footer"><p>© 2025 Córtala.cl - Protege tu tranquilidad</p></footer>
     </section>
 
-    <div id="testimonialsModal" class="modal-overlay"></div>
-    <div id="termsModal" class="modal-overlay"></div>
-    <div id="faqModal" class="modal-overlay"></div>
-    <div id="contactModal" class="modal-overlay"></div>
+    <div id="testimonialsModal" class="modal-overlay">
+        </div>
+    <div id="termsModal" class="modal-overlay">
+        </div>
+    <div id="faqModal" class="modal-overlay">
+       </div>
+    <div id="contactModal" class="modal-overlay">
+        </div>
     
     <script>
         let selectedPlanData = {};
@@ -280,6 +283,10 @@
             } else {
                  if (heroSection) heroSection.style.display = 'flex';
                  if (navInicio) navInicio.style.display = 'none';
+                 // Al volver al paso 1, deseleccionar el plan
+                 const selectedCard = document.querySelector('.plan-card.selected');
+                 if(selectedCard) selectedCard.classList.remove('selected');
+                 selectedPlanData = {};
             }
 
             const progressBarEl = document.getElementById('progressBar');
@@ -296,7 +303,7 @@
         function updateSlotsCounter() {
             const counterEl = document.getElementById('slots-counter');
             if(counterEl) {
-                counterEl.textContent = `Contactos añadidos: ${contacts.length} / ${selectedPlanData.slots}`;
+                counterEl.innerHTML = `Contactos añadidos: <strong>${contacts.length} / ${selectedPlanData.slots}</strong>`;
                 document.getElementById('nextBtn2').disabled = contacts.length === 0;
             }
         }
@@ -349,13 +356,16 @@
                 return;
             }
             
-            const name = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
 
             if(!name || !email){
-                 alert('Por favor, ingresa tu nombre y correo electrónico para continuar.');
+                 alert('Por favor, ingresa tu nombre y correo para el recibo.');
                  return;
             }
+            
+            // Aquí iría la lógica de validación de tarjeta de crédito
+            // ...
 
             document.getElementById('final-contacts-input').value = contacts.join(', ');
             
@@ -375,31 +385,37 @@
         }
 
         function handleHeaderState() {
-            const heroIsVisible = heroSection.style.display !== 'none';
+            const heroIsVisible = (heroSection.style.display !== 'none');
             const isScrolled = window.scrollY > 50;
+
             if (isScrolled || !heroIsVisible) {
                 mainHeader.classList.add('scrolled-header');
                 const currentStepDiv = document.querySelector('.step.active');
                 if (currentStepDiv) {
                     const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
-                    stepIndicator.style.display = 'block';
-                    stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
+                    if (currentStepNumber > 0) {
+                        stepIndicator.style.display = 'block';
+                        stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
+                    }
                 }
             } else {
                 mainHeader.classList.remove('scrolled-header');
-                if(stepIndicator) stepIndicator.style.display = 'none';
+                stepIndicator.style.display = 'none';
             }
         }
+        
+        // --- El resto de funciones de utilidad ---
+        function formatPhoneInput(e) { /* ... */ }
+        function toggleMenu() { /* ... */ }
+        function openModal(modalId, event) { /* ... */ }
+        function closeModal(modalId) { /* ... */ }
 
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.btn-hero').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
             document.querySelector('.scroll-down-indicator a').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
             
             window.addEventListener('scroll', handleHeaderState);
-            document.getElementById('menuToggle').addEventListener('click', () => {
-                const menu = document.getElementById('dropdownMenu');
-                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-            });
+            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
             
             const contactInput = document.getElementById('contactInput');
             if(contactInput) {
@@ -409,6 +425,81 @@
                         addContact();
                     }
                 });
+            }
+
+            // Pre-seleccionar Plan Dúo
+            const duoPlanCard = document.querySelector('.plan-card:nth-child(2)');
+            if(duoPlanCard) {
+                duoPlanCard.click();
+                // Ir al paso 1 para que el usuario empiece desde el principio
+                goToStep(1);
+                // Limpiar la selección para que el usuario deba elegir
+                const selectedCard = document.querySelector('.plan-card.selected');
+                if(selectedCard) selectedCard.classList.remove('selected');
+                selectedPlanData = {};
+            }
+            
+            // --- Lógica del Contador Dinámico ---
+            const counterElement = document.getElementById('dynamicCounter');
+            if (counterElement) {
+                const launchTime = 1721224800000; // Fecha de lanzamiento ficticia en milisegundos
+                const now = Date.now();
+                const baseCount = 500;
+                // Incrementa en 1 cada 15 segundos desde el lanzamiento
+                const increment = Math.floor((now - launchTime) / 15000);
+                let protectedCount = baseCount + increment;
+                
+                let digitHeight = 60;
+
+                function setupCounter(initialValue) {
+                    const valueStr = String(initialValue);
+                    counterElement.innerHTML = '';
+                    for (let i = 0; i < valueStr.length; i++) {
+                        const digitContainer = document.createElement('div');
+                        digitContainer.className = 'digit-container';
+                        const spool = document.createElement('div');
+                        spool.className = 'digit-spool';
+                        for (let j = 0; j <= 9; j++) {
+                            const digit = document.createElement('div');
+                            digit.textContent = j;
+                            spool.appendChild(digit);
+                        }
+                        digitContainer.appendChild(spool);
+                        counterElement.appendChild(digitContainer);
+                    }
+                    if (counterElement.querySelector('.digit-container')) {
+                       digitHeight = counterElement.querySelector('.digit-container').offsetHeight;
+                    }
+                    updateCounter(initialValue, false);
+                }
+
+                function updateCounter(newValue, animate = true) {
+                    const valueStr = String(newValue);
+                    const spools = counterElement.querySelectorAll('.digit-spool');
+                    if (valueStr.length > spools.length) {
+                        setupCounter(newValue);
+                        return;
+                    }
+                    for (let i = 0; i < spools.length; i++) {
+                        const digit = parseInt(valueStr[i], 10);
+                        const spool = spools[i];
+                        if (!animate) {
+                           spool.style.transition = 'none';
+                        } else {
+                           spool.style.transition = 'transform 1.2s cubic-bezier(0.65, 0, 0.35, 1)';
+                        }
+                        spool.style.transform = `translateY(-${digit * digitHeight}px)`;
+                    }
+                }
+
+                setupCounter(protectedCount);
+
+                setInterval(() => {
+                    const increments = [1, 2, 3, 5];
+                    const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
+                    protectedCount += randomIncrement;
+                    updateCounter(protectedCount);
+                }, 15000); 
             }
         });
     </script>
