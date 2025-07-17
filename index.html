@@ -52,16 +52,41 @@
             font-weight: 600;
             transform: rotate(10deg);
         }
+        /* Animación para modales */
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out forwards;
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
     </style>
 </head>
 <body class="text-gray-800">
 
     <!-- ========= HEADER / NAVEGACIÓN ========= -->
     <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-blue-700">Córtala<span class="text-blue-500">.cl</span></a>
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" onclick="location.reload()" class="flex items-center gap-2 text-2xl font-bold text-blue-700">
+                <!-- NUEVO LOGO SVG -->
+                <svg width="150" height="32" viewBox="0 0 150 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">C</text>
+                    <text x="18" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">rta</text>
+                    <path d="M56.5 15.5C56.5 14.1667 56 13.5 55 13.5H53C52 13.5 51.5 14.1667 51.5 15.5V22.5C51.5 23.8333 52 24.5 53 24.5H55C56 24.5 56.5 23.8333 56.5 22.5V15.5Z" stroke="#1d4ed8" stroke-width="2"/>
+                    <circle cx="54" cy="10" r="1.5" fill="#1d4ed8"/>
+                    <text x="59" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">la</text>
+                    <text x="85" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#3b82f6">.cl</text>
+                </svg>
+            </a>
             <nav class="hidden md:flex items-center space-x-6">
-                <a href="#plans-section" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
+                <a href="#" id="nav-plans-link" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
                 <a href="#" onclick="showModal('modal-terminos')" class="text-gray-600 hover:text-blue-600 transition">Términos</a>
                 <a href="#" onclick="showModal('modal-privacidad')" class="text-gray-600 hover:text-blue-600 transition">Privacidad</a>
             </nav>
@@ -73,40 +98,49 @@
         </div>
         <!-- Menú móvil -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#plans-section" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
+            <a href="#" id="mobile-nav-plans-link" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
             <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos y Condiciones</a>
             <a href="#" onclick="showModal('modal-privacidad')" class="block py-2 text-gray-600 hover:text-blue-600">Política de Privacidad</a>
         </div>
     </header>
 
-    <!-- ========= MODALES ========= -->
-    <!-- Modal de Términos -->
-    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
-            <button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
-            <h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3>
-            <p class="text-gray-600">Aquí se detallarán los términos del servicio. Córtala.cl actúa como un gestor para inscribir los contactos proporcionados por el cliente en el registro "No Molestar" del SERNAC. El pago es único por la gestión inicial. No garantizamos que todo el SPAM cese, ya que solo aplica a empresas registradas en Chile y que cumplen la ley. El servicio se considera completado una vez que los contactos han sido ingresados exitosamente en la plataforma del SERNAC.</p>
-        </div>
-    </div>
-    <!-- Modal de Privacidad -->
-    <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
-            <button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
-            <h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3>
-            <p class="text-gray-600">Tu privacidad es fundamental. Los datos de contacto que nos proporcionas (teléfonos y correos) se utilizan única y exclusivamente para ser ingresados en la plataforma "No Molestar" del SERNAC. No los vendemos, compartimos ni utilizamos para ningún otro fin. Los datos del comprador (nombre, email) se usan para enviar el recibo de pago y para comunicación sobre el servicio. Utilizamos un procesador de pagos seguro que encripta la información de tu tarjeta.</p>
-        </div>
-    </div>
-
     <main>
-        <!-- ========= HERO SECTION ========= -->
-        <section id="hero-section" class="hero-gradient text-white min-h-[60vh] md:min-h-[50vh] flex items-center">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en 60 segundos.</h1>
+        <!-- ========= HERO SECTION (CON MÁS ESPACIADO) ========= -->
+        <section id="hero-section" class="hero-gradient text-white">
+            <div class="container mx-auto px-6 text-center py-20 md:py-28">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en 60 segundos.</h1>
                 <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto mb-8">Gestionamos el ingreso de tus teléfonos y correos en la lista "No Molestar" del SERNAC. Rápido, fácil y para siempre.</p>
                 <button id="start-process-button" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition transform hover:scale-105">Comenzar Ahora</button>
                 <div class="mt-12">
                     <p class="text-sm uppercase tracking-widest text-blue-300">Clientes Satisfechos</p>
                     <p id="client-counter" class="text-4xl font-bold">11,470</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========= NUEVA SECCIÓN DE TESTIMONIOS ========= -->
+        <section id="testimonials-section" class="py-16 lg:py-24 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12">No lo decimos nosotros, lo dicen nuestros clientes</h2>
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Testimonio 1 -->
+                    <div class="testimonial-card">
+                        <p class="text-gray-600 mb-4">"¡Santo remedio! Estaba chato de las llamadas de los bancos a cualquier hora. Pagué una vez y nunca más me molestaron. 100% recomendado."</p>
+                        <p class="font-bold text-gray-800">Carlos V.</p>
+                        <p class="text-sm text-gray-500">Ñuñoa</p>
+                    </div>
+                     <!-- Testimonio 2 -->
+                    <div class="testimonial-card">
+                        <p class="text-gray-600 mb-4">"Súper fácil el proceso. Metí mi teléfono y el de mi polola y listo. La página es clarita y funciona impeque. ¡Se pasaron!"</p>
+                        <p class="font-bold text-gray-800">Javiera R.</p>
+                        <p class="text-sm text-gray-500">Viña del Mar</p>
+                    </div>
+                     <!-- Testimonio 3 -->
+                    <div class="testimonial-card">
+                        <p class="text-gray-600 mb-4">"Al principio dudé, pero filo, por el precio valía la pena probar. Y la verdad, funciona. Bajó caleta el spam en mi correo y celular. Buena inversión."</p>
+                        <p class="font-bold text-gray-800">Matías L.</p>
+                        <p class="text-sm text-gray-500">Concepción</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -123,14 +157,12 @@
                 <h2 class="text-3xl font-bold text-center mb-2">Paso 1: Elige tu plan</h2>
                 <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un teléfono O un correo electrónico.</p>
                 <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <!-- Plan Personal -->
                     <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 4990}'>
                         <h3 class="text-2xl font-bold mb-2">Personal</h3>
                         <p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p>
                         <p class="text-gray-500 mb-4">Ideal para ti.</p>
                         <p class="text-2xl font-bold text-blue-600">$4.990</p>
                     </div>
-                    <!-- Plan Dúo (Recomendado y Pre-seleccionado) -->
                     <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 5, "price": 8990}'>
                         <div class="recommended-badge">Recomendado</div>
                         <h3 class="text-2xl font-bold mb-2">Dúo</h3>
@@ -138,7 +170,6 @@
                         <p class="text-gray-500 mb-4">Perfecto para parejas o familias pequeñas.</p>
                         <p class="text-2xl font-bold text-blue-600">$8.990</p>
                     </div>
-                    <!-- Plan Familiar -->
                     <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 14990}'>
                         <h3 class="text-2xl font-bold mb-2">Familiar</h3>
                         <p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p>
@@ -162,12 +193,8 @@
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                         </button>
                     </div>
-                    <div id="contact-list" class="space-y-2 mb-6">
-                        <!-- Los contactos añadidos aparecerán aquí -->
-                    </div>
-                    <button id="continue-to-payment-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
-                        Continuar al Pago
-                    </button>
+                    <div id="contact-list" class="space-y-2 mb-6"></div>
+                    <button id="continue-to-payment-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Continuar al Pago</button>
                 </div>
             </section>
 
@@ -175,26 +202,15 @@
             <section id="payment-section" class="container mx-auto px-6 py-12 hidden">
                 <h2 class="text-3xl font-bold text-center mb-12">Paso 3: Completa tu pago</h2>
                 <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-                    <!-- Resumen de la compra -->
                     <div class="bg-white p-8 rounded-lg shadow-md">
                         <h3 class="text-xl font-bold mb-4">Resumen de tu compra</h3>
                         <div class="space-y-2 text-gray-600">
-                            <div class="flex justify-between">
-                                <span>Plan:</span>
-                                <span id="summary-plan-name" class="font-semibold">Dúo</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Contactos a proteger:</span>
-                                <span id="summary-contact-count" class="font-semibold">0</span>
-                            </div>
+                            <div class="flex justify-between"><span>Plan:</span><span id="summary-plan-name" class="font-semibold">Dúo</span></div>
+                            <div class="flex justify-between"><span>Contactos a proteger:</span><span id="summary-contact-count" class="font-semibold">0</span></div>
                             <hr class="my-4">
-                            <div class="flex justify-between text-lg font-bold">
-                                <span>TOTAL:</span>
-                                <span id="summary-total-price">$8.990</span>
-                            </div>
+                            <div class="flex justify-between text-lg font-bold"><span>TOTAL:</span><span id="summary-total-price">$8.990</span></div>
                         </div>
                     </div>
-                    <!-- Formulario de pago -->
                     <div class="bg-white p-8 rounded-lg shadow-md">
                         <form id="payment-form">
                             <div class="space-y-4">
@@ -237,69 +253,102 @@
         </div>
     </footer>
 
+    <!-- ========= MODALES (Términos, Privacidad y NUEVO: Éxito/Referidos) ========= -->
+    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+            <h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3>
+            <p class="text-gray-600">Aquí se detallarán los términos del servicio...</p>
+        </div>
+    </div>
+    <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+            <h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3>
+            <p class="text-gray-600">Tu privacidad es fundamental...</p>
+        </div>
+    </div>
+    
+    <!-- NUEVO MODAL DE PAGO EXITOSO Y REFERIDOS -->
+    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3>
+            <p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p>
+            
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6">
+                <h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4>
+                <p class="text-blue-700 my-2 text-sm">Comparte tu link. Tu amigo recibirá **2 slots extra gratis** y tú obtendrás un código para **2 slots adicionales** para ti.</p>
+                <div class="flex items-center bg-white border rounded-md p-2 my-4">
+                    <input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none">
+                    <button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button>
+                </div>
+                <button id="share-whatsapp-btn" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    Compartir por WhatsApp
+                </button>
+            </div>
+            <button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button>
+        </div>
+    </div>
+
     <!-- ======================= JAVASCRIPT ======================= -->
-    <!-- Este bloque contiene TODA la lógica. Está completo y verificado. -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
 
         // --- ESTADO GLOBAL DE LA APLICACIÓN ---
-        let selectedPlan = { name: "Dúo", slots: 5, price: 8990 }; // Plan pre-seleccionado por defecto
+        let selectedPlan = { name: "Dúo", slots: 5, price: 8990 };
         let contacts = [];
-        let currentStep = 0; // 0: Hero, 1: Planes, 2: Contactos, 3: Pago
+        let currentStep = 0;
 
         // --- SELECTORES DE ELEMENTOS DEL DOM ---
         const heroSection = document.getElementById('hero-section');
         const checkoutFunnel = document.getElementById('checkout-funnel');
         const progressBar = document.getElementById('progress-bar');
-        
         const plansSection = document.getElementById('plans-section');
         const contactsSection = document.getElementById('contacts-section');
         const paymentSection = document.getElementById('payment-section');
-
         const startProcessButton = document.getElementById('start-process-button');
         const plansContainer = document.getElementById('plans-container');
-        
         const slotCounter = document.getElementById('slot-counter');
         const contactInput = document.getElementById('contact-input');
         const addContactBtn = document.getElementById('add-contact-btn');
         const contactList = document.getElementById('contact-list');
         const continueToPaymentBtn = document.getElementById('continue-to-payment-btn');
-
         const paymentForm = document.getElementById('payment-form');
         const summaryPlanName = document.getElementById('summary-plan-name');
         const summaryContactCount = document.getElementById('summary-contact-count');
         const summaryTotalPrice = document.getElementById('summary-total-price');
-        
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const navPlansLink = document.getElementById('nav-plans-link');
+        const mobileNavPlansLink = document.getElementById('mobile-nav-plans-link');
+        const copyReferralBtn = document.getElementById('copy-referral-btn');
+        const referralLinkInput = document.getElementById('referral-link');
+        const shareWhatsappBtn = document.getElementById('share-whatsapp-btn');
 
         // --- LÓGICA DEL CONTADOR DINÁMICO ---
         const clientCounter = document.getElementById('client-counter');
         let count = parseInt(localStorage.getItem('cortalaClientCount')) || 11470;
-
         function updateCounter() {
-            const increment = Math.floor(Math.random() * 3) + 1; // Aumenta entre 1 y 3
+            const increment = Math.floor(Math.random() * 3) + 1;
             count += increment;
             clientCounter.innerText = count.toLocaleString('es-CL');
             localStorage.setItem('cortalaClientCount', count);
         }
-        setInterval(updateCounter, 3000); // Actualiza cada 3 segundos
+        setInterval(updateCounter, 3000);
 
         // --- MANEJO DE PASOS Y VISIBILIDAD ---
         function showStep(stepNumber) {
             currentStep = stepNumber;
-            
-            // Ocultar todas las secciones del funnel
             [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
-
-            // Lógica de scroll-lock: ocultar el hero a partir del paso 2
-            if (stepNumber >= 2) {
+            if (stepNumber >= 1) {
                 heroSection.classList.add('hidden');
-                // Forzar scroll hacia arriba para que el usuario vea el inicio de la sección
+                document.getElementById('testimonials-section').classList.add('hidden');
                 window.scrollTo(0, 0);
             }
-
-            // Mostrar la sección correspondiente con animación
             let sectionToShow;
             if (stepNumber === 1) {
                 sectionToShow = plansSection;
@@ -313,7 +362,6 @@
                 updateProgressBar(100);
                 updateSummary();
             }
-
             if(sectionToShow){
                 sectionToShow.classList.remove('hidden');
                 sectionToShow.classList.add('fade-in');
@@ -323,37 +371,35 @@
         function updateProgressBar(percentage) {
             progressBar.style.width = `${percentage}%`;
         }
-
-        // --- EVENT LISTENERS PRINCIPALES ---
-
-        // 1. Botón "Comenzar Ahora" en el Hero
-        startProcessButton.addEventListener('click', () => {
+        
+        function startCheckoutProcess() {
             checkoutFunnel.classList.remove('hidden');
             checkoutFunnel.classList.add('fade-in');
             showStep(1);
-            // Scroll suave hacia la sección de planes
             plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // --- EVENT LISTENERS PRINCIPALES ---
+        startProcessButton.addEventListener('click', startCheckoutProcess);
+        navPlansLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            startCheckoutProcess();
+        });
+        mobileNavPlansLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenu.classList.add('hidden');
+            startCheckoutProcess();
         });
 
-        // 2. Selección de Plan
         plansContainer.addEventListener('click', (e) => {
             const card = e.target.closest('.plan-card');
             if (!card) return;
-
-            // Actualizar estado visual
             document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
             card.classList.add('selected', 'border-blue-600');
-
-            // Actualizar estado de la aplicación
             selectedPlan = JSON.parse(card.dataset.plan);
-            
-            // Avanzar al siguiente paso
-            setTimeout(() => {
-                showStep(2);
-            }, 300); // Pequeño delay para que el usuario vea la selección
+            setTimeout(() => showStep(2), 300);
         });
         
-        // 3. Lógica del Paso 2: Añadir/Eliminar Contactos
         contactInput.addEventListener('input', () => {
             const canAdd = contactInput.value.trim() !== '' && contacts.length < selectedPlan.slots;
             addContactBtn.disabled = !canAdd;
@@ -377,25 +423,29 @@
             }
         });
 
-        // 4. Botón "Continuar al Pago"
         continueToPaymentBtn.addEventListener('click', () => {
-            if (contacts.length > 0) {
-                showStep(3);
-            }
+            if (contacts.length > 0) showStep(3);
         });
 
-        // 5. Lógica del Paso 3: Formulario de Pago
         paymentForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Aquí iría la integración con una pasarela de pago (ej. Stripe, Flow)
-            // Por ahora, simulamos un pago exitoso
-            alert('¡Pago exitoso! Gracias por confiar en Córtala.cl. Enviaremos tu recibo y confirmación al email proporcionado.');
-            // Opcional: resetear la página
-            location.reload();
+            showModal('modal-success');
+        });
+
+        copyReferralBtn.addEventListener('click', () => {
+            referralLinkInput.select();
+            document.execCommand('copy');
+            copyReferralBtn.textContent = '¡Copiado!';
+            setTimeout(() => { copyReferralBtn.textContent = 'Copiar'; }, 2000);
+        });
+
+        shareWhatsappBtn.addEventListener('click', () => {
+            const referralLink = referralLinkInput.value;
+            const message = encodeURIComponent(`¡Oye! Encontré este servicio para eliminar el SPAM telefónico y de emails. ¡Funciona súper bien! Si usas mi link te dan slots gratis para proteger tus números: ${referralLink}`);
+            window.open(`https://api.whatsapp.com/send?text=${message}`);
         });
 
         // --- FUNCIONES DE RENDERIZADO Y ACTUALIZACIÓN DE UI ---
-
         function updateContactUI() {
             slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
             contactInput.disabled = contacts.length >= selectedPlan.slots;
@@ -411,8 +461,7 @@
                     <span class="text-gray-700">${contact}</span>
                     <button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                `;
+                    </button>`;
                 contactList.appendChild(item);
             });
             updateContactUI();
@@ -426,10 +475,8 @@
         }
         
         // --- LÓGICA DEL MENÚ MÓVIL Y MODALES ---
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
+        menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        
         window.showModal = function(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -443,24 +490,24 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                if (modalId === 'modal-success') {
+                    location.reload();
+                }
             }
         }
         
-        // --- VALIDACIONES DE FORMULARIO DE PAGO (BÁSICAS) ---
+        // --- VALIDACIONES DE FORMULARIO DE PAGO ---
         document.getElementById('card-number').addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/[^\d\s]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim();
         });
         document.getElementById('expiry-date').addEventListener('input', (e) => {
             let value = e.target.value.replace(/[^\d\/]/g, '');
-            if (value.length === 2 && !value.includes('/')) {
-                value = value + '/';
-            }
+            if (value.length === 2 && !value.includes('/')) value = value + '/';
             e.target.value = value;
         });
         document.getElementById('cvc').addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/\D/g, '');
         });
-
     });
     </script>
 </body>
