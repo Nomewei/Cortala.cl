@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Córtala.cl - Libérate del SPAM Telefónico en 60 Segundos</title>
+    <title>Córtala.cl - Libérate del SPAM en 60 Segundos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
             background-position: 0 0, 10px 10px;
         }
         #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 1.5rem; }
+        #hero p { font-size: 1.1rem; max-width: 600px; opacity: 0.9; margin-bottom: 1.5rem; }
         .btn-hero { padding: 0.7rem 1.6rem; font-size: 1rem; text-decoration: none; }
         .btn-primary.btn-hero { width: auto; }
         .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
@@ -55,6 +55,7 @@
         header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
         header.scrolled-header .logo { color: var(--marino); text-shadow: none; }
         .header-right { display: flex; align-items: center; gap: 1rem; }
+        
         header .step-indicator { display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); color: var(--marino); }
         header.scrolled-header .step-indicator { display: block; }
 
@@ -105,14 +106,24 @@
         .back-link-container a { color: var(--texto-oscuro); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
         .back-link-container a:hover { text-decoration: underline; }
         
-        .contact-list-container { margin-top: 2rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
-        .contact-input-group { display: flex; gap: 1rem; margin-bottom: 1rem; }
-        .contact-input-group input { flex-grow: 1; }
-        .contact-list { list-style: none; padding-left: 0; }
-        .contact-item { background-color: var(--gris-claro); padding: 0.5rem 1rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; font-size: 0.9rem; }
-        .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1rem; }
-        #slots-counter { text-align: right; font-size: 0.85rem; font-weight: 600; color: var(--texto-secundario); margin-bottom: 1rem; }
+        .trust-seals { text-align: center; margin: 2rem 0 1rem; }
+        .trust-seals .seal { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; margin: 0 10px; }
+        .trust-seals .seal i { color: var(--verde-exito); }
+        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
+        .payment-logos i { font-size: 2.2rem; }
+        .card-details-group { display: flex; gap: 1rem; }
         
+        /* Estilos para el nuevo checkout */
+        .contact-list-container { margin-top: 1.5rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
+        .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .contact-input-group input { flex-grow: 1; }
+        .contact-input-group button { flex-shrink: 0; padding: 0 1.25rem; }
+        #slots-counter { text-align: right; font-size: 0.85rem; font-weight: 600; color: var(--texto-secundario); margin-bottom: 1rem; }
+        .contact-list { list-style: none; padding-left: 0; max-height: 160px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 6px; }
+        .contact-item { background-color: var(--gris-claro); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+        .contact-item:not(:last-child) { border-bottom: 1px solid var(--gris); }
+        .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; }
+
         .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
 
         @media (max-width: 600px) {
@@ -120,13 +131,10 @@
             #hero h1 { font-size: 2rem; }
             .counter-digits { height: 50px; font-size: 40px; line-height: 50px; }
             .digit-container { width: 38px; }
+            .card-details-group { flex-direction: column; gap: 0; }
         }
     </style>
 </head>
-
----
-#### **Parte 2 de 2: (Body y Script)**
-```html
 <body>
 
     <header id="main-header">
@@ -167,7 +175,8 @@
     
                 <div id="step1" class="step active">
                     <h2>1. Elige tu Plan de Protección</h2>
-                    <p class="text-center" style="margin-top: -1rem; margin-bottom: 1.5rem; font-size: 0.9rem;">Cada "slot" puede ser un teléfono o un correo.</p>
+                    <p style="text-align:center; margin-top:-1rem; margin-bottom:1.5rem; font-size:0.9rem;">Cada "slot" puede ser un teléfono o un correo. ¡Tú decides!</p>
+                    
                     <div class="plan-card" onclick="selectPlan('Plan Personal', 9990, 2, this)">
                         <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
                         <p>Protección para hasta <strong>2 slots</strong>.</p>
@@ -190,9 +199,9 @@
                     <h2>2. Ingresa los Contactos a Proteger</h2>
                     <div id="slots-counter"></div>
                     <div class="contact-list-container">
-                        <label>Añadir Teléfono o Correo</label>
+                        <label for="contactInput">Añadir Teléfono o Email</label>
                         <div class="contact-input-group">
-                            <input type="text" id="contactInput" placeholder="+569... o email@dominio.com">
+                            <input type="text" id="contactInput" placeholder="+569... o tu@email.com">
                             <button type="button" class="btn btn-primary" onclick="addContact()">Añadir</button>
                         </div>
                         <ul class="contact-list" id="contactList"></ul>
@@ -204,13 +213,27 @@
                 </div>
     
                 <div id="step3" class="step">
-                    <h2>3. Realiza tu Pago</h2>
+                    <h2>3. Datos del Comprador y Pago</h2>
+                    <div class="form-group"><label for="nombre">Tu Nombre y Apellidos</label><input type="text" id="nombre" name="nombre" required /></div>
+                    <div class="form-group"><label for="email">Tu Correo Electrónico (para el recibo)</label><input type="email" id="email" name="email" required /></div>
+                    <hr style="border:none; border-top:1px solid var(--gris); margin: 1.5rem 0;">
+                    <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
+                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
+                    <div class="card-details-group">
+                        <div class="form-group" style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required maxlength="5" /></div>
+                        <div class="form-group" style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required minlength="3" maxlength="4" /></div>
                     </div>
+                    <div data-netlify-recaptcha="true"></div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text">Pagar y Finalizar</span><span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span></button>
+                        <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
+                    </div>
+                </div>
             </form>
         </main>
         <footer class="footer"><p>© 2025 Córtala.cl - Protege tu tranquilidad</p></footer>
     </section>
-    
+
     <script>
         let selectedPlanData = {};
         let contacts = [];
@@ -223,13 +246,21 @@
         }
 
         function goToStep(stepNumber) {
-            // ... (resto de la lógica de goToStep)
+            // Lógica para cambiar entre los pasos del formulario
+            const steps = document.querySelectorAll('.step');
+            steps.forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            if(stepNumber === 2) {
+                updateSlotsCounter();
+            }
         }
         
         function updateSlotsCounter() {
             const counterEl = document.getElementById('slots-counter');
             if(counterEl) {
                 counterEl.textContent = `Contactos añadidos: ${contacts.length} / ${selectedPlanData.slots}`;
+                document.getElementById('nextBtn2').disabled = contacts.length === 0;
             }
         }
 
@@ -243,10 +274,19 @@
                 return;
             }
             
+            // Validación simple de formato
+            const isEmail = value.includes('@');
+            const isPhone = value.match(/^\+?569\d{8}$/);
+            if (!isEmail && !isPhone) {
+                alert('Formato no válido. Ingresa un teléfono (+569...) o un email.');
+                return;
+            }
+
             contacts.push(value);
             input.value = '';
             renderContactList();
             updateSlotsCounter();
+            input.focus();
         }
 
         function removeContact(index) {
@@ -261,19 +301,33 @@
             contacts.forEach((contact, index) => {
                 const item = document.createElement('li');
                 item.className = 'contact-item';
-                item.innerHTML = `<span>${contact}</span><button onclick="removeContact(${index})">&times;</button>`;
+                item.innerHTML = `<span>${contact}</span><button type="button" onclick="removeContact(${index})">&times;</button>`;
                 listEl.appendChild(item);
             });
         }
 
         function handleFormSubmit(event) {
             event.preventDefault();
+            if (contacts.length === 0) {
+                alert('Debes añadir al menos un contacto para proteger.');
+                return;
+            }
             document.getElementById('final-contacts-input').value = contacts.join(', ');
-            // Lógica para enviar el formulario a Netlify o pasarela de pago...
-             window.location.href = `gracias.html`; // Redirección simplificada
+            
+            // Simulación de envío
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.querySelector('.btn-text').style.display = 'none';
+            submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
+            
+            setTimeout(() => {
+                window.location.href = `gracias.html`; // Redirigir a una página de gracias genérica
+            }, 1500);
         }
-        
-        // ... (resto del script: goToStep, listeners, etc. adaptados)
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica existente de listeners y contador...
+        });
     </script>
 </body>
 </html>
