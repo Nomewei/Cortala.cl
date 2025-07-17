@@ -39,8 +39,8 @@
             z-index: 30;
             background-color: rgba(248, 250, 252, 0.8);
             backdrop-filter: blur(8px);
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
             transition: opacity 0.3s ease-in-out;
         }
         @keyframes fadeIn {
@@ -90,6 +90,17 @@
         .contacts-container-gradient {
             background: linear-gradient(160deg, #ffffff 50%, #f0f5ff 100%);
         }
+        .mini-plan-selector {
+            transition: all 0.3s ease-in-out;
+        }
+        .mini-plan-card {
+            border: 2px solid transparent;
+            transition: all 0.2s ease-in-out;
+        }
+        .mini-plan-card.selected {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -98,7 +109,6 @@
     <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200 h-20 flex items-center">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#" onclick="location.reload()" class="flex items-center gap-3 text-2xl font-bold text-blue-700">
-                <!-- LOGO FINAL (SVG RECREADO DE LA IMAGEN) -->
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="11" fill="#3b82f6"/>
                     <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.23-3.75-6.58-6.58l1.97-1.57a.977.977 0 00.24-1.01c-.36-1.11-.56-2.3-.56-3.53A1 1 0 007.62 4H4a1 1 0 00-1 1 17 17 0 0017 17 1 1 0 001-1v-3.62a1 1 0 00-1-1z" fill="white" transform="scale(0.75) translate(4, 4)"/>
@@ -142,10 +152,17 @@
 
         <!-- ========= FUNNEL DE VENTAS (CONTENEDOR) ========= -->
         <div id="checkout-funnel" class="container mx-auto px-6">
-            <!-- BARRA DE PROGRESO VISIBLE Y STICKY -->
+            <!-- BARRA DE PROGRESO Y SELECTOR DE PLANES MINI -->
             <div id="progress-bar-container" class="progress-bar-container opacity-0 -translate-y-4">
                 <div class="bg-gray-200 rounded-full h-2.5 w-full">
                     <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <!-- SELECTOR DE PLANES MINI (REDISENADO) -->
+                <div id="mini-plans-selector" class="mini-plan-selector max-h-0 overflow-hidden">
+                    <p class="text-center text-sm font-semibold text-gray-700 mt-6 mb-3">¿Cambiar de plan?</p>
+                    <div id="mini-plans-container" class="grid grid-cols-3 gap-4">
+                        <!-- Los mini planes se generarán aquí con JS -->
+                    </div>
                 </div>
             </div>
 
@@ -154,18 +171,21 @@
                 <h2 class="text-3xl font-bold text-center mb-2">Paso 1: Elige tu plan</h2>
                 <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un Teléfono o un Correo electrónico.¡Tú eliges!</p>
                 <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- PLAN PERSONAL -->
                     <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 8990}'>
                         <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Personal</h3><p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Ideal para ti.</p></div>
-                        <p class="text-2xl font-bold text-blue-600 mt-4">$8.990</p>
+                        <button class="w-full mt-4 bg-blue-100 text-blue-800 font-bold py-3 px-6 rounded-lg hover:bg-blue-200 transition">Elegir Plan - $8.990</button>
                     </div>
+                    <!-- PLAN DÚO -->
                     <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 4, "price": 14990}'>
                         <div class="recommended-badge">Recomendado</div>
                         <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Dúo</h3><p class="text-5xl font-extrabold mb-4">4 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Perfecto para parejas.</p><div class="savings-badge">Ahorras 17%</div></div>
-                        <p class="text-2xl font-bold text-blue-600 mt-4">$14.990</p>
+                        <button class="w-full mt-4 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan - $14.990</button>
                     </div>
-                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 24990}'>
+                    <!-- PLAN FAMILIAR -->
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 38990}'>
                         <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Familiar</h3><p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Protege a tu familia y amigos.</p><div class="savings-badge">Ahorras 35%</div></div>
-                        <p class="text-2xl font-bold text-blue-600 mt-4">$38.990</p>
+                        <button class="w-full mt-4 bg-blue-100 text-blue-800 font-bold py-3 px-6 rounded-lg hover:bg-blue-200 transition">Elegir Plan - $38.990</button>
                     </div>
                 </div>
             </section>
@@ -249,12 +269,15 @@
         let selectedPlan = { name: "Dúo", slots: 4, price: 14990 };
         let contacts = [];
         let funnelActive = false;
+        let currentStep = 0;
 
         // --- SELECTORES DEL DOM ---
         const mainContent = document.getElementById('main-content');
         const heroSection = document.getElementById('hero-section');
         const progressBarContainer = document.getElementById('progress-bar-container');
         const progressBar = document.getElementById('progress-bar');
+        const miniPlansSelector = document.getElementById('mini-plans-selector');
+        const miniPlansContainer = document.getElementById('mini-plans-container');
         const plansSection = document.getElementById('plans-section');
         const testimonialsSection = document.getElementById('testimonials-section');
         const contactsSection = document.getElementById('contacts-section');
@@ -287,13 +310,11 @@
 
         // --- MANEJO DEL FUNNEL ---
         function showStep(stepNumber) {
+            currentStep = stepNumber;
             funnelActive = true;
-            // Ocultar secciones iniciales y mostrar barra de progreso
             heroSection.classList.add('hidden');
             testimonialsSection.classList.add('hidden');
             progressBarContainer.classList.remove('opacity-0', '-translate-y-4');
-
-            // Ocultar todos los pasos del funnel
             [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
             
             let sectionToShow;
@@ -312,27 +333,50 @@
             if(sectionToShow){
                 sectionToShow.classList.remove('hidden');
                 sectionToShow.classList.add('fade-in');
-                // Scroll suave a la parte superior del contenedor del funnel
                 mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+            renderMiniPlans();
         }
 
         function updateProgressBar(percentage) {
             progressBar.style.width = `${percentage}%`;
+        }
+        
+        function handlePlanChange(newPlanData) {
+            selectedPlan = newPlanData;
+            renderMiniPlans();
+            
+            document.querySelectorAll('.plan-card').forEach(card => {
+                const cardPlan = JSON.parse(card.dataset.plan);
+                card.classList.toggle('selected', cardPlan.name === selectedPlan.name);
+                card.classList.toggle('border-blue-600', cardPlan.name === selectedPlan.name);
+            });
+
+            if (currentStep === 3) {
+                showStep(2);
+            } else if (currentStep === 2) {
+                updateContactUI();
+            }
         }
 
         // --- EVENT LISTENERS ---
         document.querySelectorAll('a[href="#plans-section"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                if (mobileMenu.classList.contains('hidden') === false) {
+                if (!mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                 }
-                // Si el funnel no está activo, lo activa en el paso 1
                 if (!funnelActive) {
                     showStep(1);
-                } else { // Si ya está activo, solo hace scroll
-                    plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    const isHidden = miniPlansSelector.classList.contains('max-h-0');
+                    if(isHidden) {
+                        miniPlansSelector.classList.remove('max-h-0');
+                        miniPlansSelector.style.maxHeight = miniPlansSelector.scrollHeight + "px";
+                    } else {
+                        miniPlansSelector.style.maxHeight = '0px';
+                        setTimeout(() => miniPlansSelector.classList.add('max-h-0'), 300);
+                    }
                 }
             });
         });
@@ -340,32 +384,36 @@
         plansContainer.addEventListener('click', (e) => {
             const card = e.target.closest('.plan-card');
             if (!card) return;
-            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
-            card.classList.add('selected', 'border-blue-600');
-            selectedPlan = JSON.parse(card.dataset.plan);
+            const planData = JSON.parse(card.dataset.plan);
+            handlePlanChange(planData);
             setTimeout(() => showStep(2), 200);
         });
         
+        miniPlansContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.mini-plan-card');
+            if(!card) return;
+            const planData = JSON.parse(card.dataset.plan);
+            handlePlanChange(planData);
+        });
+        
         contactInput.addEventListener('input', () => {
-            const canAdd = contactInput.value.trim() !== '' && contacts.length < selectedPlan.slots;
-            addContactBtn.disabled = !canAdd;
+            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
         });
 
         addContactBtn.addEventListener('click', () => {
-            const contactValue = contactInput.value.trim();
-            if (contactValue && contacts.length < selectedPlan.slots) {
-                contacts.push(contactValue);
+            if (contactInput.value.trim() !== '' && contacts.length < selectedPlan.slots) {
+                contacts.push(contactInput.value.trim());
                 contactInput.value = '';
                 renderContacts();
-                contactInput.focus();
+                updateContactUI();
             }
         });
 
         contactList.addEventListener('click', (e) => {
             if (e.target.closest('.delete-contact-btn')) {
-                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
-                contacts = contacts.filter(c => c !== contactToRemove);
+                contacts = contacts.filter(c => c !== e.target.closest('.delete-contact-btn').dataset.contact);
                 renderContacts();
+                updateContactUI();
             }
         });
 
@@ -386,16 +434,33 @@
         });
 
         shareWhatsappBtn.addEventListener('click', () => {
-            const referralLink = referralLinkInput.value;
-            const message = encodeURIComponent(`¡Oye! Encontré este servicio para eliminar el SPAM telefónico y de emails. ¡Funciona súper bien! Si usas mi link te dan slots gratis para proteger tus números: ${referralLink}`);
+            const message = encodeURIComponent(`¡Oye! Encontré este servicio para eliminar el SPAM. ¡Funciona súper bien! Si usas mi link te dan slots gratis: ${referralLinkInput.value}`);
             window.open(`https://api.whatsapp.com/send?text=${message}`);
         });
 
         // --- RENDERIZADO Y UI ---
+        function renderMiniPlans() {
+            miniPlansContainer.innerHTML = '';
+            const allPlans = Array.from(document.querySelectorAll('#plans-container .plan-card'));
+            allPlans.forEach(card => {
+                const planData = JSON.parse(card.dataset.plan);
+                const miniCard = document.createElement('div');
+                miniCard.dataset.plan = JSON.stringify(planData);
+                miniCard.className = `mini-plan-card cursor-pointer p-3 rounded-lg text-center ${planData.name === selectedPlan.name ? 'selected' : 'bg-white hover:bg-gray-50'}`;
+                miniCard.innerHTML = `
+                    <p class="font-bold text-sm text-gray-800">${planData.name}</p>
+                    <p class="text-xs text-gray-500">${planData.slots} slots</p>
+                    <p class="text-xs font-semibold text-blue-600 mt-1">$${planData.price.toLocaleString('es-CL')}</p>
+                `;
+                miniPlansContainer.appendChild(miniCard);
+            });
+        }
+
         function updateContactUI() {
             slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
             contactInput.disabled = contacts.length >= selectedPlan.slots;
             addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
+            continueToPaymentBtn.disabled = contacts.length === 0;
         }
 
         function renderContacts() {
@@ -403,11 +468,9 @@
             contacts.forEach(contact => {
                 const item = document.createElement('div');
                 item.className = 'flex items-center justify-between bg-white/60 p-3 rounded-lg animate-scale-in';
-                item.innerHTML = `<span class="text-gray-800 font-medium">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
+                item.innerHTML = `<span class="text-gray-800 font-medium">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700 p-2 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
                 contactList.appendChild(item);
             });
-            updateContactUI();
-            continueToPaymentBtn.disabled = contacts.length === 0;
         }
 
         function updateSummary() {
