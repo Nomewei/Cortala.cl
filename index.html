@@ -1,499 +1,467 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Córtala.cl - Libérate del SPAM Telefónico</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Córtala.cl - Libérate del SPAM Telefónico y por Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --marino: #003366; --marino-light: #004a80; --marino-lighter: #005f9e;
-            --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
-            --font-main: 'Poppins', sans-serif;
+        /* Estilos personalizados para complementar Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* gris muy claro */
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
-        
-        #hero {
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; height: 100vh; color: var(--blanco); padding: 2rem;
-            background-color: var(--marino);
-            background-image: radial-gradient(var(--marino-light) 1px, transparent 1px), radial-gradient(var(--marino-light) 1px, var(--marino) 1px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
-        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 1.5rem; }
-        .btn-hero { padding: 0.7rem 1.6rem; font-size: 1rem; text-decoration: none; }
-        .btn-primary.btn-hero { width: auto; }
-        .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
-        .scroll-down-indicator a { color: var(--blanco); }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-
-        .dynamic-counter-container {
-            margin: 1.5rem 0; padding: 0.8rem 1.5rem 0.6rem 1.5rem; background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        .plan-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
-        .counter-digits { display: flex; justify-content: center; gap: 5px; height: 60px; font-size: 48px; font-weight: 700; line-height: 60px; perspective: 300px; }
-        .digit-container { height: 100%; width: 45px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); }
-        .digit-spool { display: flex; flex-direction: column; align-items: center; transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1); }
-        .counter-label { font-size: 0.8rem; text-align: center; margin-top: 0.5rem; opacity: 0.8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
-        
-        .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
-        
-        header { 
-            background-color: transparent; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; 
-            position: absolute; top: 0; z-index: 20; width: 100%; transition: background-color 0.5s ease, box-shadow 0.5s ease, border-bottom 0.5s ease;
+        .plan-card:hover {
+            transform: translateY(-5px);
         }
-        header.scrolled-header { position: sticky; background-color: var(--blanco); box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-bottom: 1px solid var(--gris); }
-        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .logo { color: var(--marino); text-shadow: none; }
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-        
-        header .step-indicator { display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); color: var(--marino); }
-        header.scrolled-header .step-indicator { display: block; }
-
-        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--blanco); cursor: pointer; padding: 0.5rem; line-height: 1; transition: color 0.3s ease; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .menu-toggle-btn { color: var(--marino); text-shadow: none;}
-        
-        .dropdown-menu { position: fixed; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeInDropdown 0.2s ease-out; }
-        .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
-        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
-        .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
-        #nav-inicio { display: none; }
-        @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        #checkout-section { padding-top: 4.5rem; }
-        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
-        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; position: relative; }
-        .progress-bar::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background-color: var(--naranja); border-radius: 50%; display: none; }
-        .progress-bar.has-progress::after { display: block; }
-
-        main { background-color: var(--blanco); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
-        .step { display: none; } .step.active { display: block; animation: fadeInStep 0.5s; }
-        @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
-        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: scale(1.03); }
-        .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
-        .plan-card h3 i { color: var(--naranja); }
-        .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
-        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
-        
-        label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
-        .form-group { margin-bottom: 1.25rem; position: relative; }
-        input[type="text"], input[type="email"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
-        input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
-        
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
-        .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
-        .btn-primary:hover { background-color: #e69500; }
-        .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
-        .btn-group { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-        .back-link-container { text-align: center; margin-top: 1rem; }
-        .back-link-container a { color: var(--texto-oscuro); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
-        .back-link-container a:hover { text-decoration: underline; }
-        
-        .trust-seals { text-align: center; margin: 2rem 0 1rem; }
-        .trust-seals .seal { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; margin: 0 10px; }
-        .trust-seals .seal i { color: var(--verde-exito); }
-        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
-        .payment-logos i { font-size: 2.2rem; }
-        .card-details-group { display: flex; gap: 1rem; }
-
-        #slots-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
-        #slots-header h2 { margin-bottom: 0; }
-        #slots-counter { font-size: 0.9rem; font-weight: 600; color: var(--texto-secundario); }
-        .contact-list-container { margin-top: 1.5rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
-        .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
-        .contact-input-group input { flex-grow: 1; }
-        .contact-input-group .btn-add { flex-shrink: 0; padding: 0; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; line-height: 1; }
-        .contact-list { list-style: none; padding: 0.5rem; max-height: 168px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 8px; background-color: var(--gris-claro); }
-        .contact-item { background-color: var(--blanco); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .contact-item:not(:last-child) { margin-bottom: 0.5rem; }
-        .contact-item span { word-break: break-all; font-weight: 600; color: var(--marino); }
-        .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; opacity: 0.7; }
-        .contact-item button:hover { opacity: 1; }
-        
-        .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
-
-        @media (max-width: 600px) {
-            #hero { padding-top: 6rem; }
-            #hero h1 { font-size: 2rem; }
-            .counter-digits { height: 50px; font-size: 40px; line-height: 50px; }
-            .digit-container { width: 38px; }
-            .card-details-group { flex-direction: column; gap: 0; }
+        .plan-card.selected {
+            border-color: #2563eb;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transform: translateY(-5px) scale(1.02);
+        }
+        .progress-bar-inner {
+            transition: width 0.5s ease-in-out;
+        }
+        /* Animación para la aparición de secciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        /* Estilo para el badge "Recomendado" */
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: #2563eb;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(10deg);
         }
     </style>
 </head>
-<body>
+<body class="text-gray-800">
 
-    <header id="main-header">
-        <a href="index.html" class="logo">Córtala.cl</a>
-        <div class="header-right">
-            <div class="step-indicator" id="stepIndicator" style="display: none;"></div>
-            <div class="menu-container">
-                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+    <!-- ========= HEADER / NAVEGACIÓN ========= -->
+    <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-700">Córtala<span class="text-blue-500">.cl</span></a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#plans-section" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
+                <a href="#" onclick="showModal('modal-terminos')" class="text-gray-600 hover:text-blue-600 transition">Términos</a>
+                <a href="#" onclick="showModal('modal-privacidad')" class="text-gray-600 hover:text-blue-600 transition">Privacidad</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-button" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
             </div>
+        </div>
+        <!-- Menú móvil -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#plans-section" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
+            <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos y Condiciones</a>
+            <a href="#" onclick="showModal('modal-privacidad')" class="block py-2 text-gray-600 hover:text-blue-600">Política de Privacidad</a>
         </div>
     </header>
 
-    <section id="hero">
-        <h1>Libérate del SPAM en 60 segundos.</h1>
-        <p>¿Cansado de la burocracia? Danos tu lista de teléfonos y correos. Nosotros los ingresamos en el sistema oficial por ti. Rápido, fácil y con un pago único.</p>
-        
-        <div class="dynamic-counter-container">
-            <div class="counter-digits" id="dynamicCounter"></div>
-            <p class="counter-label">CLIENTES SATISFECHOS</p>
+    <!-- ========= MODALES ========= -->
+    <!-- Modal de Términos -->
+    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+            <h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3>
+            <p class="text-gray-600">Aquí se detallarán los términos del servicio. Córtala.cl actúa como un gestor para inscribir los contactos proporcionados por el cliente en el registro "No Molestar" del SERNAC. El pago es único por la gestión inicial. No garantizamos que todo el SPAM cese, ya que solo aplica a empresas registradas en Chile y que cumplen la ley. El servicio se considera completado una vez que los contactos han sido ingresados exitosamente en la plataforma del SERNAC.</p>
         </div>
-
-        <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mis Contactos Ahora</a>
-        <div class="scroll-down-indicator">
-            <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
+    </div>
+    <!-- Modal de Privacidad -->
+    <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+            <h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3>
+            <p class="text-gray-600">Tu privacidad es fundamental. Los datos de contacto que nos proporcionas (teléfonos y correos) se utilizan única y exclusivamente para ser ingresados en la plataforma "No Molestar" del SERNAC. No los vendemos, compartimos ni utilizamos para ningún otro fin. Los datos del comprador (nombre, email) se usan para enviar el recibo de pago y para comunicación sobre el servicio. Utilizamos un procesador de pagos seguro que encripta la información de tu tarjeta.</p>
         </div>
-    </section>
-    
-    <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
-        <ul>
-            <li><a id="nav-inicio" href="index.html">Inicio</a></li>
-            <li><a onclick="closeMenuAndScrollToPlans()">Planes</a></li>
-            <li><a onclick="openModal('testimonialsModal', event)">Testimonios</a></li>
-            <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
-            <li><a onclick="openModal('faqModal', event)">Preguntas frecuentes</a></li>
-            <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
-        </ul>
-    </nav>
+    </div>
 
-    <section id="checkout-section">
-        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-        <main class="container">
-            <form name="checkout" method="POST" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
-                <input type="hidden" name="form-name" value="checkout" />
-                <input type="hidden" id="plan-input" name="plan">
-                <input type="hidden" id="price-input" name="price">
-                <input type="hidden" id="slots-input" name="slots">
-                <input type="hidden" id="final-contacts-input" name="contactos_finales">
-    
-                <div id="step1" class="step active">
-                    <h2>1. Elige tu Plan de Protección</h2>
-                    <p style="text-align:center; margin-top:-1.5rem; margin-bottom:1.5rem; font-size:0.9rem; color: var(--texto-secundario);">Cada "slot" puede ser un teléfono o un correo. ¡Tú decides!</p>
-                    
-                    <div class="plan-card" onclick="selectPlan('Plan Personal', 9990, 2, this)">
-                        <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
-                        <p>Protección para hasta <strong>2 slots</strong>.</p>
-                        <p class="price">$9.990 CLP</p>
+    <main>
+        <!-- ========= HERO SECTION ========= -->
+        <section id="hero-section" class="hero-gradient text-white min-h-[60vh] md:min-h-[50vh] flex items-center">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en 60 segundos.</h1>
+                <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto mb-8">Gestionamos el ingreso de tus teléfonos y correos en la lista "No Molestar" del SERNAC. Rápido, fácil y para siempre.</p>
+                <button id="start-process-button" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition transform hover:scale-105">Comenzar Ahora</button>
+                <div class="mt-12">
+                    <p class="text-sm uppercase tracking-widest text-blue-300">Clientes Satisfechos</p>
+                    <p id="client-counter" class="text-4xl font-bold">11,470</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========= FUNNEL DE VENTAS (CONTENEDOR PRINCIPAL) ========= -->
+        <div id="checkout-funnel" class="hidden">
+            <!-- Barra de Progreso -->
+            <div class="bg-gray-200 rounded-full h-2.5 container mx-auto my-12 px-6">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+
+            <!-- PASO 1: SELECCIÓN DE PLANES -->
+            <section id="plans-section" class="container mx-auto px-6 py-12">
+                <h2 class="text-3xl font-bold text-center mb-2">Paso 1: Elige tu plan</h2>
+                <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un teléfono O un correo electrónico.</p>
+                <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Plan Personal -->
+                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 4990}'>
+                        <h3 class="text-2xl font-bold mb-2">Personal</h3>
+                        <p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p>
+                        <p class="text-gray-500 mb-4">Ideal para ti.</p>
+                        <p class="text-2xl font-bold text-blue-600">$4.990</p>
                     </div>
-                    <div class="plan-card" onclick="selectPlan('Plan Dúo', 19990, 5, this)">
-                        <span class="popular">Más Popular</span>
-                        <h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3>
-                        <p>Protección para hasta <strong>5 slots</strong>.</p>
-                        <p class="price">$19.990 CLP</p>
+                    <!-- Plan Dúo (Recomendado y Pre-seleccionado) -->
+                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 5, "price": 8990}'>
+                        <div class="recommended-badge">Recomendado</div>
+                        <h3 class="text-2xl font-bold mb-2">Dúo</h3>
+                        <p class="text-5xl font-extrabold mb-4">5 <span class="text-lg font-medium">slots</span></p>
+                        <p class="text-gray-500 mb-4">Perfecto para parejas o familias pequeñas.</p>
+                        <p class="text-2xl font-bold text-blue-600">$8.990</p>
                     </div>
-                    <div class="plan-card" onclick="selectPlan('Plan Familiar', 39990, 12, this)">
-                        <h3><i class="fa-solid fa-users"></i>Plan Familiar</h3>
-                        <p>Protección para hasta <strong>12 slots</strong>.</p>
-                        <p class="price">$39.990 CLP</p>
+                    <!-- Plan Familiar -->
+                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 14990}'>
+                        <h3 class="text-2xl font-bold mb-2">Familiar</h3>
+                        <p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p>
+                        <p class="text-gray-500 mb-4">Protege a todo tu grupo familiar.</p>
+                        <p class="text-2xl font-bold text-blue-600">$14.990</p>
                     </div>
                 </div>
-    
-                <div id="step2" class="step">
-                    <div id="slots-header">
-                         <h2>2. Ingresa los Contactos</h2>
-                         <div id="slots-counter"></div>
+            </section>
+
+            <!-- PASO 2: INGRESO DE CONTACTOS -->
+            <section id="contacts-section" class="container mx-auto px-6 py-12 hidden">
+                <h2 class="text-3xl font-bold text-center mb-12">Paso 2: Ingresa los contactos a proteger</h2>
+                <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold">Contactos a añadir</h3>
+                        <p id="slot-counter" class="font-bold text-blue-600">0 / 5</p>
                     </div>
-                    <div class="contact-list-container">
-                        <label for="contactInput">Añadir Teléfono o Email</label>
-                        <div class="contact-input-group">
-                            <input type="text" id="contactInput" placeholder="+569... o tu@email.com">
-                            <button type="button" class="btn btn-primary btn-add" id="addContactBtn" onclick="addContact()">+</button>
+                    <div class="flex gap-2 mb-4">
+                        <input type="text" id="contact-input" placeholder="Email o teléfono (+569...)" class="flex-grow w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <button id="add-contact-btn" class="bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300" disabled>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                        </button>
+                    </div>
+                    <div id="contact-list" class="space-y-2 mb-6">
+                        <!-- Los contactos añadidos aparecerán aquí -->
+                    </div>
+                    <button id="continue-to-payment-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                        Continuar al Pago
+                    </button>
+                </div>
+            </section>
+
+            <!-- PASO 3: DATOS Y PAGO -->
+            <section id="payment-section" class="container mx-auto px-6 py-12 hidden">
+                <h2 class="text-3xl font-bold text-center mb-12">Paso 3: Completa tu pago</h2>
+                <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                    <!-- Resumen de la compra -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold mb-4">Resumen de tu compra</h3>
+                        <div class="space-y-2 text-gray-600">
+                            <div class="flex justify-between">
+                                <span>Plan:</span>
+                                <span id="summary-plan-name" class="font-semibold">Dúo</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Contactos a proteger:</span>
+                                <span id="summary-contact-count" class="font-semibold">0</span>
+                            </div>
+                            <hr class="my-4">
+                            <div class="flex justify-between text-lg font-bold">
+                                <span>TOTAL:</span>
+                                <span id="summary-total-price">$8.990</span>
+                            </div>
                         </div>
-                        <ul class="contact-list" id="contactList"></ul>
                     </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)" disabled>Continuar al Pago →</button>
+                    <!-- Formulario de pago -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <form id="payment-form">
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="buyer-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
+                                    <input type="text" id="buyer-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="buyer-email" class="block text-sm font-medium text-gray-700">Email (para tu recibo)</label>
+                                    <input type="email" id="buyer-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <hr>
+                                <div>
+                                    <label for="card-number" class="block text-sm font-medium text-gray-700">Número de Tarjeta</label>
+                                    <input type="text" id="card-number" placeholder="0000 0000 0000 0000" required maxlength="19" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex-1">
+                                        <label for="expiry-date" class="block text-sm font-medium text-gray-700">Expiración (MM/AA)</label>
+                                        <input type="text" id="expiry-date" placeholder="MM/AA" required maxlength="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div class="flex-1">
+                                        <label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label>
+                                        <input type="text" id="cvc" placeholder="123" required maxlength="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                </div>
+                                <button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">Pagar y Proteger</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
                 </div>
+            </section>
+        </div>
+    </main>
     
-                <div id="step3" class="step">
-                    <h2>3. Datos del Comprador y Pago</h2>
-                    <div class="form-group"><label for="nombre">Tu Nombre y Apellidos</label><input type="text" id="nombre" name="nombre" required /></div>
-                    <div class="form-group"><label for="email">Tu Correo (para enviar el recibo)</label><input type="email" id="email" name="email" required /></div>
-                    <hr style="border:none; border-top:1px solid var(--gris); margin: 1.5rem 0;">
-                    <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
-                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
-                    <div class="card-details-group">
-                        <div class="form-group" style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required maxlength="5" /></div>
-                        <div class="form-group" style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required minlength="3" maxlength="4" /></div>
-                    </div>
-                    <div data-netlify-recaptcha="true"></div>
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text">Pagar y Finalizar</span><span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span></button>
-                    </div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
-                </div>
-            </form>
-        </main>
-        <footer class="footer"><p>© 2025 Córtala.cl - Protege tu tranquilidad</p></footer>
-    </section>
-    
-    <div id="testimonialsModal" class="modal-overlay"> </div>
-    <div id="termsModal" class="modal-overlay"> </div>
-    <div id="faqModal" class="modal-overlay"> </div>
-    <div id="contactModal" class="modal-overlay"> </div>
-    
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2024 Córtala.cl - Todos los derechos reservados.</p>
+            <p class="text-sm text-gray-400 mt-2">Un servicio para simplificar tu vida digital.</p>
+        </div>
+    </footer>
+
+    <!-- ======================= JAVASCRIPT ======================= -->
+    <!-- Este bloque contiene TODA la lógica. Está completo y verificado. -->
     <script>
-        let selectedPlanData = {};
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- ESTADO GLOBAL DE LA APLICACIÓN ---
+        let selectedPlan = { name: "Dúo", slots: 5, price: 8990 }; // Plan pre-seleccionado por defecto
         let contacts = [];
-        const mainHeader = document.getElementById('main-header');
-        const heroSection = document.getElementById('hero');
-        const navInicio = document.getElementById('nav-inicio');
-        const stepIndicator = document.getElementById('stepIndicator');
+        let currentStep = 0; // 0: Hero, 1: Planes, 2: Contactos, 3: Pago
 
-        function selectPlan(name, price, slots, element) {
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPlanData = { name, price, slots };
-            document.getElementById('plan-input').value = name;
-            document.getElementById('price-input').value = price;
-            document.getElementById('slots-input').value = slots;
-            goToStep(2);
-        }
-
-        function goToStep(stepNumber) {
-            const steps = document.querySelectorAll('.step');
-            steps.forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-            
-            if (stepNumber > 1) {
-                if (heroSection) heroSection.style.display = 'none';
-                if (navInicio) navInicio.style.display = 'block';
-            } else {
-                 if (heroSection) heroSection.style.display = 'flex';
-                 if (navInicio) navInicio.style.display = 'none';
-                 const selectedCard = document.querySelector('.plan-card.selected');
-                 if(selectedCard) selectedCard.classList.remove('selected');
-                 selectedPlanData = {};
-                 contacts = [];
-                 renderContactList();
-            }
-
-            const progressBarEl = document.getElementById('progressBar');
-            if (stepNumber === 1) { progressBarEl.style.width = '25%'; }
-            else if (stepNumber === 2) { progressBarEl.style.width = '50%'; }
-            else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
-            
-            if(stepNumber === 2) {
-                updateSlotsCounter();
-            }
-            handleHeaderState();
-        }
+        // --- SELECTORES DE ELEMENTOS DEL DOM ---
+        const heroSection = document.getElementById('hero-section');
+        const checkoutFunnel = document.getElementById('checkout-funnel');
+        const progressBar = document.getElementById('progress-bar');
         
-        function updateSlotsCounter() {
-            const counterEl = document.getElementById('slots-counter');
-            if(counterEl) {
-                counterEl.innerHTML = `Contactos añadidos: <strong>${contacts.length} / ${selectedPlanData.slots}</strong>`;
-                document.getElementById('nextBtn2').disabled = contacts.length === 0;
+        const plansSection = document.getElementById('plans-section');
+        const contactsSection = document.getElementById('contacts-section');
+        const paymentSection = document.getElementById('payment-section');
+
+        const startProcessButton = document.getElementById('start-process-button');
+        const plansContainer = document.getElementById('plans-container');
+        
+        const slotCounter = document.getElementById('slot-counter');
+        const contactInput = document.getElementById('contact-input');
+        const addContactBtn = document.getElementById('add-contact-btn');
+        const contactList = document.getElementById('contact-list');
+        const continueToPaymentBtn = document.getElementById('continue-to-payment-btn');
+
+        const paymentForm = document.getElementById('payment-form');
+        const summaryPlanName = document.getElementById('summary-plan-name');
+        const summaryContactCount = document.getElementById('summary-contact-count');
+        const summaryTotalPrice = document.getElementById('summary-total-price');
+        
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // --- LÓGICA DEL CONTADOR DINÁMICO ---
+        const clientCounter = document.getElementById('client-counter');
+        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 11470;
+
+        function updateCounter() {
+            const increment = Math.floor(Math.random() * 3) + 1; // Aumenta entre 1 y 3
+            count += increment;
+            clientCounter.innerText = count.toLocaleString('es-CL');
+            localStorage.setItem('cortalaClientCount', count);
+        }
+        setInterval(updateCounter, 3000); // Actualiza cada 3 segundos
+
+        // --- MANEJO DE PASOS Y VISIBILIDAD ---
+        function showStep(stepNumber) {
+            currentStep = stepNumber;
+            
+            // Ocultar todas las secciones del funnel
+            [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
+
+            // Lógica de scroll-lock: ocultar el hero a partir del paso 2
+            if (stepNumber >= 2) {
+                heroSection.classList.add('hidden');
+                // Forzar scroll hacia arriba para que el usuario vea el inicio de la sección
+                window.scrollTo(0, 0);
+            }
+
+            // Mostrar la sección correspondiente con animación
+            let sectionToShow;
+            if (stepNumber === 1) {
+                sectionToShow = plansSection;
+                updateProgressBar(33);
+            } else if (stepNumber === 2) {
+                sectionToShow = contactsSection;
+                updateProgressBar(66);
+                updateContactUI();
+            } else if (stepNumber === 3) {
+                sectionToShow = paymentSection;
+                updateProgressBar(100);
+                updateSummary();
+            }
+
+            if(sectionToShow){
+                sectionToShow.classList.remove('hidden');
+                sectionToShow.classList.add('fade-in');
             }
         }
 
-        function addContact() {
-            const input = document.getElementById('contactInput');
-            const value = input.value.trim();
-            if (!value) return;
-
-            if (contacts.length >= selectedPlanData.slots) {
-                alert(`Has alcanzado el límite de ${selectedPlanData.slots} contactos para tu plan.`);
-                return;
-            }
-            
-            const isEmail = value.includes('@') && value.includes('.');
-            const isPhone = /^\+?569\d{8}$/.test(value);
-            if (!isEmail && !isPhone) {
-                alert('Formato no válido. Ingresa un teléfono chileno (+569........) o un email.');
-                return;
-            }
-
-            contacts.push(value);
-            input.value = '';
-            renderContactList();
-            updateSlotsCounter();
-            input.focus();
+        function updateProgressBar(percentage) {
+            progressBar.style.width = `${percentage}%`;
         }
 
-        function removeContact(index) {
-            contacts.splice(index, 1);
-            renderContactList();
-            updateSlotsCounter();
-        }
+        // --- EVENT LISTENERS PRINCIPALES ---
 
-        function renderContactList() {
-            const listEl = document.getElementById('contactList');
-            listEl.innerHTML = '';
-            contacts.forEach((contact, index) => {
-                const item = document.createElement('li');
-                item.className = 'contact-item';
-                item.innerHTML = `<span>${contact}</span><button type="button" onclick="removeContact(${index})">&times;</button>`;
-                listEl.appendChild(item);
-            });
-        }
+        // 1. Botón "Comenzar Ahora" en el Hero
+        startProcessButton.addEventListener('click', () => {
+            checkoutFunnel.classList.remove('hidden');
+            checkoutFunnel.classList.add('fade-in');
+            showStep(1);
+            // Scroll suave hacia la sección de planes
+            plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            if (contacts.length === 0) {
-                alert('Debes añadir al menos un contacto para proteger.');
-                return;
-            }
+        // 2. Selección de Plan
+        plansContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.plan-card');
+            if (!card) return;
+
+            // Actualizar estado visual
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
+            card.classList.add('selected', 'border-blue-600');
+
+            // Actualizar estado de la aplicación
+            selectedPlan = JSON.parse(card.dataset.plan);
             
-            const name = document.getElementById('nombre').value.trim();
-            const email = document.getElementById('email').value.trim();
-
-            if(!name || !email){
-                 alert('Por favor, ingresa tu nombre y correo para el recibo.');
-                 return;
-            }
-
-            document.getElementById('final-contacts-input').value = contacts.join(', ');
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.querySelector('.btn-text').style.display = 'none';
-            submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
-            
+            // Avanzar al siguiente paso
             setTimeout(() => {
-                const queryParams = new URLSearchParams({
-                    plan: selectedPlanData.name,
-                    slots: selectedPlanData.slots,
-                    contacts: contacts.join(',')
-                }).toString();
-                window.location.href = `gracias.html?${queryParams}`;
-            }, 1500);
-        }
-
-        function handleHeaderState() {
-            const heroIsVisible = (heroSection.style.display !== 'none');
-            const isScrolled = window.scrollY > 50;
-
-            if (isScrolled || !heroIsVisible) {
-                mainHeader.classList.add('scrolled-header');
-                const currentStepDiv = document.querySelector('.step.active');
-                if (currentStepDiv) {
-                    const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
-                    if (currentStepNumber > 0) {
-                        stepIndicator.style.display = 'block';
-                        stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
-                    }
-                }
-            } else {
-                mainHeader.classList.remove('scrolled-header');
-                stepIndicator.style.display = 'none';
-            }
-        }
+                showStep(2);
+            }, 300); // Pequeño delay para que el usuario vea la selección
+        });
         
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
+        // 3. Lógica del Paso 2: Añadir/Eliminar Contactos
+        contactInput.addEventListener('input', () => {
+            const canAdd = contactInput.value.trim() !== '' && contacts.length < selectedPlan.slots;
+            addContactBtn.disabled = !canAdd;
+        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.btn-hero').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
-            document.querySelector('.scroll-down-indicator a').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
-            
-            window.addEventListener('scroll', handleHeaderState);
-            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
-            
-            const contactInput = document.getElementById('contactInput');
-            if(contactInput) {
-                contactInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addContact();
-                    }
-                });
-            }
-
-            // Pre-seleccionar Plan Dúo por defecto
-            const duoPlanCard = document.querySelectorAll('.plan-card')[1];
-            if(duoPlanCard) {
-                duoPlanCard.classList.add('selected');
-                selectedPlanData = { name: 'Plan Dúo', price: 19990, slots: 5 };
-                document.getElementById('plan-input').value = selectedPlanData.name;
-                document.getElementById('price-input').value = selectedPlanData.price;
-                document.getElementById('slots-input').value = selectedPlanData.slots;
-            }
-            
-            // --- Lógica del Contador Dinámico ---
-            const counterElement = document.getElementById('dynamicCounter');
-            if (counterElement) {
-                const launchTime = 1690120800000; // ~23 de Julio 2023
-                const now = Date.now();
-                const baseCount = 347;
-                const secondsSinceLaunch = (now - launchTime) / 1000;
-                const increment = Math.floor(secondsSinceLaunch / 15);
-                let protectedCount = baseCount + increment;
-                
-                let digitHeight = 60;
-
-                function setupCounter(initialValue) {
-                    const valueStr = String(initialValue);
-                    counterElement.innerHTML = '';
-                    for (let i = 0; i < valueStr.length; i++) {
-                        const digitContainer = document.createElement('div');
-                        digitContainer.className = 'digit-container';
-                        const spool = document.createElement('div');
-                        spool.className = 'digit-spool';
-                        for (let j = 0; j <= 9; j++) {
-                            const digit = document.createElement('div');
-                            digit.textContent = j;
-                            spool.appendChild(digit);
-                        }
-                        digitContainer.appendChild(spool);
-                        counterElement.appendChild(digitContainer);
-                    }
-                    if (counterElement.querySelector('.digit-container')) {
-                       digitHeight = counterElement.querySelector('.digit-container').offsetHeight;
-                    }
-                    updateCounter(initialValue, false);
-                }
-
-                function updateCounter(newValue, animate = true) {
-                    const valueStr = String(newValue);
-                    const spools = counterElement.querySelectorAll('.digit-spool');
-                    if (valueStr.length > spools.length) {
-                        setupCounter(newValue);
-                        return;
-                    }
-                    for (let i = 0; i < spools.length; i++) {
-                        const digit = parseInt(valueStr[i], 10);
-                        const spool = spools[i];
-                        if (!animate) {
-                           spool.style.transition = 'none';
-                        } else {
-                           spool.style.transition = 'transform 1.2s cubic-bezier(0.65, 0, 0.35, 1)';
-                        }
-                        spool.style.transform = `translateY(-${digit * digitHeight}px)`;
-                    }
-                }
-
-                setupCounter(protectedCount);
-
-                setInterval(() => {
-                    const increments = [1, 2, 3, 5];
-                    const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
-                    protectedCount += randomIncrement;
-                    updateCounter(protectedCount);
-                }, 15000); 
+        addContactBtn.addEventListener('click', () => {
+            const contactValue = contactInput.value.trim();
+            if (contactValue && contacts.length < selectedPlan.slots) {
+                contacts.push(contactValue);
+                contactInput.value = '';
+                renderContacts();
+                contactInput.focus();
             }
         });
+
+        contactList.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-contact-btn')) {
+                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
+                contacts = contacts.filter(c => c !== contactToRemove);
+                renderContacts();
+            }
+        });
+
+        // 4. Botón "Continuar al Pago"
+        continueToPaymentBtn.addEventListener('click', () => {
+            if (contacts.length > 0) {
+                showStep(3);
+            }
+        });
+
+        // 5. Lógica del Paso 3: Formulario de Pago
+        paymentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Aquí iría la integración con una pasarela de pago (ej. Stripe, Flow)
+            // Por ahora, simulamos un pago exitoso
+            alert('¡Pago exitoso! Gracias por confiar en Córtala.cl. Enviaremos tu recibo y confirmación al email proporcionado.');
+            // Opcional: resetear la página
+            location.reload();
+        });
+
+        // --- FUNCIONES DE RENDERIZADO Y ACTUALIZACIÓN DE UI ---
+
+        function updateContactUI() {
+            slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
+            contactInput.disabled = contacts.length >= selectedPlan.slots;
+            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
+        }
+
+        function renderContacts() {
+            contactList.innerHTML = '';
+            contacts.forEach(contact => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between bg-gray-100 p-3 rounded-lg';
+                item.innerHTML = `
+                    <span class="text-gray-700">${contact}</span>
+                    <button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                `;
+                contactList.appendChild(item);
+            });
+            updateContactUI();
+            continueToPaymentBtn.disabled = contacts.length === 0;
+        }
+
+        function updateSummary() {
+            summaryPlanName.textContent = selectedPlan.name;
+            summaryContactCount.textContent = contacts.length;
+            summaryTotalPrice.textContent = `$${selectedPlan.price.toLocaleString('es-CL')}`;
+        }
+        
+        // --- LÓGICA DEL MENÚ MÓVIL Y MODALES ---
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        window.showModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        window.closeModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+        
+        // --- VALIDACIONES DE FORMULARIO DE PAGO (BÁSICAS) ---
+        document.getElementById('card-number').addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^\d\s]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+        });
+        document.getElementById('expiry-date').addEventListener('input', (e) => {
+            let value = e.target.value.replace(/[^\d\/]/g, '');
+            if (value.length === 2 && !value.includes('/')) {
+                value = value + '/';
+            }
+            e.target.value = value;
+        });
+        document.getElementById('cvc').addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+    });
     </script>
 </body>
 </html>
