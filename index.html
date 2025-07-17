@@ -35,7 +35,6 @@
         .scroll-down-indicator a { color: var(--blanco); }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
 
-        /* --- ESTILOS PARA EL CONTADOR DINÁMICO --- */
         .dynamic-counter-container {
             margin: 1.5rem 0; padding: 0.8rem 1.5rem 0.6rem 1.5rem; background-color: rgba(0, 0, 0, 0.2);
             border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px);
@@ -45,7 +44,7 @@
         .digit-container { height: 100%; width: 45px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); }
         .digit-spool { display: flex; flex-direction: column; align-items: center; transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1); }
         .counter-label { font-size: 0.8rem; text-align: center; margin-top: 0.5rem; opacity: 0.8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
-
+        
         .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
         
         header { 
@@ -82,16 +81,17 @@
         @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-        .plan-card:hover, .plan-card.selected:hover { transform: translateY(-5px); border-color: var(--naranja); }
+        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
         .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: scale(1.03); }
         .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
         .plan-card h3 i { color: var(--naranja); }
         .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
         .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
+        
         label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
         .form-group { margin-bottom: 1.25rem; position: relative; }
-        input[type="text"], input[type="email"], input[type="tel"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
+        input[type="text"], input[type="email"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
         input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
         
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
@@ -109,24 +109,25 @@
         .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
         .payment-logos i { font-size: 2.2rem; }
         .card-details-group { display: flex; gap: 1rem; }
-        
-        /* Estilos para el nuevo checkout de "slots" */
+
         #slots-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
         #slots-header h2 { margin-bottom: 0; }
         #slots-counter { font-size: 0.9rem; font-weight: 600; color: var(--texto-secundario); }
+        .contact-list-container { margin-top: 1.5rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
         .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
         .contact-input-group input { flex-grow: 1; }
         .contact-input-group .btn-add { flex-shrink: 0; padding: 0; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; line-height: 1; }
-        .contact-list { list-style: none; padding-left: 0; max-height: 168px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 8px; }
-        .contact-item { background-color: var(--gris-claro); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
-        .contact-item:not(:last-child) { border-bottom: 1px solid var(--gris); }
-        .contact-item span { word-break: break-all; }
-        .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; }
+        .contact-list { list-style: none; padding: 0.5rem; max-height: 168px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 8px; background-color: var(--gris-claro); }
+        .contact-item { background-color: var(--blanco); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .contact-item:not(:last-child) { margin-bottom: 0.5rem; }
+        .contact-item span { word-break: break-all; font-weight: 600; color: var(--marino); }
+        .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; opacity: 0.7; }
+        .contact-item button:hover { opacity: 1; }
         
         .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
 
         @media (max-width: 600px) {
-            #hero { padding-top: 5rem; }
+            #hero { padding-top: 6rem; }
             #hero h1 { font-size: 2rem; }
             .counter-digits { height: 50px; font-size: 40px; line-height: 50px; }
             .digit-container { width: 38px; }
@@ -184,7 +185,7 @@
     
                 <div id="step1" class="step active">
                     <h2>1. Elige tu Plan de Protección</h2>
-                    <p style="text-align:center; margin-top:-1rem; margin-bottom:1.5rem; font-size:0.9rem;">Cada "slot" puede ser un teléfono o un correo. ¡Tú decides!</p>
+                    <p style="text-align:center; margin-top:-1.5rem; margin-bottom:1.5rem; font-size:0.9rem; color: var(--texto-secundario);">Cada "slot" puede ser un teléfono o un correo. ¡Tú decides!</p>
                     
                     <div class="plan-card" onclick="selectPlan('Plan Personal', 9990, 2, this)">
                         <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
@@ -244,15 +245,11 @@
         </main>
         <footer class="footer"><p>© 2025 Córtala.cl - Protege tu tranquilidad</p></footer>
     </section>
-
-    <div id="testimonialsModal" class="modal-overlay">
-        </div>
-    <div id="termsModal" class="modal-overlay">
-        </div>
-    <div id="faqModal" class="modal-overlay">
-       </div>
-    <div id="contactModal" class="modal-overlay">
-        </div>
+    
+    <div id="testimonialsModal" class="modal-overlay"> </div>
+    <div id="termsModal" class="modal-overlay"> </div>
+    <div id="faqModal" class="modal-overlay"> </div>
+    <div id="contactModal" class="modal-overlay"> </div>
     
     <script>
         let selectedPlanData = {};
@@ -283,10 +280,11 @@
             } else {
                  if (heroSection) heroSection.style.display = 'flex';
                  if (navInicio) navInicio.style.display = 'none';
-                 // Al volver al paso 1, deseleccionar el plan
                  const selectedCard = document.querySelector('.plan-card.selected');
                  if(selectedCard) selectedCard.classList.remove('selected');
                  selectedPlanData = {};
+                 contacts = [];
+                 renderContactList();
             }
 
             const progressBarEl = document.getElementById('progressBar');
@@ -363,9 +361,6 @@
                  alert('Por favor, ingresa tu nombre y correo para el recibo.');
                  return;
             }
-            
-            // Aquí iría la lógica de validación de tarjeta de crédito
-            // ...
 
             document.getElementById('final-contacts-input').value = contacts.join(', ');
             
@@ -404,11 +399,10 @@
             }
         }
         
-        // --- El resto de funciones de utilidad ---
-        function formatPhoneInput(e) { /* ... */ }
-        function toggleMenu() { /* ... */ }
-        function openModal(modalId, event) { /* ... */ }
-        function closeModal(modalId) { /* ... */ }
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.btn-hero').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
@@ -427,26 +421,24 @@
                 });
             }
 
-            // Pre-seleccionar Plan Dúo
-            const duoPlanCard = document.querySelector('.plan-card:nth-child(2)');
+            // Pre-seleccionar Plan Dúo por defecto
+            const duoPlanCard = document.querySelectorAll('.plan-card')[1];
             if(duoPlanCard) {
-                duoPlanCard.click();
-                // Ir al paso 1 para que el usuario empiece desde el principio
-                goToStep(1);
-                // Limpiar la selección para que el usuario deba elegir
-                const selectedCard = document.querySelector('.plan-card.selected');
-                if(selectedCard) selectedCard.classList.remove('selected');
-                selectedPlanData = {};
+                duoPlanCard.classList.add('selected');
+                selectedPlanData = { name: 'Plan Dúo', price: 19990, slots: 5 };
+                document.getElementById('plan-input').value = selectedPlanData.name;
+                document.getElementById('price-input').value = selectedPlanData.price;
+                document.getElementById('slots-input').value = selectedPlanData.slots;
             }
             
             // --- Lógica del Contador Dinámico ---
             const counterElement = document.getElementById('dynamicCounter');
             if (counterElement) {
-                const launchTime = 1721224800000; // Fecha de lanzamiento ficticia en milisegundos
+                const launchTime = 1690120800000; // ~23 de Julio 2023
                 const now = Date.now();
-                const baseCount = 500;
-                // Incrementa en 1 cada 15 segundos desde el lanzamiento
-                const increment = Math.floor((now - launchTime) / 15000);
+                const baseCount = 347;
+                const secondsSinceLaunch = (now - launchTime) / 1000;
+                const increment = Math.floor(secondsSinceLaunch / 15);
                 let protectedCount = baseCount + increment;
                 
                 let digitHeight = 60;
