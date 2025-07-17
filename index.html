@@ -12,13 +12,15 @@
         /* Estilos personalizados para complementar Tailwind */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* gris muy claro */
+            background-color: #f8fafc;
         }
         .hero-gradient {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
         .plan-card {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
         }
         .plan-card:hover {
             transform: translateY(-5px);
@@ -28,10 +30,18 @@
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
             transform: translateY(-5px) scale(1.02);
         }
-        .progress-bar-inner {
-            transition: width 0.5s ease-in-out;
+        .plan-card-content {
+            flex-grow: 1;
         }
-        /* Animación para la aparición de secciones */
+        .progress-bar-container {
+            position: sticky;
+            top: 80px; /* Altura del header */
+            z-index: 30;
+            background-color: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(8px);
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -39,7 +49,6 @@
         .fade-in {
             animation: fadeIn 0.6s ease-out forwards;
         }
-        /* Estilo para el badge "Recomendado" */
         .recommended-badge {
             position: absolute;
             top: -15px;
@@ -52,7 +61,16 @@
             font-weight: 600;
             transform: rotate(10deg);
         }
-        /* Animación para modales */
+        .savings-badge {
+            background-color: #dbeafe;
+            color: #1e40af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
         @keyframes scaleIn {
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -72,21 +90,23 @@
 <body class="text-gray-800">
 
     <!-- ========= HEADER / NAVEGACIÓN ========= -->
-    <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+    <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200 h-20 flex items-center">
+        <div class="container mx-auto px-6 flex justify-between items-center">
             <a href="#" onclick="location.reload()" class="flex items-center gap-2 text-2xl font-bold text-blue-700">
-                <!-- NUEVO LOGO SVG -->
+                <!-- LOGO SVG CORREGIDO -->
                 <svg width="150" height="32" viewBox="0 0 150 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <text x="0" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">C</text>
-                    <text x="18" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">rta</text>
-                    <path d="M56.5 15.5C56.5 14.1667 56 13.5 55 13.5H53C52 13.5 51.5 14.1667 51.5 15.5V22.5C51.5 23.8333 52 24.5 53 24.5H55C56 24.5 56.5 23.8333 56.5 22.5V15.5Z" stroke="#1d4ed8" stroke-width="2"/>
-                    <circle cx="54" cy="10" r="1.5" fill="#1d4ed8"/>
-                    <text x="59" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">la</text>
+                    <g transform="translate(20, 0)">
+                        <text x="0" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">
+                            <tspan>rtala</tspan>
+                        </text>
+                        <text x="14" y="12" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">ó</text>
+                    </g>
                     <text x="85" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#3b82f6">.cl</text>
                 </svg>
             </a>
             <nav class="hidden md:flex items-center space-x-6">
-                <a href="#" id="nav-plans-link" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
+                <a href="#plans-section" id="nav-plans-link" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
                 <a href="#" onclick="showModal('modal-terminos')" class="text-gray-600 hover:text-blue-600 transition">Términos</a>
                 <a href="#" onclick="showModal('modal-privacidad')" class="text-gray-600 hover:text-blue-600 transition">Privacidad</a>
             </nav>
@@ -96,21 +116,19 @@
                 </button>
             </div>
         </div>
-        <!-- Menú móvil -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#" id="mobile-nav-plans-link" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
-            <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos y Condiciones</a>
-            <a href="#" onclick="showModal('modal-privacidad')" class="block py-2 text-gray-600 hover:text-blue-600">Política de Privacidad</a>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg px-6 pb-4">
+            <a href="#plans-section" id="mobile-nav-plans-link" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
+            <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos</a>
+            <a href="#" onclick="showModal('modal-privacidad')" class="block py-2 text-gray-600 hover:text-blue-600">Privacidad</a>
         </div>
     </header>
 
     <main>
-        <!-- ========= HERO SECTION (CON MÁS ESPACIADO) ========= -->
         <section id="hero-section" class="hero-gradient text-white">
             <div class="container mx-auto px-6 text-center py-20 md:py-28">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en 60 segundos.</h1>
                 <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto mb-8">Gestionamos el ingreso de tus teléfonos y correos en la lista "No Molestar" del SERNAC. Rápido, fácil y para siempre.</p>
-                <button id="start-process-button" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition transform hover:scale-105">Comenzar Ahora</button>
+                <a href="#plans-section" id="start-process-button" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition transform hover:scale-105 inline-block">Comenzar Ahora</a>
                 <div class="mt-12">
                     <p class="text-sm uppercase tracking-widest text-blue-300">Clientes Satisfechos</p>
                     <p id="client-counter" class="text-4xl font-bold">11,470</p>
@@ -118,199 +136,135 @@
             </div>
         </section>
 
-        <!-- ========= NUEVA SECCIÓN DE TESTIMONIOS ========= -->
         <section id="testimonials-section" class="py-16 lg:py-24 bg-slate-50">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center mb-12">No lo decimos nosotros, lo dicen nuestros clientes</h2>
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    <!-- Testimonio 1 -->
                     <div class="testimonial-card">
+                        <div class="flex text-yellow-400 mb-2">★★★★★</div>
                         <p class="text-gray-600 mb-4">"¡Santo remedio! Estaba chato de las llamadas de los bancos a cualquier hora. Pagué una vez y nunca más me molestaron. 100% recomendado."</p>
-                        <p class="font-bold text-gray-800">Carlos V.</p>
-                        <p class="text-sm text-gray-500">Ñuñoa</p>
+                        <p class="font-bold text-gray-800">Carlos V.</p><p class="text-sm text-gray-500">Ñuñoa</p>
                     </div>
-                     <!-- Testimonio 2 -->
                     <div class="testimonial-card">
+                        <div class="flex text-yellow-400 mb-2">★★★★★</div>
                         <p class="text-gray-600 mb-4">"Súper fácil el proceso. Metí mi teléfono y el de mi polola y listo. La página es clarita y funciona impeque. ¡Se pasaron!"</p>
-                        <p class="font-bold text-gray-800">Javiera R.</p>
-                        <p class="text-sm text-gray-500">Viña del Mar</p>
+                        <p class="font-bold text-gray-800">Javiera R.</p><p class="text-sm text-gray-500">Viña del Mar</p>
                     </div>
-                     <!-- Testimonio 3 -->
                     <div class="testimonial-card">
+                        <div class="flex text-yellow-400 mb-2">★★★★★</div>
                         <p class="text-gray-600 mb-4">"Al principio dudé, pero filo, por el precio valía la pena probar. Y la verdad, funciona. Bajó caleta el spam en mi correo y celular. Buena inversión."</p>
-                        <p class="font-bold text-gray-800">Matías L.</p>
-                        <p class="text-sm text-gray-500">Concepción</p>
+                        <p class="font-bold text-gray-800">Matías L.</p><p class="text-sm text-gray-500">Concepción</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ========= FUNNEL DE VENTAS (CONTENEDOR PRINCIPAL) ========= -->
-        <div id="checkout-funnel" class="hidden">
-            <!-- Barra de Progreso -->
-            <div class="bg-gray-200 rounded-full h-2.5 container mx-auto my-12 px-6">
-                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+        <!-- ========= FUNNEL DE VENTAS (AHORA PARTE DEL SCROLL NATURAL) ========= -->
+        <div id="checkout-funnel" class="container mx-auto px-6">
+            <!-- BARRA DE PROGRESO VISIBLE Y STICKY -->
+            <div id="progress-bar-container" class="progress-bar-container hidden">
+                <div class="bg-gray-200 rounded-full h-2.5 w-full">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
             </div>
 
-            <!-- PASO 1: SELECCIÓN DE PLANES -->
-            <section id="plans-section" class="container mx-auto px-6 py-12">
+            <section id="plans-section" class="py-12">
                 <h2 class="text-3xl font-bold text-center mb-2">Paso 1: Elige tu plan</h2>
                 <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un teléfono O un correo electrónico.</p>
-                <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 4990}'>
-                        <h3 class="text-2xl font-bold mb-2">Personal</h3>
-                        <p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p>
-                        <p class="text-gray-500 mb-4">Ideal para ti.</p>
-                        <p class="text-2xl font-bold text-blue-600">$4.990</p>
+                <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-end">
+                    <!-- PLANES ACTUALIZADOS CON PRECIOS Y AHORRO -->
+                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 8990}'>
+                        <div class="plan-card-content">
+                            <h3 class="text-2xl font-bold mb-2">Personal</h3>
+                            <p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p>
+                            <p class="text-gray-500 mb-4">Ideal para ti.</p>
+                        </div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4">$8.990</p>
                     </div>
-                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 5, "price": 8990}'>
+                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 4, "price": 14990}'>
                         <div class="recommended-badge">Recomendado</div>
-                        <h3 class="text-2xl font-bold mb-2">Dúo</h3>
-                        <p class="text-5xl font-extrabold mb-4">5 <span class="text-lg font-medium">slots</span></p>
-                        <p class="text-gray-500 mb-4">Perfecto para parejas o familias pequeñas.</p>
-                        <p class="text-2xl font-bold text-blue-600">$8.990</p>
+                        <div class="plan-card-content">
+                            <h3 class="text-2xl font-bold mb-2">Dúo</h3>
+                            <p class="text-5xl font-extrabold mb-4">4 <span class="text-lg font-medium">slots</span></p>
+                            <p class="text-gray-500 mb-4">Perfecto para parejas.</p>
+                            <div class="savings-badge">Ahorras 17%</div>
+                        </div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4">$14.990</p>
                     </div>
-                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 14990}'>
-                        <h3 class="text-2xl font-bold mb-2">Familiar</h3>
-                        <p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p>
-                        <p class="text-gray-500 mb-4">Protege a todo tu grupo familiar.</p>
-                        <p class="text-2xl font-bold text-blue-600">$14.990</p>
+                    <div class="plan-card cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 24990}'>
+                        <div class="plan-card-content">
+                            <h3 class="text-2xl font-bold mb-2">Familiar</h3>
+                            <p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p>
+                            <p class="text-gray-500 mb-4">Protege a todo tu grupo.</p>
+                            <div class="savings-badge">Ahorras 54%</div>
+                        </div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4">$24.990</p>
                     </div>
                 </div>
             </section>
 
-            <!-- PASO 2: INGRESO DE CONTACTOS -->
-            <section id="contacts-section" class="container mx-auto px-6 py-12 hidden">
+            <section id="contacts-section" class="py-12 hidden">
                 <h2 class="text-3xl font-bold text-center mb-12">Paso 2: Ingresa los contactos a proteger</h2>
                 <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-semibold">Contactos a añadir</h3>
-                        <p id="slot-counter" class="font-bold text-blue-600">0 / 5</p>
-                    </div>
+                    <div class="flex justify-between items-center mb-4"><h3 class="font-semibold">Contactos a añadir</h3><p id="slot-counter" class="font-bold text-blue-600">0 / 4</p></div>
                     <div class="flex gap-2 mb-4">
                         <input type="text" id="contact-input" placeholder="Email o teléfono (+569...)" class="flex-grow w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        <button id="add-contact-btn" class="bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300" disabled>
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                        </button>
+                        <button id="add-contact-btn" class="bg-blue-600 text-white font-bold w-12 h-12 flex items-center justify-center rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
                     </div>
                     <div id="contact-list" class="space-y-2 mb-6"></div>
                     <button id="continue-to-payment-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Continuar al Pago</button>
                 </div>
             </section>
 
-            <!-- PASO 3: DATOS Y PAGO -->
-            <section id="payment-section" class="container mx-auto px-6 py-12 hidden">
-                <h2 class="text-3xl font-bold text-center mb-12">Paso 3: Completa tu pago</h2>
+            <section id="payment-section" class="py-12 hidden">
+                <h2 class="text-3xl font-bold text-center mb-12">Paso 3: Un último paso para tu tranquilidad</h2>
                 <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
                     <div class="bg-white p-8 rounded-lg shadow-md">
                         <h3 class="text-xl font-bold mb-4">Resumen de tu compra</h3>
                         <div class="space-y-2 text-gray-600">
                             <div class="flex justify-between"><span>Plan:</span><span id="summary-plan-name" class="font-semibold">Dúo</span></div>
                             <div class="flex justify-between"><span>Contactos a proteger:</span><span id="summary-contact-count" class="font-semibold">0</span></div>
-                            <hr class="my-4">
-                            <div class="flex justify-between text-lg font-bold"><span>TOTAL:</span><span id="summary-total-price">$8.990</span></div>
+                            <hr class="my-4"><div class="flex justify-between text-lg font-bold"><span>TOTAL:</span><span id="summary-total-price">$14.990</span></div>
+                        </div>
+                        <div class="mt-6 bg-slate-50 p-4 rounded-lg text-center">
+                            <h4 class="font-semibold text-gray-700">Garantía de Gestión</h4>
+                            <p class="text-sm text-gray-600 mt-1">Nos aseguramos de que tus datos queden correctamente inscritos en la plataforma oficial del SERNAC.</p>
+                            <div class="flex justify-center items-center gap-4 mt-4 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                <span class="text-xs font-semibold">PAGO SEGURO SSL</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="bg-white p-8 rounded-lg shadow-md">
-                        <form id="payment-form">
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="buyer-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label>
-                                    <input type="text" id="buyer-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                                <div>
-                                    <label for="buyer-email" class="block text-sm font-medium text-gray-700">Email (para tu recibo)</label>
-                                    <input type="email" id="buyer-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                                <hr>
-                                <div>
-                                    <label for="card-number" class="block text-sm font-medium text-gray-700">Número de Tarjeta</label>
-                                    <input type="text" id="card-number" placeholder="0000 0000 0000 0000" required maxlength="19" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                </div>
-                                <div class="flex gap-4">
-                                    <div class="flex-1">
-                                        <label for="expiry-date" class="block text-sm font-medium text-gray-700">Expiración (MM/AA)</label>
-                                        <input type="text" id="expiry-date" placeholder="MM/AA" required maxlength="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                    <div class="flex-1">
-                                        <label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label>
-                                        <input type="text" id="cvc" placeholder="123" required maxlength="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                    </div>
-                                </div>
-                                <button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">Pagar y Proteger</button>
-                            </div>
-                        </form>
-                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md"><form id="payment-form"><div class="space-y-4"><div><label for="buyer-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label><input type="text" id="buyer-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="buyer-email" class="block text-sm font-medium text-gray-700">Email (para tu recibo)</label><input type="email" id="buyer-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><hr><div><label for="card-number" class="block text-sm font-medium text-gray-700">Número de Tarjeta</label><input type="text" id="card-number" placeholder="0000 0000 0000 0000" required maxlength="19" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex gap-4"><div class="flex-1"><label for="expiry-date" class="block text-sm font-medium text-gray-700">Expiración (MM/AA)</label><input type="text" id="expiry-date" placeholder="MM/AA" required maxlength="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex-1"><label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label><input type="text" id="cvc" placeholder="123" required maxlength="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">Pagar y Proteger</button></div></form></div>
                 </div>
             </section>
         </div>
     </main>
     
     <footer class="bg-gray-800 text-white mt-20">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <p>&copy; 2024 Córtala.cl - Todos los derechos reservados.</p>
-            <p class="text-sm text-gray-400 mt-2">Un servicio para simplificar tu vida digital.</p>
-        </div>
+        <div class="container mx-auto px-6 py-8 text-center"><p>&copy; 2024 Córtala.cl - Todos los derechos reservados.</p><p class="text-sm text-gray-400 mt-2">Un servicio para simplificar tu vida digital.</p></div>
     </footer>
 
-    <!-- ========= MODALES (Términos, Privacidad y NUEVO: Éxito/Referidos) ========= -->
-    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
-            <button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
-            <h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3>
-            <p class="text-gray-600">Aquí se detallarán los términos del servicio...</p>
-        </div>
-    </div>
-    <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in">
-            <button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
-            <h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3>
-            <p class="text-gray-600">Tu privacidad es fundamental...</p>
-        </div>
-    </div>
-    
-    <!-- NUEVO MODAL DE PAGO EXITOSO Y REFERIDOS -->
-    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            </div>
-            <h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3>
-            <p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p>
-            
-            <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6">
-                <h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4>
-                <p class="text-blue-700 my-2 text-sm">Comparte tu link. Tu amigo recibirá **2 slots extra gratis** y tú obtendrás un código para **2 slots adicionales** para ti.</p>
-                <div class="flex items-center bg-white border rounded-md p-2 my-4">
-                    <input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none">
-                    <button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button>
-                </div>
-                <button id="share-whatsapp-btn" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    Compartir por WhatsApp
-                </button>
-            </div>
-            <button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button>
-        </div>
-    </div>
+    <!-- ========= MODALES ========= -->
+    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in"><button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3><p class="text-gray-600">Aquí se detallarán los términos del servicio...</p></div></div>
+    <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in"><button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3><p class="text-gray-600">Tu privacidad es fundamental...</p></div></div>
+    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Comparte tu link. Tu amigo recibirá <strong>2 slots extra gratis</strong> y tú obtendrás un código para <strong>2 slots adicionales</strong> para ti.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
 
     <!-- ======================= JAVASCRIPT ======================= -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
 
         // --- ESTADO GLOBAL DE LA APLICACIÓN ---
-        let selectedPlan = { name: "Dúo", slots: 5, price: 8990 };
+        let selectedPlan = { name: "Dúo", slots: 4, price: 14990 }; // Plan pre-seleccionado por defecto
         let contacts = [];
-        let currentStep = 0;
 
         // --- SELECTORES DE ELEMENTOS DEL DOM ---
-        const heroSection = document.getElementById('hero-section');
-        const checkoutFunnel = document.getElementById('checkout-funnel');
+        const progressBarContainer = document.getElementById('progress-bar-container');
         const progressBar = document.getElementById('progress-bar');
         const plansSection = document.getElementById('plans-section');
         const contactsSection = document.getElementById('contacts-section');
         const paymentSection = document.getElementById('payment-section');
-        const startProcessButton = document.getElementById('start-process-button');
         const plansContainer = document.getElementById('plans-container');
         const slotCounter = document.getElementById('slot-counter');
         const contactInput = document.getElementById('contact-input');
@@ -323,7 +277,6 @@
         const summaryTotalPrice = document.getElementById('summary-total-price');
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        const navPlansLink = document.getElementById('nav-plans-link');
         const mobileNavPlansLink = document.getElementById('mobile-nav-plans-link');
         const copyReferralBtn = document.getElementById('copy-referral-btn');
         const referralLinkInput = document.getElementById('referral-link');
@@ -340,15 +293,11 @@
         }
         setInterval(updateCounter, 3000);
 
-        // --- MANEJO DE PASOS Y VISIBILIDAD ---
+        // --- MANEJO DE PASOS Y VISIBILIDAD DEL FUNNEL ---
         function showStep(stepNumber) {
-            currentStep = stepNumber;
+            progressBarContainer.classList.remove('hidden');
             [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
-            if (stepNumber >= 1) {
-                heroSection.classList.add('hidden');
-                document.getElementById('testimonials-section').classList.add('hidden');
-                window.scrollTo(0, 0);
-            }
+            
             let sectionToShow;
             if (stepNumber === 1) {
                 sectionToShow = plansSection;
@@ -365,30 +314,18 @@
             if(sectionToShow){
                 sectionToShow.classList.remove('hidden');
                 sectionToShow.classList.add('fade-in');
+                // Scroll suave a la sección activa
+                sectionToShow.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
         function updateProgressBar(percentage) {
             progressBar.style.width = `${percentage}%`;
         }
-        
-        function startCheckoutProcess() {
-            checkoutFunnel.classList.remove('hidden');
-            checkoutFunnel.classList.add('fade-in');
-            showStep(1);
-            plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
 
-        // --- EVENT LISTENERS PRINCIPALES ---
-        startProcessButton.addEventListener('click', startCheckoutProcess);
-        navPlansLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            startCheckoutProcess();
-        });
-        mobileNavPlansLink.addEventListener('click', (e) => {
-            e.preventDefault();
+        // --- EVENT LISTENERS ---
+        mobileNavPlansLink.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
-            startCheckoutProcess();
         });
 
         plansContainer.addEventListener('click', (e) => {
@@ -397,7 +334,7 @@
             document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
             card.classList.add('selected', 'border-blue-600');
             selectedPlan = JSON.parse(card.dataset.plan);
-            setTimeout(() => showStep(2), 300);
+            setTimeout(() => showStep(2), 200);
         });
         
         contactInput.addEventListener('input', () => {
@@ -445,7 +382,7 @@
             window.open(`https://api.whatsapp.com/send?text=${message}`);
         });
 
-        // --- FUNCIONES DE RENDERIZADO Y ACTUALIZACIÓN DE UI ---
+        // --- RENDERIZADO Y ACTUALIZACIÓN DE UI ---
         function updateContactUI() {
             slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
             contactInput.disabled = contacts.length >= selectedPlan.slots;
@@ -457,11 +394,7 @@
             contacts.forEach(contact => {
                 const item = document.createElement('div');
                 item.className = 'flex items-center justify-between bg-gray-100 p-3 rounded-lg';
-                item.innerHTML = `
-                    <span class="text-gray-700">${contact}</span>
-                    <button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>`;
+                item.innerHTML = `<span class="text-gray-700">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
                 contactList.appendChild(item);
             });
             updateContactUI();
@@ -474,40 +407,43 @@
             summaryTotalPrice.textContent = `$${selectedPlan.price.toLocaleString('es-CL')}`;
         }
         
-        // --- LÓGICA DEL MENÚ MÓVIL Y MODALES ---
+        // --- MODALES Y MENÚ MÓVIL ---
         menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
         
-        window.showModal = function(modalId) {
+        window.showModal = (modalId) => {
             const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
+            if (modal) modal.classList.replace('hidden', 'flex');
         }
 
-        window.closeModal = function(modalId) {
+        window.closeModal = (modalId) => {
             const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                if (modalId === 'modal-success') {
-                    location.reload();
-                }
-            }
+            if (modal) modal.classList.replace('flex', 'hidden');
+            if (modalId === 'modal-success') location.reload();
         }
         
-        // --- VALIDACIONES DE FORMULARIO DE PAGO ---
-        document.getElementById('card-number').addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[^\d\s]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim();
-        });
+        // --- VALIDACIONES DE FORMULARIO ---
+        document.getElementById('card-number').addEventListener('input', (e) => e.target.value = e.target.value.replace(/[^\d\s]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim());
         document.getElementById('expiry-date').addEventListener('input', (e) => {
-            let value = e.target.value.replace(/[^\d\/]/g, '');
-            if (value.length === 2 && !value.includes('/')) value = value + '/';
-            e.target.value = value;
+            let val = e.target.value.replace(/[^\d\/]/g, '');
+            if (val.length === 2 && !val.includes('/')) val += '/';
+            e.target.value = val;
         });
-        document.getElementById('cvc').addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/\D/g, '');
-        });
+        document.getElementById('cvc').addEventListener('input', (e) => e.target.value = e.target.value.replace(/\D/g, ''));
+
+        // --- INICIALIZACIÓN DEL FUNNEL AL HACER SCROLL ---
+        // Se muestra el paso 1 por defecto al llegar a la sección de planes.
+        // El resto del flujo es manejado por los clics del usuario.
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    progressBarContainer.classList.remove('hidden');
+                    updateProgressBar(33); // Inicia en el paso 1
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(plansSection);
+
     });
     </script>
 </body>
