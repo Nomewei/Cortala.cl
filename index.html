@@ -97,23 +97,21 @@
     <!-- ========= HEADER / NAVEGACIÓN ========= -->
     <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200 h-20 flex items-center">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="#" onclick="location.reload()" class="flex items-center gap-2 text-2xl font-bold text-blue-700">
-                <!-- NUEVO LOGO CON "C" DE CELULAR -->
-                <svg width="160" height="32" viewBox="0 0 160 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Celular como "C" -->
-                    <g transform="translate(0, 4)">
-                        <rect x="1" y="1" width="18" height="22" rx="4" stroke="#1d4ed8" stroke-width="2"/>
-                        <line x1="7" y1="5" x2="13" y2="5" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
-                    </g>
-                    <!-- "órtala.cl" -->
-                    <text x="28" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#1d4ed8">órtala</text>
-                    <text x="115" y="24" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#3b82f6">.cl</text>
+            <a href="#" onclick="location.reload()" class="flex items-center gap-3 text-2xl font-bold text-blue-700">
+                <!-- LOGO FINAL (SVG RECREADO DE LA IMAGEN) -->
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" fill="#3b82f6"/>
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.23-3.75-6.58-6.58l1.97-1.57a.977.977 0 00.24-1.01c-.36-1.11-.56-2.3-.56-3.53A1 1 0 007.62 4H4a1 1 0 00-1 1 17 17 0 0017 17 1 1 0 001-1v-3.62a1 1 0 00-1-1z" fill="white" transform="scale(0.75) translate(4, 4)"/>
                 </svg>
+                <div class="flex items-baseline">
+                    <span class="text-2xl font-bold text-[#1d4ed8]">órtala</span>
+                    <span class="text-2xl font-bold text-[#3b82f6]">.cl</span>
+                </div>
             </a>
             <nav class="hidden md:flex items-center space-x-6">
                 <a href="#plans-section" id="nav-plans-link" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
                 <a href="#" onclick="showModal('modal-terminos')" class="text-gray-600 hover:text-blue-600 transition">Términos</a>
-                <a href="#" onclick="showModal('modal-privacidad')" class="text-gray-600 hover:text-blue-600 transition">Privacidad</a>
+                <a href="#" onclick="showModal('modal-contacto')" class="text-gray-600 hover:text-blue-600 transition">Contacto</a>
             </nav>
             <div class="md:hidden">
                 <button id="menu-button" class="text-gray-700 focus:outline-none">
@@ -124,7 +122,7 @@
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg px-6 pb-4">
             <a href="#plans-section" id="mobile-nav-plans-link" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
             <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos</a>
-            <a href="#" onclick="showModal('modal-privacidad')" class="block py-2 text-gray-600 hover:text-blue-600">Privacidad</a>
+            <a href="#" onclick="showModal('modal-contacto')" class="block py-2 text-gray-600 hover:text-blue-600">Contacto</a>
         </div>
     </header>
 
@@ -220,6 +218,26 @@
         <div><h4 class="font-bold text-gray-800">6. Modificaciones a los Términos</h4><p>Córtala.cl se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Cualquier cambio será efectivo inmediatamente después de su publicación en nuestro sitio web. Se recomienda revisar esta sección periódicamente.</p></div>
     </div></div></div>
     <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in"><button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3><p class="text-gray-600">Tu privacidad es fundamental...</p></div></div>
+    
+    <!-- NUEVO MODAL DE CONTACTO -->
+    <div id="modal-contacto" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-contacto')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+            <h3 class="text-2xl font-bold mb-2 text-center">¿Necesitas ayuda?</h3>
+            <p class="text-center text-gray-600 mb-8">Elige tu canal de contacto preferido.</p>
+            <div class="space-y-4">
+                <a href="https://wa.me/56912345678?text=Hola!%20Tengo%20una%20consulta%20sobre%20el%20servicio%20de%20Córtala.cl" target="_blank" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
+                    <svg class="w-8 h-8 text-green-500 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <div><p class="font-semibold text-gray-800">Escríbenos por WhatsApp</p><p class="text-sm text-gray-500">Para respuestas rápidas.</p></div>
+                </a>
+                <a href="mailto:hola@cortala.cl" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
+                    <svg class="w-8 h-8 text-blue-500 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div><p class="font-semibold text-gray-800">Envíanos un Correo</p><p class="text-sm text-gray-500">Para consultas generales.</p></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Comparte tu link. Tu amigo recibirá <strong>2 slots extra gratis</strong> y tú obtendrás un código para <strong>2 slots adicionales</strong> para ti.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
 
