@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Córtala.cl - Libérate del SPAM en solo 60 segundos.</title>
+    <title>Córtala.cl - Libérate del SPAM en sólo 3 pasos.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,17 +90,6 @@
         .contacts-container-gradient {
             background: linear-gradient(160deg, #ffffff 50%, #f0f5ff 100%);
         }
-        .mini-plan-selector {
-            transition: all 0.3s ease-in-out;
-        }
-        .mini-plan-card {
-            border: 2px solid transparent;
-            transition: all 0.2s ease-in-out;
-        }
-        .mini-plan-card.selected {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -120,8 +109,9 @@
             </a>
             <nav class="hidden md:flex items-center space-x-6">
                 <a href="#plans-section" id="nav-plans-link" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
+                <a href="#" onclick="showModal('modal-faq')" class="text-gray-600 hover:text-blue-600 transition">FAQ's</a>
                 <a href="#" onclick="showModal('modal-terminos')" class="text-gray-600 hover:text-blue-600 transition">Términos</a>
-                <a href="#" onclick="showModal('modal-contacto')" class="text-gray-600 hover:text-blue-600 transition">Contacto</a>
+                <a href="#" onclick="showModal('modal-contacto')" class="text-gray-600 hover:text-blue-600 transition">Ayuda</a>
             </nav>
             <div class="md:hidden">
                 <button id="menu-button" class="text-gray-700 focus:outline-none">
@@ -131,8 +121,9 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg px-6 pb-4">
             <a href="#plans-section" id="mobile-nav-plans-link" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
+            <a href="#" onclick="showModal('modal-faq')" class="block py-2 text-gray-600 hover:text-blue-600">FAQ's</a>
             <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos</a>
-            <a href="#" onclick="showModal('modal-contacto')" class="block py-2 text-gray-600 hover:text-blue-600">Contacto</a>
+            <a href="#" onclick="showModal('modal-contacto')" class="block py-2 text-gray-600 hover:text-blue-600">Ayuda</a>
         </div>
     </header>
 
@@ -140,7 +131,7 @@
         <!-- ========= HERO SECTION ========= -->
         <section id="hero-section" class="hero-gradient text-white">
             <div class="container mx-auto px-6 text-center py-20 md:py-28">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en 60 segundos.</h1>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en sólo 3 pasos</h1>
                 <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto mb-8">Gestionamos el ingreso de tus teléfonos y correos en la lista "No Molestar" del SERNAC. Rápido, fácil y en un Pago Único.</p>
                 <a href="#plans-section" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition transform hover:scale-105 inline-block">Comenzar Ahora</a>
                 <div class="mt-12">
@@ -152,17 +143,10 @@
 
         <!-- ========= FUNNEL DE VENTAS (CONTENEDOR) ========= -->
         <div id="checkout-funnel" class="container mx-auto px-6">
-            <!-- BARRA DE PROGRESO Y SELECTOR DE PLANES MINI -->
+            <!-- BARRA DE PROGRESO -->
             <div id="progress-bar-container" class="progress-bar-container opacity-0 -translate-y-4">
                 <div class="bg-gray-200 rounded-full h-2.5 w-full">
                     <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                </div>
-                <!-- SELECTOR DE PLANES MINI (REDISENADO) -->
-                <div id="mini-plans-selector" class="mini-plan-selector max-h-0 overflow-hidden">
-                    <p class="text-center text-sm font-semibold text-gray-700 mt-6 mb-3">¿Cambiar de plan?</p>
-                    <div id="mini-plans-container" class="grid grid-cols-3 gap-4">
-                        <!-- Los mini planes se generarán aquí con JS -->
-                    </div>
                 </div>
             </div>
 
@@ -172,20 +156,23 @@
                 <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un Teléfono o un Correo electrónico.¡Tú eliges!</p>
                 <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     <!-- PLAN PERSONAL -->
-                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 8990}'>
-                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Personal</h3><p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Ideal para ti.</p></div>
-                        <button class="w-full mt-4 bg-blue-100 text-blue-800 font-bold py-3 px-6 rounded-lg hover:bg-blue-200 transition">Elegir Plan - $8.990</button>
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 1, "price": 8990}'>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Personal</h3><p class="text-5xl font-extrabold mb-4">1 <span class="text-lg font-medium">slot</span></p><p class="text-gray-500 mb-4">Eliges 1 teléfono o correo.</p></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$8.990</p>
+                        <button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
                     </div>
                     <!-- PLAN DÚO -->
-                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 4, "price": 14990}'>
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 2, "price": 14990}'>
                         <div class="recommended-badge">Recomendado</div>
-                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Dúo</h3><p class="text-5xl font-extrabold mb-4">4 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Perfecto para parejas.</p><div class="savings-badge">Ahorras 17%</div></div>
-                        <button class="w-full mt-4 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan - $14.990</button>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Dúo</h3><p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Eliges entre 2 teléfonos y correos.</p><div class="savings-badge">Ahorras 17%</div></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$14.990</p>
+                        <button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
                     </div>
                     <!-- PLAN FAMILIAR -->
-                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 38990}'>
-                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Familiar</h3><p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Protege a tu familia y amigos.</p><div class="savings-badge">Ahorras 35%</div></div>
-                        <button class="w-full mt-4 bg-blue-100 text-blue-800 font-bold py-3 px-6 rounded-lg hover:bg-blue-200 transition">Elegir Plan - $38.990</button>
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 5, "price": 28990}'>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Familiar</h3><p class="text-5xl font-extrabold mb-4">5 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Eliges entre 5 teléfonos y correos.</p><div class="savings-badge">Ahorras 35%</div></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$28.990</p>
+                        <button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
                     </div>
                 </div>
             </section>
@@ -201,12 +188,15 @@
                 </div>
             </section>
 
-            <!-- PASO 2: CONTACTOS (REDISENADO) -->
-            <section id="contacts-section" class="py-24 hidden"><h2 class="text-3xl font-bold text-center mb-4">Paso 2: Ingresa los contactos a proteger</h2><p class="text-center text-gray-600 mb-12">Puedes añadir teléfonos (con formato +569...) o correos electrónicos.</p>
+            <!-- PASO 2: CONTACTOS -->
+            <section id="contacts-section" class="py-24 hidden"><h2 class="text-3xl font-bold text-center mb-4">Paso 2: Ingresa los contactos a proteger</h2><p id="contacts-subtitle" class="text-center text-gray-600 mb-12"></p>
                 <div class="max-w-xl mx-auto contacts-container-gradient p-8 rounded-2xl shadow-lg">
-                    <div class="flex justify-between items-center mb-6"><h3 class="font-semibold text-lg text-gray-800">Añade aqui a tus Contactos</h3><p id="slot-counter" class="font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full text-sm">0 / 4</p></div>
+                    <div class="flex justify-between items-center mb-6"><h3 class="font-semibold text-lg text-gray-800">Añade aqui a tus Contactos</h3><p id="slot-counter" class="font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full text-sm">0 / 2</p></div>
                     <div class="relative mb-1">
-                        <input type="text" id="contact-input" placeholder="Correo o teléfono" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none pr-14">
+                        <div class="flex items-center border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
+                           <span class="px-3 text-gray-500 bg-gray-100 h-full flex items-center rounded-l-lg border-r border-gray-300">+56</span>
+                           <input type="text" id="contact-input" placeholder="9 8765 4321 o correo@ejemplo.com" class="w-full px-4 py-3 border-0 rounded-r-lg focus:outline-none">
+                        </div>
                         <button id="add-contact-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white font-bold w-10 h-10 flex items-center justify-center rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
                     </div>
                     <p id="contact-error" class="text-red-500 text-sm h-5 mb-2"></p>
@@ -222,7 +212,7 @@
             <section id="payment-section" class="py-24 hidden"><h2 class="text-3xl font-bold text-center mb-12">Paso 3: Un último paso para tu tranquilidad</h2>
                 <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
                     <div class="bg-white p-8 rounded-lg shadow-md"><h3 class="text-xl font-bold mb-4">Resumen de tu compra</h3><div class="space-y-2 text-gray-600"><div class="flex justify-between"><span>Plan:</span><span id="summary-plan-name" class="font-semibold">Dúo</span></div><div class="flex justify-between"><span>Contactos a proteger:</span><span id="summary-contact-count" class="font-semibold">0</span></div><hr class="my-4"><div class="flex justify-between text-lg font-bold"><span>TOTAL:</span><span id="summary-total-price">$14.990</span></div></div><div class="mt-6 bg-slate-50 p-4 rounded-lg text-center"><h4 class="font-semibold text-gray-700">Garantía de Gestión</h4><p class="text-sm text-gray-600 mt-1">Nos aseguramos de que tus datos queden correctamente inscritos en la plataforma oficial del SERNAC.</p><div class="flex justify-center items-center gap-4 mt-4 text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg><span class="text-xs font-semibold">PAGO SEGURO SSL</span></div></div></div>
-                    <div class="bg-white p-8 rounded-lg shadow-md"><form id="payment-form"><div class="space-y-4"><div><label for="buyer-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label><input type="text" id="buyer-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="buyer-email" class="block text-sm font-medium text-gray-700">Email (para tu recibo)</label><input type="email" id="buyer-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><hr><div><label for="card-number" class="block text-sm font-medium text-gray-700">Número de Tarjeta</label><input type="text" id="card-number" placeholder="0000 0000 0000 0000" required maxlength="19" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex gap-4"><div class="flex-1"><label for="expiry-date" class="block text-sm font-medium text-gray-700">Expiración (MM/AA)</label><input type="text" id="expiry-date" placeholder="MM/AA" required maxlength="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex-1"><label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label><input type="text" id="cvc" placeholder="123" required maxlength="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">Pagar y Proteger</button></div></form>
+                    <div class="bg-white p-8 rounded-lg shadow-md"><form id="payment-form"><div class="space-y-4"><div><label for="buyer-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label><input type="text" id="buyer-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="buyer-email" class="block text-sm font-medium text-gray-700">Email (para tu recibo)</label><input type="email" id="buyer-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><hr><div><label for="card-number" class="block text-sm font-medium text-gray-700">Número de Tarjeta</label><input type="text" id="card-number" placeholder="0000 0000 0000 0000" required maxlength="19" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex gap-4"><div class="flex-1"><label for="expiry-date" class="block text-sm font-medium text-gray-700">Expiración (MM/AA)</label><input type="text" id="expiry-date" placeholder="MM/AA" required maxlength="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex-1"><label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label><input type="text" id="cvc" placeholder="123" required maxlength="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Pagar y Proteger</button></div></form>
                     <div class="text-center mt-4">
                         <button id="back-to-contacts-btn" class="text-sm text-gray-500 hover:text-gray-800 transition">&larr; Volver a Contactos</button>
                     </div>
@@ -235,22 +225,22 @@
     <footer class="bg-gray-800 text-white mt-20"><div class="container mx-auto px-6 py-8 text-center"><p>&copy; 2024 Córtala.cl - Todos los derechos reservados.</p><p class="text-sm text-gray-400 mt-2">Un servicio para simplificar tu vida digital.</p></div></footer>
 
     <!-- ========= MODALES ========= -->
-    <div id="modal-terminos" onclick="if (event.target === this) closeModal('modal-terminos')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto"><button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3><div class="text-gray-600 space-y-4 text-sm">
-        <p><strong>Última actualización: 18 de Julio, 2024</strong></p>
-        <p>Bienvenido a Córtala.cl. Al utilizar nuestro servicio, usted acepta los siguientes términos y condiciones. Por favor, léalos con atención.</p>
-        <div><h4 class="font-bold text-gray-800">1. Objeto del Servicio</h4><p>Córtala.cl ofrece un servicio de gestión de pago único para inscribir los datos de contacto (números de teléfono y/o direcciones de correo electrónico) proporcionados por el cliente en el registro público "No Molestar" administrado por el Servicio Nacional del Consumidor (SERNAC) de Chile.</p></div>
-        <div><h4 class="font-bold text-gray-800">2. Alcance y Limitaciones</h4><p>Nuestro servicio consiste exclusivamente en la gestión de la inscripción. Actuamos como un intermediario para facilitar este proceso al usuario. El efecto de la inscripción (la detención de comunicaciones publicitarias o "SPAM") depende exclusivamente de que las empresas en Chile cumplan con la normativa legal vigente y respeten el registro del SERNAC. No podemos garantizar que el 100% de las comunicaciones no deseadas cesarán, ya que el sistema no aplica a personas naturales, campañas políticas o empresas que no cumplan la ley.</p></div>
-        <div><h4 class="font-bold text-gray-800">3. Pago y Transacción</h4><p>El pago por el servicio es único por cada plan de "slots" adquirido. Un "slot" permite la inscripción de un (1) dato de contacto (un teléfono o un correo). El servicio se considerará completo y finalizado una vez que hayamos realizado la inscripción de los datos proporcionados en la plataforma del SERNAC. No existen reembolsos una vez que la gestión ha sido completada.</p></div>
-        <div><h4 class="font-bold text-gray-800">4. Responsabilidad del Usuario</h4><p>El usuario es el único responsable de la veracidad y exactitud de los datos de contacto que proporciona. Córtala.cl no se hace responsable por inscripciones fallidas debido a datos incorrectos o mal formateados. El usuario declara tener la autorización para gestionar los datos de contacto que inscribe, en caso de que no sean de su propiedad.</p></div>
-        <div><h4 class="font-bold text-gray-800">5. Privacidad y Uso de Datos</h4><p>Nos tomamos su privacidad muy en serio. Los datos de contacto proporcionados se utilizarán única y exclusivamente para el fin descrito en el punto 1. No serán vendidos, compartidos, ni utilizados para fines de marketing. Los datos del comprador (nombre, email) se utilizan para procesar el pago, enviar el comprobante y para comunicaciones relativas al servicio prestado. Para más detalles, consulte nuestra Política de Privacidad.</p></div>
-        <div><h4 class="font-bold text-gray-800">6. Modificaciones a los Términos</h4><p>Córtala.cl se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Cualquier cambio será efectivo inmediatamente después de su publicación en nuestro sitio web. Se recomienda revisar esta sección periódicamente.</p></div>
+    <div id="modal-faq" onclick="if (event.target === this) closeModal('modal-faq')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto"><button onclick="closeModal('modal-faq')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Preguntas Frecuentes (FAQ)</h3><div class="text-gray-600 space-y-4 text-sm">
+        <div><h4 class="font-bold text-gray-800">¿Cómo funciona el servicio?</h4><p>Nosotros tomamos los contactos que nos proporcionas y los inscribimos en la plataforma oficial "No Molestar" del SERNAC. Este es un servicio de gestión única que te ahorra el tiempo y la burocracia de hacerlo tú mismo.</p></div>
+        <div><h4 class="font-bold text-gray-800">¿El bloqueo es inmediato?</h4><p>Una vez que realizamos la gestión, las empresas tienen un plazo legal para actualizar sus bases de datos. Generalmente, deberías notar una disminución significativa del SPAM en un plazo de 7 a 30 días.</p></div>
+        <div><h4 class="font-bold text-gray-800">¿Bloquea el 100% de las llamadas y correos?</h4><p>No. Nuestro servicio se basa en la efectividad de la lista "No Molestar" del SERNAC y en un algoritmo propio que segmenta las empresas a notificar. Esto reduce drásticamente el SPAM, pero no podemos garantizar el bloqueo del 100%, ya que hay empresas que operan al margen de la ley o la normativa no aplica a todas las comunicaciones (ej. campañas políticas, personas naturales).</p></div>
+        <div><h4 class="font-bold text-gray-800">¿Qué es un "slot"?</h4><p>Un "slot" es un cupo para proteger un contacto. Puede ser un número de teléfono O una dirección de correo electrónico. Si compras un plan de 5 slots, puedes proteger 5 contactos en la combinación que prefieras (ej. 3 teléfonos y 2 correos).</p></div>
     </div></div></div>
-    <div id="modal-privacidad" onclick="if (event.target === this) closeModal('modal-privacidad')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in"><button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3><p class="text-gray-600">Tu privacidad es fundamental...</p></div></div>
-    
+    <div id="modal-terminos" onclick="if (event.target === this) closeModal('modal-terminos')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto"><button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3><div class="text-gray-600 space-y-4 text-sm">
+        <p><strong>Última actualización: 22 de Julio, 2024</strong></p>
+        <div><h4 class="font-bold text-gray-800">1. Objeto del Servicio</h4><p>Córtala.cl ofrece un servicio de gestión de pago único para inscribir los datos de contacto proporcionados por el cliente en la plataforma "No Molestar" del SERNAC, utilizando para ello una lista de empresas segmentada por un algoritmo propio.</p></div>
+        <div><h4 class="font-bold text-gray-800">2. Alcance y Limitaciones</h4><p>El servicio de Córtala.cl se basa en la gestión de inscripción en la lista oficial del SERNAC y en la notificación a una lista de empresas segmentada por nuestro algoritmo. **Se deja expresa constancia que este servicio no asegura ni garantiza el bloqueo del 100% de las comunicaciones no deseadas.** La efectividad final depende del cumplimiento de la ley por parte de las empresas y del alcance de la lista "No Molestar".</p></div>
+        <div><h4 class="font-bold text-gray-800">3. Tratamiento de Datos Personales (Ley 21.719)</h4><p>De acuerdo con la Ley N° 21.719 de Protección de Datos Personales, Córtala.cl actúa como mandatario del titular de los datos (el cliente) con el único fin de realizar la inscripción en la plataforma del SERNAC. Los datos proporcionados (teléfonos, correos, nombre) serán utilizados exclusivamente para este propósito. No serán compartidos con terceros no relacionados con el servicio ni utilizados para otros fines. El cliente puede ejercer sus derechos de acceso, rectificación, cancelación y oposición contactándonos a través de los canales de ayuda.</p></div>
+    </div></div></div>
     <div id="modal-contacto" onclick="if (event.target === this) closeModal('modal-contacto')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in">
             <button onclick="closeModal('modal-contacto')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
-            <h3 class="text-2xl font-bold mb-2 text-center">¿Necesitas ayuda?</h3>
+            <h3 class="text-2xl font-bold mb-2 text-center">Ayuda y Contacto</h3>
             <p class="text-center text-gray-600 mb-8">Elige tu canal de contacto preferido.</p>
             <div class="space-y-4">
                 <a href="https://wa.me/56912345678?text=Hola!%20Tengo%20una%20consulta%20sobre%20el%20servicio%20de%20Córtala.cl" target="_blank" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
@@ -265,19 +255,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE ADVERTENCIA DE SLOTS LIBRES -->
-    <div id="modal-slot-warning" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-sm w-full relative animate-scale-in text-center">
-            <h3 class="text-xl font-bold mb-2">¿Estás seguro?</h3>
-            <p id="slot-warning-message" class="text-gray-600 mb-6"></p>
-            <div class="flex justify-center gap-4">
-                <button onclick="closeModal('modal-slot-warning')" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Añadir más</button>
-                <button id="confirm-continue-payment" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Continuar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Comparte tu link. Tu amigo recibirá <strong>2 slots extra gratis</strong> y tú obtendrás un código para <strong>2 slots adicionales</strong> para ti.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Tú y tu referido recibirán 1 teléfono o correo Gratis cada uno en su primera compra.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
 
     <!-- ======================= JAVASCRIPT ======================= -->
@@ -285,7 +263,7 @@
     document.addEventListener('DOMContentLoaded', function() {
 
         // --- ESTADO GLOBAL ---
-        let selectedPlan = { name: "Dúo", slots: 4, price: 14990 };
+        let selectedPlan = { name: "Dúo", slots: 2, price: 14990 };
         let contacts = [];
         let funnelActive = false;
         let currentStep = 0;
@@ -295,14 +273,13 @@
         const heroSection = document.getElementById('hero-section');
         const progressBarContainer = document.getElementById('progress-bar-container');
         const progressBar = document.getElementById('progress-bar');
-        const miniPlansSelector = document.getElementById('mini-plans-selector');
-        const miniPlansContainer = document.getElementById('mini-plans-container');
         const plansSection = document.getElementById('plans-section');
         const testimonialsSection = document.getElementById('testimonials-section');
         const contactsSection = document.getElementById('contacts-section');
         const paymentSection = document.getElementById('payment-section');
         const plansContainer = document.getElementById('plans-container');
         const slotCounter = document.getElementById('slot-counter');
+        const contactsSubtitle = document.getElementById('contacts-subtitle');
         const contactInput = document.getElementById('contact-input');
         const contactError = document.getElementById('contact-error');
         const addContactBtn = document.getElementById('add-contact-btn');
@@ -316,18 +293,16 @@
         const summaryTotalPrice = document.getElementById('summary-total-price');
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        const slotWarningMessage = document.getElementById('slot-warning-message');
-        const confirmContinuePaymentBtn = document.getElementById('confirm-continue-payment');
 
         // --- LÓGICA DEL CONTADOR ---
         const clientCounter = document.getElementById('client-counter');
-        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 11470;
+        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 1470;
         function updateCounter() {
-            count += Math.floor(Math.random() * 3) + 1;
+            count += Math.floor(Math.random() * 2) + 1; // Incrementa 1 o 2
             clientCounter.innerText = count.toLocaleString('es-CL');
             localStorage.setItem('cortalaClientCount', count);
         }
-        setInterval(updateCounter, 3000);
+        setInterval(updateCounter, 300000); // Cada 5 minutos
 
         // --- MANEJO DEL FUNNEL ---
         function showStep(stepNumber) {
@@ -356,56 +331,12 @@
                 sectionToShow.classList.add('fade-in');
                 mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
-            renderMiniPlans();
         }
 
         function updateProgressBar(percentage) {
             progressBar.style.width = `${percentage}%`;
         }
         
-        function handlePlanChange(newPlanData) {
-            selectedPlan = newPlanData;
-            
-            // Truncar lista de contactos si el nuevo plan tiene menos slots
-            if (contacts.length > selectedPlan.slots) {
-                contacts.length = selectedPlan.slots;
-            }
-
-            renderMiniPlans();
-            
-            document.querySelectorAll('.plan-card').forEach(card => {
-                const cardPlan = JSON.parse(card.dataset.plan);
-                card.classList.toggle('selected', cardPlan.name === selectedPlan.name);
-                card.classList.toggle('border-blue-600', cardPlan.name === selectedPlan.name);
-            });
-
-            if (currentStep === 3) {
-                showStep(2);
-            } else if (currentStep === 2) {
-                updateContactUI();
-                renderContacts();
-            }
-            
-            // Ocultar selector mini
-            setTimeout(() => {
-                miniPlansSelector.style.maxHeight = '0px';
-                setTimeout(() => miniPlansSelector.classList.add('max-h-0'), 300);
-            }, 200);
-        }
-
-        // --- VALIDACIÓN ---
-        function validateContact(contact) {
-            const phoneRegex = /^\+569\d{8}$/;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (phoneRegex.test(contact) || emailRegex.test(contact)) {
-                contactError.textContent = '';
-                return true;
-            } else {
-                contactError.textContent = 'Formato no válido. Usa +569... o un email.';
-                return false;
-            }
-        }
-
         // --- EVENT LISTENERS ---
         document.querySelectorAll('a[href="#plans-section"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -413,72 +344,42 @@
                 if (!mobileMenu.classList.contains('hidden')) {
                     mobileMenu.classList.add('hidden');
                 }
-                if (!funnelActive) {
-                    showStep(1);
-                } else {
-                    const isHidden = miniPlansSelector.classList.contains('max-h-0');
-                    if(isHidden) {
-                        miniPlansSelector.classList.remove('max-h-0');
-                        miniPlansSelector.style.maxHeight = miniPlansSelector.scrollHeight + "px";
-                    } else {
-                        miniPlansSelector.style.maxHeight = '0px';
-                        setTimeout(() => miniPlansSelector.classList.add('max-h-0'), 300);
-                    }
-                }
+                showStep(1);
             });
         });
 
         plansContainer.addEventListener('click', (e) => {
             const card = e.target.closest('.plan-card');
             if (!card) return;
-            const planData = JSON.parse(card.dataset.plan);
-            handlePlanChange(planData);
+            selectedPlan = JSON.parse(card.dataset.plan);
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
+            card.classList.add('selected', 'border-blue-600');
             setTimeout(() => showStep(2), 200);
-        });
-        
-        miniPlansContainer.addEventListener('click', (e) => {
-            const card = e.target.closest('.mini-plan-card');
-            if(!card) return;
-            const planData = JSON.parse(card.dataset.plan);
-            handlePlanChange(planData);
         });
         
         contactInput.addEventListener('input', () => {
             addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
-            contactError.textContent = '';
         });
 
         addContactBtn.addEventListener('click', () => {
             const contactValue = contactInput.value.trim();
-            if (validateContact(contactValue) && contacts.length < selectedPlan.slots) {
+            if (contactValue && contacts.length < selectedPlan.slots) {
                 contacts.push(contactValue);
                 contactInput.value = '';
                 renderContacts();
-                updateContactUI();
             }
         });
 
         contactList.addEventListener('click', (e) => {
             if (e.target.closest('.delete-contact-btn')) {
-                contacts = contacts.filter(c => c !== e.target.closest('.delete-contact-btn').dataset.contact);
+                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
+                contacts = contacts.filter(c => c !== contactToRemove);
                 renderContacts();
-                updateContactUI();
             }
         });
 
         continueToPaymentBtn.addEventListener('click', () => {
-            const slotsLibres = selectedPlan.slots - contacts.length;
-            if (slotsLibres > 0) {
-                slotWarningMessage.textContent = `Aún te quedan ${slotsLibres} slot(s) libre(s). ¿Quieres continuar de todas formas?`;
-                showModal('modal-slot-warning');
-            } else {
-                showStep(3);
-            }
-        });
-
-        confirmContinuePaymentBtn.addEventListener('click', () => {
-            closeModal('modal-slot-warning');
-            showStep(3);
+            if (contacts.length > 0) showStep(3);
         });
 
         backToPlansBtn.addEventListener('click', () => showStep(1));
@@ -490,25 +391,9 @@
         });
 
         // --- RENDERIZADO Y UI ---
-        function renderMiniPlans() {
-            miniPlansContainer.innerHTML = '';
-            const allPlans = Array.from(document.querySelectorAll('#plans-container .plan-card'));
-            allPlans.forEach(card => {
-                const planData = JSON.parse(card.dataset.plan);
-                const miniCard = document.createElement('div');
-                miniCard.dataset.plan = JSON.stringify(planData);
-                miniCard.className = `mini-plan-card cursor-pointer p-3 rounded-lg text-center ${planData.name === selectedPlan.name ? 'selected' : 'bg-white hover:bg-gray-50'}`;
-                miniCard.innerHTML = `
-                    <p class="font-bold text-sm text-gray-800">${planData.name}</p>
-                    <p class="text-xs text-gray-500">${planData.slots} slots</p>
-                    <p class="text-xs font-semibold text-blue-600 mt-1">$${planData.price.toLocaleString('es-CL')}</p>
-                `;
-                miniPlansContainer.appendChild(miniCard);
-            });
-        }
-
         function updateContactUI() {
             slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
+            contactsSubtitle.textContent = `Tienes ${selectedPlan.slots} slots para elegir entre teléfonos y correos.`;
             contactInput.disabled = contacts.length >= selectedPlan.slots;
             addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
             continueToPaymentBtn.disabled = contacts.length === 0;
@@ -522,6 +407,7 @@
                 item.innerHTML = `<span class="text-gray-800 font-medium">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700 p-2 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
                 contactList.appendChild(item);
             });
+            updateContactUI();
         }
 
         function updateSummary() {
