@@ -1,499 +1,444 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Córtala.cl - Libérate del SPAM Telefónico</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Córtala.cl - Libérate del SPAM en solo 60 segundos.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --marino: #003366; --marino-light: #004a80; --marino-lighter: #005f9e;
-            --naranja: #FFA500; --blanco: #FFFFFF; --gris-claro: #F7F7F7; --gris: #E1E1E1; --texto-oscuro: #333333; --verde-exito: #28a745; --rojo-error: #dc3545;
-            --font-main: 'Poppins', sans-serif;
+        /* Estilos personalizados para complementar Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-main); background-color: var(--gris-claro); color: var(--texto-oscuro); line-height: 1.5; }
-        
-        #hero {
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; height: 100vh; color: var(--blanco); padding: 2rem;
-            background-color: var(--marino);
-            background-image: radial-gradient(var(--marino-light) 1px, transparent 1px), radial-gradient(var(--marino-light) 1px, var(--marino) 1px);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
-        #hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; max-width: 600px; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        #hero p { font-size: 1.1rem; max-width: 550px; opacity: 0.9; margin-bottom: 1.5rem; }
-        .btn-hero { padding: 0.7rem 1.6rem; font-size: 1rem; text-decoration: none; }
-        .btn-primary.btn-hero { width: auto; }
-        .scroll-down-indicator { position: absolute; bottom: 30px; font-size: 2rem; opacity: 0.5; animation: bounce 2s infinite; }
-        .scroll-down-indicator a { color: var(--blanco); }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
-
-        .dynamic-counter-container {
-            margin: 1.5rem 0; padding: 0.8rem 1.5rem 0.6rem 1.5rem; background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        .plan-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
         }
-        .counter-digits { display: flex; justify-content: center; gap: 5px; height: 60px; font-size: 48px; font-weight: 700; line-height: 60px; perspective: 300px; }
-        .digit-container { height: 100%; width: 45px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%); }
-        .digit-spool { display: flex; flex-direction: column; align-items: center; transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1); }
-        .counter-label { font-size: 0.8rem; text-align: center; margin-top: 0.5rem; opacity: 0.8; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
-        
-        .container { max-width: 500px; margin: 0 auto; padding: 1rem; }
-        
-        header { 
-            background-color: transparent; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; 
-            position: absolute; top: 0; z-index: 20; width: 100%; transition: background-color 0.5s ease, box-shadow 0.5s ease, border-bottom 0.5s ease;
+        .plan-card:hover {
+            transform: translateY(-5px);
         }
-        header.scrolled-header { position: sticky; background-color: var(--blanco); box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-bottom: 1px solid var(--gris); }
-        header .logo { font-size: 1.25rem; font-weight: bold; color: var(--blanco); transition: color 0.3s ease; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .logo { color: var(--marino); text-shadow: none; }
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-        
-        header .step-indicator { display: none; font-size: 0.85rem; font-weight: 600; background-color: var(--gris-claro); padding: 0.3rem 0.8rem; border-radius: 20px; border: 1px solid var(--gris); color: var(--marino); }
-        header.scrolled-header .step-indicator { display: block; }
-
-        .menu-toggle-btn { background: none; border: none; font-size: 1.5rem; color: var(--blanco); cursor: pointer; padding: 0.5rem; line-height: 1; transition: color 0.3s ease; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-        header.scrolled-header .menu-toggle-btn { color: var(--marino); text-shadow: none;}
-        
-        .dropdown-menu { position: fixed; top: 65px; right: 20px; background-color: var(--marino); border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 30; overflow: hidden; animation: fadeInDropdown 0.2s ease-out; }
-        .dropdown-menu ul { list-style: none; padding: 0.5rem 0; margin: 0; }
-        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; color: var(--blanco); text-decoration: none; font-weight: 600; transition: background-color 0.2s ease; cursor: pointer; }
-        .dropdown-menu li a:hover { background-color: var(--marino-light); color: var(--naranja); }
-        #nav-inicio { display: none; }
-        @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        #checkout-section { padding-top: 4.5rem; }
-        .progress-container { background-color: var(--gris); height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
-        .progress-bar { height: 100%; width: 0; background-color: var(--naranja); transition: width 0.4s ease-in-out; position: relative; }
-        .progress-bar::after { content: ''; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; background-color: var(--naranja); border-radius: 50%; display: none; }
-        .progress-bar.has-progress::after { display: block; }
-
-        main { background-color: var(--blanco); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        h2 { text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--marino); margin-bottom: 1.5rem; }
-        .step { display: none; } .step.active { display: block; animation: fadeInStep 0.5s; }
-        @keyframes fadeInStep { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .plan-card { border: 2px solid var(--gris); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; }
-        .plan-card:hover { transform: translateY(-5px); border-color: var(--naranja); }
-        .plan-card.selected { border-color: var(--naranja); background-color: #FFF9F0; box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2); transform: scale(1.03); }
-        .plan-card .popular { position: absolute; width: 150px; text-align: center; top: 19px; right: -40px; background-color: var(--naranja); color: var(--blanco); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0; transform: rotate(45deg); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .plan-card h3 { color: var(--marino); font-size: 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-weight: 600; }
-        .plan-card h3 i { color: var(--naranja); }
-        .plan-card p { font-size: 0.9rem; margin-top: 0.25rem; color: #666; }
-        .plan-card .price { font-size: 1.3rem; font-weight: bold; color: var(--texto-oscuro); margin-top: 0.5rem; }
-        
-        label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.5rem; }
-        .form-group { margin-bottom: 1.25rem; position: relative; }
-        input[type="text"], input[type="email"] { width: 100%; padding: 0.8rem; border: 1px solid var(--gris); border-radius: 6px; font-size: 1rem; font-family: var(--font-main); transition: all 0.2s ease; }
-        input:focus { outline: none; border-color: var(--naranja); box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.2); }
-        
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.2s ease; }
-        .btn-primary { background-color: var(--naranja); color: var(--blanco); width: 100%; }
-        .btn-primary:hover { background-color: #e69500; }
-        .btn-primary:disabled { background-color: var(--gris); color: #888; cursor: not-allowed; }
-        .btn-group { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; }
-        .back-link-container { text-align: center; margin-top: 1rem; }
-        .back-link-container a { color: var(--texto-oscuro); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
-        .back-link-container a:hover { text-decoration: underline; }
-        
-        .trust-seals { text-align: center; margin: 2rem 0 1rem; }
-        .trust-seals .seal { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #555; margin: 0 10px; }
-        .trust-seals .seal i { color: var(--verde-exito); }
-        .payment-logos { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 1.5rem; }
-        .payment-logos i { font-size: 2.2rem; }
-        .card-details-group { display: flex; gap: 1rem; }
-
-        #slots-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
-        #slots-header h2 { margin-bottom: 0; }
-        #slots-counter { font-size: 0.9rem; font-weight: 600; color: var(--texto-secundario); }
-        .contact-list-container { margin-top: 1.5rem; border-top: 1px solid var(--gris); padding-top: 1.5rem; }
-        .contact-input-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
-        .contact-input-group input { flex-grow: 1; }
-        .contact-input-group .btn-add { flex-shrink: 0; padding: 0; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; line-height: 1; }
-        .contact-list { list-style: none; padding: 0.5rem; max-height: 168px; overflow-y: auto; border: 1px solid var(--gris); border-radius: 8px; background-color: var(--gris-claro); }
-        .contact-item { background-color: var(--blanco); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .contact-item:not(:last-child) { margin-bottom: 0.5rem; }
-        .contact-item span { word-break: break-all; font-weight: 600; color: var(--marino); }
-        .contact-item button { background: none; border: none; color: var(--rojo-error); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; line-height: 1; opacity: 0.7; }
-        .contact-item button:hover { opacity: 1; }
-        
-        .footer { padding-bottom: 1rem; font-size: 0.85rem; text-align: center; color: #777; }
-
-        @media (max-width: 600px) {
-            #hero { padding-top: 6rem; }
-            #hero h1 { font-size: 2rem; }
-            .counter-digits { height: 50px; font-size: 40px; line-height: 50px; }
-            .digit-container { width: 38px; }
-            .card-details-group { flex-direction: column; gap: 0; }
+        .plan-card.selected {
+            border-color: #2563eb;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transform: translateY(-5px) scale(1.02);
+        }
+        .plan-card-content {
+            flex-grow: 1;
+        }
+        .progress-bar-container {
+            position: sticky;
+            top: 80px; /* Altura del header */
+            z-index: 30;
+            background-color: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(8px);
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            transition: opacity 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: #2563eb;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(10deg);
+        }
+        .savings-badge {
+            background-color: #dbeafe;
+            color: #1e40af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out forwards;
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Estilo para el contenedor del paso 2 */
+        .contacts-container-gradient {
+            background: linear-gradient(160deg, #ffffff 50%, #f0f5ff 100%);
         }
     </style>
 </head>
-<body>
+<body class="text-gray-800">
 
-    <header id="main-header">
-        <a href="index.html" class="logo">Córtala.cl</a>
-        <div class="header-right">
-            <div class="step-indicator" id="stepIndicator" style="display: none;"></div>
-            <div class="menu-container">
-                <button type="button" id="menuToggle" class="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+    <!-- ========= HEADER / NAVEGACIÓN ========= -->
+    <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200 h-20 flex items-center">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" onclick="location.reload()" class="flex items-center gap-3 text-2xl font-bold text-blue-700">
+                <!-- LOGO FINAL (SVG RECREADO DE LA IMAGEN) -->
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" fill="#3b82f6"/>
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.23-3.75-6.58-6.58l1.97-1.57a.977.977 0 00.24-1.01c-.36-1.11-.56-2.3-.56-3.53A1 1 0 007.62 4H4a1 1 0 00-1 1 17 17 0 0017 17 1 1 0 001-1v-3.62a1 1 0 00-1-1z" fill="white" transform="scale(0.75) translate(4, 4)"/>
+                </svg>
+                <div class="flex items-baseline">
+                    <span class="text-2xl font-bold text-[#1d4ed8]">órtala</span>
+                    <span class="text-2xl font-bold text-[#3b82f6]">.cl</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#plans-section" id="nav-plans-link" class="text-gray-600 hover:text-blue-600 transition">Planes</a>
+                <a href="#" onclick="showModal('modal-terminos')" class="text-gray-600 hover:text-blue-600 transition">Términos</a>
+                <a href="#" onclick="showModal('modal-contacto')" class="text-gray-600 hover:text-blue-600 transition">Contacto</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-button" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
             </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg px-6 pb-4">
+            <a href="#plans-section" id="mobile-nav-plans-link" class="block py-2 text-gray-600 hover:text-blue-600">Planes</a>
+            <a href="#" onclick="showModal('modal-terminos')" class="block py-2 text-gray-600 hover:text-blue-600">Términos</a>
+            <a href="#" onclick="showModal('modal-contacto')" class="block py-2 text-gray-600 hover:text-blue-600">Contacto</a>
         </div>
     </header>
 
-    <section id="hero">
-        <h1>Libérate del SPAM en 60 segundos.</h1>
-        <p>¿Cansado de la burocracia? Danos tu lista de teléfonos y correos. Nosotros los ingresamos en el sistema oficial por ti. Rápido, fácil y con un pago único.</p>
-        
-        <div class="dynamic-counter-container">
-            <div class="counter-digits" id="dynamicCounter"></div>
-            <p class="counter-label">CLIENTES SATISFECHOS</p>
-        </div>
+    <main id="main-content">
+        <!-- ========= HERO SECTION ========= -->
+        <section id="hero-section" class="hero-gradient text-white">
+            <div class="container mx-auto px-6 text-center py-20 md:py-28">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">Libérate del SPAM en 60 segundos.</h1>
+                <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto mb-8">Gestionamos el ingreso de tus teléfonos y correos en la lista "No Molestar" del SERNAC. Rápido, fácil y en un Pago Único.</p>
+                <a href="#plans-section" class="bg-white text-blue-700 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-100 transition transform hover:scale-105 inline-block">Comenzar Ahora</a>
+                <div class="mt-12">
+                    <p class="text-sm uppercase tracking-widest text-blue-300">Protecciones en tiempo real</p>
+                    <p id="client-counter" class="text-4xl font-bold">1,470</p>
+                </div>
+            </div>
+        </section>
 
-        <a href="#checkout-section" class="btn btn-primary btn-hero">Proteger mis Contactos Ahora</a>
-        <div class="scroll-down-indicator">
-            <a href="#checkout-section" aria-label="Desplazarse hacia abajo"><i class="fas fa-chevron-down"></i></a>
-        </div>
-    </section>
-    
-    <nav id="dropdownMenu" class="dropdown-menu" style="display: none;">
-        <ul>
-            <li><a id="nav-inicio" href="index.html">Inicio</a></li>
-            <li><a onclick="closeMenuAndScrollToPlans()">Planes</a></li>
-            <li><a onclick="openModal('testimonialsModal', event)">Testimonios</a></li>
-            <li><a onclick="openModal('termsModal', event)">Términos y Condiciones</a></li>
-            <li><a onclick="openModal('faqModal', event)">Preguntas frecuentes</a></li>
-            <li><a onclick="openModal('contactModal', event)">Contacto</a></li>
-        </ul>
-    </nav>
+        <!-- ========= FUNNEL DE VENTAS (CONTENEDOR) ========= -->
+        <div id="checkout-funnel" class="container mx-auto px-6">
+            <!-- BARRA DE PROGRESO VISIBLE Y STICKY -->
+            <div id="progress-bar-container" class="progress-bar-container opacity-0 -translate-y-4">
+                <div class="bg-gray-200 rounded-full h-2.5 w-full">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
 
-    <section id="checkout-section">
-        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-        <main class="container">
-            <form name="checkout" method="POST" data-netlify="true" data-netlify-recaptcha="true" onsubmit="handleFormSubmit(event)">
-                <input type="hidden" name="form-name" value="checkout" />
-                <input type="hidden" id="plan-input" name="plan">
-                <input type="hidden" id="price-input" name="price">
-                <input type="hidden" id="slots-input" name="slots">
-                <input type="hidden" id="final-contacts-input" name="contactos_finales">
-    
-                <div id="step1" class="step active">
-                    <h2>1. Elige tu Plan de Protección</h2>
-                    <p style="text-align:center; margin-top:-1.5rem; margin-bottom:1.5rem; font-size:0.9rem; color: var(--texto-secundario);">Cada "slot" puede ser un teléfono o un correo. ¡Tú decides!</p>
-                    
-                    <div class="plan-card" onclick="selectPlan('Plan Personal', 9990, 2, this)">
-                        <h3><i class="fa-solid fa-user"></i>Plan Personal</h3>
-                        <p>Protección para hasta <strong>2 slots</strong>.</p>
-                        <p class="price">$9.990 CLP</p>
+            <!-- PASO 1: PLANES -->
+            <section id="plans-section" class="py-16 lg:py-24">
+                <h2 class="text-3xl font-bold text-center mb-2">Paso 1: Elige tu plan</h2>
+                <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un Teléfono o un Correo electrónico.¡Tú eliges!</p>
+                <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 2, "price": 8990}'>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Personal</h3><p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Ideal para ti.</p></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4">$8.990</p>
                     </div>
-                    <div class="plan-card" onclick="selectPlan('Plan Dúo', 19990, 5, this)">
-                        <span class="popular">Más Popular</span>
-                        <h3><i class="fa-solid fa-user-group"></i>Plan Dúo</h3>
-                        <p>Protección para hasta <strong>5 slots</strong>.</p>
-                        <p class="price">$19.990 CLP</p>
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 4, "price": 14990}'>
+                        <div class="recommended-badge">Recomendado</div>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Dúo</h3><p class="text-5xl font-extrabold mb-4">4 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Perfecto para parejas.</p><div class="savings-badge">Ahorras 17%</div></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4">$14.990</p>
                     </div>
-                    <div class="plan-card" onclick="selectPlan('Plan Familiar', 39990, 12, this)">
-                        <h3><i class="fa-solid fa-users"></i>Plan Familiar</h3>
-                        <p>Protección para hasta <strong>12 slots</strong>.</p>
-                        <p class="price">$39.990 CLP</p>
+                    <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 12, "price": 24990}'>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Familiar</h3><p class="text-5xl font-extrabold mb-4">12 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Protege a tu familia y amigos.</p><div class="savings-badge">Ahorras 35%</div></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4">$38.990</p>
                     </div>
                 </div>
-    
-                <div id="step2" class="step">
-                    <div id="slots-header">
-                         <h2>2. Ingresa los Contactos</h2>
-                         <div id="slots-counter"></div>
+            </section>
+            
+            <!-- TESTIMONIOS (REUBICADO) -->
+            <section id="testimonials-section" class="py-16 lg:py-24 bg-slate-50 rounded-xl">
+                <div class="container mx-auto px-6"><h2 class="text-3xl font-bold text-center mb-12">No lo decimos nosotros, lo dicen nuestros clientes</h2>
+                    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div class="testimonial-card"><div class="flex text-yellow-400 mb-2">★★★★★</div><p class="text-gray-600 mb-4">"¡Por fin! Estaba chato de las llamadas de los bancos a cualquier hora. Pagué una vez y nunca más me molestaron. 100% recomendado."</p><p class="font-bold text-gray-800">Carlos V.</p><p class="text-sm text-gray-500">Ñuñoa</p></div>
+                        <div class="testimonial-card"><div class="flex text-yellow-400 mb-2">★★★★★</div><p class="text-gray-600 mb-4">"Súper fácil el proceso. Metí mi teléfono y el de mi polola y listo. La página es clarita y funciona impeque. ¡Se pasaron!"</p><p class="font-bold text-gray-800">Javiera R.</p><p class="text-sm text-gray-500">Viña del Mar</p></div>
+                        <div class="testimonial-card"><div class="flex text-yellow-400 mb-2">★★★★★</div><p class="text-gray-600 mb-4">"Al principio dudé, pero por el precio valía la pena probar. Y la verdad, funciona. Bajó caleta el spam en mi correo y celular. Buena inversión."</p><p class="font-bold text-gray-800">Matías L.</p><p class="text-sm text-gray-500">Concepción</p></div>
                     </div>
-                    <div class="contact-list-container">
-                        <label for="contactInput">Añadir Teléfono o Email</label>
-                        <div class="contact-input-group">
-                            <input type="text" id="contactInput" placeholder="+569... o tu@email.com">
-                            <button type="button" class="btn btn-primary btn-add" id="addContactBtn" onclick="addContact()">+</button>
-                        </div>
-                        <ul class="contact-list" id="contactList"></ul>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="nextBtn2" onclick="goToStep(3)" disabled>Continuar al Pago →</button>
-                    </div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(1); event.preventDefault();">← Volver</a></div>
                 </div>
-    
-                <div id="step3" class="step">
-                    <h2>3. Datos del Comprador y Pago</h2>
-                    <div class="form-group"><label for="nombre">Tu Nombre y Apellidos</label><input type="text" id="nombre" name="nombre" required /></div>
-                    <div class="form-group"><label for="email">Tu Correo (para enviar el recibo)</label><input type="email" id="email" name="email" required /></div>
-                    <hr style="border:none; border-top:1px solid var(--gris); margin: 1.5rem 0;">
-                    <div class="form-group"><label for="cardName">Nombre en la Tarjeta</label><input type="text" id="cardName" name="cardName" required /></div>
-                    <div class="form-group"><label for="cardNumber">Número de Tarjeta</label><input type="text" id="cardNumber" name="cardNumber" placeholder="1111 2222 3333 4444" minlength="14" required /></div>
-                    <div class="card-details-group">
-                        <div class="form-group" style="flex: 1;"><label for="cardExpiry">Vencimiento</label><input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY" required maxlength="5" /></div>
-                        <div class="form-group" style="flex: 1;"><label for="cardCVC">CVV</label><input type="text" id="cardCVC" name="cardCVC" placeholder="123" required minlength="3" maxlength="4" /></div>
+            </section>
+
+            <!-- PASO 2: CONTACTOS (REDISENADO) -->
+            <section id="contacts-section" class="py-24 hidden"><h2 class="text-3xl font-bold text-center mb-4">Paso 2: Ingresa los contactos a proteger</h2><p class="text-center text-gray-600 mb-12">Puedes añadir teléfonos (con formato +569...) o correos electrónicos.</p>
+                <div class="max-w-xl mx-auto contacts-container-gradient p-8 rounded-2xl shadow-lg">
+                    <div class="flex justify-between items-center mb-6"><h3 class="font-semibold text-lg text-gray-800">Añade aqui a tus Contactos</h3><p id="slot-counter" class="font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full text-sm">0 / 4</p></div>
+                    <div class="relative mb-4">
+                        <input type="text" id="contact-input" placeholder="Correo o teléfono" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none pr-14">
+                        <button id="add-contact-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white font-bold w-10 h-10 flex items-center justify-center rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300" disabled><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
                     </div>
-                    <div data-netlify-recaptcha="true"></div>
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn-primary" id="submitBtn"><span class="btn-text">Pagar y Finalizar</span><span class="btn-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span></button>
-                    </div>
-                    <div class="back-link-container"><a href="#" onclick="goToStep(2); event.preventDefault();">← Volver</a></div>
+                    <div id="contact-list" class="space-y-2 mb-6 min-h-[50px]"></div>
+                    <button id="continue-to-payment-btn" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Continuar al Pago</button>
                 </div>
-            </form>
-        </main>
-        <footer class="footer"><p>© 2025 Córtala.cl - Protege tu tranquilidad</p></footer>
-    </section>
+            </section>
+
+            <!-- PASO 3: PAGO -->
+            <section id="payment-section" class="py-24 hidden"><h2 class="text-3xl font-bold text-center mb-12">Paso 3: Un último paso para tu tranquilidad</h2>
+                <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-lg shadow-md"><h3 class="text-xl font-bold mb-4">Resumen de tu compra</h3><div class="space-y-2 text-gray-600"><div class="flex justify-between"><span>Plan:</span><span id="summary-plan-name" class="font-semibold">Dúo</span></div><div class="flex justify-between"><span>Contactos a proteger:</span><span id="summary-contact-count" class="font-semibold">0</span></div><hr class="my-4"><div class="flex justify-between text-lg font-bold"><span>TOTAL:</span><span id="summary-total-price">$14.990</span></div></div><div class="mt-6 bg-slate-50 p-4 rounded-lg text-center"><h4 class="font-semibold text-gray-700">Garantía de Gestión</h4><p class="text-sm text-gray-600 mt-1">Nos aseguramos de que tus datos queden correctamente inscritos en la plataforma oficial del SERNAC.</p><div class="flex justify-center items-center gap-4 mt-4 text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg><span class="text-xs font-semibold">PAGO SEGURO SSL</span></div></div></div>
+                    <div class="bg-white p-8 rounded-lg shadow-md"><form id="payment-form"><div class="space-y-4"><div><label for="buyer-name" class="block text-sm font-medium text-gray-700">Nombre Completo</label><input type="text" id="buyer-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="buyer-email" class="block text-sm font-medium text-gray-700">Email (para tu recibo)</label><input type="email" id="buyer-email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><hr><div><label for="card-number" class="block text-sm font-medium text-gray-700">Número de Tarjeta</label><input type="text" id="card-number" placeholder="0000 0000 0000 0000" required maxlength="19" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex gap-4"><div class="flex-1"><label for="expiry-date" class="block text-sm font-medium text-gray-700">Expiración (MM/AA)</label><input type="text" id="expiry-date" placeholder="MM/AA" required maxlength="5" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="flex-1"><label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label><input type="text" id="cvc" placeholder="123" required maxlength="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">Pagar y Proteger</button></div></form></div>
+                </div>
+            </section>
+        </div>
+    </main>
     
-    <div id="testimonialsModal" class="modal-overlay"> </div>
-    <div id="termsModal" class="modal-overlay"> </div>
-    <div id="faqModal" class="modal-overlay"> </div>
-    <div id="contactModal" class="modal-overlay"> </div>
+    <footer class="bg-gray-800 text-white mt-20"><div class="container mx-auto px-6 py-8 text-center"><p>&copy; 2024 Córtala.cl - Todos los derechos reservados.</p><p class="text-sm text-gray-400 mt-2">Un servicio para simplificar tu vida digital.</p></div></footer>
+
+    <!-- ========= MODALES ========= -->
+    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto"><button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3><div class="text-gray-600 space-y-4 text-sm">
+        <p><strong>Última actualización: 18 de Julio, 2024</strong></p>
+        <p>Bienvenido a Córtala.cl. Al utilizar nuestro servicio, usted acepta los siguientes términos y condiciones. Por favor, léalos con atención.</p>
+        <div><h4 class="font-bold text-gray-800">1. Objeto del Servicio</h4><p>Córtala.cl ofrece un servicio de gestión de pago único para inscribir los datos de contacto (números de teléfono y/o direcciones de correo electrónico) proporcionados por el cliente en el registro público "No Molestar" administrado por el Servicio Nacional del Consumidor (SERNAC) de Chile.</p></div>
+        <div><h4 class="font-bold text-gray-800">2. Alcance y Limitaciones</h4><p>Nuestro servicio consiste exclusivamente en la gestión de la inscripción. Actuamos como un intermediario para facilitar este proceso al usuario. El efecto de la inscripción (la detención de comunicaciones publicitarias o "SPAM") depende exclusivamente de que las empresas en Chile cumplan con la normativa legal vigente y respeten el registro del SERNAC. No podemos garantizar que el 100% de las comunicaciones no deseadas cesarán, ya que el sistema no aplica a personas naturales, campañas políticas o empresas que no cumplan la ley.</p></div>
+        <div><h4 class="font-bold text-gray-800">3. Pago y Transacción</h4><p>El pago por el servicio es único por cada plan de "slots" adquirido. Un "slot" permite la inscripción de un (1) dato de contacto (un teléfono o un correo). El servicio se considerará completo y finalizado una vez que hayamos realizado la inscripción de los datos proporcionados en la plataforma del SERNAC. No existen reembolsos una vez que la gestión ha sido completada.</p></div>
+        <div><h4 class="font-bold text-gray-800">4. Responsabilidad del Usuario</h4><p>El usuario es el único responsable de la veracidad y exactitud de los datos de contacto que proporciona. Córtala.cl no se hace responsable por inscripciones fallidas debido a datos incorrectos o mal formateados. El usuario declara tener la autorización para gestionar los datos de contacto que inscribe, en caso de que no sean de su propiedad.</p></div>
+        <div><h4 class="font-bold text-gray-800">5. Privacidad y Uso de Datos</h4><p>Nos tomamos su privacidad muy en serio. Los datos de contacto proporcionados se utilizarán única y exclusivamente para el fin descrito en el punto 1. No serán vendidos, compartidos, ni utilizados para fines de marketing. Los datos del comprador (nombre, email) se utilizan para procesar el pago, enviar el comprobante y para comunicaciones relativas al servicio prestado. Para más detalles, consulte nuestra Política de Privacidad.</p></div>
+        <div><h4 class="font-bold text-gray-800">6. Modificaciones a los Términos</h4><p>Córtala.cl se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Cualquier cambio será efectivo inmediatamente después de su publicación en nuestro sitio web. Se recomienda revisar esta sección periódicamente.</p></div>
+    </div></div></div>
+    <div id="modal-privacidad" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in"><button onclick="closeModal('modal-privacidad')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button><h3 class="text-2xl font-bold mb-4">Política de Privacidad</h3><p class="text-gray-600">Tu privacidad es fundamental...</p></div></div>
     
+    <!-- NUEVO MODAL DE CONTACTO -->
+    <div id="modal-contacto" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-contacto')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">&times;</button>
+            <h3 class="text-2xl font-bold mb-2 text-center">¿Necesitas ayuda?</h3>
+            <p class="text-center text-gray-600 mb-8">Elige tu canal de contacto preferido.</p>
+            <div class="space-y-4">
+                <a href="https://wa.me/56912345678?text=Hola!%20Tengo%20una%20consulta%20sobre%20el%20servicio%20de%20Córtala.cl" target="_blank" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
+                    <svg class="w-8 h-8 text-green-500 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <div><p class="font-semibold text-gray-800">Escríbenos por WhatsApp</p><p class="text-sm text-gray-500">Para respuestas rápidas.</p></div>
+                </a>
+                <a href="mailto:hola@cortala.cl" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
+                    <svg class="w-8 h-8 text-blue-500 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div><p class="font-semibold text-gray-800">Envíanos un Correo</p><p class="text-sm text-gray-500">Para consultas generales.</p></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Comparte tu link. Tu amigo recibirá <strong>2 slots extra gratis</strong> y tú obtendrás un código para <strong>2 slots adicionales</strong> para ti.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
+
+    <!-- ======================= JAVASCRIPT ======================= -->
     <script>
-        let selectedPlanData = {};
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- ESTADO GLOBAL ---
+        let selectedPlan = { name: "Dúo", slots: 4, price: 14990 };
         let contacts = [];
-        const mainHeader = document.getElementById('main-header');
-        const heroSection = document.getElementById('hero');
-        const navInicio = document.getElementById('nav-inicio');
-        const stepIndicator = document.getElementById('stepIndicator');
+        let funnelActive = false;
 
-        function selectPlan(name, price, slots, element) {
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPlanData = { name, price, slots };
-            document.getElementById('plan-input').value = name;
-            document.getElementById('price-input').value = price;
-            document.getElementById('slots-input').value = slots;
-            goToStep(2);
+        // --- SELECTORES DEL DOM ---
+        const mainContent = document.getElementById('main-content');
+        const heroSection = document.getElementById('hero-section');
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const progressBar = document.getElementById('progress-bar');
+        const plansSection = document.getElementById('plans-section');
+        const testimonialsSection = document.getElementById('testimonials-section');
+        const contactsSection = document.getElementById('contacts-section');
+        const paymentSection = document.getElementById('payment-section');
+        const plansContainer = document.getElementById('plans-container');
+        const slotCounter = document.getElementById('slot-counter');
+        const contactInput = document.getElementById('contact-input');
+        const addContactBtn = document.getElementById('add-contact-btn');
+        const contactList = document.getElementById('contact-list');
+        const continueToPaymentBtn = document.getElementById('continue-to-payment-btn');
+        const paymentForm = document.getElementById('payment-form');
+        const summaryPlanName = document.getElementById('summary-plan-name');
+        const summaryContactCount = document.getElementById('summary-contact-count');
+        const summaryTotalPrice = document.getElementById('summary-total-price');
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const copyReferralBtn = document.getElementById('copy-referral-btn');
+        const referralLinkInput = document.getElementById('referral-link');
+        const shareWhatsappBtn = document.getElementById('share-whatsapp-btn');
+
+        // --- LÓGICA DEL CONTADOR ---
+        const clientCounter = document.getElementById('client-counter');
+        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 11470;
+        function updateCounter() {
+            count += Math.floor(Math.random() * 3) + 1;
+            clientCounter.innerText = count.toLocaleString('es-CL');
+            localStorage.setItem('cortalaClientCount', count);
         }
+        setInterval(updateCounter, 3000);
 
-        function goToStep(stepNumber) {
-            const steps = document.querySelectorAll('.step');
-            steps.forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${stepNumber}`).classList.add('active');
+        // --- MANEJO DEL FUNNEL ---
+        function showStep(stepNumber) {
+            funnelActive = true;
+            // Ocultar secciones iniciales y mostrar barra de progreso
+            heroSection.classList.add('hidden');
+            testimonialsSection.classList.add('hidden');
+            progressBarContainer.classList.remove('opacity-0', '-translate-y-4');
+
+            // Ocultar todos los pasos del funnel
+            [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
             
-            if (stepNumber > 1) {
-                if (heroSection) heroSection.style.display = 'none';
-                if (navInicio) navInicio.style.display = 'block';
-            } else {
-                 if (heroSection) heroSection.style.display = 'flex';
-                 if (navInicio) navInicio.style.display = 'none';
-                 const selectedCard = document.querySelector('.plan-card.selected');
-                 if(selectedCard) selectedCard.classList.remove('selected');
-                 selectedPlanData = {};
-                 contacts = [];
-                 renderContactList();
+            let sectionToShow;
+            if (stepNumber === 1) {
+                sectionToShow = plansSection;
+                updateProgressBar(33);
+            } else if (stepNumber === 2) {
+                sectionToShow = contactsSection;
+                updateProgressBar(66);
+                updateContactUI();
+            } else if (stepNumber === 3) {
+                sectionToShow = paymentSection;
+                updateProgressBar(100);
+                updateSummary();
             }
-
-            const progressBarEl = document.getElementById('progressBar');
-            if (stepNumber === 1) { progressBarEl.style.width = '25%'; }
-            else if (stepNumber === 2) { progressBarEl.style.width = '50%'; }
-            else if (stepNumber === 3) { progressBarEl.style.width = '75%'; }
-            
-            if(stepNumber === 2) {
-                updateSlotsCounter();
-            }
-            handleHeaderState();
-        }
-        
-        function updateSlotsCounter() {
-            const counterEl = document.getElementById('slots-counter');
-            if(counterEl) {
-                counterEl.innerHTML = `Contactos añadidos: <strong>${contacts.length} / ${selectedPlanData.slots}</strong>`;
-                document.getElementById('nextBtn2').disabled = contacts.length === 0;
+            if(sectionToShow){
+                sectionToShow.classList.remove('hidden');
+                sectionToShow.classList.add('fade-in');
+                // Scroll suave a la parte superior del contenedor del funnel
+                mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
-        function addContact() {
-            const input = document.getElementById('contactInput');
-            const value = input.value.trim();
-            if (!value) return;
-
-            if (contacts.length >= selectedPlanData.slots) {
-                alert(`Has alcanzado el límite de ${selectedPlanData.slots} contactos para tu plan.`);
-                return;
-            }
-            
-            const isEmail = value.includes('@') && value.includes('.');
-            const isPhone = /^\+?569\d{8}$/.test(value);
-            if (!isEmail && !isPhone) {
-                alert('Formato no válido. Ingresa un teléfono chileno (+569........) o un email.');
-                return;
-            }
-
-            contacts.push(value);
-            input.value = '';
-            renderContactList();
-            updateSlotsCounter();
-            input.focus();
+        function updateProgressBar(percentage) {
+            progressBar.style.width = `${percentage}%`;
         }
 
-        function removeContact(index) {
-            contacts.splice(index, 1);
-            renderContactList();
-            updateSlotsCounter();
-        }
-
-        function renderContactList() {
-            const listEl = document.getElementById('contactList');
-            listEl.innerHTML = '';
-            contacts.forEach((contact, index) => {
-                const item = document.createElement('li');
-                item.className = 'contact-item';
-                item.innerHTML = `<span>${contact}</span><button type="button" onclick="removeContact(${index})">&times;</button>`;
-                listEl.appendChild(item);
+        // --- EVENT LISTENERS ---
+        document.querySelectorAll('a[href="#plans-section"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (mobileMenu.classList.contains('hidden') === false) {
+                    mobileMenu.classList.add('hidden');
+                }
+                // Si el funnel no está activo, lo activa en el paso 1
+                if (!funnelActive) {
+                    showStep(1);
+                } else { // Si ya está activo, solo hace scroll
+                    plansSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
-        }
+        });
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            if (contacts.length === 0) {
-                alert('Debes añadir al menos un contacto para proteger.');
-                return;
-            }
-            
-            const name = document.getElementById('nombre').value.trim();
-            const email = document.getElementById('email').value.trim();
-
-            if(!name || !email){
-                 alert('Por favor, ingresa tu nombre y correo para el recibo.');
-                 return;
-            }
-
-            document.getElementById('final-contacts-input').value = contacts.join(', ');
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.querySelector('.btn-text').style.display = 'none';
-            submitBtn.querySelector('.btn-spinner').style.display = 'inline-block';
-            
-            setTimeout(() => {
-                const queryParams = new URLSearchParams({
-                    plan: selectedPlanData.name,
-                    slots: selectedPlanData.slots,
-                    contacts: contacts.join(',')
-                }).toString();
-                window.location.href = `gracias.html?${queryParams}`;
-            }, 1500);
-        }
-
-        function handleHeaderState() {
-            const heroIsVisible = (heroSection.style.display !== 'none');
-            const isScrolled = window.scrollY > 50;
-
-            if (isScrolled || !heroIsVisible) {
-                mainHeader.classList.add('scrolled-header');
-                const currentStepDiv = document.querySelector('.step.active');
-                if (currentStepDiv) {
-                    const currentStepNumber = parseInt(currentStepDiv.id.replace('step', ''), 10);
-                    if (currentStepNumber > 0) {
-                        stepIndicator.style.display = 'block';
-                        stepIndicator.textContent = `Paso ${currentStepNumber} de 3`;
-                    }
-                }
-            } else {
-                mainHeader.classList.remove('scrolled-header');
-                stepIndicator.style.display = 'none';
-            }
-        }
+        plansContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.plan-card');
+            if (!card) return;
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
+            card.classList.add('selected', 'border-blue-600');
+            selectedPlan = JSON.parse(card.dataset.plan);
+            setTimeout(() => showStep(2), 200);
+        });
         
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
+        contactInput.addEventListener('input', () => {
+            const canAdd = contactInput.value.trim() !== '' && contacts.length < selectedPlan.slots;
+            addContactBtn.disabled = !canAdd;
+        });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.btn-hero').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
-            document.querySelector('.scroll-down-indicator a').addEventListener('click', (e) => { e.preventDefault(); document.querySelector('#checkout-section').scrollIntoView({ behavior: 'smooth' }); });
-            
-            window.addEventListener('scroll', handleHeaderState);
-            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
-            
-            const contactInput = document.getElementById('contactInput');
-            if(contactInput) {
-                contactInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addContact();
-                    }
-                });
-            }
-
-            // Pre-seleccionar Plan Dúo por defecto
-            const duoPlanCard = document.querySelectorAll('.plan-card')[1];
-            if(duoPlanCard) {
-                duoPlanCard.classList.add('selected');
-                selectedPlanData = { name: 'Plan Dúo', price: 19990, slots: 5 };
-                document.getElementById('plan-input').value = selectedPlanData.name;
-                document.getElementById('price-input').value = selectedPlanData.price;
-                document.getElementById('slots-input').value = selectedPlanData.slots;
-            }
-            
-            // --- Lógica del Contador Dinámico ---
-            const counterElement = document.getElementById('dynamicCounter');
-            if (counterElement) {
-                const launchTime = 1690120800000; // ~23 de Julio 2023
-                const now = Date.now();
-                const baseCount = 347;
-                const secondsSinceLaunch = (now - launchTime) / 1000;
-                const increment = Math.floor(secondsSinceLaunch / 15);
-                let protectedCount = baseCount + increment;
-                
-                let digitHeight = 60;
-
-                function setupCounter(initialValue) {
-                    const valueStr = String(initialValue);
-                    counterElement.innerHTML = '';
-                    for (let i = 0; i < valueStr.length; i++) {
-                        const digitContainer = document.createElement('div');
-                        digitContainer.className = 'digit-container';
-                        const spool = document.createElement('div');
-                        spool.className = 'digit-spool';
-                        for (let j = 0; j <= 9; j++) {
-                            const digit = document.createElement('div');
-                            digit.textContent = j;
-                            spool.appendChild(digit);
-                        }
-                        digitContainer.appendChild(spool);
-                        counterElement.appendChild(digitContainer);
-                    }
-                    if (counterElement.querySelector('.digit-container')) {
-                       digitHeight = counterElement.querySelector('.digit-container').offsetHeight;
-                    }
-                    updateCounter(initialValue, false);
-                }
-
-                function updateCounter(newValue, animate = true) {
-                    const valueStr = String(newValue);
-                    const spools = counterElement.querySelectorAll('.digit-spool');
-                    if (valueStr.length > spools.length) {
-                        setupCounter(newValue);
-                        return;
-                    }
-                    for (let i = 0; i < spools.length; i++) {
-                        const digit = parseInt(valueStr[i], 10);
-                        const spool = spools[i];
-                        if (!animate) {
-                           spool.style.transition = 'none';
-                        } else {
-                           spool.style.transition = 'transform 1.2s cubic-bezier(0.65, 0, 0.35, 1)';
-                        }
-                        spool.style.transform = `translateY(-${digit * digitHeight}px)`;
-                    }
-                }
-
-                setupCounter(protectedCount);
-
-                setInterval(() => {
-                    const increments = [1, 2, 3, 5];
-                    const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
-                    protectedCount += randomIncrement;
-                    updateCounter(protectedCount);
-                }, 15000); 
+        addContactBtn.addEventListener('click', () => {
+            const contactValue = contactInput.value.trim();
+            if (contactValue && contacts.length < selectedPlan.slots) {
+                contacts.push(contactValue);
+                contactInput.value = '';
+                renderContacts();
+                contactInput.focus();
             }
         });
+
+        contactList.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-contact-btn')) {
+                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
+                contacts = contacts.filter(c => c !== contactToRemove);
+                renderContacts();
+            }
+        });
+
+        continueToPaymentBtn.addEventListener('click', () => {
+            if (contacts.length > 0) showStep(3);
+        });
+
+        paymentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showModal('modal-success');
+        });
+
+        copyReferralBtn.addEventListener('click', () => {
+            referralLinkInput.select();
+            document.execCommand('copy');
+            copyReferralBtn.textContent = '¡Copiado!';
+            setTimeout(() => { copyReferralBtn.textContent = 'Copiar'; }, 2000);
+        });
+
+        shareWhatsappBtn.addEventListener('click', () => {
+            const referralLink = referralLinkInput.value;
+            const message = encodeURIComponent(`¡Oye! Encontré este servicio para eliminar el SPAM telefónico y de emails. ¡Funciona súper bien! Si usas mi link te dan slots gratis para proteger tus números: ${referralLink}`);
+            window.open(`https://api.whatsapp.com/send?text=${message}`);
+        });
+
+        // --- RENDERIZADO Y UI ---
+        function updateContactUI() {
+            slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
+            contactInput.disabled = contacts.length >= selectedPlan.slots;
+            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
+        }
+
+        function renderContacts() {
+            contactList.innerHTML = '';
+            contacts.forEach(contact => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between bg-white/60 p-3 rounded-lg animate-scale-in';
+                item.innerHTML = `<span class="text-gray-800 font-medium">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
+                contactList.appendChild(item);
+            });
+            updateContactUI();
+            continueToPaymentBtn.disabled = contacts.length === 0;
+        }
+
+        function updateSummary() {
+            summaryPlanName.textContent = selectedPlan.name;
+            summaryContactCount.textContent = contacts.length;
+            summaryTotalPrice.textContent = `$${selectedPlan.price.toLocaleString('es-CL')}`;
+        }
+        
+        // --- MODALES Y MENÚ ---
+        menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        
+        window.showModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.replace('hidden', 'flex');
+        }
+
+        window.closeModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.replace('flex', 'hidden');
+            if (modalId === 'modal-success') location.reload();
+        }
+        
+        // --- VALIDACIONES ---
+        document.getElementById('card-number').addEventListener('input', (e) => e.target.value = e.target.value.replace(/[^\d\s]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim());
+        document.getElementById('expiry-date').addEventListener('input', (e) => {
+            let val = e.target.value.replace(/[^\d\/]/g, '');
+            if (val.length === 2 && !val.includes('/')) val += '/';
+            e.target.value = val;
+        });
+        document.getElementById('cvc').addEventListener('input', (e) => e.target.value = e.target.value.replace(/\D/g, ''));
+    });
     </script>
 </body>
 </html>
