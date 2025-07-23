@@ -1,13 +1,13 @@
-# app.py - El "Gerente" de la tienda (Versión Final y Funcional)
+# app.py - El "Gerente" de la tienda (Versión Final para Producción)
 
 import flask
 import mercadopago
+import os # ✅ ¡LA LÍNEA QUE FALTABA! El manual para el archivador.
 
 # Creamos la oficina trasera (el servidor)
 app = flask.Flask(__name__, static_folder='.', static_url_path='')
 
-# Configura la línea segura con el banco (Mercado Pago).
-# Usa el Access Token de tu VENDEDOR de prueba (Sofía)
+# El SDK ahora lee la llave secreta desde el hosting (Render), no desde el código
 sdk = mercadopago.SDK(os.environ.get("MERCADOPAGO_TOKEN"))
 
 # Esta es la puerta de la oficina trasera, donde el "vendedor" (JS) trae las órdenes.
@@ -27,7 +27,7 @@ def create_preference():
                     "currency_id": "CLP"
                 }
             ],
-            # CORRECCIÓN: Usamos URLs públicas que sabemos que funcionan
+            # Usamos URLs públicas que sabemos que funcionan
             "back_urls": {
                 "success": "https://www.google.com/search?q=pago_exitoso",
                 "failure": "https://www.google.com/search?q=pago_fallido",
