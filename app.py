@@ -1,8 +1,9 @@
-# app.py - El "Gerente" de la tienda (Versión Final para Producción)
+# app.py - El "Gerente" de la tienda (Versión Final con Webhook)
 
 import flask
 import mercadopago
-import os # ✅ ¡LA LÍNEA QUE FALTABA! El manual para el archivador.
+import os
+import json # Necesario para manejar la respuesta del webhook
 
 # Creamos la oficina trasera (el servidor)
 app = flask.Flask(__name__, static_folder='.', static_url_path='')
@@ -10,14 +11,13 @@ app = flask.Flask(__name__, static_folder='.', static_url_path='')
 # El SDK ahora lee la llave secreta desde el hosting (Render), no desde el código
 sdk = mercadopago.SDK(os.environ.get("MERCADOPAGO_TOKEN"))
 
-# Esta es la puerta de la oficina trasera, donde el "vendedor" (JS) trae las órdenes.
+# Puerta principal para crear la orden de pago
 @app.route("/create_preference", methods=["POST"])
 def create_preference():
     try:
-        # El gerente recibe la nota del vendedor con los datos del plan elegido
         data = flask.request.get_json()
+        host_url = flask.request.host_url
         
-        # Prepara la orden de pago para enviársela al banco
         preference_data = {
             "items": [
                 {
@@ -27,27 +27,46 @@ def create_preference():
                     "currency_id": "CLP"
                 }
             ],
-            # Usamos URLs públicas que sabemos que funcionan
             "back_urls": {
-                "success": "https://www.google.com/search?q=pago_exitoso",
-                "failure": "https://www.google.com/search?q=pago_fallido",
-                "pending": "https://www.google.com/search?q=pago_pendiente"
+                "success": f"{host_url}",
+                "failure": f"{host_url}",
+                "pending": f"{host_url}"
             },
-            "auto_return": "approved", # Vuelve a la tienda automáticamente si el pago se aprueba
+            "auto_return": "approved",
+            # ✅ AÑADIDO: Le decimos a MP a dónde enviar las notificaciones para esta orden
+            "notification_url": f"{host_url}webhook"
         }
         
-        # El gerente llama al banco y crea la orden de pago
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
         
-        # El gerente le devuelve el "número de ticket" (el ID) al vendedor
         return flask.jsonify({"id": preference["id"]})
 
     except Exception as e:
-        # Si algo falla, la red de seguridad lo atrapa
-        print(f"Ocurrió un error: {e}")
-        # Y le avisa al navegador que hubo un problema en la oficina
+        print(f"Ocurrió un error en /create_preference: {e}")
         return flask.jsonify({"error": str(e)}), 500
+
+# ✅ NUEVO: La "Puerta del Mensajero" (Webhook)
+@app.route("/webhook", methods=["POST"])
+def receive_webhook():
+    # Recibimos el mensaje
+    data = flask.request.get_json()
+    
+    # Imprimimos el mensaje en los logs de Render para que puedas verlo
+    print("========================================================")
+    print("MENSAJE RECIBIDO DEL WEBHOOK DE MERCADO PAGO:")
+    print(json.dumps(data, indent=4))
+    print("========================================================")
+    
+    # Aquí, en el futuro, podrías añadir lógica como:
+    # if data.get("type") == "payment" and data.get("action") == "payment.created":
+    #     payment_id = data["data"]["id"]
+    #     # Buscar el pago en la base de datos y marcarlo como "pagado"
+    #     # Enviar un email de confirmación al cliente
+    #     print(f"Pago {payment_id} recibido y procesado.")
+
+    # Le respondemos al mensajero "OK, mensaje recibido"
+    return flask.Response(status=200)
 
 
 # Ruta para servir la página principal de la tienda (index.html)
@@ -57,4 +76,4 @@ def index():
 
 # Le decimos al gerente que empiece a trabajar
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=False) # Debug se pone en False para producción
