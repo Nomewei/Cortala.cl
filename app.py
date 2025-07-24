@@ -62,7 +62,6 @@ try:
 
         if not worksheet.row_values(1):
             print("La planilla está vacía. Añadiendo encabezados...")
-            # ✅ IA-UPDATE: Actualizamos los encabezados para la nueva estructura.
             headers = [
                 "ID_Venta", "Fecha_Solicitud", "Hora_Solicitud", "Nombre_Cliente", "Apellido_Cliente",
                 "Plan_Comprado", "Contactos_A_Proteger", "Estado_Gestion",
@@ -120,7 +119,6 @@ def create_preference():
         
         contacts_to_protect = data.get("contacts_to_protect")
         if contacts_to_protect:
-            # Guardamos toda la info que necesitaremos después del pago.
             pending_orders[external_reference_id] = {
                 "contacts": contacts_to_protect,
                 "payer_firstname": data.get("payer_firstname"),
@@ -161,7 +159,8 @@ def create_preference():
         preference_response = sdk.preference().create(preference_data)
         preference = preference_response["response"]
         
-        return flask.jsonify({"id": preference["id"]})
+        # ✅ IA-UPDATE: Devolvemos la URL de pago directa ('init_point') al frontend.
+        return flask.jsonify({"init_point": preference["init_point"]})
 
     except Exception as e:
         print(f"Ocurrió un error en /create_preference: {e}")
@@ -196,7 +195,6 @@ def receive_webhook():
                 contacts = order_data.get("contacts")
                 encrypted_contacts = encrypt_data(contacts)
 
-                # Lógica mejorada para obtener nombre y apellido.
                 first_name = order_data.get("payer_firstname", "")
                 last_name = order_data.get("payer_lastname", "")
                 
@@ -205,7 +203,6 @@ def receive_webhook():
                 if not last_name and payment_info.get("payer"):
                     last_name = payment_info["payer"].get("last_name", "")
 
-                # ✅ IA-UPDATE: Intentamos obtener el RUT del pagador.
                 rut = "No informado"
                 if payment_info.get("payer") and payment_info["payer"].get("identification"):
                     id_type = payment_info["payer"]["identification"].get("type", "")
@@ -213,7 +210,6 @@ def receive_webhook():
                     if id_type and id_number:
                         rut = f"{id_type}: {id_number}"
 
-                # ✅ IA-UPDATE: Separamos fecha y hora.
                 chile_tz = pytz.timezone('Chile/Continental')
                 now_in_chile = datetime.now(chile_tz)
                 request_date = now_in_chile.strftime("%d/%m/%Y")
@@ -221,7 +217,6 @@ def receive_webhook():
 
                 plan_name = payment_info["additional_info"]["items"][0].get("title", "")
 
-                # ✅ IA-UPDATE: Creamos el texto de respaldo legal.
                 legal_backup_text = (
                     f"ACUSE DE RECIBO Y ACEPTACIÓN DE TÉRMINOS\n"
                     f"-----------------------------------------\n"
@@ -234,7 +229,6 @@ def receive_webhook():
                     f"y autoriza expresamente la gestión de los datos de contacto proporcionados ante el SERNAC."
                 )
 
-                # ✅ IA-UPDATE: Nueva estructura de la fila y nuevas fórmulas.
                 new_row = [
                     external_ref, 
                     request_date,
@@ -244,10 +238,8 @@ def receive_webhook():
                     plan_name,
                     encrypted_contacts,
                     "Pendiente",
-                    f'=INDIRECT("B"&ROW())+7', # Fecha Límite
-                    # Barra de progreso
+                    f'=INDIRECT("B"&ROW())+7',
                     f'=SPARKLINE(MAX(0, MIN(10, TODAY()-INDIRECT("B"&ROW()))), {{"charttype","bar"; "max",10; "color1", IF(TODAY()-INDIRECT("B"&ROW())<=6, "green", IF(TODAY()-INDIRECT("B"&ROW())<=9, "yellow", "red"))}})',
-                    # Alerta de Vencimiento
                     f'=IF(AND(TODAY()>INDIRECT("I"&ROW()), INDIRECT("H"&ROW())="Pendiente"), "VENCIDO", "OK")',
                     payment_id,
                     legal_backup_text
@@ -278,7 +270,6 @@ def decrypt_page():
         data_to_decrypt = flask.request.form.get("data")
         decrypted_data = decrypt_data(data_to_decrypt)
         if decrypted_data:
-            # Convertimos la lista a un string con saltos de línea para mejor lectura
             result_string = "\n".join(decrypted_data)
             return flask.render_template_string("""
                 <h2>Resultado:</h2>
