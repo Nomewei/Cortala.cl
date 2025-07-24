@@ -450,6 +450,14 @@
         const fileNameDisplay = document.getElementById('file-name-display');
         const incumplimientoContent = document.getElementById('incumplimiento-content');
         const incumplimientoSuccess = document.getElementById('incumplimiento-success');
+        
+        // ✅ Nuevos selectores para el formulario de pago
+        const payerFormContainer = document.getElementById('payer-form-container');
+        const payerFirstname = document.getElementById('payer-firstname');
+        const payerLastname = document.getElementById('payer-lastname');
+        const termsCheckbox = document.getElementById('terms-checkbox');
+        const confirmAndPayBtn = document.getElementById('confirm-and-pay-btn');
+
 
         // --- LÓGICA DEL CONTADOR ---
         const clientCounter = document.getElementById('client-counter');
@@ -589,20 +597,43 @@
         backToPlansBtn.addEventListener('click', () => showStep(1));
         backToContactsBtn.addEventListener('click', () => showStep(2));
 
+        // ✅ Nuevos listeners para el formulario de pago
+        function validatePayerForm() {
+            const firstName = payerFirstname.value.trim();
+            const lastName = payerLastname.value.trim();
+            const termsChecked = termsCheckbox.checked;
+            confirmAndPayBtn.disabled = !(firstName && lastName && termsChecked);
+        }
+        payerFirstname.addEventListener('input', validatePayerForm);
+        payerLastname.addEventListener('input', validatePayerForm);
+        termsCheckbox.addEventListener('change', validatePayerForm);
+
+        confirmAndPayBtn.addEventListener('click', () => {
+            confirmAndPayBtn.textContent = 'Procesando...';
+            confirmAndPayBtn.disabled = true;
+            
+            const firstName = payerFirstname.value.trim();
+            const lastName = payerLastname.value.trim();
+            
+            createCheckoutPreference(firstName, lastName);
+        });
+
         // --- FUNCIÓN PARA HABLAR CON EL "GERENTE" (PYTHON) ---
-        async function createCheckoutPreference() {
+        async function createCheckoutPreference(firstName, lastName) {
+            payerFormContainer.classList.add('hidden');
+            checkoutBtnContainer.classList.remove('hidden');
             checkoutBtnContainer.innerHTML = '<p class="text-center text-gray-500">Cargando botón de pago...</p>';
             
             try {
                 const response = await fetch("/create_preference", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         title: `Plan ${selectedPlan.name} (${selectedPlan.slots} slots)`,
                         price: selectedPlan.price,
-                        quantity: 1
+                        quantity: 1,
+                        payer_firstname: firstName,
+                        payer_lastname: lastName
                     }),
                 });
 
@@ -610,9 +641,7 @@
                 
                 if (preference.id) {
                     mp.checkout({
-                        preference: {
-                            id: preference.id
-                        },
+                        preference: { id: preference.id },
                         render: {
                             container: '#checkout-btn-container',
                             label: 'Pagar y Proteger',
@@ -625,6 +654,9 @@
             } catch (error) {
                 console.error(error);
                 checkoutBtnContainer.innerHTML = '<p class="text-center text-red-500">Error al cargar el botón de pago. Por favor, vuelve a intentarlo.</p>';
+                payerFormContainer.classList.remove('hidden');
+                confirmAndPayBtn.textContent = 'Confirmar y Pagar';
+                confirmAndPayBtn.disabled = false;
             }
         }
 
@@ -734,4 +766,4 @@
     });
     </script>
 </body>
-</ht
+</html>
