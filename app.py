@@ -1,4 +1,4 @@
-# app.py - El "Gerente" de la tienda (Versión Profesional Mejorada)
+# app.py - El "Gerente" de la tienda (Versión Profesional Final)
 
 import flask
 import mercadopago
@@ -21,21 +21,24 @@ def create_preference():
         host_url = flask.request.host_url
         external_reference_id = str(uuid.uuid4())
         
+        # ✅ AÑADIDO: Creamos un ID para el item basado en el nombre del plan
+        item_id = "plan-" + data["title"].lower().split(" ")[1]
+
         # Prepara la orden de pago para enviársela al banco
         preference_data = {
             "external_reference": external_reference_id,
             "items": [
                 {
+                    "id": item_id, # ✅ AÑADIDO: Código del item
                     "title": data["title"],
                     "quantity": int(data["quantity"]),
                     "unit_price": float(data["price"]),
                     "currency_id": "CLP",
-                    # ✅ AÑADIDO: Detalles del producto para mejorar la calidad
-                    "category_id": "services", # ID de categoría genérico para servicios
+                    "category_id": "services",
                     "description": "Servicio de gestión para inscripción en No Molestar del SERNAC."
                 }
             ],
-            # ✅ AÑADIDO: Información del comprador para mejorar la calidad
+            # ✅ AÑADIDO: Información del comprador
             "payer": {
                 "first_name": data["payer_firstname"],
                 "last_name": data["payer_lastname"]
