@@ -1,3 +1,7 @@
-Flask
+flask
 mercadopago
 gunicorn
+gspread
+google-auth-oauthlib
+cryptography
+pytz
