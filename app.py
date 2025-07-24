@@ -6,7 +6,8 @@ import os
 import json
 import uuid
 import gspread
-from google.oauth2.service_account import Credentials
+# ✅ IA-UPDATE: No necesitamos Credentials directamente, gspread lo maneja.
+# from google.oauth2.service_account import Credentials
 from cryptography.fernet import Fernet
 from datetime import datetime
 import pytz # Para manejar zonas horarias
@@ -44,14 +45,11 @@ try:
         print("ERROR: La variable de entorno GOOGLE_CREDENTIALS_JSON no está configurada.")
     else:
         creds_info = json.loads(creds_json_str)
-        # ✅ IA-UPDATE: Añadimos el scope de Google Drive para permitir encontrar la planilla.
-        scopes = [
-            'https://www.googleapis.com/auth/spreadsheets',
-            'https://www.googleapis.com/auth/drive'
-        ]
-        google_creds = Credentials.from_service_account_info(creds_info, scopes=scopes)
-        # Autoriza al robot.
-        gc = gspread.authorize(google_creds)
+        
+        # ✅ IA-UPDATE: Usamos el método moderno y recomendado para la autenticación.
+        # Esto es más robusto y evita el error <Response [200]>.
+        gc = gspread.service_account_from_dict(creds_info)
+        
         # Abre tu planilla por su nombre. ¡Asegúrate de que coincida!
         spreadsheet = gc.open("Ventas Cortala.cl")
         # Selecciona la primera hoja de la planilla.
