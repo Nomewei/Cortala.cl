@@ -284,6 +284,8 @@
                                     </div>
                                 </div>
                                 <button id="confirm-and-pay-btn" class="w-full mt-8 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Confirmar y Pagar</button>
+                                <!-- ✅ IA-UPDATE: Añadido un contenedor para mensajes de error. -->
+                                <p id="payment-error" class="text-red-500 text-sm text-center mt-4 h-5"></p>
                             </div>
                             
                             <div id="checkout-btn-container" class="mt-8 hidden">
@@ -378,68 +380,68 @@
         </div>
     </div>
     <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><button onclick="closeModal('modal-success')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Tú y tu referido recibirán 1 teléfono o correo Gratis cada uno en su primera compra.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                    Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
-    <div id="modal-confirm-continue" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in text-center">
-            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-            </div>
-            <h3 class="text-xl font-bold mb-2">¿Estás seguro?</h3>
-            <p id="confirm-continue-message" class="text-gray-600 mb-6">Tienes espacios disponibles en tu plan.</p>
-            <div class="flex justify-center gap-4">
-                <button id="cancel-continue-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
-                <button id="proceed-anyway-btn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Continuar</button>
-            </div>
-        </div>
-    </div>
+                    Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
+    <div id="modal-confirm-continue" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in text-center">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">¿Estás seguro?</h3>
+            <p id="confirm-continue-message" class="text-gray-600 mb-6">Tienes espacios disponibles en tu plan.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-continue-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+                <button id="proceed-anyway-btn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Continuar</button>
+            </div>
+        </div>
+    </div>
 
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
 
-        // --- ESTADO GLOBAL ---
-        let selectedPlan = { name: "Dúo", slots: 2, price: 14990 };
-        let contacts = [];
-        let funnelActive = false;
-        let currentStep = 0;
+        // --- ESTADO GLOBAL ---
+        let selectedPlan = { name: "Dúo", slots: 2, price: 14990 };
+        let contacts = [];
+        let funnelActive = false;
+        let currentStep = 0;
 
-        // --- MERCADO PAGO ---
-        const mp = new MercadoPago('APP_USR-d3852942-ab11-4136-9b54-b94b63459169', {
-            locale: 'es-CL'
-        });
-        const checkoutBtnContainer = document.getElementById('checkout-btn-container');
+        // --- MERCADO PAGO ---
+        const mp = new MercadoPago('APP_USR-d3852942-ab11-4136-9b54-b94b63459169', {
+            locale: 'es-CL'
+        });
+        const checkoutBtnContainer = document.getElementById('checkout-btn-container');
 
-        // --- SELECTORES DEL DOM ---
-        const mainContent = document.getElementById('main-content');
-        const heroSection = document.getElementById('hero-section');
-        const progressBarContainer = document.getElementById('progress-bar-container');
-        const progressBar = document.getElementById('progress-bar');
-        const plansSection = document.getElementById('plans-section');
-        const testimonialsSection = document.getElementById('testimonials-section');
-        const contactsSection = document.getElementById('contacts-section');
-        const paymentSection = document.getElementById('payment-section');
-        const plansContainer = document.getElementById('plans-container');
-        const slotCounter = document.getElementById('slot-counter');
-        const contactsSubtitle = document.getElementById('contacts-subtitle');
-        const contactInput = document.getElementById('contact-input');
-        const contactError = document.getElementById('contact-error');
-        const addContactBtn = document.getElementById('add-contact-btn');
-        const contactList = document.getElementById('contact-list');
-        const continueToPaymentBtn = document.getElementById('continue-to-payment-btn');
-        const backToPlansBtn = document.getElementById('back-to-plans-btn');
-        const backToContactsBtn = document.getElementById('back-to-contacts-btn');
-        const summaryPlanName = document.getElementById('summary-plan-name');
-        const summaryContactCount = document.getElementById('summary-contact-count');
-        const summaryTotalPrice = document.getElementById('summary-total-price');
-        const menuButton = document.getElementById('menu-button');
-        const closeMenuButton = document.getElementById('close-menu-btn');
-        const mobileMenuContainer = document.getElementById('mobile-menu-container');
-        const allPlanLinks = document.querySelectorAll('a[href="#plans-section"]');
-        const logoLink = document.getElementById('logo-link');
-        const confirmContinueModal = document.getElementById('modal-confirm-continue');
-        const confirmContinueMessage = document.getElementById('confirm-continue-message');
-        const cancelContinueBtn = document.getElementById('cancel-continue-btn');
-        const proceedAnywayBtn = document.getElementById('proceed-anyway-btn');
+        // --- SELECTORES DEL DOM ---
+        const mainContent = document.getElementById('main-content');
+        const heroSection = document.getElementById('hero-section');
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const progressBar = document.getElementById('progress-bar');
+        const plansSection = document.getElementById('plans-section');
+        const testimonialsSection = document.getElementById('testimonials-section');
+        const contactsSection = document.getElementById('contacts-section');
+        const paymentSection = document.getElementById('payment-section');
+        const plansContainer = document.getElementById('plans-container');
+        const slotCounter = document.getElementById('slot-counter');
+        const contactsSubtitle = document.getElementById('contacts-subtitle');
+        const contactInput = document.getElementById('contact-input');
+        const contactError = document.getElementById('contact-error');
+        const addContactBtn = document.getElementById('add-contact-btn');
+        const contactList = document.getElementById('contact-list');
+        const continueToPaymentBtn = document.getElementById('continue-to-payment-btn');
+        const backToPlansBtn = document.getElementById('back-to-plans-btn');
+        const backToContactsBtn = document.getElementById('back-to-contacts-btn');
+        const summaryPlanName = document.getElementById('summary-plan-name');
+        const summaryContactCount = document.getElementById('summary-contact-count');
+        const summaryTotalPrice = document.getElementById('summary-total-price');
+        const menuButton = document.getElementById('menu-button');
+        const closeMenuButton = document.getElementById('close-menu-btn');
+        const mobileMenuContainer = document.getElementById('mobile-menu-container');
+        const allPlanLinks = document.querySelectorAll('a[href="#plans-section"]');
+        const logoLink = document.getElementById('logo-link');
+        const confirmContinueModal = document.getElementById('modal-confirm-continue');
+        const confirmContinueMessage = document.getElementById('confirm-continue-message');
+        const cancelContinueBtn = document.getElementById('cancel-continue-btn');
+        const proceedAnywayBtn = document.getElementById('proceed-anyway-btn');
         const incumplimientoForm = document.getElementById('incumplimiento-form');
         const copyReferralBtn = document.getElementById('copy-referral-btn');
         const referralLinkInput = document.getElementById('referral-link');
@@ -451,153 +453,163 @@
         const incumplimientoContent = document.getElementById('incumplimiento-content');
         const incumplimientoSuccess = document.getElementById('incumplimiento-success');
         
-        // ✅ Nuevos selectores para el formulario de pago
+        // Selectores para el formulario de pago
         const payerFormContainer = document.getElementById('payer-form-container');
         const payerFirstname = document.getElementById('payer-firstname');
         const payerLastname = document.getElementById('payer-lastname');
         const termsCheckbox = document.getElementById('terms-checkbox');
         const confirmAndPayBtn = document.getElementById('confirm-and-pay-btn');
+        const paymentError = document.getElementById('payment-error');
+
+        // Lógica para manejar el estado del pago desde la URL.
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentStatus = urlParams.get('status');
+        if (paymentStatus === 'success') {
+            showModal('modal-success');
+            // Limpia la URL para que el modal no reaparezca si el usuario recarga.
+            window.history.replaceState({}, document.title, "/");
+        }
 
 
-        // --- LÓGICA DEL CONTADOR ---
-        const clientCounter = document.getElementById('client-counter');
-        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 1470;
-        function updateCounter() {
-            count += Math.floor(Math.random() * 2) + 1;
-            clientCounter.innerText = count.toLocaleString('es-CL');
-            localStorage.setItem('cortalaClientCount', count);
-        }
-        setInterval(updateCounter, 300000);
+        // --- LÓGICA DEL CONTADOR ---
+        const clientCounter = document.getElementById('client-counter');
+        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 1470;
+        function updateCounter() {
+            count += Math.floor(Math.random() * 2) + 1;
+            clientCounter.innerText = count.toLocaleString('es-CL');
+            localStorage.setItem('cortalaClientCount', count);
+        }
+        setInterval(updateCounter, 300000);
 
-        // --- MANEJO DEL FUNNEL ---
-        function showStep(stepNumber) {
-            currentStep = stepNumber;
-            
-            if (stepNumber > 0) {
-                funnelActive = true;
-                progressBarContainer.classList.remove('opacity-0', '-translate-y-4');
-            } else {
-                funnelActive = false;
-                progressBarContainer.classList.add('opacity-0', '-translate-y-4');
-            }
+        // --- MANEJO DEL FUNNEL ---
+        function showStep(stepNumber) {
+            currentStep = stepNumber;
+            
+            if (stepNumber > 0) {
+                funnelActive = true;
+                progressBarContainer.classList.remove('opacity-0', '-translate-y-4');
+            } else {
+                funnelActive = false;
+                progressBarContainer.classList.add('opacity-0', '-translate-y-4');
+            }
 
-            if (stepNumber >= 1) { 
-                heroSection.classList.add('hidden');
-                testimonialsSection.classList.add('hidden');
-            } else {
-                heroSection.classList.remove('hidden');
-                testimonialsSection.classList.remove('hidden');
-            }
+            if (stepNumber >= 1) { 
+                heroSection.classList.add('hidden');
+                testimonialsSection.classList.add('hidden');
+            } else {
+                heroSection.classList.remove('hidden');
+                testimonialsSection.classList.remove('hidden');
+            }
 
-            [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
-            
-            let sectionToShow;
-            if (stepNumber === 1) {
-                sectionToShow = plansSection;
-                updateProgressBar(33);
-            } else if (stepNumber === 2) {
-                sectionToShow = contactsSection;
-                updateProgressBar(66);
-                updateContactUI();
-            } else if (stepNumber === 3) {
-                sectionToShow = paymentSection;
-                updateProgressBar(100);
-                updateSummary();
-            }
-            
-            if(sectionToShow){
-                sectionToShow.classList.remove('hidden');
-                sectionToShow.classList.add('fade-in');
-                const isMobile = window.innerWidth < 768;
-                const scrollTarget = (stepNumber === 1 && isMobile) 
-                    ? document.getElementById('recommended-plan') 
-                    : (stepNumber === 1 ? plansSection : mainContent);
-                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
+            [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
+            
+            let sectionToShow;
+            if (stepNumber === 1) {
+                sectionToShow = plansSection;
+                updateProgressBar(33);
+            } else if (stepNumber === 2) {
+                sectionToShow = contactsSection;
+                updateProgressBar(66);
+                updateContactUI();
+            } else if (stepNumber === 3) {
+                sectionToShow = paymentSection;
+                updateProgressBar(100);
+                updateSummary();
+            }
+            
+            if(sectionToShow){
+                sectionToShow.classList.remove('hidden');
+                sectionToShow.classList.add('fade-in');
+                const isMobile = window.innerWidth < 768;
+                const scrollTarget = (stepNumber === 1 && isMobile) 
+                    ? document.getElementById('recommended-plan') 
+                    : (stepNumber === 1 ? plansSection : mainContent);
+                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
 
-        function updateProgressBar(percentage) {
-            progressBar.style.width = `${percentage}%`;
-        }
-        
-        // --- EVENT LISTENERS ---
-        allPlanLinks.forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                closeMobileMenu();
-                showStep(1);
-            });
-        });
+        function updateProgressBar(percentage) {
+            progressBar.style.width = `${percentage}%`;
+        }
+        
+        // --- EVENT LISTENERS ---
+        allPlanLinks.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                closeMobileMenu();
+                showStep(1);
+            });
+        });
 
-        logoLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            if(currentStep > 0) {
-                showStep(0);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                location.reload();
-            }
-        });
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(currentStep > 0) {
+                showStep(0);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                location.reload();
+            }
+        });
 
-        plansContainer.addEventListener('click', (e) => {
-            const card = e.target.closest('.plan-card');
-            if (!card) return;
-            selectedPlan = JSON.parse(card.dataset.plan);
-            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
-            card.classList.add('selected', 'border-blue-600');
-            setTimeout(() => showStep(2), 200);
-        });
-        
-        contactInput.addEventListener('input', () => {
-            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
-        });
+        plansContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.plan-card');
+            if (!card) return;
+            selectedPlan = JSON.parse(card.dataset.plan);
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected', 'border-blue-600'));
+            card.classList.add('selected', 'border-blue-600');
+            setTimeout(() => showStep(2), 200);
+        });
+        
+        contactInput.addEventListener('input', () => {
+            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
+        });
 
-        addContactBtn.addEventListener('click', () => {
-            const contactValue = contactInput.value.trim();
-            if (contactValue && contacts.length < selectedPlan.slots) {
-                contacts.push(contactValue);
-                contactInput.value = '';
-                renderContacts();
-            }
-        });
+        addContactBtn.addEventListener('click', () => {
+            const contactValue = contactInput.value.trim();
+            if (contactValue && contacts.length < selectedPlan.slots) {
+                contacts.push(contactValue);
+                contactInput.value = '';
+                renderContacts();
+            }
+        });
 
-        contactList.addEventListener('click', (e) => {
-            if (e.target.closest('.delete-contact-btn')) {
-                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
-                contacts = contacts.filter(c => c !== contactToRemove);
-                renderContacts();
-            }
-        });
+        contactList.addEventListener('click', (e) => {
+            if (e.target.closest('.delete-contact-btn')) {
+                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
+                contacts = contacts.filter(c => c !== contactToRemove);
+                renderContacts();
+            }
+        });
 
-        continueToPaymentBtn.addEventListener('click', () => {
-            if (contacts.length === 0) return;
-            
-            const proceedToPayment = () => {
-                showStep(3);
-            };
+        continueToPaymentBtn.addEventListener('click', () => {
+            if (contacts.length === 0) return;
+            
+            const proceedToPayment = () => {
+                showStep(3);
+            };
 
-            const remainingSlots = selectedPlan.slots - contacts.length;
-            if (remainingSlots > 0) {
-                confirmContinueMessage.textContent = `Aún te quedan ${remainingSlots} espacio(s) disponible(s) en tu plan. ¿Estás seguro de que quieres continuar sin usarlos todos?`;
-                showModal('modal-confirm-continue');
-            } else {
-                proceedToPayment();
-            }
-        });
+            const remainingSlots = selectedPlan.slots - contacts.length;
+            if (remainingSlots > 0) {
+                confirmContinueMessage.textContent = `Aún te quedan ${remainingSlots} espacio(s) disponible(s) en tu plan. ¿Estás seguro de que quieres continuar sin usarlos todos?`;
+                showModal('modal-confirm-continue');
+            } else {
+                proceedToPayment();
+            }
+        });
 
-        proceedAnywayBtn.addEventListener('click', () => {
-            closeModal('modal-confirm-continue');
-            showStep(3);
-        });
+        proceedAnywayBtn.addEventListener('click', () => {
+            closeModal('modal-confirm-continue');
+            showStep(3);
+        });
 
-        cancelContinueBtn.addEventListener('click', () => {
-            closeModal('modal-confirm-continue');
-        });
+        cancelContinueBtn.addEventListener('click', () => {
+            closeModal('modal-confirm-continue');
+        });
 
-        backToPlansBtn.addEventListener('click', () => showStep(1));
-        backToContactsBtn.addEventListener('click', () => showStep(2));
+        backToPlansBtn.addEventListener('click', () => showStep(1));
+        backToContactsBtn.addEventListener('click', () => showStep(2));
 
-        // ✅ Nuevos listeners para el formulario de pago
+        // Listeners para el formulario de pago
         function validatePayerForm() {
             const firstName = payerFirstname.value.trim();
             const lastName = payerLastname.value.trim();
@@ -611,6 +623,7 @@
         confirmAndPayBtn.addEventListener('click', () => {
             confirmAndPayBtn.textContent = 'Procesando...';
             confirmAndPayBtn.disabled = true;
+            paymentError.textContent = ''; // Limpiamos errores previos
             
             const firstName = payerFirstname.value.trim();
             const lastName = payerLastname.value.trim();
@@ -618,152 +631,170 @@
             createCheckoutPreference(firstName, lastName);
         });
 
-        // --- FUNCIÓN PARA HABLAR CON EL "GERENTE" (PYTHON) ---
-        async function createCheckoutPreference(firstName, lastName) {
+        // --- FUNCIÓN PARA HABLAR CON EL "GERENTE" (PYTHON) ---
+        async function createCheckoutPreference(firstName, lastName) {
             payerFormContainer.classList.add('hidden');
-            checkoutBtnContainer.classList.remove('hidden');
-            checkoutBtnContainer.innerHTML = '<p class="text-center text-gray-500">Cargando botón de pago...</p>';
-            
-            try {
-                const response = await fetch("/create_preference", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        title: `Plan ${selectedPlan.name} (${selectedPlan.slots} slots)`,
-                        price: selectedPlan.price,
-                        quantity: 1,
+            checkoutBtnContainer.classList.remove('hidden');
+            checkoutBtnContainer.innerHTML = '<p class="text-center text-gray-500">Cargando botón de pago...</p>';
+            
+            try {
+                const response = await fetch("/create_preference", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        title: `Plan ${selectedPlan.name} (${selectedPlan.slots} slots)`,
+                        price: selectedPlan.price,
+                        quantity: 1,
                         payer_firstname: firstName,
-                        payer_lastname: lastName
-                    }),
-                });
+                        payer_lastname: lastName,
+                        contacts_to_protect: contacts
+                    }),
+                });
 
-                const preference = await response.json();
-                
-                if (preference.id) {
-                    mp.checkout({
-                        preference: { id: preference.id },
-                        render: {
-                            container: '#checkout-btn-container',
-                            label: 'Pagar y Proteger',
-                        }
-                    });
-                } else {
-                    throw new Error('No se recibió ID de preferencia del servidor');
-                }
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Error del servidor: ${response.status}`);
+                }
 
-            } catch (error) {
-                console.error(error);
-                checkoutBtnContainer.innerHTML = '<p class="text-center text-red-500">Error al cargar el botón de pago. Por favor, vuelve a intentarlo.</p>';
+                const preference = await response.json();
+                
+                if (preference.id) {
+                    mp.checkout({
+                        preference: { id: preference.id },
+                        render: {
+                            container: '#checkout-btn-container',
+                            label: 'Pagar y Proteger',
+                        }
+                    });
+                } else {
+                    throw new Error('No se recibió ID de preferencia del servidor');
+                }
+
+            } catch (error) {
+                // ✅ IA-UPDATE: Manejo de errores mejorado para no romper el flujo.
+                console.error("Error al crear la preferencia de pago:", error);
+                
+                // Mostramos un mensaje de error.
+                paymentError.textContent = 'Hubo un error. Por favor, intenta de nuevo.';
+
+                // Ocultamos el contenedor del botón de checkout y mostramos el formulario de nuevo.
+                checkoutBtnContainer.classList.add('hidden');
+                checkoutBtnContainer.innerHTML = ''; // Limpiamos el contenido.
                 payerFormContainer.classList.remove('hidden');
-                confirmAndPayBtn.textContent = 'Confirmar y Pagar';
+
+                // Reactivamos el botón de pago y restauramos su texto.
                 confirmAndPayBtn.disabled = false;
-            }
-        }
+                confirmAndPayBtn.textContent = 'Confirmar y Pagar';
+            }
+        }
 
-        // --- RENDERIZADO Y UI ---
-        function updateContactUI() {
-            slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
-            contactsSubtitle.textContent = `Tienes ${selectedPlan.slots} slots para elegir entre teléfonos y correos.`;
-            contactInput.disabled = contacts.length >= selectedPlan.slots;
-            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
-            continueToPaymentBtn.disabled = contacts.length === 0;
-        }
+        // --- RENDERIZADO Y UI ---
+        function updateContactUI() {
+            slotCounter.textContent = `${contacts.length} / ${selectedPlan.slots}`;
+            contactsSubtitle.textContent = `Tienes ${selectedPlan.slots} slots para elegir entre teléfonos y correos.`;
+            contactInput.disabled = contacts.length >= selectedPlan.slots;
+            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
+            continueToPaymentBtn.disabled = contacts.length === 0;
+        }
 
-        function renderContacts() {
-            contactList.innerHTML = '';
-            contacts.forEach(contact => {
-                const item = document.createElement('div');
-                item.className = 'flex items-center justify-between bg-white/60 p-3 rounded-lg animate-scale-in';
-                item.innerHTML = `<span class="text-gray-800 font-medium">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700 p-2 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
-                contactList.appendChild(item);
-            });
-            updateContactUI();
-        }
+        function renderContacts() {
+            contactList.innerHTML = '';
+            contacts.forEach(contact => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between bg-white/60 p-3 rounded-lg animate-scale-in';
+                item.innerHTML = `<span class="text-gray-800 font-medium">${contact}</span><button data-contact="${contact}" class="delete-contact-btn text-red-500 hover:text-red-700 p-2 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>`;
+                contactList.appendChild(item);
+            });
+            updateContactUI();
+        }
 
-        function updateSummary() {
-            summaryPlanName.textContent = selectedPlan.name;
-            summaryContactCount.textContent = contacts.length;
-            summaryTotalPrice.textContent = `$${selectedPlan.price.toLocaleString('es-CL')}`;
-        }
-        
-        // --- MODALES Y MENÚ ---
-        window.showModal = (modalId) => {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                if (modalId === 'modal-incumplimiento') {
-                    incumplimientoContent.classList.remove('hidden');
-                    incumplimientoSuccess.classList.add('hidden');
-                    incumplimientoForm.reset();
-                    handleFileChange();
-                }
-                modal.classList.replace('hidden', 'flex');
-            }
-        };
+        function updateSummary() {
+            summaryPlanName.textContent = selectedPlan.name;
+            summaryContactCount.textContent = contacts.length;
+            summaryTotalPrice.textContent = `$${selectedPlan.price.toLocaleString('es-CL')}`;
+        }
+        
+        // --- MODALES Y MENÚ ---
+        window.showModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                if (modalId === 'modal-incumplimiento') {
+                    incumplimientoContent.classList.remove('hidden');
+                    incumplimientoSuccess.classList.add('hidden');
+                    incumplimientoForm.reset();
+                    handleFileChange();
+                }
+                modal.classList.replace('hidden', 'flex');
+            }
+        };
 
-        window.closeModal = (modalId) => {
-            const modal = document.getElementById(modalId);
-            if (modal) modal.classList.replace('flex', 'hidden');
-            if (modalId === 'modal-success') location.reload();
-        };
+        window.closeModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.replace('flex', 'hidden');
+            if (modalId === 'modal-success') {
+                // Recargamos la página para resetear el funnel completamente.
+                location.href = '/';
+            }
+        };
 
-        window.closeMobileMenu = () => {
-            mobileMenuContainer.classList.remove('open');
-        };
-        
-        menuButton.addEventListener('click', () => {
-            mobileMenuContainer.classList.add('open');
-        });
-        
-        closeMenuButton.addEventListener('click', closeMobileMenu);
+        window.closeMobileMenu = () => {
+            mobileMenuContainer.classList.remove('open');
+        };
+        
+        menuButton.addEventListener('click', () => {
+            mobileMenuContainer.classList.add('open');
+        });
+        
+        closeMenuButton.addEventListener('click', closeMobileMenu);
 
-        copyReferralBtn.addEventListener('click', () => {
-            referralLinkInput.select();
-            document.execCommand('copy');
-            copyReferralBtn.textContent = 'Copiado!';
-            setTimeout(() => { copyReferralBtn.textContent = 'Copiar'; }, 2000);
-        });
-        
-        shareWhatsappBtn.addEventListener('click', () => {
-            const text = encodeURIComponent(`¡Hola! Te recomiendo Córtala.cl para que dejes de recibir SPAM. Si usas mi link, ambos ganamos beneficios: ${referralLinkInput.value}`);
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        });
+        copyReferralBtn.addEventListener('click', () => {
+            referralLinkInput.select();
+            document.execCommand('copy');
+            copyReferralBtn.textContent = 'Copiado!';
+            setTimeout(() => { copyReferralBtn.textContent = 'Copiar'; }, 2000);
+        });
+        
+        shareWhatsappBtn.addEventListener('click', () => {
+            const text = encodeURIComponent(`¡Hola! Te recomiendo Córtala.cl para que dejes de recibir SPAM. Si usas mi link, ambos ganamos beneficios: ${referralLinkInput.value}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        });
 
-        // --- LÓGICA PARA DRAG & DROP Y FORMULARIO DE INCUMPLIMIENTO (SIN CAMBIOS) ---
-        function handleFileChange(file = null) {
-            if (file) {
-                fileNameDisplay.innerHTML = `
-                    <span>${file.name}</span>
-                    <button type="button" id="remove-file-btn" class="text-red-500 hover:text-red-700 p-1 rounded-full">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>`;
-                fileNameDisplay.classList.remove('hidden');
-                fileDropLabel.classList.add('hidden');
-                document.getElementById('remove-file-btn').addEventListener('click', () => {
-                    fileInput.value = '';
-                    handleFileChange();
-                });
-            } else {
-                fileNameDisplay.classList.add('hidden');
-                fileDropLabel.classList.remove('hidden');
-            }
-        }
+        // --- LÓGICA PARA DRAG & DROP Y FORMULARIO DE INCUMPLIMIENTO (SIN CAMBIOS) ---
+        function handleFileChange(file = null) {
+            if (file) {
+                fileNameDisplay.innerHTML = `
+                    <span>${file.name}</span>
+                    <button type="button" id="remove-file-btn" class="text-red-500 hover:text-red-700 p-1 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>`;
+                fileNameDisplay.classList.remove('hidden');
+                fileDropLabel.classList.add('hidden');
+                document.getElementById('remove-file-btn').addEventListener('click', () => {
+                    fileInput.value = '';
+                    handleFileChange();
+                });
+            } else {
+                fileNameDisplay.classList.add('hidden');
+                fileDropLabel.classList.remove('hidden');
+            }
+        }
 
-        fileDropArea.addEventListener('dragover', (e) => { e.preventDefault(); fileDropLabel.classList.add('dragover'); });
-        fileDropArea.addEventListener('dragleave', (e) => { e.preventDefault(); fileDropLabel.classList.remove('dragover'); });
-        fileDropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileDropLabel.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) { fileInput.files = files; handleFileChange(files[0]); }
-        });
-        fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) { handleFileChange(fileInput.files[0]); } });
-        incumplimientoForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            incumplimientoContent.classList.add('hidden');
-            incumplimientoSuccess.classList.remove('hidden');
-        });
+        fileDropArea.addEventListener('dragover', (e) => { e.preventDefault(); fileDropLabel.classList.add('dragover'); });
+        fileDropArea.addEventListener('dragleave', (e) => { e.preventDefault(); fileDropLabel.classList.remove('dragover'); });
+        fileDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileDropLabel.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) { fileInput.files = files; handleFileChange(files[0]); }
+        });
+        fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) { handleFileChange(fileInput.files[0]); } });
+        incumplimientoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            incumplimientoContent.classList.add('hidden');
+            incumplimientoSuccess.classList.remove('hidden');
+        });
 
-    });
-    </script>
+    });
+    </script>
 </body>
 </html>
