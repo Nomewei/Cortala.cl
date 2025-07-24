@@ -25,27 +25,30 @@ sdk = mercadopago.SDK(mp_token)
 
 # 2. ENCRIPTACIÓN
 # Lee la clave de encriptación desde las variables de entorno de Render.
-# ¡DEBES GENERAR ESTA CLAVE Y AÑADIRLA A RENDER!
 encryption_key = os.environ.get("ENCRYPTION_KEY")
+fernet = None
 if not encryption_key:
-    print("ERROR: La variable de entorno ENCRYPTION_KEY no está configurada.")
-    # Usamos una clave dummy para que la app no se caiga al iniciar, 
-    # pero la encriptación no será segura.
+    print("ADVERTENCIA: La variable de entorno ENCRYPTION_KEY no está configurada. La encriptación no será segura.")
+    # Usamos una clave dummy para que la app no se caiga al iniciar.
     fernet = Fernet(Fernet.generate_key()) 
 else:
     fernet = Fernet(encryption_key.encode())
+    print("Sistema de encriptación configurado correctamente.")
 
 # 3. GOOGLE SHEETS
+worksheet = None # Inicializamos worksheet como None
 try:
     # Lee el contenido del JSON de credenciales desde la variable de entorno.
     creds_json_str = os.environ.get('GOOGLE_CREDENTIALS_JSON')
     if not creds_json_str:
         print("ERROR: La variable de entorno GOOGLE_CREDENTIALS_JSON no está configurada.")
-        google_creds = None
     else:
         creds_info = json.loads(creds_json_str)
-        # Define los "permisos" que nuestro robot tendrá.
-        scopes = ['https://www.googleapis.com/auth/spreadsheets']
+        # ✅ IA-UPDATE: Añadimos el scope de Google Drive para permitir encontrar la planilla.
+        scopes = [
+            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/drive'
+        ]
         google_creds = Credentials.from_service_account_info(creds_info, scopes=scopes)
         # Autoriza al robot.
         gc = gspread.authorize(google_creds)
@@ -57,14 +60,12 @@ try:
 
 except Exception as e:
     print(f"ERROR al configurar Google Sheets: {e}")
-    worksheet = None # Si falla, la app sigue corriendo pero no escribirá en la hoja.
+    # Si falla, la app sigue corriendo pero worksheet seguirá siendo None.
 
 
 # 4. ALMACÉN TEMPORAL DE ÓRDENES
 # Este diccionario guardará los contactos asociados a una venta
 # mientras se completa el pago.
-# NOTA: Como esto se guarda en memoria, si la app se reinicia, los datos se pierden.
-# Para un MVP es aceptable, pero para una versión más robusta se usaría una base de datos.
 pending_orders = {}
 
 
@@ -72,6 +73,9 @@ pending_orders = {}
 
 def encrypt_data(data):
     """Encripta una lista de contactos."""
+    if not fernet:
+        print("ERROR: El sistema de encriptación no está inicializado.")
+        return None
     # Convertimos la lista de contactos a una cadena de texto JSON.
     data_string = json.dumps(data)
     # La encriptamos.
@@ -81,6 +85,9 @@ def encrypt_data(data):
 
 def decrypt_data(encrypted_data):
     """Desencripta los contactos (función para uso futuro)."""
+    if not fernet:
+        print("ERROR: El sistema de encriptación no está inicializado.")
+        return None
     decrypted_data_bytes = fernet.decrypt(encrypted_data.encode('utf-8'))
     data_string = decrypted_data_bytes.decode('utf-8')
     return json.loads(data_string)
@@ -95,14 +102,16 @@ def create_preference():
         host_url = flask.request.host_url
         external_reference_id = str(uuid.uuid4())
         
-        # ✅ LÓGICA CLAVE: Guardar los contactos a proteger temporalmente.
-        # El frontend ahora nos envía los contactos.
+        # Lógica clave para guardar los contactos a proteger temporalmente.
         contacts_to_protect = data.get("contacts_to_protect")
         if contacts_to_protect:
             pending_orders[external_reference_id] = contacts_to_protect
             print(f"Orden pendiente creada: {external_reference_id} con {len(contacts_to_protect)} contactos.")
+        else:
+            # Si no vienen contactos, no deberíamos crear una preferencia de pago.
+            return flask.jsonify({"error": "No se proporcionaron contactos para proteger."}), 400
 
-        item_id = "plan-" + data["title"].lower().replace(" ", "-")
+        item_id = "plan-" + data["title"].lower().replace(" ", "-").replace("(", "").replace(")", "")
 
         preference_data = {
             "external_reference": external_reference_id,
@@ -163,19 +172,16 @@ def receive_webhook():
                 # Extraemos la información relevante.
                 external_ref = payment_info.get("external_reference")
                 
-                # ✅ LÓGICA CLAVE: Recuperar los contactos desde nuestro almacén temporal.
-                contacts = pending_orders.pop(external_ref, None) # .pop lo elimina para no procesarlo de nuevo.
+                contacts = pending_orders.pop(external_ref, None)
                 
                 if not contacts:
-                    print(f"ADVERTENCIA: No se encontraron contactos pendientes para la referencia {external_ref}. La orden podría ya haber sido procesada o hubo un error.")
-                    # Respondemos 200 para que MP no siga reintentando, pero no hacemos nada más.
+                    print(f"ADVERTENCIA: No se encontraron contactos pendientes para la referencia {external_ref}. La orden podría ya haber sido procesada o la app se reinició.")
                     return flask.Response(status=200)
 
                 # Encriptamos los contactos.
                 encrypted_contacts = encrypt_data(contacts)
 
                 # Preparamos la fila para Google Sheets.
-                # Definimos la zona horaria de Chile.
                 chile_tz = pytz.timezone('Chile/Continental')
                 request_date = datetime.now(chile_tz).strftime("%d/%m/%Y %H:%M:%S")
 
@@ -190,7 +196,6 @@ def receive_webhook():
                     f'=INDIRECT("B"&ROW())+7', # Fecha_Limite_Gestion (Fórmula)
                     f'=IF(AND(TODAY()>INDIRECT("H"&ROW()), INDIRECT("G"&ROW())="Pendiente"), "VENCIDO", "OK")', # Alerta_Vencimiento (Fórmula)
                     payment_id, # ID_Pago_MP
-                    "" # Notas (Columna extra)
                 ]
 
                 # Intentamos añadir la fila a la planilla.
@@ -205,7 +210,6 @@ def receive_webhook():
 
         except Exception as e:
             print(f"ERROR procesando el webhook para el pago {payment_id}: {e}")
-            # Devolvemos un error 500 para que Mercado Pago pueda reintentar la notificación.
             return flask.Response(status=500)
 
     print("========================================================")
