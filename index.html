@@ -284,6 +284,8 @@
                                     </div>
                                 </div>
                                 <button id="confirm-and-pay-btn" class="w-full mt-8 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Confirmar y Pagar</button>
+                                <!-- ✅ IA-UPDATE: Añadido un contenedor para mensajes de error. -->
+                                <p id="payment-error" class="text-red-500 text-sm text-center mt-4 h-5"></p>
                             </div>
                             
                             <div id="checkout-btn-container" class="mt-8 hidden">
@@ -377,7 +379,7 @@
             </div>
         </div>
     </div>
-    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><button onclick="closeModal('modal-success')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están en proceso de gestión.</h3><p class="text-gray-600 mb-6">Hemos recibido tu pago y comenzaremos la inscripción en SERNAC. Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Tú y tu referido recibirán 1 teléfono o correo Gratis cada uno en su primera compra.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><button onclick="closeModal('modal-success')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Tú y tu referido recibirán 1 teléfono o correo Gratis cada uno en su primera compra.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
     <div id="modal-confirm-continue" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in text-center">
@@ -457,6 +459,16 @@
         const payerLastname = document.getElementById('payer-lastname');
         const termsCheckbox = document.getElementById('terms-checkbox');
         const confirmAndPayBtn = document.getElementById('confirm-and-pay-btn');
+        const paymentError = document.getElementById('payment-error');
+
+        // Lógica para manejar el estado del pago desde la URL.
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentStatus = urlParams.get('status');
+        if (paymentStatus === 'success') {
+            showModal('modal-success');
+            // Limpia la URL para que el modal no reaparezca si el usuario recarga.
+            window.history.replaceState({}, document.title, "/");
+        }
 
 
         // --- LÓGICA DEL CONTADOR ---
@@ -467,7 +479,7 @@
             clientCounter.innerText = count.toLocaleString('es-CL');
             localStorage.setItem('cortalaClientCount', count);
         }
-        setInterval(updateCounter, 300000); // Actualiza cada 5 minutos
+        setInterval(updateCounter, 300000);
 
         // --- MANEJO DEL FUNNEL ---
         function showStep(stepNumber) {
@@ -597,6 +609,7 @@
         backToPlansBtn.addEventListener('click', () => showStep(1));
         backToContactsBtn.addEventListener('click', () => showStep(2));
 
+        // Listeners para el formulario de pago
         function validatePayerForm() {
             const firstName = payerFirstname.value.trim();
             const lastName = payerLastname.value.trim();
@@ -610,6 +623,7 @@
         confirmAndPayBtn.addEventListener('click', () => {
             confirmAndPayBtn.textContent = 'Procesando...';
             confirmAndPayBtn.disabled = true;
+            paymentError.textContent = ''; // Limpiamos errores previos
             
             const firstName = payerFirstname.value.trim();
             const lastName = payerLastname.value.trim();
@@ -628,15 +642,19 @@
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        title: `Plan ${selectedPlan.name}`,
+                        title: `Plan ${selectedPlan.name} (${selectedPlan.slots} slots)`,
                         price: selectedPlan.price,
                         quantity: 1,
                         payer_firstname: firstName,
                         payer_lastname: lastName,
-                        // ✅ CAMBIO CLAVE: Enviamos los contactos al backend.
-                        contacts_to_protect: contacts 
+                        contacts_to_protect: contacts
                     }),
                 });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Error del servidor: ${response.status}`);
+                }
 
                 const preference = await response.json();
                 
@@ -653,11 +671,20 @@
                 }
 
             } catch (error) {
-                console.error(error);
-                checkoutBtnContainer.innerHTML = '<p class="text-center text-red-500">Error al cargar el botón de pago. Por favor, vuelve a intentarlo.</p>';
+                // ✅ IA-UPDATE: Manejo de errores mejorado para no romper el flujo.
+                console.error("Error al crear la preferencia de pago:", error);
+                
+                // Mostramos un mensaje de error.
+                paymentError.textContent = 'Hubo un error. Por favor, intenta de nuevo.';
+
+                // Ocultamos el contenedor del botón de checkout y mostramos el formulario de nuevo.
+                checkoutBtnContainer.classList.add('hidden');
+                checkoutBtnContainer.innerHTML = ''; // Limpiamos el contenido.
                 payerFormContainer.classList.remove('hidden');
-                confirmAndPayBtn.textContent = 'Confirmar y Pagar';
+
+                // Reactivamos el botón de pago y restauramos su texto.
                 confirmAndPayBtn.disabled = false;
+                confirmAndPayBtn.textContent = 'Confirmar y Pagar';
             }
         }
 
@@ -704,10 +731,9 @@
         window.closeModal = (modalId) => {
             const modal = document.getElementById(modalId);
             if (modal) modal.classList.replace('flex', 'hidden');
-            // ✅ CAMBIO: No recargar la página al cerrar el modal de éxito.
             if (modalId === 'modal-success') {
-                // Podríamos resetear el funnel aquí si quisiéramos.
-                // location.reload(); 
+                // Recargamos la página para resetear el funnel completamente.
+                location.href = '/';
             }
         };
 
@@ -733,7 +759,7 @@
             window.open(`https://wa.me/?text=${text}`, '_blank');
         });
 
-        // --- LÓGICA PARA DRAG & DROP Y FORMULARIO DE INCUMPLIMIENTO ---
+        // --- LÓGICA PARA DRAG & DROP Y FORMULARIO DE INCUMPLIMIENTO (SIN CAMBIOS) ---
         function handleFileChange(file = null) {
             if (file) {
                 fileNameDisplay.innerHTML = `
@@ -768,6 +794,7 @@
             incumplimientoSuccess.classList.remove('hidden');
         });
 
-        // --- MANEJO DE LA RESPUESTA DEL PAGO ---
-        function handlePaymentResponse() {
-            const urlParams = new URLSearchParams(wind
+    });
+    </script>
+</body>
+</html>
