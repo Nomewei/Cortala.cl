@@ -6,8 +6,8 @@ import os
 import json
 import uuid
 import gspread
-# ✅ IA-UPDATE: No necesitamos Credentials directamente, gspread lo maneja.
-# from google.oauth2.service_account import Credentials
+# ✅ IA-UPDATE: Re-importamos Credentials para un control de autenticación más explícito.
+from google.oauth2.service_account import Credentials
 from cryptography.fernet import Fernet
 from datetime import datetime
 import pytz # Para manejar zonas horarias
@@ -18,19 +18,16 @@ import pytz # Para manejar zonas horarias
 app = flask.Flask(__name__, static_folder='.', static_url_path='')
 
 # 1. SDK DE MERCADO PAGO
-# Lee la llave secreta desde las variables de entorno de Render.
 mp_token = os.environ.get("MERCADOPAGO_TOKEN")
 if not mp_token:
     print("ERROR: La variable de entorno MERCADOPAGO_TOKEN no está configurada.")
 sdk = mercadopago.SDK(mp_token)
 
 # 2. ENCRIPTACIÓN
-# Lee la clave de encriptación desde las variables de entorno de Render.
 encryption_key = os.environ.get("ENCRYPTION_KEY")
 fernet = None
 if not encryption_key:
     print("ADVERTENCIA: La variable de entorno ENCRYPTION_KEY no está configurada. La encriptación no será segura.")
-    # Usamos una clave dummy para que la app no se caiga al iniciar.
     fernet = Fernet(Fernet.generate_key()) 
 else:
     fernet = Fernet(encryption_key.encode())
@@ -39,31 +36,45 @@ else:
 # 3. GOOGLE SHEETS
 worksheet = None # Inicializamos worksheet como None
 try:
-    # Lee el contenido del JSON de credenciales desde la variable de entorno.
     creds_json_str = os.environ.get('GOOGLE_CREDENTIALS_JSON')
-    if not creds_json_str:
-        print("ERROR: La variable de entorno GOOGLE_CREDENTIALS_JSON no está configurada.")
+    sheet_url = os.environ.get('GOOGLE_SHEET_URL')
+
+    if not creds_json_str or not sheet_url:
+        if not creds_json_str:
+            print("ERROR CRÍTICO: La variable de entorno GOOGLE_CREDENTIALS_JSON no está configurada.")
+        if not sheet_url:
+            print("ERROR CRÍTICO: La variable de entorno GOOGLE_SHEET_URL no está configurada.")
     else:
         creds_info = json.loads(creds_json_str)
         
-        # ✅ IA-UPDATE: Usamos el método moderno y recomendado para la autenticación.
-        # Esto es más robusto y evita el error <Response [200]>.
-        gc = gspread.service_account_from_dict(creds_info)
+        # ✅ IA-UPDATE: Usamos el método de autenticación más explícito y robusto.
+        # Definimos los permisos necesarios de forma explícita.
+        scopes = [
+            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/drive.file'
+        ]
         
-        # Abre tu planilla por su nombre. ¡Asegúrate de que coincida!
-        spreadsheet = gc.open("Ventas Cortala.cl")
-        # Selecciona la primera hoja de la planilla.
+        # Creamos el objeto de credenciales con los scopes definidos.
+        creds = Credentials.from_service_account_info(creds_info, scopes=scopes)
+        
+        # Autorizamos gspread con estas credenciales explícitas.
+        gc = gspread.authorize(creds)
+        
+        print("Autorización con Google completada. Abriendo planilla por URL...")
+        spreadsheet = gc.open_by_url(sheet_url)
+        
         worksheet = spreadsheet.sheet1
         print("Conexión con Google Sheets establecida correctamente.")
 
+except gspread.exceptions.SpreadsheetNotFound:
+    print("ERROR CRÍTICO: No se encontró la planilla. Verifica que la URL en GOOGLE_SHEET_URL es correcta y que la planilla está compartida con el email del robot.")
+except gspread.exceptions.APIError as e:
+    print(f"ERROR CRÍTICO de API de Google: {e}")
 except Exception as e:
-    print(f"ERROR al configurar Google Sheets: {e}")
-    # Si falla, la app sigue corriendo pero worksheet seguirá siendo None.
+    print(f"ERROR CRÍTICO inesperado al configurar Google Sheets: {e}")
 
 
 # 4. ALMACÉN TEMPORAL DE ÓRDENES
-# Este diccionario guardará los contactos asociados a una venta
-# mientras se completa el pago.
 pending_orders = {}
 
 
@@ -74,11 +85,8 @@ def encrypt_data(data):
     if not fernet:
         print("ERROR: El sistema de encriptación no está inicializado.")
         return None
-    # Convertimos la lista de contactos a una cadena de texto JSON.
     data_string = json.dumps(data)
-    # La encriptamos.
     encrypted_data = fernet.encrypt(data_string.encode('utf-8'))
-    # La devolvemos como texto para guardarla en la planilla.
     return encrypted_data.decode('utf-8')
 
 def decrypt_data(encrypted_data):
@@ -100,13 +108,11 @@ def create_preference():
         host_url = flask.request.host_url
         external_reference_id = str(uuid.uuid4())
         
-        # Lógica clave para guardar los contactos a proteger temporalmente.
         contacts_to_protect = data.get("contacts_to_protect")
         if contacts_to_protect:
             pending_orders[external_reference_id] = contacts_to_protect
             print(f"Orden pendiente creada: {external_reference_id} con {len(contacts_to_protect)} contactos.")
         else:
-            # Si no vienen contactos, no deberíamos crear una preferencia de pago.
             return flask.jsonify({"error": "No se proporcionaron contactos para proteger."}), 400
 
         item_id = "plan-" + data["title"].lower().replace(" ", "-").replace("(", "").replace(")", "")
@@ -154,20 +160,16 @@ def receive_webhook():
     print("MENSAJE RECIBIDO DEL WEBHOOK DE MERCADO PAGO:")
     print(json.dumps(data, indent=4))
     
-    # Verificamos si la notificación es sobre un pago.
     if data and data.get("type") == "payment":
         payment_id = data["data"]["id"]
         
         try:
-            # Obtenemos la información completa del pago desde Mercado Pago.
             payment_info_response = sdk.payment().get(payment_id)
             payment_info = payment_info_response.get("response")
 
-            # Verificamos si el pago fue aprobado.
             if payment_info and payment_info.get("status") == "approved":
                 print(f"Pago {payment_id} APROBADO. Procesando...")
 
-                # Extraemos la información relevante.
                 external_ref = payment_info.get("external_reference")
                 
                 contacts = pending_orders.pop(external_ref, None)
@@ -176,10 +178,8 @@ def receive_webhook():
                     print(f"ADVERTENCIA: No se encontraron contactos pendientes para la referencia {external_ref}. La orden podría ya haber sido procesada o la app se reinició.")
                     return flask.Response(status=200)
 
-                # Encriptamos los contactos.
                 encrypted_contacts = encrypt_data(contacts)
 
-                # Preparamos la fila para Google Sheets.
                 chile_tz = pytz.timezone('Chile/Continental')
                 request_date = datetime.now(chile_tz).strftime("%d/%m/%Y %H:%M:%S")
 
@@ -196,7 +196,6 @@ def receive_webhook():
                     payment_id, # ID_Pago_MP
                 ]
 
-                # Intentamos añadir la fila a la planilla.
                 if worksheet:
                     worksheet.append_row(new_row, value_input_option='USER_ENTERED')
                     print(f"Venta {external_ref} añadida a Google Sheets.")
@@ -211,7 +210,6 @@ def receive_webhook():
             return flask.Response(status=500)
 
     print("========================================================")
-    # Respondemos 200 OK para confirmar la recepción a Mercado Pago.
     return flask.Response(status=200)
 
 
