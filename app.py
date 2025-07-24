@@ -47,11 +47,10 @@ try:
     else:
         creds_info = json.loads(creds_json_str)
         
-        # ✅ IA-UPDATE: Usamos el método de autenticación más explícito y robusto.
-        # Definimos los permisos necesarios de forma explícita.
+        # ✅ IA-UPDATE: Simplificamos los scopes al mínimo necesario.
+        # A veces, permisos demasiado amplios pueden causar conflictos.
         scopes = [
-            'https://www.googleapis.com/auth/spreadsheets',
-            'https://www.googleapis.com/auth/drive.file'
+            'https://www.googleapis.com/auth/spreadsheets'
         ]
         
         # Creamos el objeto de credenciales con los scopes definidos.
