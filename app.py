@@ -65,7 +65,7 @@ try:
         worksheet = spreadsheet.sheet1
         print("Conexión con Google Sheets establecida correctamente.")
 
-        # ✅ IA-UPDATE: Añadimos los encabezados si la planilla está vacía.
+        # Añadimos los encabezados si la planilla está vacía.
         # Verificamos si la primera fila tiene algún valor.
         if not worksheet.row_values(1):
             print("La planilla está vacía. Añadiendo encabezados...")
@@ -143,7 +143,8 @@ def create_preference():
             ],
             "payer": {
                 "first_name": data["payer_firstname"],
-                "last_name": data["payer_lastname"
+                # ✅ IA-UPDATE: Corregido el error de sintaxis (faltaba un ']').
+                "last_name": data["payer_lastname"]
             },
             "back_urls": {
                 "success": f"{host_url}?status=success&ref={external_reference_id}",
