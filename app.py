@@ -1,4 +1,4 @@
-# app.py - El "Gerente" de la tienda (Versión con Enlace de Respaldo Legal)
+# app.py - El "Gerente" de la tienda (Versión con Emails y Referidos)
 
 import flask
 import mercadopago
@@ -10,6 +10,8 @@ from google.oauth2.service_account import Credentials
 from cryptography.fernet import Fernet
 from datetime import datetime
 import pytz # Para manejar zonas horarias
+import sendgrid # Importamos la librería de SendGrid
+from sendgrid.helpers.mail import Mail # Importamos la clase Mail
 
 # --- CONFIGURACIÓN INICIAL ---
 
@@ -46,7 +48,7 @@ try:
                 "ID_Venta", "Fecha_Solicitud", "Hora_Solicitud", "Nombre_Cliente", "Apellido_Cliente",
                 "Plan_Comprado", "Contactos_A_Proteger", "Estado_Gestion",
                 "Fecha_Limite_Gestion", "Progreso_Gestion", "Alerta_Vencimiento", "ID_Pago_MP",
-                "Respaldo_Terminos_Condiciones"
+                "Respaldo_Terminos_Condiciones", "Referido_Por"
             ]
             worksheet.append_row(headers, value_input_option='USER_ENTERED')
             print("Encabezados añadidos correctamente.")
@@ -72,6 +74,29 @@ def decrypt_data(encrypted_data):
     except Exception:
         return None
 
+# ✅ IA-UPDATE: Función para enviar el email de confirmación.
+def send_confirmation_email(customer_email, data):
+    # ¡IMPORTANTE! Debes configurar estas variables.
+    sendgrid_api_key = os.environ.get("SENDGRID_API_KEY")
+    sender_email = "contacto@cortala.cl" # El email desde el que enviarás. Debe estar verificado en SendGrid.
+
+    if not sendgrid_api_key:
+        print("ADVERTENCIA: SENDGRID_API_KEY no configurada. No se enviará el email.")
+        return
+
+    message = Mail(
+        from_email=sender_email,
+        to_emails=customer_email,
+        subject='✅ Confirmación de tu solicitud en Córtala.cl | Próximos Pasos',
+        html_content=flask.render_template('confirmation_email.html', data=data)
+    )
+    try:
+        sg = sendgrid.SendGridAPIClient(sendgrid_api_key)
+        response = sg.send(message)
+        print(f"Email de confirmación enviado a {customer_email}. Estado: {response.status_code}")
+    except Exception as e:
+        print(f"ERROR al enviar email: {e}")
+
 
 # --- RUTAS DE LA APLICACIÓN (ENDPOINTS) ---
 
@@ -81,14 +106,14 @@ def create_preference():
         data = flask.request.get_json()
         external_reference_id = str(uuid.uuid4())
         
-        # ✅ IA-UPDATE: Guardamos el precio del plan para usarlo en el respaldo.
         contacts_to_protect = data.get("contacts_to_protect")
         if contacts_to_protect:
             pending_orders[external_reference_id] = {
                 "contacts": contacts_to_protect,
                 "payer_firstname": data.get("payer_firstname"),
                 "payer_lastname": data.get("payer_lastname"),
-                "price": data.get("price") 
+                "price": data.get("price"),
+                "referral_code_used": data.get("referral_code") # Guardamos el código de referido usado.
             }
         else:
             return flask.jsonify({"error": "No se proporcionaron contactos."}), 400
@@ -124,6 +149,7 @@ def receive_webhook():
                 # Recopilamos toda la información
                 first_name = order_data.get("payer_firstname", payment_info.get("payer", {}).get("first_name", ""))
                 last_name = order_data.get("payer_lastname", payment_info.get("payer", {}).get("last_name", ""))
+                customer_email = payment_info.get("payer", {}).get("email", "")
                 rut = "No informado"
                 if payment_info.get("payer", {}).get("identification"):
                     rut = f"{payment_info['payer']['identification'].get('type')}: {payment_info['payer']['identification'].get('number')}"
@@ -133,12 +159,18 @@ def receive_webhook():
                 request_time = now_in_chile.strftime("%H:%M:%S")
                 plan_name = payment_info["additional_info"]["items"][0].get("title", "")
                 
-                # ✅ IA-UPDATE: Guardamos la información completa para el respaldo.
-                pending_orders[f"backup_{external_ref}"] = {
+                # Generamos el código de referido para el nuevo cliente.
+                referral_code = f"REF-{external_ref[:6].upper()}"
+
+                # Guardamos la información completa para el respaldo y el email.
+                email_data = {
                     "date": request_date, "time": request_time, "first_name": first_name,
                     "last_name": last_name, "rut": rut, "plan": plan_name,
-                    "price": order_data.get("price", 0), "payment_id": payment_id
+                    "price": order_data.get("price", 0), "payment_id": payment_id,
+                    "referral_code": referral_code,
+                    "backup_url": f'{flask.request.host_url}respaldo/{external_ref}'
                 }
+                pending_orders[f"backup_{external_ref}"] = email_data
 
                 # Preparamos la fila para la planilla
                 new_row = [
@@ -148,12 +180,17 @@ def receive_webhook():
                     f'=SPARKLINE(MAX(0, MIN(10, TODAY()-INDIRECT("B"&ROW()))), {{"charttype","bar"; "max",10; "color1", IF(TODAY()-INDIRECT("B"&ROW())<=6, "green", IF(TODAY()-INDIRECT("B"&ROW())<=9, "yellow", "red"))}})',
                     f'=IF(AND(TODAY()>INDIRECT("I"&ROW()), INDIRECT("H"&ROW())="Pendiente"), "VENCIDO", "OK")',
                     payment_id,
-                    f'{flask.request.host_url}respaldo/{external_ref}' # Enlace al respaldo
+                    email_data["backup_url"],
+                    order_data.get("referral_code_used", "N/A")
                 ]
 
                 if worksheet:
                     worksheet.append_row(new_row, value_input_option='USER_ENTERED')
                     print(f"Venta {external_ref} añadida a Google Sheets.")
+                
+                if customer_email:
+                    send_confirmation_email(customer_email, email_data)
+
         except Exception as e:
             print(f"Error procesando webhook para pago {payment_id}: {e}")
             return flask.Response(status=500)
@@ -171,7 +208,6 @@ def decrypt_page():
         return flask.render_template_string('<h2>Resultado:</h2><pre>{{result}}</pre><a href="/desencriptar">Desencriptar otro</a>', result=result_string)
     return flask.send_from_directory('.', 'desencriptar.html')
 
-# ✅ IA-UPDATE: Nueva ruta para generar el respaldo legal.
 @app.route("/respaldo/<external_ref>")
 def backup_page(external_ref):
     backup_data = pending_orders.get(f"backup_{external_ref}")
