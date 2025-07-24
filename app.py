@@ -6,7 +6,6 @@ import os
 import json
 import uuid
 import gspread
-# ✅ IA-UPDATE: Re-importamos Credentials para un control de autenticación más explícito.
 from google.oauth2.service_account import Credentials
 from cryptography.fernet import Fernet
 from datetime import datetime
@@ -47,16 +46,12 @@ try:
     else:
         creds_info = json.loads(creds_json_str)
         
-        # Usamos el método de autenticación más explícito y robusto.
-        # Definimos los permisos necesarios de forma explícita.
         scopes = [
             'https://www.googleapis.com/auth/spreadsheets'
         ]
         
-        # Creamos el objeto de credenciales con los scopes definidos.
         creds = Credentials.from_service_account_info(creds_info, scopes=scopes)
         
-        # Autorizamos gspread con estas credenciales explícitas.
         gc = gspread.authorize(creds)
         
         print("Autorización con Google completada. Abriendo planilla por URL...")
@@ -65,8 +60,6 @@ try:
         worksheet = spreadsheet.sheet1
         print("Conexión con Google Sheets establecida correctamente.")
 
-        # Añadimos los encabezados si la planilla está vacía.
-        # Verificamos si la primera fila tiene algún valor.
         if not worksheet.row_values(1):
             print("La planilla está vacía. Añadiendo encabezados...")
             headers = [
@@ -101,13 +94,17 @@ def encrypt_data(data):
     return encrypted_data.decode('utf-8')
 
 def decrypt_data(encrypted_data):
-    """Desencripta los contactos (función para uso futuro)."""
+    """Desencripta los contactos."""
     if not fernet:
         print("ERROR: El sistema de encriptación no está inicializado.")
         return None
-    decrypted_data_bytes = fernet.decrypt(encrypted_data.encode('utf-8'))
-    data_string = decrypted_data_bytes.decode('utf-8')
-    return json.loads(data_string)
+    try:
+        decrypted_data_bytes = fernet.decrypt(encrypted_data.encode('utf-8'))
+        data_string = decrypted_data_bytes.decode('utf-8')
+        return json.loads(data_string)
+    except Exception as e:
+        print(f"Error al desencriptar: {e}")
+        return None
 
 
 # --- RUTAS DE LA APLICACIÓN (ENDPOINTS) ---
@@ -121,7 +118,11 @@ def create_preference():
         
         contacts_to_protect = data.get("contacts_to_protect")
         if contacts_to_protect:
-            pending_orders[external_reference_id] = contacts_to_protect
+            pending_orders[external_reference_id] = {
+                "contacts": contacts_to_protect,
+                "payer_firstname": data.get("payer_firstname"),
+                "payer_lastname": data.get("payer_lastname")
+            }
             print(f"Orden pendiente creada: {external_reference_id} con {len(contacts_to_protect)} contactos.")
         else:
             return flask.jsonify({"error": "No se proporcionaron contactos para proteger."}), 400
@@ -143,7 +144,6 @@ def create_preference():
             ],
             "payer": {
                 "first_name": data["payer_firstname"],
-                # ✅ IA-UPDATE: Corregido el error de sintaxis (faltaba un ']').
                 "last_name": data["payer_lastname"]
             },
             "back_urls": {
@@ -184,28 +184,40 @@ def receive_webhook():
 
                 external_ref = payment_info.get("external_reference")
                 
-                contacts = pending_orders.pop(external_ref, None)
+                order_data = pending_orders.pop(external_ref, None)
                 
-                if not contacts:
-                    print(f"ADVERTENCIA: No se encontraron contactos pendientes para la referencia {external_ref}. La orden podría ya haber sido procesada o la app se reinició.")
+                if not order_data:
+                    print(f"ADVERTENCIA: No se encontraron datos pendientes para la referencia {external_ref}.")
                     return flask.Response(status=200)
 
+                contacts = order_data.get("contacts")
                 encrypted_contacts = encrypt_data(contacts)
+
+                # ✅ IA-UPDATE: Lógica mejorada para obtener nombre y apellido.
+                # 1. Intenta obtenerlo de los datos que guardamos de nuestro formulario.
+                first_name = order_data.get("payer_firstname", "")
+                last_name = order_data.get("payer_lastname", "")
+                
+                # 2. Si no estaban, intenta obtenerlos del 'payer' del pago de MP.
+                if not first_name and payment_info.get("payer"):
+                    first_name = payment_info["payer"].get("first_name", "")
+                if not last_name and payment_info.get("payer"):
+                    last_name = payment_info["payer"].get("last_name", "")
 
                 chile_tz = pytz.timezone('Chile/Continental')
                 request_date = datetime.now(chile_tz).strftime("%d/%m/%Y %H:%M:%S")
 
                 new_row = [
-                    external_ref, # ID_Venta
-                    request_date, # Fecha_Solicitud
-                    payment_info["payer"].get("first_name", ""), # Nombre_Cliente
-                    payment_info["payer"].get("last_name", ""), # Apellido_Cliente
-                    payment_info["additional_info"]["items"][0].get("title", ""), # Plan_Comprado
-                    encrypted_contacts, # Contactos_A_Proteger (ENCRIPTADOS)
-                    "Pendiente", # Estado_Gestion
-                    f'=INDIRECT("B"&ROW())+7', # Fecha_Limite_Gestion (Fórmula)
-                    f'=IF(AND(TODAY()>INDIRECT("H"&ROW()), INDIRECT("G"&ROW())="Pendiente"), "VENCIDO", "OK")', # Alerta_Vencimiento (Fórmula)
-                    payment_id, # ID_Pago_MP
+                    external_ref, 
+                    request_date,
+                    first_name,
+                    last_name,
+                    payment_info["additional_info"]["items"][0].get("title", ""),
+                    encrypted_contacts,
+                    "Pendiente",
+                    f'=INDIRECT("B"&ROW())+7',
+                    f'=IF(AND(TODAY()>INDIRECT("H"&ROW()), INDIRECT("G"&ROW())="Pendiente"), "VENCIDO", "OK")',
+                    payment_id,
                 ]
 
                 if worksheet:
@@ -224,6 +236,29 @@ def receive_webhook():
     print("========================================================")
     return flask.Response(status=200)
 
+
+# --- RUTAS PARA HERRAMIENTAS INTERNAS ---
+
+@app.route("/desencriptar", methods=["GET", "POST"])
+def decrypt_page():
+    if flask.request.method == "POST":
+        data_to_decrypt = flask.request.form.get("data")
+        decrypted_data = decrypt_data(data_to_decrypt)
+        if decrypted_data:
+            # Convertimos la lista a un string con saltos de línea para mejor lectura
+            result_string = "\n".join(decrypted_data)
+            return flask.render_template_string("""
+                <h2>Resultado:</h2>
+                <pre>{{result}}</pre>
+                <a href="/desencriptar">Desencriptar otro</a>
+            """, result=result_string)
+        else:
+            return "Error al desencriptar. Verifica el texto ingresado."
+            
+    return flask.send_from_directory('.', 'desencriptar.html')
+
+
+# --- RUTA PRINCIPAL ---
 
 @app.route("/")
 def index():
