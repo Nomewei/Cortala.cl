@@ -4,6 +4,7 @@ import flask
 import mercadopago
 import os
 import json # Necesario para manejar la respuesta del webhook
+import uuid # Herramienta para crear códigos únicos
 
 # Creamos la oficina trasera (el servidor)
 app = flask.Flask(__name__, static_folder='.', static_url_path='')
@@ -18,7 +19,12 @@ def create_preference():
         data = flask.request.get_json()
         host_url = flask.request.host_url
         
+        # Creamos una "etiqueta" única para esta orden
+        external_reference_id = str(uuid.uuid4())
+        
         preference_data = {
+            # Adjuntamos nuestra etiqueta única a la orden
+            "external_reference": external_reference_id,
             "items": [
                 {
                     "title": data["title"],
@@ -33,7 +39,6 @@ def create_preference():
                 "pending": f"{host_url}"
             },
             "auto_return": "approved",
-            # ✅ AÑADIDO: Le decimos a MP a dónde enviar las notificaciones para esta orden
             "notification_url": f"{host_url}webhook"
         }
         
@@ -46,7 +51,7 @@ def create_preference():
         print(f"Ocurrió un error en /create_preference: {e}")
         return flask.jsonify({"error": str(e)}), 500
 
-# ✅ NUEVO: La "Puerta del Mensajero" (Webhook)
+# La "Puerta del Mensajero" (Webhook)
 @app.route("/webhook", methods=["POST"])
 def receive_webhook():
     # Recibimos el mensaje
