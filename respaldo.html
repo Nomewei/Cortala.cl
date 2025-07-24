@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respaldo de Compra - {{ ref }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none; }
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto max-w-3xl my-12 p-8 bg-white shadow-lg">
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-800">Acuse de Recibo y Aceptación</h1>
+                <p class="text-gray-500">Servicio Contratado en Córtala.cl</p>
+            </div>
+            <div class="text-right">
+                <p class="font-semibold">ID de Venta:</p>
+                <p class="text-sm text-gray-600 font-mono">{{ ref }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-8 border-t border-b py-6 mb-8">
+            <div>
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Cliente</h3>
+                <p class="text-lg font-medium text-gray-800">{{ data.first_name }} {{ data.last_name }}</p>
+                <p class="text-gray-600">{{ data.rut }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Fecha y Hora</h3>
+                <p class="text-lg font-medium text-gray-800">{{ data.date }}</p>
+                <p class="text-gray-600">{{ data.time }}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">ID de Pago (Mercado Pago)</h3>
+                <p class="text-lg font-medium text-gray-800 font-mono">{{ data.payment_id }}</p>
+            </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Detalle del Servicio</h2>
+        <div class="flow-root">
+            <ul role="list" class="-my-4 divide-y divide-gray-200">
+                <li class="flex items-center py-4">
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-900">{{ data.plan }}</p>
+                        <p class="mt-1 text-sm text-gray-500">Servicio de gestión para inscripción en "No Molestar"</p>
+                    </div>
+                    <p class="font-medium text-gray-900">${{ data.price }} CLP</p>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="mt-8 p-6 border-t border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800">Declaración de Aceptación</h3>
+            <p class="mt-2 text-sm text-gray-600">
+                El cliente, individualizado anteriormente, declara por este medio haber leído, comprendido y aceptado íntegramente los <strong>Términos y Condiciones</strong> del servicio prestado por Córtala.cl al momento de la compra.
+            </p>
+            <p class="mt-2 text-sm text-gray-600">
+                Asimismo, autoriza expresamente a Córtala.cl para actuar como su mandatario con el único y exclusivo fin de realizar la gestión de inscripción de los datos de contacto proporcionados en la plataforma "No Molestar" del SERNAC, de acuerdo a la normativa vigente de protección de datos personales.
+            </p>
+        </div>
+    </div>
+    <div class="text-center mb-12 no-print">
+        <button onclick="window.print()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">
+            Imprimir o Guardar como PDF
+        </button>
+    </div>
+</body>
+</html>
