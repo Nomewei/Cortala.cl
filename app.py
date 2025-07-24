@@ -47,8 +47,8 @@ try:
     else:
         creds_info = json.loads(creds_json_str)
         
-        # ✅ IA-UPDATE: Simplificamos los scopes al mínimo necesario.
-        # A veces, permisos demasiado amplios pueden causar conflictos.
+        # Usamos el método de autenticación más explícito y robusto.
+        # Definimos los permisos necesarios de forma explícita.
         scopes = [
             'https://www.googleapis.com/auth/spreadsheets'
         ]
@@ -64,6 +64,18 @@ try:
         
         worksheet = spreadsheet.sheet1
         print("Conexión con Google Sheets establecida correctamente.")
+
+        # ✅ IA-UPDATE: Añadimos los encabezados si la planilla está vacía.
+        # Verificamos si la primera fila tiene algún valor.
+        if not worksheet.row_values(1):
+            print("La planilla está vacía. Añadiendo encabezados...")
+            headers = [
+                "ID_Venta", "Fecha_Solicitud", "Nombre_Cliente", "Apellido_Cliente",
+                "Plan_Comprado", "Contactos_A_Proteger", "Estado_Gestion",
+                "Fecha_Limite_Gestion", "Alerta_Vencimiento", "ID_Pago_MP"
+            ]
+            worksheet.append_row(headers, value_input_option='USER_ENTERED')
+            print("Encabezados añadidos correctamente.")
 
 except gspread.exceptions.SpreadsheetNotFound:
     print("ERROR CRÍTICO: No se encontró la planilla. Verifica que la URL en GOOGLE_SHEET_URL es correcta y que la planilla está compartida con el email del robot.")
@@ -131,7 +143,7 @@ def create_preference():
             ],
             "payer": {
                 "first_name": data["payer_firstname"],
-                "last_name": data["payer_lastname"]
+                "last_name": data["payer_lastname"
             },
             "back_urls": {
                 "success": f"{host_url}?status=success&ref={external_reference_id}",
