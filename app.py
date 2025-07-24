@@ -62,10 +62,12 @@ try:
 
         if not worksheet.row_values(1):
             print("La planilla está vacía. Añadiendo encabezados...")
+            # ✅ IA-UPDATE: Actualizamos los encabezados para la nueva estructura.
             headers = [
-                "ID_Venta", "Fecha_Solicitud", "Nombre_Cliente", "Apellido_Cliente",
+                "ID_Venta", "Fecha_Solicitud", "Hora_Solicitud", "Nombre_Cliente", "Apellido_Cliente",
                 "Plan_Comprado", "Contactos_A_Proteger", "Estado_Gestion",
-                "Fecha_Limite_Gestion", "Alerta_Vencimiento", "ID_Pago_MP"
+                "Fecha_Limite_Gestion", "Progreso_Gestion", "Alerta_Vencimiento", "ID_Pago_MP",
+                "Respaldo_Terminos_Condiciones"
             ]
             worksheet.append_row(headers, value_input_option='USER_ENTERED')
             print("Encabezados añadidos correctamente.")
@@ -118,6 +120,7 @@ def create_preference():
         
         contacts_to_protect = data.get("contacts_to_protect")
         if contacts_to_protect:
+            # Guardamos toda la info que necesitaremos después del pago.
             pending_orders[external_reference_id] = {
                 "contacts": contacts_to_protect,
                 "payer_firstname": data.get("payer_firstname"),
@@ -193,31 +196,61 @@ def receive_webhook():
                 contacts = order_data.get("contacts")
                 encrypted_contacts = encrypt_data(contacts)
 
-                # ✅ IA-UPDATE: Lógica mejorada para obtener nombre y apellido.
-                # 1. Intenta obtenerlo de los datos que guardamos de nuestro formulario.
+                # Lógica mejorada para obtener nombre y apellido.
                 first_name = order_data.get("payer_firstname", "")
                 last_name = order_data.get("payer_lastname", "")
                 
-                # 2. Si no estaban, intenta obtenerlos del 'payer' del pago de MP.
                 if not first_name and payment_info.get("payer"):
                     first_name = payment_info["payer"].get("first_name", "")
                 if not last_name and payment_info.get("payer"):
                     last_name = payment_info["payer"].get("last_name", "")
 
-                chile_tz = pytz.timezone('Chile/Continental')
-                request_date = datetime.now(chile_tz).strftime("%d/%m/%Y %H:%M:%S")
+                # ✅ IA-UPDATE: Intentamos obtener el RUT del pagador.
+                rut = "No informado"
+                if payment_info.get("payer") and payment_info["payer"].get("identification"):
+                    id_type = payment_info["payer"]["identification"].get("type", "")
+                    id_number = payment_info["payer"]["identification"].get("number", "")
+                    if id_type and id_number:
+                        rut = f"{id_type}: {id_number}"
 
+                # ✅ IA-UPDATE: Separamos fecha y hora.
+                chile_tz = pytz.timezone('Chile/Continental')
+                now_in_chile = datetime.now(chile_tz)
+                request_date = now_in_chile.strftime("%d/%m/%Y")
+                request_time = now_in_chile.strftime("%H:%M:%S")
+
+                plan_name = payment_info["additional_info"]["items"][0].get("title", "")
+
+                # ✅ IA-UPDATE: Creamos el texto de respaldo legal.
+                legal_backup_text = (
+                    f"ACUSE DE RECIBO Y ACEPTACIÓN DE TÉRMINOS\n"
+                    f"-----------------------------------------\n"
+                    f"ID de Venta: {external_ref}\n"
+                    f"Fecha: {request_date} a las {request_time}\n"
+                    f"Cliente: {first_name} {last_name}\n"
+                    f"RUT: {rut}\n"
+                    f"Servicio Contratado: {plan_name}\n\n"
+                    f"El cliente declara haber leído y aceptado los Términos y Condiciones del servicio prestado por Córtala.cl, "
+                    f"y autoriza expresamente la gestión de los datos de contacto proporcionados ante el SERNAC."
+                )
+
+                # ✅ IA-UPDATE: Nueva estructura de la fila y nuevas fórmulas.
                 new_row = [
                     external_ref, 
                     request_date,
+                    request_time,
                     first_name,
                     last_name,
-                    payment_info["additional_info"]["items"][0].get("title", ""),
+                    plan_name,
                     encrypted_contacts,
                     "Pendiente",
-                    f'=INDIRECT("B"&ROW())+7',
-                    f'=IF(AND(TODAY()>INDIRECT("H"&ROW()), INDIRECT("G"&ROW())="Pendiente"), "VENCIDO", "OK")',
+                    f'=INDIRECT("B"&ROW())+7', # Fecha Límite
+                    # Barra de progreso
+                    f'=SPARKLINE(MAX(0, MIN(10, TODAY()-INDIRECT("B"&ROW()))), {{"charttype","bar"; "max",10; "color1", IF(TODAY()-INDIRECT("B"&ROW())<=6, "green", IF(TODAY()-INDIRECT("B"&ROW())<=9, "yellow", "red"))}})',
+                    # Alerta de Vencimiento
+                    f'=IF(AND(TODAY()>INDIRECT("I"&ROW()), INDIRECT("H"&ROW())="Pendiente"), "VENCIDO", "OK")',
                     payment_id,
+                    legal_backup_text
                 ]
 
                 if worksheet:
