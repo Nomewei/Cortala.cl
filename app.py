@@ -74,11 +74,9 @@ def decrypt_data(encrypted_data):
     except Exception:
         return None
 
-# ✅ IA-UPDATE: Función para enviar el email de confirmación.
 def send_confirmation_email(customer_email, data):
-    # ¡IMPORTANTE! Debes configurar estas variables.
     sendgrid_api_key = os.environ.get("SENDGRID_API_KEY")
-    sender_email = "contacto@cortala.cl" # El email desde el que enviarás. Debe estar verificado en SendGrid.
+    sender_email = "contacto@cortala.cl" 
 
     if not sendgrid_api_key:
         print("ADVERTENCIA: SENDGRID_API_KEY no configurada. No se enviará el email.")
@@ -113,7 +111,7 @@ def create_preference():
                 "payer_firstname": data.get("payer_firstname"),
                 "payer_lastname": data.get("payer_lastname"),
                 "price": data.get("price"),
-                "referral_code_used": data.get("referral_code") # Guardamos el código de referido usado.
+                "referral_code_used": data.get("referral_code")
             }
         else:
             return flask.jsonify({"error": "No se proporcionaron contactos."}), 400
@@ -146,7 +144,6 @@ def receive_webhook():
                 external_ref = payment_info.get("external_reference")
                 order_data = pending_orders.pop(external_ref, {})
                 
-                # Recopilamos toda la información
                 first_name = order_data.get("payer_firstname", payment_info.get("payer", {}).get("first_name", ""))
                 last_name = order_data.get("payer_lastname", payment_info.get("payer", {}).get("last_name", ""))
                 customer_email = payment_info.get("payer", {}).get("email", "")
@@ -159,10 +156,8 @@ def receive_webhook():
                 request_time = now_in_chile.strftime("%H:%M:%S")
                 plan_name = payment_info["additional_info"]["items"][0].get("title", "")
                 
-                # Generamos el código de referido para el nuevo cliente.
                 referral_code = f"REF-{external_ref[:6].upper()}"
 
-                # Guardamos la información completa para el respaldo y el email.
                 email_data = {
                     "date": request_date, "time": request_time, "first_name": first_name,
                     "last_name": last_name, "rut": rut, "plan": plan_name,
@@ -172,7 +167,6 @@ def receive_webhook():
                 }
                 pending_orders[f"backup_{external_ref}"] = email_data
 
-                # Preparamos la fila para la planilla
                 new_row = [
                     external_ref, request_date, request_time, first_name, last_name, plan_name,
                     encrypt_data(order_data.get("contacts", [])), "Pendiente",
