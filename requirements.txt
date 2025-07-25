@@ -5,3 +5,4 @@ gspread
 google-auth-oauthlib
 cryptography
 pytz
+sendgrid
