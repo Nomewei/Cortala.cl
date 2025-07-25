@@ -10,44 +10,150 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
-        .plan-card { transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; display: flex; flex-direction: column; }
-        .plan-card:hover { transform: translateY(-5px); }
-        .plan-card.selected { border-color: #2563eb; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); transform: translateY(-5px) scale(1.02); }
-        .plan-card-content { flex-grow: 1; }
-        .progress-bar-container { position: sticky; top: 80px; z-index: 30; background-color: rgba(248, 250, 252, 0.8); backdrop-filter: blur(8px); padding-top: 1rem; padding-bottom: 1rem; transition: opacity 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
-        .recommended-badge { position: absolute; top: -15px; right: 20px; background-color: #2563eb; color: white; padding: 4px 12px; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; transform: rotate(10deg); }
-        .savings-badge { background-color: #dbeafe; color: #1e40af; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 9999px; display: inline-block; margin-top: 0.5rem; }
-        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .animate-scale-in { animation: scaleIn 0.3s ease-out forwards; }
-        #mobile-menu-container { position: fixed; top: 0; right: 0; bottom: 0; width: 75%; max-width: 300px; z-index: 50; pointer-events: none; transform: translateX(100%); transition: transform 0.3s ease-in-out; }
-        #mobile-menu { position: absolute; top: 0; right: 0; bottom: 0; width: 100%; background-color: white; pointer-events: auto; box-shadow: -10px 0 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; padding: 1.5rem; padding-top: 4rem; }
-        #mobile-menu-container.open { transform: translateX(0); }
+        /* Estilos personalizados para complementar Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        .plan-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+        .plan-card.selected {
+            border-color: #2563eb;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transform: translateY(-5px) scale(1.02);
+        }
+        .plan-card-content {
+            flex-grow: 1;
+        }
+        .progress-bar-container {
+            position: sticky;
+            top: 80px; /* Altura del header */
+            z-index: 30;
+            background-color: rgba(248, 250, 252, 0.8);
+            backdrop-filter: blur(8px);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            transition: opacity 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        .recommended-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: #2563eb;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(10deg);
+        }
+        .savings-badge {
+            background-color: #dbeafe;
+            color: #1e40af;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out forwards;
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .contacts-container-gradient {
+            background: linear-gradient(160deg, #ffffff 50%, #f0f5ff 100%);
+        }
+        #mobile-menu-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 75%;
+            max-width: 300px;
+            z-index: 50;
+            pointer-events: none;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobile-menu {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            pointer-events: auto;
+            box-shadow: -10px 0 25px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            padding-top: 4rem;
+        }
+        #mobile-menu-container.open {
+            transform: translateX(0);
+        }
+        .dragover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
     </style>
+    
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    
 </head>
 <body class="text-gray-800">
 
-    <div id="referral-banner" class="hidden bg-green-100 border-b-2 border-green-200 text-green-800 text-center p-3 font-semibold">
-        ¡Gracias a tu amigo, tienes 1 slot gratis en tu primera compra!
-    </div>
-
     <header id="main-header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-40 border-b border-gray-200 h-20 flex items-center">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <a href="/" id="logo-link" class="flex items-center gap-2 text-2xl font-bold text-blue-700">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" fill="#3b82f6"/><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.23-3.75-6.58-6.58l1.97-1.57a.977.977 0 00.24-1.01c-.36-1.11-.56-2.3-.56-3.53A1 1 0 007.62 4H4a1 1 0 00-1 1 17 17 0 0017 17 1 1 0 001-1v-3.62a1 1 0 00-1-1z" fill="white" transform="scale(0.75) translate(4, 4)"/></svg>
-                <div class="flex items-baseline"><span class="text-2xl font-bold text-[#1d4ed8]">órtala</span><span class="text-2xl font-bold text-[#3b82f6]">.cl</span></div>
+            <a href="#" id="logo-link" class="flex items-center gap-2 text-2xl font-bold text-blue-700">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="11" fill="#3b82f6"/>
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.23-3.75-6.58-6.58l1.97-1.57a.977.977 0 00.24-1.01c-.36-1.11-.56-2.3-.56-3.53A1 1 0 007.62 4H4a1 1 0 00-1 1 17 17 0 0017 17 1 1 0 001-1v-3.62a1 1 0 00-1-1z" fill="white" transform="scale(0.75) translate(4, 4)"/>
+                </svg>
+                <div class="flex items-baseline">
+                    <span class="text-2xl font-bold text-[#1d4ed8]">órtala</span>
+                    <span class="text-2xl font-bold text-[#3b82f6]">.cl</span>
+                </div>
             </a>
             <nav class="hidden md:flex items-center space-x-6 text-gray-600">
-                 <a href="#plans-section" class="hover:text-blue-600 transition">Planes</a>
-                 <a href="#" onclick="showModal('modal-faq')" class="hover:text-blue-600 transition">FAQ's</a>
-                 <a href="#" onclick="showModal('modal-terminos')" class="hover:text-blue-600 transition">Términos</a>
-                 <a href="#" onclick="showModal('modal-incumplimiento')" class="hover:text-blue-600 transition">Avisar Incumplimiento</a>
-                 <a href="#" onclick="showModal('modal-contacto')" class="hover:text-blue-600 transition">Ayuda</a>
+                <a href="#plans-section" class="hover:text-blue-600 transition">Planes</a>
+                <a href="#" onclick="showModal('modal-faq')" class="hover:text-blue-600 transition">FAQ's</a>
+                <a href="#" onclick="showModal('modal-terminos')" class="hover:text-blue-600 transition">Términos</a>
+                <a href="#" onclick="showModal('modal-incumplimiento')" class="hover:text-blue-600 transition">Avisar Incumplimiento</a>
+                <a href="#" onclick="showModal('modal-contacto')" class="hover:text-blue-600 transition">Ayuda</a>
             </nav>
-            <div class="md:hidden"><button id="menu-button" class="text-gray-700 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+            <div class="md:hidden">
+                <button id="menu-button" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
         </div>
     </header>
     
@@ -64,6 +170,7 @@
         </div>
     </div>
 
+
     <main id="main-content">
         <section id="hero-section" class="hero-gradient text-white">
             <div class="container mx-auto px-6 text-center py-20 md:py-28">
@@ -78,31 +185,46 @@
         </section>
 
         <div id="checkout-funnel" class="container mx-auto px-6">
-            <div id="progress-bar-container" class="progress-bar-container opacity-0 -translate-y-4"><div class="bg-gray-200 rounded-full h-2.5 w-full"><div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div></div></div>
+            <div id="progress-bar-container" class="progress-bar-container opacity-0 -translate-y-4">
+                <div class="bg-gray-200 rounded-full h-2.5 w-full">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
 
             <section id="plans-section" class="py-16 lg:py-24">
                 <h2 class="text-3xl font-bold text-center mb-2">Paso 1: Elige tu plan</h2>
                 <p class="text-center text-gray-600 mb-12">Un "slot" te permite proteger un Teléfono o un Correo electrónico.¡Tú eliges!</p>
                 <div id="plans-container" class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Personal", "slots": 1, "price": 500}'>
-                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Personal</h3><p class="text-5xl font-extrabold mb-4"><span class="plan-slots">1</span> <span class="text-lg font-medium">slot</span></p><p class="text-gray-500 mb-4">Eliges 1 teléfono o correo.</p></div>
-                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$500</p><button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Personal</h3><p class="text-5xl font-extrabold mb-4">1 <span class="text-lg font-medium">slot</span></p><p class="text-gray-500 mb-4">Eliges 1 teléfono o correo.</p></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$500</p>
+                        <button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
                     </div>
                     <div id="recommended-plan" class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-blue-600 text-center relative selected" data-plan='{"name": "Dúo", "slots": 2, "price": 14990}'>
                         <div class="recommended-badge">Recomendado</div>
-                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Dúo</h3><p class="text-5xl font-extrabold mb-4"><span class="plan-slots">2</span> <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Eliges entre 2 teléfonos y correos.</p><div class="savings-badge">Ahorras 17%</div></div>
-                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$14.990</p><button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Dúo</h3><p class="text-5xl font-extrabold mb-4">2 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Eliges entre 2 teléfonos y correos.</p><div class="savings-badge">Ahorras 17%</div></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$14.990</p>
+                        <button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
                     </div>
                     <div class="plan-card h-full cursor-pointer bg-white p-8 rounded-xl border-2 border-gray-200 text-center" data-plan='{"name": "Familiar", "slots": 5, "price": 28990}'>
-                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Familiar</h3><p class="text-5xl font-extrabold mb-4"><span class="plan-slots">5</span> <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Eliges entre 5 teléfonos y correos.</p><div class="savings-badge">Ahorras 35%</div></div>
-                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$28.990</p><button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
+                        <div class="plan-card-content"><h3 class="text-2xl font-bold mb-2">Familiar</h3><p class="text-5xl font-extrabold mb-4">5 <span class="text-lg font-medium">slots</span></p><p class="text-gray-500 mb-4">Eliges entre 5 teléfonos y correos.</p><div class="savings-badge">Ahorras 35%</div></div>
+                        <p class="text-2xl font-bold text-blue-600 mt-4 mb-2">$28.990</p>
+                        <button class="w-full mt-2 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Elegir Plan</button>
                     </div>
                 </div>
             </section>
             
-            <section id="contacts-section" class="py-24 hidden">
-                <h2 class="text-3xl font-bold text-center mb-4">Paso 2: Ingresa los contactos a proteger</h2>
-                <p id="contacts-subtitle" class="text-center text-gray-600 mb-12"></p>
+            <section id="testimonials-section" class="py-16 lg:py-24 bg-slate-50 rounded-xl">
+                <div class="container mx-auto px-6"><h2 class="text-3xl font-bold text-center mb-12">No lo decimos nosotros, lo dicen nuestros clientes</h2>
+                    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div class="testimonial-card"><div class="flex text-yellow-400 mb-2">★★★★★</div><p class="text-gray-600 mb-4">"¡Por fin! Estaba chato de las llamadas de los bancos a cualquier hora. Pagué una vez y nunca más me molestaron. 100% recomendado."</p><p class="font-bold text-gray-800">Carlos V.</p><p class="text-sm text-gray-500">Ñuñoa</p></div>
+                        <div class="testimonial-card"><div class="flex text-yellow-400 mb-2">★★★★★</div><p class="text-gray-600 mb-4">"Súper fácil el proceso. Metí mi teléfono y el de mi polola y listo. La página es clarita y funciona impeque. ¡Se pasaron!"</p><p class="font-bold text-gray-800">Javiera R.</p><p class="text-sm text-gray-500">Viña del Mar</p></div>
+                        <div class="testimonial-card"><div class="flex text-yellow-400 mb-2">★★★★★</div><p class="text-gray-600 mb-4">"Al principio dudé, pero por el precio valía la pena probar. Y la verdad, funciona. Bajó caleta el spam en mi correo y celular. Buena inversión."</p><p class="font-bold text-gray-800">Matías L.</p><p class="text-sm text-gray-500">Concepción</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contacts-section" class="py-24 hidden"><h2 class="text-3xl font-bold text-center mb-4">Paso 2: Ingresa los contactos a proteger</h2><p id="contacts-subtitle" class="text-center text-gray-600 mb-12"></p>
                 <div class="max-w-xl mx-auto contacts-container-gradient p-8 rounded-2xl shadow-lg">
                     <div class="flex justify-between items-center mb-6"><h3 class="font-semibold text-lg text-gray-800">Añade aqui a tus Contactos</h3><p id="slot-counter" class="font-bold text-blue-600 bg-blue-100 px-3 py-1 rounded-full text-sm">0 / 2</p></div>
                     <div class="relative mb-1">
@@ -161,11 +283,13 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button id="confirm-and-pay-btn" class="w-full mt-8 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-3" disabled>
-                                    <span>Pagar y Proteger</span>
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                                </button>
+                                <button id="confirm-and-pay-btn" class="w-full mt-8 bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Confirmar y Pagar</button>
+                                <!-- ✅ IA-UPDATE: Añadido un contenedor para mensajes de error. -->
                                 <p id="payment-error" class="text-red-500 text-sm text-center mt-4 h-5"></p>
+                            </div>
+                            
+                            <div id="checkout-btn-container" class="mt-8 hidden">
+                                <!-- El botón de Mercado Pago se renderizará aquí -->
                             </div>
                         </div>
                         
@@ -178,68 +302,129 @@
         </div>
     </main>
     
-    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
-            <h3 class="text-2xl font-bold mb-2">¡Listo! Tu solicitud está en proceso.</h3>
-            <p class="text-gray-600 mb-6">Recibirás un email de confirmación con los detalles y próximos pasos en breve.</p>
-            <button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button>
+    <footer class="bg-gray-800 text-white mt-20"><div class="container mx-auto px-6 py-8 text-center"><p>&copy; 2025 Córtala.cl - Todos los derechos reservados.</p><p class="text-sm text-gray-400 mt-2">Un servicio para simplificar tu vida digital.</p></div></footer>
+    <div id="modal-faq" onclick="if (event.target === this) closeModal('modal-faq')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto"><button onclick="closeModal('modal-faq')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><h3 class="text-2xl font-bold mb-4">Preguntas Frecuentes (FAQ)</h3><div class="text-gray-600 space-y-4 text-sm">
+        <div><h4 class="font-bold text-gray-800">¿Cómo funciona el servicio?</h4><p>Nosotros tomamos los contactos que nos proporcionas y los inscribimos en la plataforma oficial "No Molestar" del SERNAC. Este es un servicio de gestión única que te ahorra el tiempo y la burocracia de hacerlo tú mismo.</p></div>
+        <div><h4 class="font-bold text-gray-800">¿El bloqueo es inmediato?</h4><p>Una vez que realizamos la gestión, las empresas tienen un plazo legal para actualizar sus bases de datos. Generalmente, deberías notar una disminución significativa del SPAM en un plazo de 7 a 30 días.</p></div>
+        <div><h4 class="font-bold text-gray-800">¿Bloquea el 100% de las llamadas y correos?</h4><p>No. Nuestro servicio se basa en la efectividad de la lista "No Molestar" del SERNAC y en un algoritmo propio que segmenta las empresas a notificar. Esto reduce drásticamente el SPAM, pero no podemos garantizar el bloqueo del 100%, ya que hay empresas que operan al margen de la ley o la normativa no aplica a todas las comunicaciones (ej. campañas políticas, personas naturales).</p></div>
+        <div><h4 class="font-bold text-gray-800">¿Qué es un "slot"?</h4><p>Un "slot" es un cupo para proteger un contacto. Puede ser un número de teléfono O una dirección de correo electrónico. Si compras un plan de 5 slots, puedes proteger 5 contactos en la combinación que prefieras (ej. 3 teléfonos y 2 correos).</p></div>
+    </div></div></div>
+    <div id="modal-terminos" onclick="if (event.target === this) closeModal('modal-terminos')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto"><button onclick="closeModal('modal-terminos')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><h3 class="text-2xl font-bold mb-4">Términos y Condiciones</h3><div class="text-gray-600 space-y-4 text-sm">
+        <p><strong>Última actualización: 22 de Julio, 2025</strong></p>
+        <div><h4 class="font-bold text-gray-800">1. Objeto del Servicio</h4><p>Córtala.cl ofrece un servicio de gestión de pago único para inscribir los datos de contacto proporcionados por el cliente en la plataforma "No Molestar" del SERNAC, utilizando para ello una lista de empresas segmentada por un algoritmo propio.</p></div>
+        <div><h4 class="font-bold text-gray-800">2. Alcance y Limitaciones</h4><p>El servicio de Córtala.cl se basa en la gestión de inscripción en la lista oficial del SERNAC y en la notificación a una lista de empresas segmentada por nuestro algoritmo. **Se deja expresa constancia que este servicio no asegura ni garantiza el bloqueo del 100% de las comunicaciones no deseadas.** La efectividad final depende del cumplimiento de la ley por parte de las empresas y del alcance de la lista "No Molestar".</p></div>
+        <div><h4 class="font-bold text-gray-800">3. Tratamiento de Datos Personales (Ley 19.628 y Ley 21.719)</h4><p>De acuerdo con la normativa vigente de Protección de Datos Personales, Córtala.cl actúa como mandatario del titular de los datos (el cliente) con el único fin de realizar la inscripción en la plataforma del SERNAC. Los datos proporcionados (teléfonos, correos, nombre) serán utilizados exclusivamente para este propósito. No serán compartidos con terceros no relacionados con el servicio ni utilizados para otros fines. Al enviar su solicitud, usted autoriza que el SERNAC envíe sus datos personales a la(s) empresa(s) asociada(s) a su caso y -si correspondiera- a otras instituciones del Estado que se vean relacionadas. No obstante, usted dispondrá en todo momento de los derechos de información, rectificación y cancelación de sus datos personales (Ley 19.628).</p></div>
+    </div></div></div>
+    <div id="modal-contacto" onclick="if (event.target === this) closeModal('modal-contacto')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in">
+            <button onclick="closeModal('modal-contacto')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            <h3 class="text-2xl font-bold mb-2 text-center">Ayuda y Contacto</h3>
+            <p class="text-center text-gray-600 mb-8">Elige tu canal de contacto preferido.</p>
+            <div class="space-y-4">
+                <a href="https://wa.me/56912345678?text=Hola!%20Tengo%20una%20consulta%20sobre%20el%20servicio%20de%20Córtala.cl" target="_blank" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
+                    <svg class="w-8 h-8 text-green-500 mr-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    <div><p class="font-semibold text-gray-800">Escríbenos por WhatsApp</p><p class="text-sm text-gray-500">Para respuestas rápidas.</p></div>
+                </a>
+                <a href="mailto:hola@cortala.cl" class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition">
+                    <svg class="w-8 h-8 text-blue-500 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div><p class="font-semibold text-gray-800">Envíanos un Correo</p><p class="text-sm text-gray-500">Para consultas generales.</p></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="modal-incumplimiento" onclick="if (event.target === this) closeModal('modal-incumplimiento')" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-2xl w-full relative animate-scale-in max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('modal-incumplimiento')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            <div id="incumplimiento-content">
+                <h3 class="text-2xl font-bold mb-2">Avisar Incumplimiento</h3>
+                <p class="text-gray-600 mb-6 text-sm">Si una empresa te contactó después del plazo legal, ayúdanos a reportarlo.</p>
+                <form id="incumplimiento-form" class="space-y-4">
+                    <div>
+                        <label for="inc-fecha" class="block text-sm font-medium text-gray-700">Fecha en que volvieron a contactar <span class="text-red-500">*</span></label>
+                        <input type="date" id="inc-fecha" name="inc-fecha" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="inc-proveedor" class="block text-sm font-medium text-gray-700">Número o correo del proveedor que lo contacto <span class="text-red-500">*</span></label>
+                        <input type="text" id="inc-proveedor" name="inc-proveedor" required placeholder="Ej: +56911223344 o marketing@empresa.com" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="inc-descripcion" class="block text-sm font-medium text-gray-700">Describa el contacto realizado por la empresa <span class="text-red-500">*</span></label>
+                        <textarea id="inc-descripcion" name="inc-descripcion" rows="4" required placeholder="Ej: Me llamaron para ofrecerme un seguro de vida." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Subir medios de prueba (opcional)</label>
+                        <div id="file-drop-area" class="mt-1">
+                            <label id="file-drop-label" class="flex justify-center w-full h-24 px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-blue-500 transition-colors">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-8 w-8 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                                    <div class="flex text-sm text-gray-600"><p class="pl-1">Seleccionar o arrastrar un archivo</p></div>
+                                    <p class="text-xs text-gray-500">PNG, JPG, PDF hasta 5MB</p>
+                                </div>
+                                <input id="inc-prueba" name="inc-prueba" type="file" class="sr-only">
+                            </label>
+                            <div id="file-name-display" class="hidden mt-2 text-sm text-gray-700 flex items-center justify-between bg-gray-100 p-2 rounded-md"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-4 pt-4">
+                         <button type="button" onclick="closeModal('modal-incumplimiento')" class="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition">Volver</button>
+                         <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Enviar Aviso</button>
+                    </div>
+                </form>
+            </div>
+            <div id="incumplimiento-success" class="hidden text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <h3 class="text-2xl font-bold mb-2">¡Aviso Enviado!</h3>
+                <p class="text-gray-600 mb-6">Gracias por tu aviso. Hemos recibido la información y la revisaremos a la brevedad.</p>
+                <button onclick="closeModal('modal-incumplimiento')" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-success" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full relative animate-scale-in text-center"><button onclick="closeModal('modal-success')" class="absolute top-4 right-4 w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors text-gray-600 hover:text-gray-800"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div><h3 class="text-2xl font-bold mb-2">¡Listo! Tus contactos están protegidos.</h3><p class="text-gray-600 mb-6">Recibirás un email de confirmación en breve.</p><div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-6"><h4 class="text-lg font-bold text-blue-800">¿Te gustó? ¡Invita a un amigo y ambos ganan!</h4><p class="text-blue-700 my-2 text-sm">Tú y tu referido recibirán 1 teléfono o correo Gratis cada uno en su primera compra.</p><div class="flex items-center bg-white border rounded-md p-2 my-4"><input id="referral-link" type="text" readonly value="https://cortala.cl/?ref=ABC123" class="w-full bg-transparent text-sm text-gray-600 focus:outline-none"><button id="copy-referral-btn" class="ml-2 px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded hover:bg-gray-300">Copiar</button></div><button id="share-whatsapp-btn" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.89 6.206l-1.485 5.444 5.63-1.487zm-1.559-5.605c-.076-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    Compartir por WhatsApp</button></div><button onclick="closeModal('modal-success')" class="mt-6 text-sm text-gray-600 hover:text-gray-900">Cerrar</button></div></div>
+    <div id="modal-confirm-continue" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-md w-full relative animate-scale-in text-center">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">¿Estás seguro?</h3>
+            <p id="confirm-continue-message" class="text-gray-600 mb-6">Tienes espacios disponibles en tu plan.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-continue-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+                <button id="proceed-anyway-btn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Continuar</button>
+            </div>
         </div>
     </div>
 
-    <!-- El resto de los modales y el HTML se mantienen igual -->
-    <div id="modal-faq" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><!-- ... --></div>
-    <div id="modal-incumplimiento" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><!-- ... --></div>
-    <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><!-- ... --></div>
-    <div id="modal-contacto" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><!-- ... --></div>
-    <div id="modal-confirm-continue" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden items-center justify-center p-4"><!-- ... --></div>
 
     <script>
-    // ✅ IA-UPDATE: Funciones globales para modales y menú móvil.
-    // Se definen aquí para ser accesibles por los atributos onclick del HTML.
-    function showModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            if (modalId === 'modal-incumplimiento') {
-                document.getElementById('incumplimiento-content').classList.remove('hidden');
-                document.getElementById('incumplimiento-success').classList.add('hidden');
-                document.getElementById('incumplimiento-form').reset();
-            }
-            modal.classList.replace('hidden', 'flex');
-        }
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) modal.classList.replace('flex', 'hidden');
-        if (modalId === 'modal-success') {
-            location.href = '/';
-        }
-    }
-    
-    function closeMobileMenu() {
-        document.getElementById('mobile-menu-container').classList.remove('open');
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
-        // --- ESTADO GLOBAL ---
-        let selectedPlan = JSON.parse(document.getElementById('recommended-plan').dataset.plan);
-        let contacts = [];
-        let currentStep = 0;
-        let referralCode = null;
 
-        // --- SELECTORES COMPLETOS ---
+        // --- ESTADO GLOBAL ---
+        let selectedPlan = { name: "Dúo", slots: 2, price: 14990 };
+        let contacts = [];
+        let funnelActive = false;
+        let currentStep = 0;
+
+        // --- MERCADO PAGO ---
+        const mp = new MercadoPago('APP_USR-d3852942-ab11-4136-9b54-b94b63459169', {
+            locale: 'es-CL'
+        });
+        const checkoutBtnContainer = document.getElementById('checkout-btn-container');
+
+        // --- SELECTORES DEL DOM ---
         const mainContent = document.getElementById('main-content');
         const heroSection = document.getElementById('hero-section');
         const progressBarContainer = document.getElementById('progress-bar-container');
         const progressBar = document.getElementById('progress-bar');
         const plansSection = document.getElementById('plans-section');
+        const testimonialsSection = document.getElementById('testimonials-section');
         const contactsSection = document.getElementById('contacts-section');
         const paymentSection = document.getElementById('payment-section');
         const plansContainer = document.getElementById('plans-container');
         const slotCounter = document.getElementById('slot-counter');
         const contactsSubtitle = document.getElementById('contacts-subtitle');
         const contactInput = document.getElementById('contact-input');
+        const contactError = document.getElementById('contact-error');
         const addContactBtn = document.getElementById('add-contact-btn');
         const contactList = document.getElementById('contact-list');
         const continueToPaymentBtn = document.getElementById('continue-to-payment-btn');
@@ -248,86 +433,74 @@
         const summaryPlanName = document.getElementById('summary-plan-name');
         const summaryContactCount = document.getElementById('summary-contact-count');
         const summaryTotalPrice = document.getElementById('summary-total-price');
-        const logoLink = document.getElementById('logo-link');
+        const menuButton = document.getElementById('menu-button');
+        const closeMenuButton = document.getElementById('close-menu-btn');
+        const mobileMenuContainer = document.getElementById('mobile-menu-container');
         const allPlanLinks = document.querySelectorAll('a[href="#plans-section"]');
+        const logoLink = document.getElementById('logo-link');
+        const confirmContinueModal = document.getElementById('modal-confirm-continue');
+        const confirmContinueMessage = document.getElementById('confirm-continue-message');
+        const cancelContinueBtn = document.getElementById('cancel-continue-btn');
+        const proceedAnywayBtn = document.getElementById('proceed-anyway-btn');
+        const incumplimientoForm = document.getElementById('incumplimiento-form');
+        const copyReferralBtn = document.getElementById('copy-referral-btn');
+        const referralLinkInput = document.getElementById('referral-link');
+        const shareWhatsappBtn = document.getElementById('share-whatsapp-btn');
+        const fileDropArea = document.getElementById('file-drop-area');
+        const fileDropLabel = document.getElementById('file-drop-label');
+        const fileInput = document.getElementById('inc-prueba');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        const incumplimientoContent = document.getElementById('incumplimiento-content');
+        const incumplimientoSuccess = document.getElementById('incumplimiento-success');
+        
+        // Selectores para el formulario de pago
+        const payerFormContainer = document.getElementById('payer-form-container');
         const payerFirstname = document.getElementById('payer-firstname');
         const payerLastname = document.getElementById('payer-lastname');
         const termsCheckbox = document.getElementById('terms-checkbox');
         const confirmAndPayBtn = document.getElementById('confirm-and-pay-btn');
         const paymentError = document.getElementById('payment-error');
-        const menuButton = document.getElementById('menu-button');
-        const closeMenuButton = document.getElementById('close-menu-btn');
-        const mobileMenuContainer = document.getElementById('mobile-menu-container');
-        const startNowBtn = document.getElementById('start-now-btn');
 
-        // --- LÓGICA DE INICIO ---
+        // Lógica para manejar el estado del pago desde la URL.
         const urlParams = new URLSearchParams(window.location.search);
-        const refParam = urlParams.get('ref');
         const paymentStatus = urlParams.get('status');
-
-        if (refParam) {
-            referralCode = refParam;
-            document.getElementById('referral-banner').classList.remove('hidden');
-            document.querySelectorAll('.plan-card').forEach(card => {
-                const planData = JSON.parse(card.dataset.plan);
-                const newSlots = planData.slots + 1;
-                card.querySelector('.plan-slots').innerHTML = `${planData.slots} + <span class="text-green-500">1</span>`;
-                card.dataset.plan = JSON.stringify({...planData, slots: newSlots});
-            });
-            selectedPlan = JSON.parse(document.getElementById('recommended-plan').dataset.plan);
-        }
-
         if (paymentStatus === 'success') {
             showModal('modal-success');
+            // Limpia la URL para que el modal no reaparezca si el usuario recarga.
             window.history.replaceState({}, document.title, "/");
         }
 
-        // --- FUNCIÓN DE PAGO ---
-        async function createCheckoutPreference(firstName, lastName) {
-            confirmAndPayBtn.firstElementChild.textContent = 'Procesando...';
-            confirmAndPayBtn.disabled = true;
 
-            try {
-                const response = await fetch("/create_preference", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        title: `${selectedPlan.name} (${selectedPlan.slots} slots)`,
-                        price: selectedPlan.price,
-                        payer_firstname: firstName,
-                        payer_lastname: lastName,
-                        contacts_to_protect: contacts,
-                        referral_code: referralCode
-                    }),
-                });
-                if (!response.ok) throw new Error((await response.json()).error || 'Error del servidor');
-                const preference = await response.json();
-                if (preference.init_point) {
-                    window.location.href = preference.init_point;
-                } else {
-                    throw new Error('No se recibió la URL de pago');
-                }
-            } catch (error) {
-                console.error("Error al crear la preferencia de pago:", error);
-                paymentError.textContent = 'Hubo un error. Por favor, intenta de nuevo.';
-                confirmAndPayBtn.disabled = false;
-                confirmAndPayBtn.firstElementChild.textContent = 'Pagar y Proteger';
-            }
+        // --- LÓGICA DEL CONTADOR ---
+        const clientCounter = document.getElementById('client-counter');
+        let count = parseInt(localStorage.getItem('cortalaClientCount')) || 1470;
+        function updateCounter() {
+            count += Math.floor(Math.random() * 2) + 1;
+            clientCounter.innerText = count.toLocaleString('es-CL');
+            localStorage.setItem('cortalaClientCount', count);
         }
-        
+        setInterval(updateCounter, 300000);
+
         // --- MANEJO DEL FUNNEL ---
         function showStep(stepNumber) {
             currentStep = stepNumber;
+            
             if (stepNumber > 0) {
+                funnelActive = true;
                 progressBarContainer.classList.remove('opacity-0', '-translate-y-4');
             } else {
+                funnelActive = false;
                 progressBarContainer.classList.add('opacity-0', '-translate-y-4');
             }
+
             if (stepNumber >= 1) { 
                 heroSection.classList.add('hidden');
+                testimonialsSection.classList.add('hidden');
             } else {
                 heroSection.classList.remove('hidden');
+                testimonialsSection.classList.remove('hidden');
             }
+
             [plansSection, contactsSection, paymentSection].forEach(s => s.classList.add('hidden'));
             
             let sectionToShow;
@@ -343,19 +516,42 @@
                 updateProgressBar(100);
                 updateSummary();
             }
+            
             if(sectionToShow){
                 sectionToShow.classList.remove('hidden');
                 sectionToShow.classList.add('fade-in');
-                sectionToShow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const isMobile = window.innerWidth < 768;
+                const scrollTarget = (stepNumber === 1 && isMobile) 
+                    ? document.getElementById('recommended-plan') 
+                    : (stepNumber === 1 ? plansSection : mainContent);
+                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
-        function updateProgressBar(percentage) { progressBar.style.width = `${percentage}%`; }
 
+        function updateProgressBar(percentage) {
+            progressBar.style.width = `${percentage}%`;
+        }
+        
         // --- EVENT LISTENERS ---
-        startNowBtn.addEventListener('click', e => { e.preventDefault(); showStep(1); });
-        allPlanLinks.forEach(anchor => anchor.addEventListener('click', e => { e.preventDefault(); showStep(1); }));
-        logoLink.addEventListener('click', e => { e.preventDefault(); if(currentStep > 0) { showStep(0); window.scrollTo({ top: 0, behavior: 'smooth' }); } else { location.reload(); } });
-        plansContainer.addEventListener('click', e => {
+        allPlanLinks.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                closeMobileMenu();
+                showStep(1);
+            });
+        });
+
+        logoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(currentStep > 0) {
+                showStep(0);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                location.reload();
+            }
+        });
+
+        plansContainer.addEventListener('click', (e) => {
             const card = e.target.closest('.plan-card');
             if (!card) return;
             selectedPlan = JSON.parse(card.dataset.plan);
@@ -363,33 +559,134 @@
             card.classList.add('selected', 'border-blue-600');
             setTimeout(() => showStep(2), 200);
         });
-        contactInput.addEventListener('input', () => { addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots; });
+        
+        contactInput.addEventListener('input', () => {
+            addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
+        });
+
         addContactBtn.addEventListener('click', () => {
-            if (contactInput.value.trim() && contacts.length < selectedPlan.slots) {
-                contacts.push(contactInput.value.trim());
+            const contactValue = contactInput.value.trim();
+            if (contactValue && contacts.length < selectedPlan.slots) {
+                contacts.push(contactValue);
                 contactInput.value = '';
                 renderContacts();
             }
         });
-        contactList.addEventListener('click', e => {
+
+        contactList.addEventListener('click', (e) => {
             if (e.target.closest('.delete-contact-btn')) {
-                contacts = contacts.filter(c => c !== e.target.closest('.delete-contact-btn').dataset.contact);
+                const contactToRemove = e.target.closest('.delete-contact-btn').dataset.contact;
+                contacts = contacts.filter(c => c !== contactToRemove);
                 renderContacts();
             }
         });
-        continueToPaymentBtn.addEventListener('click', () => { if (contacts.length > 0) showStep(3); });
+
+        continueToPaymentBtn.addEventListener('click', () => {
+            if (contacts.length === 0) return;
+            
+            const proceedToPayment = () => {
+                showStep(3);
+            };
+
+            const remainingSlots = selectedPlan.slots - contacts.length;
+            if (remainingSlots > 0) {
+                confirmContinueMessage.textContent = `Aún te quedan ${remainingSlots} espacio(s) disponible(s) en tu plan. ¿Estás seguro de que quieres continuar sin usarlos todos?`;
+                showModal('modal-confirm-continue');
+            } else {
+                proceedToPayment();
+            }
+        });
+
+        proceedAnywayBtn.addEventListener('click', () => {
+            closeModal('modal-confirm-continue');
+            showStep(3);
+        });
+
+        cancelContinueBtn.addEventListener('click', () => {
+            closeModal('modal-confirm-continue');
+        });
+
         backToPlansBtn.addEventListener('click', () => showStep(1));
         backToContactsBtn.addEventListener('click', () => showStep(2));
 
+        // Listeners para el formulario de pago
         function validatePayerForm() {
-            confirmAndPayBtn.disabled = !(payerFirstname.value.trim() && payerLastname.value.trim() && termsCheckbox.checked);
+            const firstName = payerFirstname.value.trim();
+            const lastName = payerLastname.value.trim();
+            const termsChecked = termsCheckbox.checked;
+            confirmAndPayBtn.disabled = !(firstName && lastName && termsChecked);
         }
         payerFirstname.addEventListener('input', validatePayerForm);
         payerLastname.addEventListener('input', validatePayerForm);
         termsCheckbox.addEventListener('change', validatePayerForm);
+
         confirmAndPayBtn.addEventListener('click', () => {
-            createCheckoutPreference(payerFirstname.value.trim(), payerLastname.value.trim());
+            confirmAndPayBtn.textContent = 'Procesando...';
+            confirmAndPayBtn.disabled = true;
+            paymentError.textContent = ''; // Limpiamos errores previos
+            
+            const firstName = payerFirstname.value.trim();
+            const lastName = payerLastname.value.trim();
+            
+            createCheckoutPreference(firstName, lastName);
         });
+
+        // --- FUNCIÓN PARA HABLAR CON EL "GERENTE" (PYTHON) ---
+        async function createCheckoutPreference(firstName, lastName) {
+            payerFormContainer.classList.add('hidden');
+            checkoutBtnContainer.classList.remove('hidden');
+            checkoutBtnContainer.innerHTML = '<p class="text-center text-gray-500">Cargando botón de pago...</p>';
+            
+            try {
+                const response = await fetch("/create_preference", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        title: `Plan ${selectedPlan.name} (${selectedPlan.slots} slots)`,
+                        price: selectedPlan.price,
+                        quantity: 1,
+                        payer_firstname: firstName,
+                        payer_lastname: lastName,
+                        contacts_to_protect: contacts
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Error del servidor: ${response.status}`);
+                }
+
+                const preference = await response.json();
+                
+                if (preference.id) {
+                    mp.checkout({
+                        preference: { id: preference.id },
+                        render: {
+                            container: '#checkout-btn-container',
+                            label: 'Pagar y Proteger',
+                        }
+                    });
+                } else {
+                    throw new Error('No se recibió ID de preferencia del servidor');
+                }
+
+            } catch (error) {
+                // ✅ IA-UPDATE: Manejo de errores mejorado para no romper el flujo.
+                console.error("Error al crear la preferencia de pago:", error);
+                
+                // Mostramos un mensaje de error.
+                paymentError.textContent = 'Hubo un error. Por favor, intenta de nuevo.';
+
+                // Ocultamos el contenedor del botón de checkout y mostramos el formulario de nuevo.
+                checkoutBtnContainer.classList.add('hidden');
+                checkoutBtnContainer.innerHTML = ''; // Limpiamos el contenido.
+                payerFormContainer.classList.remove('hidden');
+
+                // Reactivamos el botón de pago y restauramos su texto.
+                confirmAndPayBtn.disabled = false;
+                confirmAndPayBtn.textContent = 'Confirmar y Pagar';
+            }
+        }
 
         // --- RENDERIZADO Y UI ---
         function updateContactUI() {
@@ -399,6 +696,7 @@
             addContactBtn.disabled = contactInput.value.trim() === '' || contacts.length >= selectedPlan.slots;
             continueToPaymentBtn.disabled = contacts.length === 0;
         }
+
         function renderContacts() {
             contactList.innerHTML = '';
             contacts.forEach(contact => {
@@ -409,6 +707,7 @@
             });
             updateContactUI();
         }
+
         function updateSummary() {
             summaryPlanName.textContent = selectedPlan.name;
             summaryContactCount.textContent = contacts.length;
@@ -416,8 +715,85 @@
         }
         
         // --- MODALES Y MENÚ ---
-        menuButton.addEventListener('click', () => { mobileMenuContainer.classList.add('open'); });
+        window.showModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                if (modalId === 'modal-incumplimiento') {
+                    incumplimientoContent.classList.remove('hidden');
+                    incumplimientoSuccess.classList.add('hidden');
+                    incumplimientoForm.reset();
+                    handleFileChange();
+                }
+                modal.classList.replace('hidden', 'flex');
+            }
+        };
+
+        window.closeModal = (modalId) => {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.replace('flex', 'hidden');
+            if (modalId === 'modal-success') {
+                // Recargamos la página para resetear el funnel completamente.
+                location.href = '/';
+            }
+        };
+
+        window.closeMobileMenu = () => {
+            mobileMenuContainer.classList.remove('open');
+        };
+        
+        menuButton.addEventListener('click', () => {
+            mobileMenuContainer.classList.add('open');
+        });
+        
         closeMenuButton.addEventListener('click', closeMobileMenu);
+
+        copyReferralBtn.addEventListener('click', () => {
+            referralLinkInput.select();
+            document.execCommand('copy');
+            copyReferralBtn.textContent = 'Copiado!';
+            setTimeout(() => { copyReferralBtn.textContent = 'Copiar'; }, 2000);
+        });
+        
+        shareWhatsappBtn.addEventListener('click', () => {
+            const text = encodeURIComponent(`¡Hola! Te recomiendo Córtala.cl para que dejes de recibir SPAM. Si usas mi link, ambos ganamos beneficios: ${referralLinkInput.value}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        });
+
+        // --- LÓGICA PARA DRAG & DROP Y FORMULARIO DE INCUMPLIMIENTO (SIN CAMBIOS) ---
+        function handleFileChange(file = null) {
+            if (file) {
+                fileNameDisplay.innerHTML = `
+                    <span>${file.name}</span>
+                    <button type="button" id="remove-file-btn" class="text-red-500 hover:text-red-700 p-1 rounded-full">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>`;
+                fileNameDisplay.classList.remove('hidden');
+                fileDropLabel.classList.add('hidden');
+                document.getElementById('remove-file-btn').addEventListener('click', () => {
+                    fileInput.value = '';
+                    handleFileChange();
+                });
+            } else {
+                fileNameDisplay.classList.add('hidden');
+                fileDropLabel.classList.remove('hidden');
+            }
+        }
+
+        fileDropArea.addEventListener('dragover', (e) => { e.preventDefault(); fileDropLabel.classList.add('dragover'); });
+        fileDropArea.addEventListener('dragleave', (e) => { e.preventDefault(); fileDropLabel.classList.remove('dragover'); });
+        fileDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileDropLabel.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) { fileInput.files = files; handleFileChange(files[0]); }
+        });
+        fileInput.addEventListener('change', () => { if (fileInput.files.length > 0) { handleFileChange(fileInput.files[0]); } });
+        incumplimientoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            incumplimientoContent.classList.add('hidden');
+            incumplimientoSuccess.classList.remove('hidden');
+        });
+
     });
     </script>
 </body>
