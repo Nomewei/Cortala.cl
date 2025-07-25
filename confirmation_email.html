@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Solicitud - Córtala.cl</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; margin: 0; padding: 0; width: 100%; background-color: #f8fafc; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; padding: 40px; box-sizing: border-box; }
+        .header { text-align: center; padding-bottom: 20px; border-bottom: 1px solid #e5e7eb; }
+        .header h1 { color: #1e3a8a; }
+        .content h2 { color: #111827; margin-top: 30px; }
+        .content p { color: #374151; line-height: 1.6; }
+        .list { list-style: none; padding: 0; }
+        .list li { padding: 10px 0; border-bottom: 1px solid #f3f4f6; display: flex; justify-content: space-between; }
+        .list li strong { color: #111827; }
+        .referral-box { background-color: #eef2ff; border: 2px dashed #c7d2fe; border-radius: 8px; padding: 25px; text-align: center; margin-top: 30px; }
+        .referral-box h3 { color: #312e81; margin-top: 0; }
+        .referral-code { background-color: #ffffff; color: #1e3a8a; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 99px; display: inline-block; margin-top: 10px; letter-spacing: 2px; }
+        .button { display: inline-block; padding: 12px 24px; background-color: #2563eb; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 6px; margin-top: 20px; }
+        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #6b7280; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>¡Tu solicitud está en camino!</h1>
+        </div>
+        <div class="content">
+            <p>Hola {{ data.first_name }},</p>
+            <p>Te confirmamos que hemos recibido tu solicitud y ya estamos trabajando en ella. ¡Gracias por confiar en Córtala.cl para recuperar tu tranquilidad!</p>
+            
+            <h2>Resumen de tu Solicitud</h2>
+            <ul class="list">
+                <li><span>Plan Contratado:</span> <strong>{{ data.plan }}</strong></li>
+                <li><span>Fecha de Solicitud:</span> <strong>{{ data.date }} a las {{ data.time }}</strong></li>
+                <li><span>ID de Pago:</span> <strong>{{ data.payment_id }}</strong></li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px;">
+                <a href="{{ data.backup_url }}" class="button" style="background-color: #4b5563;">Ver Respaldo Legal de tu Compra</a>
+            </p>
+
+            <h2>Próximos Pasos y Qué Esperar</h2>
+            <p><strong>1. Gestión (Plazo de 48 hrs hábiles):</strong> Nuestro equipo realizará la gestión de inscripción de tus contactos en la plataforma "No Molestar" del SERNAC dentro de las próximas 48 horas hábiles.</p>
+            <p><strong>2. Efectividad (Hasta 10 días hábiles):</strong> Una vez presentada la solicitud, las empresas tienen un plazo legal de hasta 10 días hábiles para actualizar sus bases de datos. Por esto, podrías seguir recibiendo algunas comunicaciones durante este período, pero notarás una disminución drástica una vez cumplido el plazo.</p>
+            <p><strong>3. Seguimiento y Soporte:</strong> Haremos un seguimiento de tu caso. Si pasada la fecha límite sigues recibiendo SPAM de alguna empresa, puedes usar nuestra herramienta de <strong>"Avisar Incumplimiento"</strong> en nuestra página web para que te ayudemos a reportarlo.</p>
+
+            <div class="referral-box">
+                <h3>¡Comparte la tranquilidad y gana!</h3>
+                <p>Si te gustó nuestro servicio, compártelo. Tu amigo recibirá <strong>1 slot gratis</strong> en su primera compra usando tu código personal, ¡y nos ayudas a crecer!</p>
+                <div class="referral-code">{{ data.referral_code }}</div>
+                <a href="https://wa.me/?text=¡Hola!%20Te%20recomiendo%20Córtala.cl%20para%20que%20dejes%20de%20recibir%20SPAM.%20Usa%20mi%20código%20{{ data.referral_code }}%20y%20obtendrás%201%20slot%20gratis%20en%20tu%20primera%20compra:%20https://www.cortala.cl/?ref={{ data.referral_code }}" class="button">Compartir por WhatsApp</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Córtala.cl - Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
